@@ -526,140 +526,127 @@
       if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
     }
 
-    function getRegisteredSekolahList() {
-      let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      
-      // Filter hanya sekolah yang memiliki data sinkronisasi valid & tidak kosong
-      let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
+function getRegisteredSekolahList() {
+  let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+  let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
 
-      let allTanah = [];
-      let allBangunan = [];
-      let allRuang = [];
-      let allAlat = [];
-      let allGTK = [];
-      let allSiswa = [];
-      let allRombel = [];
+  let allTanah = [];
+  let allBangunan = [];
+  let allRuang = [];
+  let allAlat = [];
+  let allGTK = [];
+  let allSiswa = [];
+  let allRombel = [];
 
-      syncList.forEach(s => {
-        let namaSch = s.nama_sekolah;
-        
-        if (s.tanah && Array.isArray(s.tanah)) {
-          s.tanah.forEach(t => {
-            allTanah.push({
-              nama_sekolah: namaSch,
-              nama_lahan: t.nama,
-              no_sertifikat: t.sertifikat,
-              pxl: `${t.panjang || 0} x ${t.lebar || 0}`,
-              luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`,
-              sisa_lahan: 'Terhitung',
-              kepemilikan: t.milik,
-              pdf: t.pdf || '',
-              pdfData: t.pdfData || '',
-              denah: t.denah || '',
-              denahData: t.denahData || ''
-            });
-          });
-        }
-
-        if (s.bangunan && Array.isArray(s.bangunan)) {
-          s.bangunan.forEach(b => {
-            allBangunan.push({
-              nama_sekolah: namaSch,
-              nama_bangunan: b.nama,
-              pxl: `${b.panjang || 0} x ${b.lebar || 0}`,
-              luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`,
-              lantai: b.lantai,
-              jenis: b.jenis,
-              kondisi: b.kondisi,
-              foto: b.foto || '',
-              fotoData: b.fotoData || ''
-            });
-          });
-        }
-
-        if (s.ruang && Array.isArray(s.ruang)) {
-          s.ruang.forEach(r => {
-            allRuang.push({
-              nama_sekolah: namaSch,
-              nama_ruang: r.nama,
-              jenis_ruang: r.jenis,
-              pxl: `${r.panjang || 0} x ${r.lebar || 0}`,
-              luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`,
-              kondisi: r.kondisi,
-              riwayat: r.keterangan || '-',
-              fotoData: r.fotoData || ''
-            });
-          });
-        }
-
-        if (s.alat && Array.isArray(s.alat)) {
-          s.alat.forEach(a => {
-            allAlat.push({
-              nama_sekolah: namaSch,
-              nama_barang: a.nama,
-              kategori: a.kategori,
-              jumlah: a.jumlah,
-              baik: a.baik,
-              rusak: a.rusak
-            });
-          });
-        }
-
-        if (s.gtk && Array.isArray(s.gtk)) {
-          s.gtk.forEach(g => {
-            allGTK.push({
-              nama_sekolah: namaSch,
-              nama: g.nama,
-              nip: g.nip || '-',
-              jk: g.jk,
-              kualifikasi: g.kualifikasi,
-              status: g.status,
-              serdik: g.serdik,
-              jabatan: g.jabatan,
-              jam_mengajar: g.jam
-            });
-          });
-        }
-
-        if (s.siswa && Array.isArray(s.siswa)) {
-          s.siswa.forEach(si => {
-            allSiswa.push({
-              nama_sekolah: namaSch,
-              tingkat_kelas: si.kelas,
-              u1_l: si.u1_l,
-              u1_p: si.u1_p,
-              u2_l: si.u2_l,
-              u2_p: si.u2_p,
-              do_l: si.do_l,
-              do_p: si.do_p,
-              pip_l: si.pip_l,
-              pip_p: si.pip_p
-            });
-          });
-        }
-
-        if (s.rombel && Array.isArray(s.rombel)) {
-          s.rombel.forEach(ro => {
-            allRombel.push({
-              nama_sekolah: namaSch,
-              nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-',
-              tingkat: ro.tingkat || ro.tingkat_kelas || '-',
-              wali_kelas: ro.wali_kelas || ro.wali || '-'
-            });
-          });
-        }
+  syncList.forEach(s => {
+    let namaSch = s.nama_sekolah;
+    
+    if (s.tanah && Array.isArray(s.tanah)) {
+      s.tanah.forEach(t => {
+        allTanah.push({
+          nama_sekolah: namaSch,
+          nama_lahan: t.nama,
+          no_sertifikat: t.sertifikat,
+          pxl: `${t.panjang || 0} x ${t.lebar || 0}`,
+          luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`,
+          sisa_lahan: 'Terhitung',
+          kepemilikan: t.milik,
+          pdf: t.pdf || t.pdfData || '',
+          denah: t.denah || t.denahData || ''
+        });
       });
-
-      localStorage.setItem('master_tanah', JSON.stringify(allTanah));
-      localStorage.setItem('master_bangunan', JSON.stringify(allBangunan));
-      localStorage.setItem('master_ruang', JSON.stringify(allRuang));
-      localStorage.setItem('master_alat', JSON.stringify(allAlat));
-      localStorage.setItem('master_gtk', JSON.stringify(allGTK));
-      localStorage.setItem('master_siswa', JSON.stringify(allSiswa));
-      localStorage.setItem('master_rombel', JSON.stringify(allRombel));
-
-      return syncList;
     }
+
+    if (s.bangunan && Array.isArray(s.bangunan)) {
+      s.bangunan.forEach(b => {
+        allBangunan.push({
+          nama_sekolah: namaSch,
+          nama_bangunan: b.nama,
+          pxl: `${b.panjang || 0} x ${b.lebar || 0}`,
+          luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`,
+          lantai: b.lantai,
+          jenis: b.jenis,
+          kondisi: b.kondisi,
+          foto: b.foto || b.fotoData || ''
+        });
+      });
+    }
+
+    if (s.ruang && Array.isArray(s.ruang)) {
+      s.ruang.forEach(r => {
+        allRuang.push({
+          nama_sekolah: namaSch,
+          nama_ruang: r.nama,
+          jenis_ruang: r.jenis,
+          pxl: `${r.panjang || 0} x ${r.lebar || 0}`,
+          luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`,
+          kondisi: r.kondisi,
+          riwayat: r.keterangan || '-',
+          fotoData: r.fotoData1 || r.fotoData || ''
+        });
+      });
+    }
+
+    if (s.alat && Array.isArray(s.alat)) {
+      s.alat.forEach(a => {
+        allAlat.push({
+          nama_sekolah: namaSch,
+          nama_barang: a.nama,
+          kategori: a.kategori,
+          jumlah: a.jumlah,
+          baik: a.baik,
+          rusak: a.rusak
+        });
+      });
+    }
+
+    if (s.gtk && Array.isArray(s.gtk)) {
+      s.gtk.forEach(g => {
+        allGTK.push({
+          nama_sekolah: namaSch,
+          nama: g.nama,
+          nip: g.nip || '-',
+          jk: g.jk,
+          kualifikasi: g.kualifikasi,
+          status: g.status,
+          serdik: g.serdik,
+          jabatan: g.jabatan,
+          jam_mengajar: g.jam
+        });
+      });
+    }
+
+    if (s.siswa && Array.isArray(s.siswa)) {
+      s.siswa.forEach(si => {
+        allSiswa.push({
+          nama_sekolah: namaSch,
+          tingkat_kelas: si.kelas,
+          u1_l: si.u1_l,
+          u1_p: si.u1_p,
+          u2_l: si.u2_l,
+          u2_p: si.u2_p,
+          do_l: si.do_l,
+          do_p: si.do_p,
+          pip_l: si.pip_l,
+          pip_p: si.pip_p
+        });
+      });
+    }
+
+    if (s.rombel && Array.isArray(s.rombel)) {
+      s.rombel.forEach(ro => {
+        allRombel.push({
+          nama_sekolah: namaSch,
+          nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-',
+          tingkat: ro.tingkat || ro.tingkat_kelas || '-',
+          wali_kelas: ro.wali_kelas || ro.wali || '-'
+        });
+      });
+    }
+  });
+
+  return syncList;
+}
 
     let masterSekolah = getRegisteredSekolahList();
     let masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
@@ -923,52 +910,89 @@
       document.getElementById('modalDetailSekolah').classList.add('hidden');
     }
 
-    function renderRekapSarprasLengkap() {
-      masterSekolah = getRegisteredSekolahList();
-      masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
-      masterBangunan = JSON.parse(localStorage.getItem('master_bangunan')) || [];
-      masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
-      masterAlat = JSON.parse(localStorage.getItem('master_alat')) || [];
+function renderRekapSarprasLengkap() {
+  masterSekolah = getRegisteredSekolahList();
+  masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
+  masterBangunan = JSON.parse(localStorage.getItem('master_bangunan')) || [];
+  masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
+  masterAlat = JSON.parse(localStorage.getItem('master_alat')) || [];
 
-      const validNames = masterSekolah.map(s => s.nama_sekolah);
-      let selSekolah = document.getElementById('sarprasSekolahFilter')?.value || 'ALL';
-      let searchKey = document.getElementById('sarprasCariInput')?.value.toLowerCase() || '';
+  const validNames = masterSekolah.map(s => s.nama_sekolah);
+  let selSekolah = document.getElementById('sarprasSekolahFilter')?.value || 'ALL';
+  let searchKey = document.getElementById('sarprasCariInput')?.value.toLowerCase() || '';
 
-      let fTanah = masterTanah.filter(t => validNames.includes(t.nama_sekolah) && (selSekolah === 'ALL' || t.nama_sekolah === selSekolah));
-      let fBangunan = masterBangunan.filter(b => validNames.includes(b.nama_sekolah) && (selSekolah === 'ALL' || b.nama_sekolah === selSekolah));
-      let fRuang = masterRuang.filter(r => validNames.includes(r.nama_sekolah) && (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
-      let fAlat = masterAlat.filter(a => validNames.includes(a.nama_sekolah) && (selSekolah === 'ALL' || a.nama_sekolah === selSekolah));
+  let fTanah = masterTanah.filter(t => validNames.includes(t.nama_sekolah) && (selSekolah === 'ALL' || t.nama_sekolah === selSekolah));
+  let fBangunan = masterBangunan.filter(b => validNames.includes(b.nama_sekolah) && (selSekolah === 'ALL' || b.nama_sekolah === selSekolah));
+  let fRuang = masterRuang.filter(r => validNames.includes(r.nama_sekolah) && (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
+  let fAlat = masterAlat.filter(a => validNames.includes(a.nama_sekolah) && (selSekolah === 'ALL' || a.nama_sekolah === selSekolah));
 
-      if (searchKey) {
-        fTanah = fTanah.filter(t => (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fBangunan = fBangunan.filter(b => (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fRuang = fRuang.filter(r => (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fAlat = fAlat.filter(a => (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey));
-      }
+  if (searchKey) {
+    fTanah = fTanah.filter(t => (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey));
+    fBangunan = fBangunan.filter(b => (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey));
+    fRuang = fRuang.filter(r => (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey));
+    fAlat = fAlat.filter(a => (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey));
+  }
 
-      document.getElementById('badgeCountTanah').innerText = `Terdata: ${fTanah.length} Lahan`;
-      document.getElementById('badgeCountBangunan').innerText = `Terdata: ${fBangunan.length} Bangunan`;
-      document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
-      document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
+  document.getElementById('badgeCountTanah').innerText = `Terdata: ${fTanah.length} Lahan`;
+  document.getElementById('badgeCountBangunan').innerText = `Terdata: ${fBangunan.length} Bangunan`;
+  document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
+  document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
 
-      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(t => {
-        let pdfSafe = t.pdfData ? encodeURIComponent(t.pdfData) : '';
-        let denahSafe = t.denahData ? encodeURIComponent(t.denahData) : '';
-        return `
-          <tr class="border-b">
-            <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
-            <td class="p-3">${t.no_sertifikat || '-'}</td>
-            <td class="p-3">${t.pxl || '-'}</td>
-            <td class="p-3 font-bold">${t.luas || '-'}</td>
-            <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
-            <td class="p-3">${t.kepemilikan || '-'}</td>
-            <td class="p-3 text-[10px] space-x-1">
-              <span onclick="previewDokumen('Sertifikat PDF', '${t.pdf || 'sertifikat.pdf'}', decodeURIComponent('${pdfSafe}'))" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</span>
-              <span onclick="previewDokumen('Denah Lahan', '${t.denah || 'denah.jpg'}', decodeURIComponent('${denahSafe}'))" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</span>
-            </td>
-          </tr>
-        `;
-      }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
+  document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(t => {
+    let pdfUrl = t.pdf ? encodeURIComponent(t.pdf) : '';
+    let denahUrl = t.denah ? encodeURIComponent(t.denah) : '';
+    return `
+      <tr class="border-b">
+        <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
+        <td class="p-3">${t.no_sertifikat || '-'}</td>
+        <td class="p-3">${t.pxl || '-'}</td>
+        <td class="p-3 font-bold">${t.luas || '-'}</td>
+        <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
+        <td class="p-3">${t.kepemilikan || '-'}</td>
+        <td class="p-3 text-[10px] space-x-1">
+          <button onclick="previewDokumen('Sertifikat PDF', 'Sertifikat Tanah', decodeURIComponent('${pdfUrl}'))" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
+          <button onclick="previewDokumen('Denah Lahan', 'Denah Lahan', decodeURIComponent('${denahUrl}'))" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
+        </td>
+      </tr>
+    `;
+  }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
+
+  document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(b => {
+    let fotoUrl = b.foto ? encodeURIComponent(b.foto) : '';
+    return `
+      <tr class="border-b">
+        <td class="p-3 font-bold">${b.nama_bangunan}</td>
+        <td class="p-3">${b.nama_sekolah}</td>
+        <td class="p-3">${b.pxl || '-'}</td>
+        <td class="p-3 font-bold">${b.luas || '-'}</td>
+        <td class="p-3">${b.lantai || 1}</td>
+        <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${b.jenis || '-'}</span></td>
+        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi || '-'}</span></td>
+        <td class="p-3 text-[10px]">
+          <button onclick="previewDokumen('Foto Bangunan', 'Foto Gedung', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
+        </td>
+      </tr>
+    `;
+  }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>`;
+
+  document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(r => {
+    let fotoUrl = r.fotoData ? encodeURIComponent(r.fotoData) : '';
+    return `
+      <tr class="border-b">
+        <td class="p-3 font-bold">${r.nama_ruang}</td>
+        <td class="p-3">${r.nama_sekolah}</td>
+        <td class="p-3">${r.jenis_ruang}</td>
+        <td class="p-3">${r.pxl || '-'}</td>
+        <td class="p-3 font-bold">${r.luas || '-'}</td>
+        <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
+        <td class="p-3">${r.riwayat || '-'}</td>
+        <td class="p-3 text-[10px]">
+          <button onclick="previewDokumen('Dokumentasi GPS Ruang', 'Foto Ruang', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
+        </td>
+      </tr>
+    `;
+  }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>`;
+}
 
       document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(b => {
         let fotoSafe = b.fotoData ? encodeURIComponent(b.fotoData) : '';
