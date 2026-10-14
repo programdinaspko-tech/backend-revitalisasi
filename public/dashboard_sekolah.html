@@ -2054,57 +2054,83 @@
     }
 
     function mulaiProsesSinkronisasiPro() {
-      const modal = document.getElementById('modalSyncProgress');
-      modal.classList.remove('hidden');
-      const progressBar = document.getElementById('syncProgressBar');
-      const percentText = document.getElementById('syncPercent');
-      const stepTitle = document.getElementById('syncStepTitle');
-      const btnTutup = document.getElementById('btnTutupSyncModal');
-      const statusFooter = document.getElementById('syncStatusFooter');
+  const modal = document.getElementById('modalSyncProgress');
+  modal.classList.remove('hidden');
+  const progressBar = document.getElementById('syncProgressBar');
+  const percentText = document.getElementById('syncPercent');
+  const stepTitle = document.getElementById('syncStepTitle');
+  const btnTutup = document.getElementById('btnTutupSyncModal');
+  const statusFooter = document.getElementById('syncStatusFooter');
 
-      btnTutup.disabled = true;
-      btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg opacity-50 cursor-not-allowed";
+  btnTutup.disabled = true;
+  btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg opacity-50 cursor-not-allowed";
 
-      const steps = [
-        { percent: 15, title: "Mengkoneksikan ke Server Dinas...", logId: 1 },
-        { percent: 35, title: "Mengirim Profil & Legalitas Sekolah...", logId: 2 },
-        { percent: 55, title: "Memproses Data Sarpras...", logId: 3 },
-        { percent: 75, title: "Mengirim Rekap Guru & Tendik (GTK)...", logId: 4 },
-        { percent: 90, title: "Mengirim Data Peserta Didik (SPM)...", logId: 5 },
-        { percent: 100, title: "Memverifikasi Hash Data...", logId: 6 }
-      ];
+  // Reset tampilan log awal
+  for (let i = 1; i <= 6; i++) {
+    const logEl = document.getElementById(`log-step-${i}`);
+    if (logEl) {
+      logEl.className = "flex items-center justify-between text-slate-500";
+      logEl.querySelector('.status-icon').innerText = "⏳";
+    }
+  }
 
-      let currentStep = 0;
-      function updateStep() {
-        if (currentStep < steps.length) {
-          const step = steps[currentStep];
-          progressBar.style.width = `${step.percent}%`;
-          percentText.innerText = `${step.percent}%`;
-          stepTitle.innerText = step.title;
+  const steps = [
+    { percent: 15, title: "Mengkoneksikan ke Server Dinas...", logId: 1 },
+    { percent: 35, title: "Mengirim Profil & Legalitas Sekolah...", logId: 2 },
+    { percent: 55, title: "Memproses Data Sarpras...", logId: 3 },
+    { percent: 75, title: "Mengirim Rekap Guru & Tendik (GTK)...", logId: 4 },
+    { percent: 90, title: "Mengirim Data Peserta Didik (SPM)...", logId: 5 },
+    { percent: 100, title: "Memverifikasi Hash Data...", logId: 6 }
+  ];
 
-          const activeLog = document.getElementById(`log-step-${step.logId}`);
-          activeLog.className = "flex items-center justify-between text-indigo-400 font-bold";
-          activeLog.querySelector('.status-icon').innerText = "⚡";
+  let currentStep = 0;
+  function updateStep() {
+    if (currentStep < steps.length) {
+      const step = steps[currentStep];
+      progressBar.style.width = `${step.percent}%`;
+      percentText.innerText = `${step.percent}%`;
+      stepTitle.innerText = step.title;
 
-          if (currentStep > 0) {
-            const prevLog = document.getElementById(`log-step-${steps[currentStep - 1].logId}`);
-            prevLog.className = "flex items-center justify-between text-emerald-400 font-semibold";
-            prevLog.querySelector('.status-icon').innerText = "✓";
-          }
-          currentStep++;
-          setTimeout(updateStep, 500);
-        } else {
-          eksekusiSimpanSinkronisasiData();
-          document.getElementById('log-step-6').className = "flex items-center justify-between text-emerald-400 font-semibold";
-          document.getElementById('log-step-6').querySelector('.status-icon').innerText = "✓";
-          stepTitle.innerText = "Sinkronisasi Selesai & Berhasil!";
-          statusFooter.innerText = "Seluruh data sekolah telah tersimpan di Server Dinas.";
-          btnTutup.disabled = false;
-          btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-500 cursor-pointer";
+      // Tandai langkah sebelumnya sebagai CENTANG (✓)
+      if (currentStep > 0) {
+        const prevLog = document.getElementById(`log-step-${steps[currentStep - 1].logId}`);
+        if (prevLog) {
+          prevLog.className = "flex items-center justify-between text-emerald-400 font-semibold";
+          prevLog.querySelector('.status-icon').innerText = "✓";
         }
       }
-      setTimeout(updateStep, 400);
+
+      // Tandai langkah saat ini sebagai AKTIF (⚡)
+      const activeLog = document.getElementById(`log-step-${step.logId}`);
+      if (activeLog) {
+        activeLog.className = "flex items-center justify-between text-indigo-400 font-bold";
+        activeLog.querySelector('.status-icon').innerText = "⚡";
+      }
+
+      currentStep++;
+      setTimeout(updateStep, 400); // Kecepatan per langkah (400ms)
+    } else {
+      // PROSES SELESAI
+      eksekusiSimpanSinkronisasiData();
+
+      // Pastikan langkah 6 juga CENTANG HIJAU
+      const lastLog = document.getElementById('log-step-6');
+      if (lastLog) {
+        lastLog.className = "flex items-center justify-between text-emerald-400 font-semibold";
+        lastLog.querySelector('.status-icon').innerText = "✓";
+      }
+
+      stepTitle.innerText = "Sinkronisasi Selesai & Berhasil!";
+      statusFooter.innerText = "Seluruh data sekolah telah tersimpan di Server Dinas.";
+      
+      // Buka kunci tombol Selesai
+      btnTutup.disabled = false;
+      btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-500 cursor-pointer shadow-md transition";
     }
+  }
+  
+  setTimeout(updateStep, 200);
+}
 
     function eksekusiSimpanSinkronisasiData() {
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
