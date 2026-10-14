@@ -986,16 +986,17 @@
 
   <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
-    let selectedTanahId = null;
+let selectedTanahId = null;
 
-    let activeUser = JSON.parse(localStorage.getItem('user')) || { nama_sekolah: 'SD INPRES LEDAGOBA', jenjang: 'SD', npsn: '50301234' };
-    let namaSekolahLogin = activeUser.nama_sekolah || activeUser.username || 'SD INPRES LEDAGOBA';
+    // Ambil user aktif dari login (hanya gunakan data nyata dari login)
+    let activeUser = JSON.parse(localStorage.getItem('user')) || {};
+    let namaSekolahLogin = activeUser.nama_sekolah || activeUser.username || '';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
-    let storageKey = namaSekolahLogin.replace(/\s+/g, '_').toLowerCase();
+    let storageKey = namaSekolahLogin ? namaSekolahLogin.replace(/\s+/g, '_').toLowerCase() : 'default';
 
-    // Pemulihan data dengan fallback ke master sinkronisasi jika localStorage lokal terhapus
+    // Pemulihan data dengan fallback ke master sinkronisasi jika ada
     let masterSinkron = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-    let existingMaster = masterSinkron.find(s => s.npsn === activeUser.npsn || s.nama_sekolah === namaSekolahLogin);
+    let existingMaster = masterSinkron.find(s => (activeUser.npsn && s.npsn === activeUser.npsn) || (namaSekolahLogin && s.nama_sekolah === namaSekolahLogin));
 
     let savedProfil = JSON.parse(localStorage.getItem('sch_profil_' + storageKey)) || (existingMaster ? {
       nama: existingMaster.nama_sekolah,
@@ -1024,31 +1025,32 @@
       long: existingMaster.longitude
     } : null);
 
+    // KOSONGKAN DATA DEFAULT JIKA BELUM DISIMPAN / BELUM ADA DATA LOKAL
     let dataSekolah = savedProfil || {
-      nama: namaSekolahLogin,
-      npsn: activeUser.npsn || '50301234',
-      bentuk: jenjangLogin,
+      nama: namaSekolahLogin || '',
+      npsn: activeUser.npsn || '',
+      bentuk: jenjangLogin || 'SD',
       status: 'Negeri',
-      akreditasi: 'B',
-      sk: '421/012/DPK/2008',
-      tglSk: '2008-05-12',
-      alamat: 'Jl. Trans Flores, Desa Ledagoba',
+      akreditasi: '',
+      sk: '',
+      tglSk: '',
+      alamat: '',
       kecamatan: 'Nita',
-      kodePos: '86151',
+      kodePos: '',
       kabupaten: 'Kab. Sikka',
       provinsi: 'Prov. Nusa Tenggara Timur',
-      kasek: 'Yohanes Blasius, S.Pd',
-      nipKasek: '19680312 199103 1 004',
-      operator: activeUser.operator || 'Denno Operator',
-      hpOperator: '081234567890',
-      bank: 'Bank NTT',
-      noRek: '008-02.01.002931-1',
-      namaRek: namaSekolahLogin,
-      listrik: 'PLN',
-      internet: 'Wifi',
-      air: 'Sumur / PDAM',
-      lat: '-8.621430',
-      long: '122.215430'
+      kasek: '',
+      nipKasek: '',
+      operator: activeUser.operator || activeUser.username || '',
+      hpOperator: '',
+      bank: '',
+      noRek: '',
+      namaRek: '',
+      listrik: '',
+      internet: '',
+      air: '',
+      lat: '',
+      long: ''
     };
 
     let listTanah = JSON.parse(localStorage.getItem('sch_tanah_' + storageKey)) || (existingMaster && existingMaster.tanah ? existingMaster.tanah : []);
@@ -1077,7 +1079,7 @@
       document.getElementById('sidebarOperator').innerText = dataSekolah.operator || 'Operator';
       document.getElementById('userNamaSekolah').innerText = dataSekolah.nama || 'Belum diatur';
 
-      document.getElementById('dapodikHeaderTitle').innerText = `${(dataSekolah.nama || ' SEKOLAH ').toUpperCase()} - 2026/2027 (versi 2026.a)`;
+      document.getElementById('dapodikHeaderTitle').innerText = `${(dataSekolah.nama || 'SEKOLAH').toUpperCase()} - 2026/2027 (versi 2026.a)`;
       document.getElementById('cardHeaderNamaSekolah').innerText = (dataSekolah.nama || 'SEKOLAH').toUpperCase();
 
       document.getElementById('b_npsn').innerText = dataSekolah.npsn || '-';
@@ -1096,14 +1098,14 @@
       document.getElementById('inpNpsn').value = dataSekolah.npsn || '';
       document.getElementById('inpBentuk').value = dataSekolah.bentuk || 'SD';
       document.getElementById('inpStatus').value = dataSekolah.status || 'Negeri';
-      document.getElementById('inpAkreditasi').value = dataSekolah.akreditasi || 'B';
+      document.getElementById('inpAkreditasi').value = dataSekolah.akreditasi || '';
       document.getElementById('inpSk').value = dataSekolah.sk || '';
       document.getElementById('inpTglSk').value = dataSekolah.tglSk || '';
       document.getElementById('inpAlamat').value = dataSekolah.alamat || '';
       document.getElementById('inpKecamatan').value = dataSekolah.kecamatan || 'Nita';
       document.getElementById('inpKodePos').value = dataSekolah.kodePos || '';
-      document.getElementById('inpKab').value = dataSekolah.kabupaten || '';
-      document.getElementById('inpProv').value = dataSekolah.provinsi || '';
+      document.getElementById('inpKab').value = dataSekolah.kabupaten || 'Kab. Sikka';
+      document.getElementById('inpProv').value = dataSekolah.provinsi || 'Prov. Nusa Tenggara Timur';
       document.getElementById('inpKasek').value = dataSekolah.kasek || '';
       document.getElementById('inpNipKasek').value = dataSekolah.nipKasek || '';
       document.getElementById('inpOperator').value = dataSekolah.operator || '';
@@ -1113,13 +1115,49 @@
       document.getElementById('inpNamaRek').value = dataSekolah.namaRek || '';
       document.getElementById('inpListrik').value = dataSekolah.listrik || '';
       document.getElementById('inpInternet').value = dataSekolah.internet || '';
-      document.getElementById('inpAir').value = dataSekolah.air || 'Sumur / PDAM';
-      document.getElementById('inpLat').value = dataSekolah.lat || '-8.621430';
-      document.getElementById('inpLong').value = dataSekolah.long || '122.215430';
+      document.getElementById('inpAir').value = dataSekolah.air || '';
+      document.getElementById('inpLat').value = dataSekolah.lat || '';
+      document.getElementById('inpLong').value = dataSekolah.long || '';
 
       renderFormSiswaLabels();
     }
 
+// FUNGSI LOAD DATA LANGSUNG DARI BACKEND RAILWAY SERVER
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      
+      if (token) {
+        try {
+          const response = await fetch("https://backend-revitalisasi-production.up.railway.app/api/sekolah/profile", {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result && result.data) {
+              const dbData = result.data;
+              dataSekolah.nama = dbData.nama_sekolah || dataSekolah.nama;
+              dataSekolah.npsn = dbData.npsn || dataSekolah.npsn;
+              dataSekolah.alamat = dbData.alamat || '';
+              dataSekolah.kecamatan = dbData.kecamatan || 'Nita';
+              dataSekolah.kasek = dbData.nama_kepala_sekolah || '';
+              dataSekolah.nipKasek = dbData.nip_kepala_sekolah || '';
+              dataSekolah.operator = dbData.nama_operator || dataSekolah.operator;
+              dataSekolah.hpOperator = dbData.no_kontak_operator || '';
+              dataSekolah.bank = dbData.nama_bank || '';
+              dataSekolah.noRek = dbData.no_rekening || '';
+              dataSekolah.namaRek = dbData.nama_pemilik_rekening || '';
+              
+              updateTampilanProfilSekolah();
+            }
+          }
+        } catch (error) {
+          console.error("Gagal memuat profil dari API:", error);
+        }
+      }
+    });
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -2093,6 +2131,7 @@
     renderGTK();
     renderSiswa();
     renderRombel();
+  
   </script>
 </body>
 </html>
