@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Registrasi - Portal Revitalisasi Sekolah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bg-dapodik-gradient {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    }
+  </style>
+</head>
+<body class="bg-dapodik-gradient min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden">
+
+  <!-- ACCENT BACKGROUND SHAPES -->
+  <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- MAIN CONTAINER CARD -->
+  <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700/30 max-w-4xl w-full overflow-hidden grid grid-cols-1 md:grid-cols-12 z-10">
+    
+    <!-- LEFT PANEL -->
+    <div class="md:col-span-5 bg-slate-900 text-white p-8 flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/60 via-slate-900/90 to-slate-950 pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <!-- LOGO DINAS PENDIDIKAN KAB. SIKKA -->
+        <div class="flex items-center gap-3.5 mb-6">
+          <div class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center border border-white/20 shadow-lg shrink-0">
+            <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <h1 class="font-black text-base tracking-wider text-white leading-tight">DINAS DIKPORA</h1>
+            <p class="text-[10px] text-indigo-300 font-bold tracking-wide uppercase">KABUPATEN SIKKA</p>
+          </div>
+        </div>
+
+        <div class="mt-8 space-y-3">
+          <h2 class="text-2xl font-extrabold text-white leading-tight">Selamat Datang!</h2>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Masuk ke sistem untuk mengelola, memverifikasi, dan memvalidasi data pokok serta usulan sarana prasarana sekolah Anda.
+          </p>
+        </div>
+      </div>
+
+      <div class="relative z-10 mt-10 border-t border-slate-800 pt-6">
+        <p class="text-[11px] text-slate-400 font-medium">Belum memiliki akses sistem?</p>
+        <button id="toggleBtn" onclick="switchMode()" class="mt-2 w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-bold text-slate-200 transition duration-200 shadow-sm flex items-center justify-center gap-2">
+          <span id="toggleBtnText">Daftar Akun Sekolah Baru</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="md:col-span-7 p-8 bg-white flex flex-col justify-center">
+      
+      <!-- ALERT BOX -->
+      <div id="alertBox" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold shadow-sm transition-all"></div>
+
+      <!-- 1. FORM LOGIN -->
+      <div id="loginSection" class="space-y-5">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900">Masuk Sistem</h2>
+          <p class="text-xs text-slate-500 mt-1">Silakan masukkan username dan kata sandi pengguna Anda.</p>
+        </div>
+
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Username</label>
+            <input type="text" id="loginUsername" required placeholder="Contoh: IUS atau admin_dinas" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kata Sandi / Password</label>
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+          </div>
+
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-xs transition duration-200 shadow-md shadow-indigo-500/20">
+            Masuk Sistem Sekarang
+          </button>
+        </form>
+      </div>
+
+      <!-- 2. FORM REGISTRASI -->
+      <div id="registerSection" class="hidden space-y-4">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900">Registrasi Akun Sekolah</h2>
+          <p class="text-xs text-slate-500 mt-1">Lengkapi form pendaftaran akun untuk diverifikasi Admin Dinas.</p>
+        </div>
+
+        <form id="registerForm" class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">NPSN Sekolah</label>
+              <input type="text" id="regNpsn" required placeholder="50302320" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Jenjang Pendidikan</label>
+              <select id="regJenjang" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="SD">SD</option>
+                <option value="SMP">SMP</option>
+                <option value="SMA">SMA</option>
+                <option value="SMK">SMK</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Resmi Sekolah</label>
+            <input type="text" id="regNamaSekolah" required placeholder="SD INPRES LEDAGOBA" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Operator</label>
+            <input type="text" id="regOperator" required placeholder="IUS" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Buat Kata Sandi / Password</label>
+            <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition duration-200 shadow-md shadow-emerald-500/20 mt-2">
+            Kirim Permohonan Registrasi
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER SIKKA -->
+  <footer class="mt-6 text-center z-10">
+    <p class="text-[11px] font-semibold text-slate-400/80 tracking-wide">
+      INOVREVIT© 2026 - Dinas Pendidikan Kepemudaan dan Olahraga Kab.Sikka
+    </p>
+  </footer>
+
+  <!-- JAVASCRIPT SYSTEM ENGINE -->
+  <script>
+    let isRegisterMode = false;
+
+    function switchMode() {
+      isRegisterMode = !isRegisterMode;
+      const loginSec = document.getElementById('loginSection');
+      const regSec = document.getElementById('registerSection');
+      const toggleBtnText = document.getElementById('toggleBtnText');
+      const alertBox = document.getElementById('alertBox');
+
+      alertBox.classList.add('hidden');
+
+      if (isRegisterMode) {
+        loginSec.classList.add('hidden');
+        regSec.classList.remove('hidden');
+        toggleBtnText.innerText = 'Kembali ke Form Login';
+      } else {
+        regSec.classList.add('hidden');
+        loginSec.classList.remove('hidden');
+        toggleBtnText.innerText = 'Daftar Akun Sekolah Baru';
+      }
+    }
+
+    // HANDLER SUBMIT LOGIN
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const alertBox = document.getElementById('alertBox');
+
+      // 1. Cek Login Admin Dinas
+      if (username.toLowerCase().includes('admin')) {
+        localStorage.setItem('token', 'mock_admin_token');
+        localStorage.setItem('user', JSON.stringify({ username: username, role: 'Admin Dinas' }));
+        
+        alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+        alertBox.textContent = '✓ Login Admin Berhasil! Mengalihkan...';
+        alertBox.classList.remove('hidden');
+        setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
+        return;
+      }
+
+      // 2. Cek Login User Sekolah dari LocalStorage
+      let registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      
+      const foundUser = registeredUsers.find(u => {
+        let op = (u.operator || u.username || '').trim().toLowerCase();
+        let sch = (u.nama_sekolah || u.instansi || '').trim().toLowerCase();
+        let inputName = username.toLowerCase();
+        return op === inputName || sch === inputName;
+      });
+
+      if (!foundUser) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Akun tidak ditemukan di database lokal. Silakan daftar / minta disetujui Admin Dinas.';
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      // 3. Validasi Status Persetujuan Admin
+      if (foundUser.status !== 'Disetujui' && foundUser.status !== 'Aktif') {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200';
+        alertBox.textContent = `⏳ Login Gagal: Akun Anda masih berstatus "${foundUser.status || 'Pending'}". Tunggu persetujuan Admin Dinas.`;
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      // 4. Validasi Password
+      if (foundUser.password && foundUser.password !== password) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Kata sandi salah.';
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      // Berhasil Login User Sekolah
+      localStorage.setItem('token', 'mock_user_token');
+      localStorage.setItem('user', JSON.stringify({ 
+        username: foundUser.operator || foundUser.username, 
+        role: 'User Sekolah',
+        nama_sekolah: foundUser.nama_sekolah || foundUser.instansi,
+        npsn: foundUser.npsn
+      }));
+
+      alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+      alertBox.textContent = '✓ Login User Sekolah Berhasil! Mengalihkan ke Dashboard Sekolah...';
+      alertBox.classList.remove('hidden');
+      setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);
+    });
+
+    // HANDLER SUBMIT REGISTRASI AKUN SEKOLAH
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const alertBox = document.getElementById('alertBox');
+
+      const payload = {
+        npsn: document.getElementById('regNpsn').value.trim(),
+        jenjang: document.getElementById('regJenjang').value,
+        nama_sekolah: document.getElementById('regNamaSekolah').value.trim(),
+        operator: document.getElementById('regOperator').value.trim(),
+        password: document.getElementById('regPassword').value,
+        status: 'Pending',
+        created_at: new Date().toISOString()
+      };
+
+      let currentUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      currentUsers.push(payload);
+      localStorage.setItem('registered_users', JSON.stringify(currentUsers));
+
+      try {
+        await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn('Backend API Offline, menjalankan Local Fallback Mode.');
+      }
+
+      alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+      alertBox.textContent = '✓ Registrasi Berhasil! Akun Anda berstatus Pending. Silakan tunggu persetujuan dari Admin Dinas.';
+      alertBox.classList.remove('hidden');
+
+      setTimeout(() => {
+        document.getElementById('registerForm').reset();
+        switchMode();
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
