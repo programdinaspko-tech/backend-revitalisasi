@@ -986,15 +986,13 @@
 
   <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
-let selectedTanahId = null;
+    let selectedTanahId = null;
 
-    // Ambil user aktif dari login (hanya gunakan data nyata dari login)
     let activeUser = JSON.parse(localStorage.getItem('user')) || {};
     let namaSekolahLogin = activeUser.nama_sekolah || activeUser.username || '';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
     let storageKey = namaSekolahLogin ? namaSekolahLogin.replace(/\s+/g, '_').toLowerCase() : 'default';
 
-    // Pemulihan data dengan fallback ke master sinkronisasi jika ada
     let masterSinkron = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
     let existingMaster = masterSinkron.find(s => (activeUser.npsn && s.npsn === activeUser.npsn) || (namaSekolahLogin && s.nama_sekolah === namaSekolahLogin));
 
@@ -1025,7 +1023,6 @@ let selectedTanahId = null;
       long: existingMaster.longitude
     } : null);
 
-    // KOSONGKAN DATA DEFAULT JIKA BELUM DISIMPAN / BELUM ADA DATA LOKAL
     let dataSekolah = savedProfil || {
       nama: namaSekolahLogin || '',
       npsn: activeUser.npsn || '',
@@ -1065,13 +1062,27 @@ let selectedTanahId = null;
       selectedTanahId = listTanah[0].id;
     }
 
-    function convertFileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
+    // Helper fungsi untuk upload file ke server Railway
+    async function uploadFileToServer(fileObj) {
+      if (!fileObj) return '';
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append('file', fileObj);
+
+      try {
+        const response = await fetch('https://backend-revitalisasi-production.up.railway.app/api/sekolah/upload', {
+          method: 'POST',
+          headers: { "Authorization": `Bearer ${token}` },
+          body: formData
+        });
+        const result = await response.json();
+        if (result.success) {
+          return result.fileUrl;
+        }
+      } catch (error) {
+        console.error("Gagal upload file ke server:", error);
+      }
+      return '';
     }
 
     function updateTampilanProfilSekolah() {
@@ -1122,18 +1133,13 @@ let selectedTanahId = null;
       renderFormSiswaLabels();
     }
 
-// FUNGSI LOAD DATA LANGSUNG DARI BACKEND RAILWAY SERVER
     document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
-      
       if (token) {
         try {
           const response = await fetch("https://backend-revitalisasi-production.up.railway.app/api/sekolah/profile", {
-            headers: {
-              "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
           });
-          
           if (response.ok) {
             const result = await response.json();
             if (result && result.data) {
@@ -1149,7 +1155,6 @@ let selectedTanahId = null;
               dataSekolah.bank = dbData.nama_bank || '';
               dataSekolah.noRek = dbData.no_rekening || '';
               dataSekolah.namaRek = dbData.nama_pemilik_rekening || '';
-              
               updateTampilanProfilSekolah();
             }
           }
@@ -1158,6 +1163,7 @@ let selectedTanahId = null;
         }
       }
     });
+
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -1166,14 +1172,14 @@ let selectedTanahId = null;
       
       modal.classList.remove('hidden');
       judul.innerHTML = `<span>👁️</span> Pratinjau ${tipe}: <span class="text-indigo-300 ml-1">${fileName || 'Dokumen'}</span>`;
-      footerInfo.innerText = `Nama File: ${fileName || 'Tanpa Nama'}`;
+      footerInfo.innerText = `File URL / Dokumen: ${fileName || 'Tanpa Nama'}`;
 
       if (!fileData) {
         container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik.</p></div>`;
         return;
       }
 
-      if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf'))) {
+      if (fileData.toLowerCase().endsWith('.pdf') || fileData.includes('/uploads/')) {
         container.innerHTML = `<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="${fileData}" class="w-full h-full" frameborder="0"></iframe></div>`;
       } else {
         container.innerHTML = `<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="${fileData}" alt="Pratinjau" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>`;
@@ -1353,8 +1359,8 @@ let selectedTanahId = null;
             <td class="p-3 font-bold ${sisa < 0 ? 'text-rose-600' : 'text-emerald-600'}">${sisa} m²</td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold">${t.milik || 'Milik'}</span></td>
             <td class="p-3 text-[10px] space-x-1">
-              <span onclick="previewDokumen('Sertifikat', '${t.pdf || 'Dokumen.pdf'}', '${t.pdfData || ''}'); event.stopPropagation();" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</span>
-              <span onclick="previewDokumen('Denah', '${t.denah || 'Denah.jpg'}', '${t.denahData || ''}'); event.stopPropagation();" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</span>
+              <span onclick="previewDokumen('Sertifikat', 'Sertifikat PDF', '${t.pdf || ''}'); event.stopPropagation();" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</span>
+              <span onclick="previewDokumen('Denah', 'Foto Denah', '${t.denah || ''}'); event.stopPropagation();" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</span>
             </td>
             <td class="p-3 text-center">
               <button onclick="editTanah(${t.id}); event.stopPropagation();" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1">✏️ Edit</button>
@@ -1384,7 +1390,7 @@ let selectedTanahId = null;
             <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${b.jenis || 'Permanen'}</span></td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">${b.kondisi || 'Baik'}</span></td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Foto Bangunan', '${b.foto || 'Gedung.jpg'}', '${b.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</span>
+              <span onclick="previewDokumen('Foto Bangunan', 'Foto Gedung', '${b.foto || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</span>
             </td>
             <td class="p-3 text-center">
               <button onclick="editBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1">✏️ Edit</button>
@@ -1411,7 +1417,7 @@ let selectedTanahId = null;
             <td class="p-3 font-bold">${luasR} m²</td>
             <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Dokumentasi GPS - Ruang ${r.nama}', '6_sudut_gps.jpg', '${r.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 Pratinjau 6 Sudut GPS</span>
+              <span onclick="previewDokumen('Dokumentasi GPS - Ruang ${r.nama}', '6 Sudut GPS', '${r.fotoData1 || r.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 Pratinjau 6 Sudut GPS</span>
             </td>
             <td class="p-3 text-center">
               <button onclick="editRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1">✏️ Edit</button>
@@ -1745,6 +1751,7 @@ let selectedTanahId = null;
       }
     }
 
+    // SIMPAN TANAH (UPLOAD PDF & DENAH KE SERVER)
     async function simpanTanah() {
       const editId = document.getElementById('edit_t_id').value;
       const nama = document.getElementById('t_nama').value;
@@ -1752,29 +1759,48 @@ let selectedTanahId = null;
       const panjang = parseFloat(document.getElementById('t_panjang').value) || 0;
       const lebar = parseFloat(document.getElementById('t_lebar').value) || 0;
       const milik = document.getElementById('t_milik').value;
+      
       const pdfInput = document.getElementById('t_dok_pdf').files[0];
       const denahInput = document.getElementById('t_foto_denah').files[0];
 
       if (!nama) return alert('Nama tanah wajib diisi');
 
       let existing = editId ? listTanah.find(t => t.id == editId) : null;
-      let pdfName = pdfInput ? pdfInput.name : (existing ? existing.pdf : '');
-      let pdfData = pdfInput ? await convertFileToBase64(pdfInput) : (existing ? existing.pdfData : '');
-      let denahName = denahInput ? denahInput.name : (existing ? existing.denah : '');
-      let denahData = denahInput ? await convertFileToBase64(denahInput) : (existing ? existing.denahData : '');
+      let pdfUrl = existing ? existing.pdf : '';
+      let denahUrl = existing ? existing.denah : '';
 
-      if (editId) {
-        const idx = listTanah.findIndex(t => t.id == editId);
-        if (idx !== -1) listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfName, pdfData, denah: denahName, denahData };
-      } else {
-        const newId = Date.now();
-        listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfName, pdfData, denah: denahName, denahData });
-        if (!selectedTanahId) selectedTanahId = newId;
+      try {
+        if (pdfInput) {
+          const uploadedPdf = await uploadFileToServer(pdfInput);
+          if (uploadedPdf) pdfUrl = uploadedPdf;
+        }
+        if (denahInput) {
+          const uploadedDenah = await uploadFileToServer(denahInput);
+          if (uploadedDenah) denahUrl = uploadedDenah;
+        }
+
+        if (editId) {
+          const idx = listTanah.findIndex(t => t.id == editId);
+          if (idx !== -1) {
+            listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl };
+          }
+        } else {
+          const newId = Date.now();
+          listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl });
+          if (!selectedTanahId) selectedTanahId = newId;
+        }
+
+        localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
+        renderTanah(); 
+        tutupModal('modalTanah');
+        alert('Data Tanah dan Dokumen berhasil disimpan ke server!');
+      } catch (error) {
+        console.error(error);
+        alert('Terjadi kesalahan saat menyimpan data tanah.');
       }
-      localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
-      renderTanah(); tutupModal('modalTanah');
     }
 
+    // SIMPAN BANGUNAN (UPLOAD FOTO KESELURUHAN KE SERVER)
     async function simpanBangunan() {
       const editId = document.getElementById('edit_b_id').value;
       const nama = document.getElementById('b_nama').value;
@@ -1803,19 +1829,32 @@ let selectedTanahId = null;
       }
 
       let existing = editId ? listBangunan.find(b => b.id == editId) : null;
-      let fotoName = fotoInput ? fotoInput.name : (existing ? existing.foto : '');
-      let fotoData = fotoInput ? await convertFileToBase64(fotoInput) : (existing ? existing.fotoData : '');
+      let fotoUrl = existing ? existing.foto : '';
 
-      if (editId) {
-        const idx = listBangunan.findIndex(b => b.id == editId);
-        if (idx !== -1) listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoName, fotoData };
-      } else {
-        listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoName, fotoData });
+      try {
+        if (fotoInput) {
+          const uploadedFoto = await uploadFileToServer(fotoInput);
+          if (uploadedFoto) fotoUrl = uploadedFoto;
+        }
+
+        if (editId) {
+          const idx = listBangunan.findIndex(b => b.id == editId);
+          if (idx !== -1) {
+            listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl };
+          }
+        } else {
+          listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl });
+        }
+        localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
+        renderTanah(); renderBangunan(); tutupModal('modalBangunan');
+        alert('Data Bangunan berhasil disimpan ke server!');
+      } catch (error) {
+        console.error(error);
+        alert('Terjadi kesalahan saat menyimpan bangunan.');
       }
-      localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
-      renderTanah(); renderBangunan(); tutupModal('modalBangunan');
     }
 
+    // SIMPAN RUANG (UPLOAD 6 FOTO GPS TAG KE SERVER)
     async function simpanRuang() {
       const editId = document.getElementById('edit_r_id').value;
       const bangunan_id = document.getElementById('r_bangunan_id').value;
@@ -1829,7 +1868,6 @@ let selectedTanahId = null;
       if (!bangunan_id) return alert('Pilih bangunan tempat ruang ini berada!');
       if (!nama) return alert('Nama ruang wajib diisi');
 
-      // Validasi Wajib Isi Foto 6 Sudut jika kondisi Rusak Sedang atau Rusak Berat
       let existing = editId ? listRuang.find(r => r.id == editId) : null;
       let f1 = document.getElementById('r_foto_1').files[0];
       let f2 = document.getElementById('r_foto_2').files[0];
@@ -1865,24 +1903,31 @@ let selectedTanahId = null;
         }
       }
 
-      let fotoData1 = f1 ? await convertFileToBase64(f1) : (existing ? existing.fotoData1 : '');
-      let fotoData2 = f2 ? await convertFileToBase64(f2) : (existing ? existing.fotoData2 : '');
-      let fotoData3 = f3 ? await convertFileToBase64(f3) : (existing ? existing.fotoData3 : '');
-      let fotoData4 = f4 ? await convertFileToBase64(f4) : (existing ? existing.fotoData4 : '');
-      let fotoData5 = f5 ? await convertFileToBase64(f5) : (existing ? existing.fotoData5 : '');
-      let fotoData6 = f6 ? await convertFileToBase64(f6) : (existing ? existing.fotoData6 : '');
-      
-      // Menggabungkan atau menyimpan data foto (untuk preview kompatibel dengan key tunggal atau kolektif)
-      let fotoDataCombined = fotoData1 || (existing ? existing.fotoData : '');
+      try {
+        let fotoData1 = f1 ? await uploadFileToServer(f1) : (existing ? existing.fotoData1 : '');
+        let fotoData2 = f2 ? await uploadFileToServer(f2) : (existing ? existing.fotoData2 : '');
+        let fotoData3 = f3 ? await uploadFileToServer(f3) : (existing ? existing.fotoData3 : '');
+        let fotoData4 = f4 ? await uploadFileToServer(f4) : (existing ? existing.fotoData4 : '');
+        let fotoData5 = f5 ? await uploadFileToServer(f5) : (existing ? existing.fotoData5 : '');
+        let fotoData6 = f6 ? await uploadFileToServer(f6) : (existing ? existing.fotoData6 : '');
+        
+        let fotoDataCombined = fotoData1 || (existing ? existing.fotoData : '');
 
-      if (editId) {
-        const idx = listRuang.findIndex(r => r.id == editId);
-        if (idx !== -1) listRuang[idx] = { id: parseInt(editId), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 };
-      } else {
-        listRuang.push({ id: Date.now(), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 });
+        if (editId) {
+          const idx = listRuang.findIndex(r => r.id == editId);
+          if (idx !== -1) {
+            listRuang[idx] = { id: parseInt(editId), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 };
+          }
+        } else {
+          listRuang.push({ id: Date.now(), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 });
+        }
+        localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
+        renderRuang(); renderTanah(); tutupModal('modalRuang');
+        alert('Data Ruang & Foto GPS berhasil disimpan ke server!');
+      } catch (error) {
+        console.error(error);
+        alert('Terjadi kesalahan saat menyimpan ruang.');
       }
-      localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
-      renderRuang(); renderTanah(); tutupModal('modalRuang');
     }
 
     function simpanAlat() {
@@ -2131,7 +2176,6 @@ let selectedTanahId = null;
     renderGTK();
     renderSiswa();
     renderRombel();
-  
   </script>
 </body>
 </html>
