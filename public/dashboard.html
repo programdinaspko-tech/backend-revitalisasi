@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin Dinas - Portal Rekapitulasi Sekolah</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- CDN Chart.js untuk Grafik Rekapitulasi Beranda -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -134,7 +133,6 @@
         </div>
       </div>
 
-      <!-- GRAFIK / DIAGRAM VISUAL REKAPITULASI (3 KOLOM) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
           <h3 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
@@ -525,7 +523,6 @@
       if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
     }
 
-    // Cache Global untuk Penanganan Dokumen / Gambar Preview
     window.previewCache = {};
 
     function toggleSidebarDinas() {
@@ -534,18 +531,17 @@
       if (sidebar.classList.contains('w-64')) {
         sidebar.classList.remove('w-64');
         sidebar.classList.add('w-20');
-        texts.forEach(el => el.classList.add('hidden'));
+        texts.forEach(function(el) { el.classList.add('hidden'); });
       } else {
         sidebar.classList.remove('w-20');
         sidebar.classList.add('w-64');
-        texts.forEach(el => el.classList.remove('hidden'));
+        texts.forEach(function(el) { el.classList.remove('hidden'); });
       }
     }
 
     function getRegisteredSekolahList() {
       let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
-      return syncList;
+      return rawSyncList.filter(function(s) { return s.npsn && s.nama_sekolah && s.jumlah_item > 0; });
     }
 
     let masterSekolah = getRegisteredSekolahList();
@@ -557,10 +553,9 @@
     let masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
     let masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
 
-    // PERBAIKAN: Penanganan Pratinjau Dokumen Menggunakan Global Cache Key
     function previewDokumenKey(cacheKey) {
       const item = window.previewCache[cacheKey];
-      if (!item) return alert('File preview tidak ditemukan.');
+      if (!item) return alert('Dokumen tidak ditemukan.');
       previewDokumen(item.tipe, item.fileName, item.fileData);
     }
 
@@ -571,20 +566,20 @@
       const footerInfo = document.getElementById('previewInfoFooter');
       
       modal.classList.remove('hidden');
-      judul.innerHTML = `<span>👁️</span> Pratinjau ${tipe}: <span class="text-indigo-300 ml-1">${fileName || 'Dokumen'}</span>`;
-      footerInfo.innerText = `Nama File: ${fileName || 'Tanpa Nama'}`;
+      judul.innerHTML = '<span>👁️</span> Pratinjau ' + tipe + ': <span class="text-indigo-300 ml-1">' + (fileName || 'Dokumen') + '</span>';
+      footerInfo.innerText = 'Nama File: ' + (fileName || 'Tanpa Nama');
 
       if (!fileData || fileData === 'undefined' || fileData === 'null' || fileData.trim() === '') {
-        container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p></div>`;
+        container.innerHTML = '<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p></div>';
         return;
       }
 
       if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || fileData.toLowerCase().endsWith('.pdf')) {
-        container.innerHTML = `<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="${fileData}" class="w-full h-full" frameborder="0"></iframe></div>`;
-      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) \vert{}\vert{} /\.(jpg\vert{}jpeg\vert{}png)$/i.test(fileData)) {
-        container.innerHTML = `<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="${fileData}" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>`;
+        container.innerHTML = '<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="' + fileData + '" class="w-full h-full" frameborder="0"></iframe></div>';
+      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(fileData)) {
+        container.innerHTML = '<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="' + fileData + '" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>';
       } else {
-        container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-indigo-500">📄</div><p class="text-sm font-bold text-slate-700">${fileName}</p><a href="${fileData}" download="${fileName}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a></div>`;
+        container.innerHTML = '<div class="text-center space-y-3 py-10"><div class="text-5xl text-indigo-500">📄</div><p class="text-sm font-bold text-slate-700">' + fileName + '</p><a href="' + fileData + '" download="' + fileName + '" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a></div>';
       }
     }
 
@@ -597,33 +592,27 @@
       const selectSarpras = document.getElementById('sarprasSekolahFilter');
       const selectGTK = document.getElementById('gtkSiswaSekolahFilter');
       let optionsHtml = '<option value="ALL">-- Tampilkan Semua Sekolah --</option>';
-      masterSekolah.forEach(s => {
-        optionsHtml += `<option value="${s.nama_sekolah}">${s.nama_sekolah} (${s.npsn})</option>`;
+      masterSekolah.forEach(function(s) {
+        optionsHtml += '<option value="' + s.nama_sekolah + '">' + s.nama_sekolah + ' (' + s.npsn + ')</option>';
       });
       if(selectSarpras) selectSarpras.innerHTML = optionsHtml;
       if(selectGTK) selectGTK.innerHTML = optionsHtml;
     }
 
     function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('nav button').forEach(el => el.classList.remove('sidebar-active'));
+      document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
+      document.querySelectorAll('nav button').forEach(function(el) { el.classList.remove('sidebar-active'); });
       
-      const targetTab = document.getElementById(`tab-${tabName}`);
+      const targetTab = document.getElementById('tab-' + tabName);
       if (targetTab) targetTab.classList.remove('hidden');
 
-      const navBtn = document.getElementById(`nav-${tabName}`);
+      const navBtn = document.getElementById('nav-' + tabName);
       if (navBtn) navBtn.classList.add('sidebar-active');
 
       if (tabName === 'beranda') { updateBerandaStats(); renderGrafikBeranda(); }
       if (tabName === 'sekolah') fetchSekolah();
-      if (tabName === 'sarpras') { 
-        populateDropdowns(); 
-        renderRekapSarprasLengkap(); 
-      }
-      if (tabName === 'gtk-siswa') { 
-        populateDropdowns(); 
-        renderGTKSiswaLengkap(); 
-      }
+      if (tabName === 'sarpras') { populateDropdowns(); renderRekapSarprasLengkap(); }
+      if (tabName === 'gtk-siswa') { populateDropdowns(); renderGTKSiswaLengkap(); }
       if (tabName === 'rekap-sinkron') renderTabelRekapSinkron();
       if (tabName === 'user') fetchUsers();
     }
@@ -677,13 +666,13 @@
       masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
       let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       let totalSekolah = masterSekolah.length;
-      let totalDraft = regUsers.filter(x => x.status === 'Pending').length;
+      let totalDraft = regUsers.filter(function(x) { return x.status === 'Pending'; }).length;
 
-      let totalSD = masterSekolah.filter(s => (s.jenjang || '').toUpperCase() === 'SD').length;
-      let totalSMP = masterSekolah.filter(s => (s.jenjang || '').toUpperCase() === 'SMP').length;
+      let totalSD = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SD'; }).length;
+      let totalSMP = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SMP'; }).length;
 
-      let totalRusakSedang = masterRuang.filter(r => r.kondisi === 'Rusak Sedang').length;
-      let totalRusakBerat = masterRuang.filter(r => r.kondisi === 'Rusak Berat').length;
+      let totalRusakSedang = masterRuang.filter(function(r) { return r.kondisi === 'Rusak Sedang'; }).length;
+      let totalRusakBerat = masterRuang.filter(function(r) { return r.kondisi === 'Rusak Berat'; }).length;
 
       const ctx1 = document.getElementById('chartSinkronisasi').getContext('2d');
       if (chartSinkronInstance) chartSinkronInstance.destroy();
@@ -724,26 +713,26 @@
       const tbody = document.getElementById('sekolahTableBody');
       if (!tbody) return;
       if (masterSekolah.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Belum ada sekolah yang terdaftar atau disetujui.</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">Belum ada sekolah yang terdaftar atau disetujui.</td></tr>';
         return;
       }
-      tbody.innerHTML = masterSekolah.map(item => `
-        <tr class="hover:bg-slate-50 border-b border-slate-100">
-          <td class="p-3.5"><p class="font-mono font-bold text-indigo-700">${item.npsn || '-'}</p><p class="font-bold text-slate-900">${item.nama_sekolah}</p></td>
-          <td class="p-3.5"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${item.jenjang || 'SD'}</span></td>
-          <td class="p-3.5"><p class="font-bold text-slate-800">${item.nama_kepala_sekolah || '-'}</p></td>
-          <td class="p-3.5"><p class="font-bold text-slate-800">${item.operator || '-'}</p></td>
-          <td class="p-3.5"><p class="font-bold text-slate-800">${item.nama_bank || '-'}</p></td>
-          <td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>
-          <td class="p-3.5 text-center"><button onclick="bukaDetailSekolah('${item.npsn || item.nama_sekolah}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = masterSekolah.map(function(item) {
+        return '<tr class="hover:bg-slate-50 border-b border-slate-100">' +
+          '<td class="p-3.5"><p class="font-mono font-bold text-indigo-700">' + (item.npsn || '-') + '</p><p class="font-bold text-slate-900">' + item.nama_sekolah + '</p></td>' +
+          '<td class="p-3.5"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (item.jenjang || 'SD') + '</span></td>' +
+          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_kepala_sekolah || '-') + '</p></td>' +
+          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.operator || '-') + '</p></td>' +
+          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_bank || '-') + '</p></td>' +
+          '<td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>' +
+          '<td class="p-3.5 text-center"><button onclick="bukaDetailSekolah(\'' + (item.npsn || item.nama_sekolah) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>' +
+        '</tr>';
+      }).join('');
     }
 
     function filterTabelSekolah() {
       let keyword = document.getElementById('filterCari').value.toLowerCase();
       let rows = document.querySelectorAll('#sekolahTableBody tr');
-      rows.forEach(r => {
+      rows.forEach(function(r) {
         let text = r.innerText.toLowerCase();
         r.style.display = text.includes(keyword) ? '' : 'none';
       });
@@ -751,27 +740,25 @@
 
     function bukaDetailSekolah(identifier) {
       masterSekolah = getRegisteredSekolahList();
-      let sch = masterSekolah.find(s => s.npsn === identifier || s.nama_sekolah === identifier);
+      let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier; });
       if (!sch) return alert('Data detail sekolah tidak ditemukan.');
 
-      document.getElementById('modalDetailTitle').innerText = `Detail Profil: ${sch.nama_sekolah}`;
-      let contentHtml = `
-        <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">
-          <div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">${sch.nama_sekolah}</p></div>
-          <div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">${sch.npsn || '-'}</p></div>
-          <div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">${sch.jenjang || 'SD'}</p></div>
-          <div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">${sch.status_sekolah || 'Negeri'} / Akred:${sch.akreditasi || 'B'}</p></div>
-        </div>
-        <div class="space-y-2">
-          <h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Kontak</h4>
-          <div class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border">
-            <div><p class="text-slate-500">Kepala Sekolah:</p><p class="font-bold">${sch.nama_kepala_sekolah || '-'}</p></div>
-            <div><p class="text-slate-500">NIP Kepala Sekolah:</p><p class="font-bold font-mono">${sch.nip_kepala_sekolah || '-'}</p></div>
-            <div><p class="text-slate-500">Operator Sekolah:</p><p class="font-bold">${sch.operator || '-'}</p></div>
-            <div><p class="text-slate-500">No. WhatsApp:</p><p class="font-bold">${sch.wa_operator || '-'}</p></div>
-          </div>
-        </div>
-      `;
+      document.getElementById('modalDetailTitle').innerText = 'Detail Profil: ' + sch.nama_sekolah;
+      let contentHtml = '<div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">' +
+          '<div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">' + sch.nama_sekolah + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">' + (sch.npsn || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">' + (sch.jenjang || 'SD') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">' + (sch.status_sekolah || 'Negeri') + ' / Akred:' + (sch.akreditasi || 'B') + '</p></div>' +
+        '</div>' +
+        '<div class="space-y-2">' +
+          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Kontak</h4>' +
+          '<div class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border">' +
+            '<div><p class="text-slate-500">Kepala Sekolah:</p><p class="font-bold">' + (sch.nama_kepala_sekolah || '-') + '</p></div>' +
+            '<div><p class="text-slate-500">NIP Kepala Sekolah:</p><p class="font-bold font-mono">' + (sch.nip_kepala_sekolah || '-') + '</p></div>' +
+            '<div><p class="text-slate-500">Operator Sekolah:</p><p class="font-bold">' + (sch.operator || '-') + '</p></div>' +
+            '<div><p class="text-slate-500">No. WhatsApp:</p><p class="font-bold">' + (sch.wa_operator || '-') + '</p></div>' +
+          '</div>' +
+        '</div>';
       document.getElementById('modalDetailContent').innerHTML = contentHtml;
       document.getElementById('modalDetailSekolah').classList.remove('hidden');
     }
@@ -781,203 +768,195 @@
     }
 
     function renderRekapSarprasLengkap() {
-      window.previewCache = {}; // Reset cache
+      window.previewCache = {};
       let syncList = getRegisteredSekolahList();
       let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
 
-      syncList.forEach(s => {
+      syncList.forEach(function(s) {
         let namaSch = s.nama_sekolah;
         if (s.tanah && Array.isArray(s.tanah)) {
-          s.tanah.forEach(t => allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: `${t.panjang || 0} x ${t.lebar || 0}`, luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`, sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }));
+          s.tanah.forEach(function(t) { allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: (t.panjang || 0) + ' x ' + (t.lebar || 0), luas: ((t.panjang || 0) * (t.lebar || 0)) + ' m²', sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }); });
         }
         if (s.bangunan && Array.isArray(s.bangunan)) {
-          s.bangunan.forEach(b => allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: `${b.panjang || 0} x ${b.lebar || 0}`, luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`, lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }));
+          s.bangunan.forEach(function(b) { allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: (b.panjang || 0) + ' x ' + (b.lebar || 0), luas: ((b.panjang || 0) * (b.lebar || 0)) + ' m²', lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }); });
         }
         if (s.ruang && Array.isArray(s.ruang)) {
-          s.ruang.forEach(r => allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: `${r.panjang || 0} x ${r.lebar || 0}`, luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`, kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }));
+          s.ruang.forEach(function(r) { allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: (r.panjang || 0) + ' x ' + (r.lebar || 0), luas: ((r.panjang || 0) * (r.lebar || 0)) + ' m²', kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }); });
         }
         if (s.alat && Array.isArray(s.alat)) {
-          s.alat.forEach(a => allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }));
+          s.alat.forEach(function(a) { allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }); });
         }
       });
 
-      let selSekolah = document.getElementById('sarprasSekolahFilter')?.value || 'ALL';
-      let searchKey = document.getElementById('sarprasCariInput')?.value.toLowerCase() || '';
+      let selSekolah = document.getElementById('sarprasSekolahFilter') ? document.getElementById('sarprasSekolahFilter').value : 'ALL';
+      let searchKey = document.getElementById('sarprasCariInput') ? document.getElementById('sarprasCariInput').value.toLowerCase() : '';
 
-      let fTanah = allTanah.filter(t => (selSekolah === 'ALL' || t.nama_sekolah === selSekolah));
-      let fBangunan = allBangunan.filter(b => (selSekolah === 'ALL' || b.nama_sekolah === selSekolah));
-      let fRuang = allRuang.filter(r => (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
-      let fAlat = allAlat.filter(a => (selSekolah === 'ALL' || a.nama_sekolah === selSekolah));
+      let fTanah = allTanah.filter(function(t) { return selSekolah === 'ALL' || t.nama_sekolah === selSekolah; });
+      let fBangunan = allBangunan.filter(function(b) { return selSekolah === 'ALL' || b.nama_sekolah === selSekolah; });
+      let fRuang = allRuang.filter(function(r) { return selSekolah === 'ALL' || r.nama_sekolah === selSekolah; });
+      let fAlat = allAlat.filter(function(a) { return selSekolah === 'ALL' || a.nama_sekolah === selSekolah; });
 
       if (searchKey) {
-        fTanah = fTanah.filter(t => (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fBangunan = fBangunan.filter(b => (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fRuang = fRuang.filter(r => (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fAlat = fAlat.filter(a => (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey));
+        fTanah = fTanah.filter(function(t) { return (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fBangunan = fBangunan.filter(function(b) { return (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fRuang = fRuang.filter(function(r) { return (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fAlat = fAlat.filter(function(a) { return (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey); });
       }
 
-      document.getElementById('badgeCountTanah').innerText = `Terdata: ${fTanah.length} Lahan`;
-      document.getElementById('badgeCountBangunan').innerText = `Terdata: ${fBangunan.length} Bangunan`;
-      document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
-      document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
+      document.getElementById('badgeCountTanah').innerText = 'Terdata: ' + fTanah.length + ' Lahan';
+      document.getElementById('badgeCountBangunan').innerText = 'Terdata: ' + fBangunan.length + ' Bangunan';
+      document.getElementById('badgeCountRuang').innerText = 'Terdata: ' + fRuang.length + ' Ruang';
+      document.getElementById('badgeCountAlat').innerText = 'Terdata: ' + fAlat.length + ' Asset/Alat';
 
-      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map((t, idx) => {
-        let keyPdf = `tanah_pdf_${idx}`;
-        let keyDenah = `tanah_denah_${idx}`;
+      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(function(t, idx) {
+        let keyPdf = 'tanah_pdf_' + idx;
+        let keyDenah = 'tanah_denah_' + idx;
         window.previewCache[keyPdf] = { tipe: 'Sertifikat PDF', fileName: 'Sertifikat Tanah', fileData: t.pdf };
         window.previewCache[keyDenah] = { tipe: 'Denah Lahan', fileName: 'Denah Lahan', fileData: t.denah };
 
-        return `
-          <tr class="border-b">
-            <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
-            <td class="p-3">${t.no_sertifikat || '-'}</td>
-            <td class="p-3">${t.pxl || '-'}</td>
-            <td class="p-3 font-bold">${t.luas || '-'}</td>
-            <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
-            <td class="p-3">${t.kepemilikan || '-'}</td>
-            <td class="p-3 text-[10px] space-x-1">
-              <button onclick="previewDokumenKey('${keyPdf}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
-              <button onclick="previewDokumenKey('${keyDenah}')" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
-            </td>
-          </tr>
-        `;
-      }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
+        return '<tr class="border-b">' +
+            '<td class="p-3"><b>' + t.nama_lahan + '</b><br><span class="text-[10px] text-slate-500">' + t.nama_sekolah + '</span></td>' +
+            '<td class="p-3">' + (t.no_sertifikat || '-') + '</td>' +
+            '<td class="p-3">' + (t.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (t.luas || '-') + '</td>' +
+            '<td class="p-3 text-emerald-600 font-bold">' + (t.sisa_lahan || '-') + '</td>' +
+            '<td class="p-3">' + (t.kepemilikan || '-') + '</td>' +
+            '<td class="p-3 text-[10px] space-x-1">' +
+              '<button onclick="previewDokumenKey(\'' + keyPdf + '\')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>' +
+              '<button onclick="previewDokumenKey(\'' + keyDenah + '\')" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>' +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>';
 
-      document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map((b, idx) => {
-        let keyFoto = `bangunan_foto_${idx}`;
+      document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(function(b, idx) {
+        let keyFoto = 'bangunan_foto_' + idx;
         window.previewCache[keyFoto] = { tipe: 'Foto Bangunan', fileName: 'Foto Gedung', fileData: b.foto };
 
-        return `
-          <tr class="border-b">
-            <td class="p-3 font-bold">${b.nama_bangunan}</td>
-            <td class="p-3">${b.nama_sekolah}</td>
-            <td class="p-3">${b.pxl || '-'}</td>
-            <td class="p-3 font-bold">${b.luas || '-'}</td>
-            <td class="p-3">${b.lantai || 1}</td>
-            <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${b.jenis || '-'}</span></td>
-            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi || '-'}</span></td>
-            <td class="p-3 text-[10px]">
-              <button onclick="previewDokumenKey('${keyFoto}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
-            </td>
-          </tr>
-        `;
-      }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>`;
+        return '<tr class="border-b">' +
+            '<td class="p-3 font-bold">' + b.nama_bangunan + '</td>' +
+            '<td class="p-3">' + b.nama_sekolah + '</td>' +
+            '<td class="p-3">' + (b.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (b.luas || '-') + '</td>' +
+            '<td class="p-3">' + (b.lantai || 1) + '</td>' +
+            '<td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">' + (b.jenis || '-') + '</span></td>' +
+            '<td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">' + (b.kondisi || '-') + '</span></td>' +
+            '<td class="p-3 text-[10px]">' +
+              '<button onclick="previewDokumenKey(\'' + keyFoto + '\')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>' +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>';
 
-      document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map((r, idx) => {
-        let keyFoto = `ruang_foto_${idx}`;
+      document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(function(r, idx) {
+        let keyFoto = 'ruang_foto_' + idx;
         window.previewCache[keyFoto] = { tipe: 'Dokumentasi GPS Ruang', fileName: 'Foto Ruang 6 Sudut', fileData: r.fotoData };
 
-        return `
-          <tr class="border-b">
-            <td class="p-3 font-bold">${r.nama_ruang}</td>
-            <td class="p-3">${r.nama_sekolah}</td>
-            <td class="p-3">${r.jenis_ruang}</td>
-            <td class="p-3">${r.pxl || '-'}</td>
-            <td class="p-3 font-bold">${r.luas || '-'}</td>
-            <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
-            <td class="p-3">${r.riwayat || '-'}</td>
-            <td class="p-3 text-[10px]">
-              <button onclick="previewDokumenKey('${keyFoto}')" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
-            </td>
-          </tr>
-        `;
-      }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>`;
+        return '<tr class="border-b">' +
+            '<td class="p-3 font-bold">' + r.nama_ruang + '</td>' +
+            '<td class="p-3">' + r.nama_sekolah + '</td>' +
+            '<td class="p-3">' + r.jenis_ruang + '</td>' +
+            '<td class="p-3">' + (r.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (r.luas || '-') + '</td>' +
+            '<td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">' + r.kondisi + '</span></td>' +
+            '<td class="p-3">' + (r.riwayat || '-') + '</td>' +
+            '<td class="p-3 text-[10px]">' +
+              '<button onclick="previewDokumenKey(\'' + keyFoto + '\')" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>' +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>';
 
-      document.getElementById('rekapAlatTableBody').innerHTML = fAlat.length ? fAlat.map(a => `
-        <tr class="border-b">
-          <td class="p-3 font-bold">${a.nama_barang}</td>
-          <td class="p-3">${a.nama_sekolah}</td>
-          <td class="p-3">${a.kategori}</td>
-          <td class="p-3 font-bold">${a.jumlah} Unit</td>
-          <td class="p-3">
-            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Baik: ${a.baik ?? a.jumlah}</span>
-            <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">Rusak: ${a.rusak ?? 0}</span>
-          </td>
-        </tr>
-      `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data alat yang sesuai filter.</td></tr>`;
+      document.getElementById('rekapAlatTableBody').innerHTML = fAlat.length ? fAlat.map(function(a) {
+        return '<tr class="border-b">' +
+          '<td class="p-3 font-bold">' + a.nama_barang + '</td>' +
+          '<td class="p-3">' + a.nama_sekolah + '</td>' +
+          '<td class="p-3">' + a.kategori + '</td>' +
+          '<td class="p-3 font-bold">' + a.jumlah + ' Unit</td>' +
+          '<td class="p-3">' +
+            '<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Baik: ' + (a.baik !== undefined ? a.baik : a.jumlah) + '</span> ' +
+            '<span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">Rusak: ' + (a.rusak !== undefined ? a.rusak : 0) + '</span>' +
+          '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data alat yang sesuai filter.</td></tr>';
     }
 
     function renderGTKSiswaLengkap() {
       let syncList = getRegisteredSekolahList();
       let allGTK = [], allSiswa = [], allRombel = [];
 
-      syncList.forEach(s => {
+      syncList.forEach(function(s) {
         let namaSch = s.nama_sekolah;
         if (s.gtk && Array.isArray(s.gtk)) {
-          s.gtk.forEach(g => allGTK.push({ nama_sekolah: namaSch, nama: g.nama, nip: g.nip || '-', jk: g.jk, kualifikasi: g.kualifikasi, status: g.status, serdik: g.serdik, jabatan: g.jabatan, jam_mengajar: g.jam }));
+          s.gtk.forEach(function(g) { allGTK.push({ nama_sekolah: namaSch, nama: g.nama, nip: g.nip || '-', jk: g.jk, kualifikasi: g.kualifikasi, status: g.status, serdik: g.serdik, jabatan: g.jabatan, jam_mengajar: g.jam }); });
         }
         if (s.siswa && Array.isArray(s.siswa)) {
-          s.siswa.forEach(si => allSiswa.push({ nama_sekolah: namaSch, tingkat_kelas: si.kelas, u1_l: si.u1_l, u1_p: si.u1_p, u2_l: si.u2_l, u2_p: si.u2_p, do_l: si.do_l, do_p: si.do_p, pip_l: si.pip_l, pip_p: si.pip_p }));
+          s.siswa.forEach(function(si) { allSiswa.push({ nama_sekolah: namaSch, tingkat_kelas: si.kelas, u1_l: si.u1_l, u1_p: si.u1_p, u2_l: si.u2_l, u2_p: si.u2_p, do_l: si.do_l, do_p: si.do_p, pip_l: si.pip_l, pip_p: si.pip_p }); });
         }
         if (s.rombel && Array.isArray(s.rombel)) {
-          s.rombel.forEach(ro => allRombel.push({ nama_sekolah: namaSch, nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-', tingkat: ro.tingkat || ro.tingkat_kelas || '-', wali_kelas: ro.wali_kelas || ro.wali || '-' }));
+          s.rombel.forEach(function(ro) { allRombel.push({ nama_sekolah: namaSch, nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-', tingkat: ro.tingkat || ro.tingkat_kelas || '-', wali_kelas: ro.wali_kelas || ro.wali || '-' }); });
         }
       });
 
-      let selSekolah = document.getElementById('gtkSiswaSekolahFilter')?.value || 'ALL';
-      let searchKey = document.getElementById('gtkSiswaCariInput')?.value.toLowerCase() || '';
+      let selSekolah = document.getElementById('gtkSiswaSekolahFilter') ? document.getElementById('gtkSiswaSekolahFilter').value : 'ALL';
+      let searchKey = document.getElementById('gtkSiswaCariInput') ? document.getElementById('gtkSiswaCariInput').value.toLowerCase() : '';
 
-      let fGTK = allGTK.filter(g => (selSekolah === 'ALL' || g.nama_sekolah === selSekolah));
-      let fSiswa = allSiswa.filter(s => (selSekolah === 'ALL' || s.nama_sekolah === selSekolah));
-      let fRombel = allRombel.filter(r => (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
+      let fGTK = allGTK.filter(function(g) { return selSekolah === 'ALL' || g.nama_sekolah === selSekolah; });
+      let fSiswa = allSiswa.filter(function(s) { return selSekolah === 'ALL' || s.nama_sekolah === selSekolah; });
+      let fRombel = allRombel.filter(function(r) { return selSekolah === 'ALL' || r.nama_sekolah === selSekolah; });
 
       if (searchKey) {
-        fGTK = fGTK.filter(g => (g.nama || '').toLowerCase().includes(searchKey) || (g.nip || '').toLowerCase().includes(searchKey) || (g.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fSiswa = fSiswa.filter(s => (s.tingkat_kelas || s.kelas || '').toLowerCase().includes(searchKey) || (s.nama_sekolah || '').toLowerCase().includes(searchKey));
-        fRombel = fRombel.filter(ro => (ro.nama_rombel || '').toLowerCase().includes(searchKey) || (ro.tingkat || '').toLowerCase().includes(searchKey) || (ro.wali_kelas || '').toLowerCase().includes(searchKey) || (ro.nama_sekolah || '').toLowerCase().includes(searchKey));
+        fGTK = fGTK.filter(function(g) { return (g.nama || '').toLowerCase().includes(searchKey) || (g.nip || '').toLowerCase().includes(searchKey) || (g.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fSiswa = fSiswa.filter(function(s) { return (s.tingkat_kelas || s.kelas || '').toLowerCase().includes(searchKey) || (s.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fRombel = fRombel.filter(function(ro) { return (ro.nama_rombel || '').toLowerCase().includes(searchKey) || (ro.tingkat || '').toLowerCase().includes(searchKey) || (ro.wali_kelas || '').toLowerCase().includes(searchKey) || (ro.nama_sekolah || '').toLowerCase().includes(searchKey); });
       }
 
-      document.getElementById('badgeCountGTK').innerText = `Total: ${fGTK.length} GTK`;
-      let totSiswa = fSiswa.reduce((acc, curr) => acc + ((parseInt(curr.u1_l)||0)+(parseInt(curr.u1_p)||0)+(parseInt(curr.u2_l)||0)+(parseInt(curr.u2_p)||0)), 0);
-      document.getElementById('badgeCountSiswa').innerText = `Total: ${totSiswa} Siswa`;
-      document.getElementById('badgeCountRombel').innerText = `Total: ${fRombel.length} Rombel`;
+      document.getElementById('badgeCountGTK').innerText = 'Total: ' + fGTK.length + ' GTK';
+      let totSiswa = fSiswa.reduce(function(acc, curr) { return acc + ((parseInt(curr.u1_l)||0)+(parseInt(curr.u1_p)||0)+(parseInt(curr.u2_l)||0)+(parseInt(curr.u2_p)||0)); }, 0);
+      document.getElementById('badgeCountSiswa').innerText = 'Total: ' + totSiswa + ' Siswa';
+      document.getElementById('badgeCountRombel').innerText = 'Total: ' + fRombel.length + ' Rombel';
 
-      document.getElementById('rekapGTKTableBody').innerHTML = fGTK.length ? fGTK.map(g => `
-        <tr class="border-b hover:bg-slate-50">
-          <td class="p-3"><p class="font-bold text-slate-800">${g.nama}</p><p class="text-slate-400 font-mono text-[10px]">${g.nip || '-'}</p></td>
-          <td class="p-3">${g.nama_sekolah}</td>
-          <td class="p-3 text-center">${g.jk}</td>
-          <td class="p-3 text-center"><span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-bold">${g.kualifikasi || 'S1'}</span></td>
-          <td class="p-3">${g.status || '-'}</td>
-          <td class="p-3">${g.serdik || '-'}</td>
-          <td class="p-3">${g.jabatan || '-'}</td>
-          <td class="p-3 text-center font-bold text-slate-700">${g.jam_mengajar || 0} Jam</td>
-        </tr>
-      `).join('') : `<tr><td colspan="8" class="p-6 text-center text-slate-400">Belum ada data GTK yang sesuai filter.</td></tr>`;
+      document.getElementById('rekapGTKTableBody').innerHTML = fGTK.length ? fGTK.map(function(g) {
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3"><p class="font-bold text-slate-800">' + g.nama + '</p><p class="text-slate-400 font-mono text-[10px]">' + (g.nip || '-') + '</p></td>' +
+          '<td class="p-3">' + g.nama_sekolah + '</td>' +
+          '<td class="p-3 text-center">' + g.jk + '</td>' +
+          '<td class="p-3 text-center"><span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-bold">' + (g.kualifikasi || 'S1') + '</span></td>' +
+          '<td class="p-3">' + (g.status || '-') + '</td>' +
+          '<td class="p-3">' + (g.serdik || '-') + '</td>' +
+          '<td class="p-3">' + (g.jabatan || '-') + '</td>' +
+          '<td class="p-3 text-center font-bold text-slate-700">' + (g.jam_mengajar || 0) + ' Jam</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="8" class="p-6 text-center text-slate-400">Belum ada data GTK yang sesuai filter.</td></tr>';
 
-      document.getElementById('rekapSiswaTableBody').innerHTML = fSiswa.length ? fSiswa.map(s => {
+      document.getElementById('rekapSiswaTableBody').innerHTML = fSiswa.length ? fSiswa.map(function(s) {
         let u1l = parseInt(s.u1_l) || 0, u1p = parseInt(s.u1_p) || 0, u2l = parseInt(s.u2_l) || 0, u2p = parseInt(s.u2_p) || 0;
         let dol = parseInt(s.do_l) || 0, dop = parseInt(s.do_p) || 0, pipl = parseInt(s.pip_l) || 0, pipp = parseInt(s.pip_p) || 0;
         let tot = u1l + u1p + u2l + u2p;
-        return `
-          <tr class="border-b text-center hover:bg-slate-50">
-            <td class="p-3 text-left font-bold text-slate-800">${s.nama_sekolah}</td>
-            <td class="p-3 text-left font-semibold text-indigo-700">${s.tingkat_kelas}</td>
-            <td class="p-3 bg-sky-50/60">${u1l}</td><td class="p-3 bg-sky-50/60">${u1p}</td>
-            <td class="p-3 bg-sky-100/60">${u2l}</td><td class="p-3 bg-sky-100/60">${u2p}</td>
-            <td class="p-3 bg-amber-50/50">${dol}</td><td class="p-3 bg-amber-50/50">${dop}</td>
-            <td class="p-3 bg-emerald-50/50">${pipl}</td><td class="p-3 bg-emerald-50/50">${pipp}</td>
-            <td class="p-3 font-extrabold bg-indigo-50 text-indigo-900">${tot} Siswa</td>
-          </tr>
-        `;
-      }).join('') : `<tr><td colspan="11" class="p-6 text-center text-slate-400">Belum ada data siswa.</td></tr>`;
+        return '<tr class="border-b text-center hover:bg-slate-50">' +
+            '<td class="p-3 text-left font-bold text-slate-800">' + s.nama_sekolah + '</td>' +
+            '<td class="p-3 text-left font-semibold text-indigo-700">' + s.tingkat_kelas + '</td>' +
+            '<td class="p-3 bg-sky-50/60">' + u1l + '</td><td class="p-3 bg-sky-50/60">' + u1p + '</td>' +
+            '<td class="p-3 bg-sky-100/60">' + u2l + '</td><td class="p-3 bg-sky-100/60">' + u2p + '</td>' +
+            '<td class="p-3 bg-amber-50/50">' + dol + '</td><td class="p-3 bg-amber-50/50">' + dop + '</td>' +
+            '<td class="p-3 bg-emerald-50/50">' + pipl + '</td><td class="p-3 bg-emerald-50/50">' + pipp + '</td>' +
+            '<td class="p-3 font-extrabold bg-indigo-50 text-indigo-900">' + tot + ' Siswa</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="11" class="p-6 text-center text-slate-400">Belum ada data siswa.</td></tr>';
 
-      document.getElementById('rekapRombelTableBody').innerHTML = fRombel.length ? fRombel.map(ro => `
-        <tr class="border-b hover:bg-slate-50">
-          <td class="p-3 font-bold text-slate-800">${ro.nama_sekolah}</td>
-          <td class="p-3 font-semibold text-indigo-700">${ro.nama_rombel}</td>
-          <td class="p-3"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${ro.tingkat}</span></td>
-          <td class="p-3 font-bold text-slate-800">${ro.wali_kelas}</td>
-        </tr>
-      `).join('') : `<tr><td colspan="4" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>`;
+      document.getElementById('rekapRombelTableBody').innerHTML = fRombel.length ? fRombel.map(function(ro) {
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3 font-bold text-slate-800">' + ro.nama_sekolah + '</td>' +
+          '<td class="p-3 font-semibold text-indigo-700">' + ro.nama_rombel + '</td>' +
+          '<td class="p-3"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + ro.tingkat + '</span></td>' +
+          '<td class="p-3 font-bold text-slate-800">' + ro.wali_kelas + '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="4" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>';
     }
 
     function renderTabelRekapSinkron() {
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      let keyword = document.getElementById('filterSyncCari')?.value.toLowerCase() || '';
-      let filterJenjang = document.getElementById('filterSyncJenjang')?.value || 'ALL';
+      let keyword = document.getElementById('filterSyncCari') ? document.getElementById('filterSyncCari').value.toLowerCase() : '';
+      let filterJenjang = document.getElementById('filterSyncJenjang') ? document.getElementById('filterSyncJenjang').value : 'ALL';
 
-      let filtered = syncList.filter(s => {
+      let filtered = syncList.filter(function(s) {
         let matchName = (s.nama_sekolah || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
         let matchJenjang = filterJenjang === 'ALL' || (s.jenjang || 'SD').toUpperCase() === filterJenjang.toUpperCase();
         return matchName && matchJenjang && s.jumlah_item > 0;
@@ -986,32 +965,32 @@
       const tbody = document.getElementById('rekapSinkronTableBody');
       if (!tbody) return;
       if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi aktif.</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi aktif.</td></tr>';
         return;
       }
-      tbody.innerHTML = filtered.map(s => `
-        <tr class="border-b hover:bg-slate-50">
-          <td class="p-3.5 font-bold">${s.nama_sekolah}</td>
-          <td class="p-3.5 font-mono text-indigo-700 font-bold">${s.npsn || '-'}</td>
-          <td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${s.jenjang || 'SD'}</span></td>
-          <td class="p-3.5 text-center text-slate-600">${new Date(s.created_at || Date.now()).toLocaleString('id-ID')}</td>
-          <td class="p-3.5 text-center font-bold text-emerald-700">⚡ ${s.jumlah_item || 0} Item</td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = filtered.map(function(s) {
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3.5 font-bold">' + s.nama_sekolah + '</td>' +
+          '<td class="p-3.5 font-mono text-indigo-700 font-bold">' + (s.npsn || '-') + '</td>' +
+          '<td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (s.jenjang || 'SD') + '</span></td>' +
+          '<td class="p-3.5 text-center text-slate-600">' + new Date(s.created_at || Date.now()).toLocaleString('id-ID') + '</td>' +
+          '<td class="p-3.5 text-center font-bold text-emerald-700">⚡ ' + (s.jumlah_item || 0) + ' Item</td>' +
+        '</tr>';
+      }).join('');
     }
 
     function fetchUsers() {
       const tbody = document.getElementById('userTableBody');
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
 
-      document.getElementById('badgeTotalUsers').innerText = `Terdaftar: ${users.length} User`;
+      document.getElementById('badgeTotalUsers').innerText = 'Terdaftar: ' + users.length + ' User';
 
       if (users.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Belum ada user sekolah yang terdaftar.</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">Belum ada user sekolah yang terdaftar.</td></tr>';
         return;
       }
 
-      tbody.innerHTML = users.map((u, index) => {
+      tbody.innerHTML = users.map(function(u, index) {
         const usernameDisplay = u.operator || u.username || 'OPS';
         const instansiDisplay = u.nama_sekolah || u.instansi || 'SEKOLAH';
         const statusUser = u.status || 'Pending';
@@ -1022,48 +1001,28 @@
         if (isApproved) badgeColor = 'bg-emerald-100 text-emerald-700';
         if (isRejected) badgeColor = 'bg-rose-100 text-rose-700';
 
-        return `
-          <tr class="hover:bg-slate-50 border-b">
-            <td class="p-3.5 font-bold text-slate-900">${usernameDisplay}</td>
-            <td class="p-3.5 font-semibold text-slate-800">${instansiDisplay}</td>
-            <td class="p-3.5 font-mono text-indigo-600 font-bold">${u.npsn || '-'} (${u.jenjang || 'SD'})</td>
-            <td class="p-3.5 text-center">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ${badgeColor}">
-                ${statusUser}
-              </span>
-            </td>
-            <td class="p-3.5 text-center">
-              <div class="flex items-center justify-center gap-1.5 flex-wrap">
-                ${!isApproved ? `
-                  <button onclick="setujuiUser(${index})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
-                    ✓ Setuju
-                  </button>
-                ` : `
-                  <button class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">
-                    ✓ Disetujui
-                  </button>
-                `}
-                
-                ${!isRejected ? `
-                  <button onclick="tolakUser(${index})" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
-                    ✕ Tolak
-                  </button>
-                ` : `
-                  <button class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">
-                    ✕ Ditolak
-                  </button>
-                `}
-
-                <button onclick="resetPasswordUser(${index})" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
-                  🔑 Reset
-                </button>
-                <button onclick="hapusUser(${index})" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
-                  🗑️ Hapus
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
+        return '<tr class="hover:bg-slate-50 border-b">' +
+            '<td class="p-3.5 font-bold text-slate-900">' + usernameDisplay + '</td>' +
+            '<td class="p-3.5 font-semibold text-slate-800">' + instansiDisplay + '</td>' +
+            '<td class="p-3.5 font-mono text-indigo-600 font-bold">' + (u.npsn || '-') + ' (' + (u.jenjang || 'SD') + ')</td>' +
+            '<td class="p-3.5 text-center">' +
+              '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ' + badgeColor + '">' +
+                statusUser +
+              '</span>' +
+            '</td>' +
+            '<td class="p-3.5 text-center">' +
+              '<div class="flex items-center justify-center gap-1.5 flex-wrap">' +
+                (!isApproved ?
+                  '<button onclick="setujuiUser(' + index + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✓ Setuju</button>' :
+                  '<button class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✓ Disetujui</button>') +
+                (!isRejected ?
+                  '<button onclick="tolakUser(' + index + ')" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✕ Tolak</button>' :
+                  '<button class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✕ Ditolak</button>') +
+                '<button onclick="resetPasswordUser(' + index + ')" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🔑 Reset</button>' +
+                '<button onclick="hapusUser(' + index + ')" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🗑️ Hapus</button>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
       }).join('');
     }
 
@@ -1072,7 +1031,7 @@
       if (users[index]) {
         users[index].status = 'Disetujui';
         localStorage.setItem('registered_users', JSON.stringify(users));
-        alert(`Akses untuk sekolah berhasil disetujui!`);
+        alert('Akses untuk sekolah berhasil disetujui!');
         fetchUsers();
       }
     }
@@ -1095,7 +1054,6 @@
       }
     }
 
-    // PERBAIKAN UTAMA: Hapus Total User Beserta SELURUH Data Rekapitulasi Sekolah Terkait
     function hapusUser(index) {
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
@@ -1103,22 +1061,19 @@
         let targetNPSN = targetUser.npsn;
         let targetNama = targetUser.nama_sekolah || targetUser.username || targetUser.instansi;
 
-        let konfirmasi = confirm(`⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "${targetNama}" (NPSN: ${targetNPSN || '-'})?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!`);
+        let konfirmasi = confirm('⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "' + targetNama + '" (NPSN: ' + (targetNPSN || '-') + ')?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!');
         
         if (konfirmasi) {
-          // 1. Hapus User dari registered_users
           users.splice(index, 1);
           localStorage.setItem('registered_users', JSON.stringify(users));
 
-          // 2. Hapus Data dari Master Sinkron
           let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-          syncList = syncList.filter(s => s.npsn !== targetNPSN && s.nama_sekolah !== targetNama);
+          syncList = syncList.filter(function(s) { return s.npsn !== targetNPSN && s.nama_sekolah !== targetNama; });
           localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
 
-          // 3. Hapus Data dari Master Sarpras, GTK, Siswa, Rombel
-          ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(key => {
+          ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(function(key) {
             let list = JSON.parse(localStorage.getItem(key) || '[]');
-            list = list.filter(item => item.npsn !== targetNPSN && item.nama_sekolah !== targetNama);
+            list = list.filter(function(item) { return item.npsn !== targetNPSN && item.nama_sekolah !== targetNama; });
             localStorage.setItem(key, JSON.stringify(list));
           });
 
@@ -1135,13 +1090,13 @@
       masterGTK = JSON.parse(localStorage.getItem('master_gtk')) || [];
       masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
 
-      let names = masterSekolah.map(s => s.nama_sekolah);
+      let names = masterSekolah.map(function(s) { return s.nama_sekolah; });
       let reg = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if(document.getElementById('statTotalSekolah')) document.getElementById('statTotalSekolah').innerText = masterSekolah.length;
       if(document.getElementById('statSinkron')) document.getElementById('statSinkron').innerText = masterSekolah.length;
-      if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(x => x.status === 'Pending').length;
-      if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = masterGTK.filter(g => names.includes(g.nama_sekolah)).length;
-      if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = masterSiswaKelas.filter(s => names.includes(s.nama_sekolah)).reduce((acc,c)=>acc+(c.total_aktif||((parseInt(c.u1_l)||0)+(parseInt(c.u1_p)||0)+(parseInt(c.u2_l)||0)+(parseInt(c.u2_p)||0))),0);
+      if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(function(x) { return x.status === 'Pending'; }).length;
+      if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = masterGTK.filter(function(g) { return names.includes(g.nama_sekolah); }).length;
+      if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = masterSiswaKelas.filter(function(s) { return names.includes(s.nama_sekolah); }).reduce(function(acc,c) { return acc+(c.total_aktif||((parseInt(c.u1_l)||0)+(parseInt(c.u1_p)||0)+(parseInt(c.u2_l)||0)+(parseInt(c.u2_p)||0))); }, 0);
     }
 
     function exportTabelKeExcel(containerId, namaFile) {
@@ -1151,12 +1106,7 @@
       let tempDiv = document.createElement('div');
       tempDiv.innerHTML = tableHtml;
       
-      let htmlFormated = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-        <head><meta charset="utf-8"></head>
-        <body>${tempDiv.innerHTML}</body>
-        </html>
-      `;
+      let htmlFormated = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + tempDiv.innerHTML + '</body></html>';
       let blob = new Blob([htmlFormated], { type: 'application/vnd.ms-excel' });
       downloadBlob(blob, namaFile);
     }
@@ -1167,13 +1117,13 @@
       let tempDiv = document.createElement('div');
       
       if (!subTanahHidden) {
-        tempDiv.innerHTML = `<h3>REKAPITULASI TANAH & BANGUNAN</h3>` + document.getElementById('subSarprasTanahContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAPITULASI TANAH & BANGUNAN</h3>' + document.getElementById('subSarprasTanahContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Tanah_Bangunan.xls');
       } else if (!subRuangHidden) {
-        tempDiv.innerHTML = `<h3>REKAPITULASI RUANG</h3>` + document.getElementById('subSarprasRuangContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAPITULASI RUANG</h3>' + document.getElementById('subSarprasRuangContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Ruang.xls');
       } else {
-        tempDiv.innerHTML = `<h3>REKAPITULASI ALAT & ASSET</h3>` + document.getElementById('subSarprasAlatContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAPITULASI ALAT & ASSET</h3>' + document.getElementById('subSarprasAlatContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Alat.xls');
       }
     }
@@ -1183,13 +1133,13 @@
       let subSiswaHidden = document.getElementById('subSiswaContent').classList.contains('hidden');
       let tempDiv = document.createElement('div');
       if (!subGTKHidden) {
-        tempDiv.innerHTML = `<h3>REKAP GTK</h3>` + document.getElementById('subGTKContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAP GTK</h3>' + document.getElementById('subGTKContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Data_GTK.xls');
       } else if (!subSiswaHidden) {
-        tempDiv.innerHTML = `<h3>REKAP PESERTA DIDIK</h3>` + document.getElementById('subSiswaContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAP PESERTA DIDIK</h3>' + document.getElementById('subSiswaContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Peserta_Didik_SPM.xls');
       } else {
-        tempDiv.innerHTML = `<h3>REKAP ROMBONGAN BELAJAR</h3>` + document.getElementById('subRombelContent').innerHTML;
+        tempDiv.innerHTML = '<h3>REKAP ROMBONGAN BELAJAR</h3>' + document.getElementById('subRombelContent').innerHTML;
         downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Rombongan_Belajar.xls');
       }
     }
