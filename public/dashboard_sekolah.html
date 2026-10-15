@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard User Sekolah - Portal Revitalisasi (Dapodik Style)</title>
+  <title>Dashboard TAKOLA - Portal Revitalisasi Sekolah (Dapodik Style)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Leaflet CSS untuk Peta Interaktif -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <!-- Leaflet Control Geocoder CSS (Untuk fitur Search Lokasi Sekolah di Map) -->
+  <!-- Leaflet Control Geocoder CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -40,8 +40,8 @@
     <div>
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
         <div class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center border border-white/20 shadow-lg shrink-0">
-            <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
-          </div>
+          <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
+        </div>
         <div class="sidebar-text">
           <h1 id="sidebarNamaSekolah" class="font-extrabold text-sm tracking-wide text-slate-100 truncate max-w-[150px]">Memuat...</h1>
           <p id="sidebarOperator" class="text-[11px] text-slate-400">Operator Sekolah</p>
@@ -50,7 +50,7 @@
 
       <nav class="mt-4 px-2 space-y-1 text-xs">
         <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition sidebar-active font-medium cursor-pointer">
-          <span>📊</span> <span class="sidebar-text">Beranda</span>
+          <span>📊</span> <span class="sidebar-text">Beranda TAKOLA</span>
         </button>
 
         <button onclick="switchTab('sekolah')" id="nav-sekolah" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
@@ -99,7 +99,7 @@
       <div class="flex items-center justify-between">
         <div class="sidebar-text">
           <p id="userNamaSekolah" class="text-xs font-bold text-white truncate max-w-[130px]">Memuat...</p>
-          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">@Denno.Admin User</span>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">@TAKOLA User</span>
         </div>
         <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-white transition font-medium cursor-pointer">
           Logout
@@ -125,7 +125,7 @@
     <!-- 1. TAB BERANDA -->
     <section id="tab-beranda" class="tab-content space-y-5">
       <div class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow-sm flex justify-between items-center">
-        <span>Versi Aplikasi : 2026.a (Revitalisasi Sarpras)</span>
+        <span>TAKOLA SIKKA (Tata Kelola Sekolah) - Versi Aplikasi : 2026.a (Program ProSN Revitalisasi)</span>
         <span class="text-xs bg-emerald-700 px-2.5 py-1 rounded">Aktif</span>
       </div>
 
@@ -203,9 +203,59 @@
           <div class="relative w-full h-64 md:h-72 rounded-lg overflow-hidden border border-slate-100 group">
             <img src="https://i.ibb.co.com/Qvf1sFgt/Gemini-Generated-Image-9al21o9al21o9al2-1.jpg" alt="Kantor Dinas Pendidikan Kepemudaan dan Olahraga Kab. Sikka" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-4 text-white">
-              <span class="text-[10px] font-extrabold uppercase bg-indigo-600/90 backdrop-blur-sm px-2.5 py-1 rounded-md w-fit mb-1 tracking-wider border border-indigo-400/30">INOVASI REVITALISASI</span>
+              <span class="text-[10px] font-extrabold uppercase bg-indigo-600/90 backdrop-blur-sm px-2.5 py-1 rounded-md w-fit mb-1 tracking-wider border border-indigo-400/30">INOVASI TAKOLA</span>
               <h4 class="text-sm font-extrabold tracking-wide drop-shadow-md">Dinas Pendidikan Kepemudaan dan Olahraga (DIKPORA)</h4>
               <p class="text-[11px] text-slate-200 font-medium">Jalan Mawar No. 12, Telp. (0382) 21190 - MAUMERE</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN PENJELASAN APLIKASI TAKOLA & PANDUAN PENGGUNAAN -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+        <!-- TUJUAN APLIKASI TAKOLA -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-indigo-700 font-bold text-sm border-b pb-2">
+            <span class="text-lg">💡</span>
+            <h3>Maksud & Tujuan Aplikasi TAKOLA</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>TAKOLA (Tata Kelola Sekolah)</strong> adalah sistem informasi inovasi daerah yang dikembangkan oleh <strong>Dinas Pendidikan Kepemudaan dan Olahraga (DIKPORA) Kabupaten Sikka</strong>. Aplikasi ini dirancang untuk mewujudkan transparansi, akurasi, dan percepatan verifikasi data pokok sekolah serta pemetaan kebutuhan revitalisasi sarana dan prasarana (Program ProSN).
+          </p>
+          <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
+            <li>Memetakan koordinat presisi (GIS) dan kondisi fisik riil gedung/ruang sekolah.</li>
+            <li>Mengintegrasikan riwayat kerusakan bangunan dengan dokumentasi foto GPS 6 sudut.</li>
+            <li>Menyediakan basis data validasi tingkat ketercapaian Standar Pelayanan Minimal (SPM).</li>
+            <li>Mempercepat alur verifikasi usulan bantuan fisik dan BOSP secara akuntabel.</li>
+          </ul>
+        </div>
+
+        <!-- PANDUAN LANGKAH OPERATOR -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm border-b pb-2">
+            <span class="text-lg">📋</span>
+            <h3>Panduan Alur Pengisian Data Berurutan</h3>
+          </div>
+          <div class="text-xs text-slate-600 space-y-2">
+            <div class="flex gap-2">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 1</span>
+              <p>Lengkapi data pada menu <strong>Data Sekolah</strong>, pastikan menentukan koordinat peta/GPS sekolah.</p>
+            </div>
+            <div class="flex gap-2">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 2</span>
+              <p>Input data lahan pada menu <strong>Tanah & Bangunan</strong>, lalu tambahkan bangunan fisik di atas tanah tersebut.</p>
+            </div>
+            <div class="flex gap-2">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 3</span>
+              <p>Input data <strong>Ruang</strong> dan unggah 6 sudut foto ber-GPS jika terdapat kerusakan sedang/berat.</p>
+            </div>
+            <div class="flex gap-2">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 4</span>
+              <p>Lengkapi Data <strong>GTK</strong>, Rekap <strong>Peserta Didik</strong>, dan <strong>Rombel</strong>.</p>
+            </div>
+            <div class="flex gap-2">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 5</span>
+              <p>Lakukan <strong>Sinkronisasi Data</strong> untuk mengirimkan laporan resmi ke Server Dinas.</p>
             </div>
           </div>
         </div>
@@ -432,10 +482,10 @@
               </div>
             </div>
 
-            <!-- TOMBOL PILIH TITIK DARI PETA INTERAKTIF -->
+            <!-- TOMBOL PILIH TITIK DARI PETA INTERAKTIF SATELLITE -->
             <div class="pt-1">
               <button type="button" onclick="bukaPetaModal()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs px-4 py-2.5 rounded-lg font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
-                <span>🗺️</span> Pilih Titik Lokasi dari Peta Interaktif (GIS) dengan Pencarian Nama Sekolah
+                <span>🗺️</span> Pilih Titik Lokasi dari Peta Citra Satelit & GPS (Google Maps Model)
               </button>
             </div>
           </div>
@@ -481,7 +531,7 @@
         </div>
       </div>
 
-      <!-- PANEL BANGUNAN (DAPODIK STYLE: TERKUNCI JIKA BELUM ADA TANAH) -->
+      <!-- PANEL BANGUNAN (DAPODIK STYLE) -->
       <div id="panelBangunan" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition-all duration-300">
         <div class="flex justify-between items-center mb-4">
           <div>
@@ -680,21 +730,43 @@
 
   </main>
 
-  <!-- MODAL PETA INTERAKTIF GIS DENGAN PENCARIAN SEKOLAH -->
+  <!-- MODAL PETA INTERAKTIF GIS SATELLITE + SEARCH + GPS AUTOMATIC -->
   <div id="modalPeta" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
-    <div class="bg-white rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col">
-      <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
-        <h3 class="text-sm font-bold flex items-center gap-2"><span>📍</span> Pilih Titik Lokasi Sekolah (Dilengkapi Search & GPS)</h3>
+    <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col">
+      <div class="bg-indigo-600 text-white px-6 py-3.5 flex justify-between items-center">
+        <h3 class="text-sm font-bold flex items-center gap-2"><span>📍</span> Pilih Titik Lokasi Sekolah (Model Satellite & Search Google Maps)</h3>
         <button onclick="tutupModalPeta()" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
       </div>
+      
       <div class="p-4 space-y-3">
-        <p class="text-xs text-slate-500">Gunakan kotak pencarian di pojok kiri atas peta untuk mencari nama sekolah Anda, atau klik langsung pada titik lokasi bangunan sekolah.</p>
-        <div id="mapContainer" class="w-full h-96 rounded-xl border z-0"></div>
+        <!-- TOOLBAR OPSI INPUT KOORDINAT SATELLITE & PASTE GOOGLE MAPS -->
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="dapatkanLokasiGPSPerangkat()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                <span>🎯</span> Deteksi Lokasi GPS Saya saat Ini
+              </button>
+              <button type="button" onclick="toggleMapType()" id="btnMapType" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                <span>🛰️</span> Mode Peta: Satelit
+              </button>
+            </div>
+            
+            <div class="flex items-center gap-2 w-full md:w-auto">
+              <input type="text" id="inpPasteCoords" placeholder="Tempel Teks Google Maps (Contoh: 8°42'09.7&quot;S 122°06'17.3&quot;E)" class="border rounded-lg px-2.5 py-1.5 text-xs w-full md:w-72 bg-white font-mono">
+              <button type="button" onclick="parseAndSetCoords()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition shrink-0 cursor-pointer">Terapkan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTAINER MAP LEAFLET -->
+        <div id="mapContainer" class="w-full h-96 rounded-xl border border-slate-300 z-0 shadow-inner"></div>
+
         <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border">
           <div><span class="font-semibold text-slate-500">Latitude Dipilih:</span> <span id="lblSelectedLat" class="font-mono font-bold text-indigo-700">-</span></div>
           <div><span class="font-semibold text-slate-500">Longitude Dipilih:</span> <span id="lblSelectedLong" class="font-mono font-bold text-indigo-700">-</span></div>
         </div>
       </div>
+
       <div class="bg-slate-50 px-6 py-3 border-t flex justify-end gap-2">
         <button onclick="tutupModalPeta()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-bold text-xs cursor-pointer">Batal</button>
         <button onclick="gunakanKoordinatPeta()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-xs shadow-sm cursor-pointer">Gunakan Koordinat Ini</button>
@@ -702,7 +774,7 @@
     </div>
   </div>
 
-  <!-- MODAL PREVIEW DOKUMEN / GAMBAR (PERBAIKAN TAMPILAN PREVIEW) -->
+  <!-- MODAL PREVIEW DOKUMEN / GAMBAR -->
   <div id="modalPreviewDokumen" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
@@ -727,7 +799,7 @@
       <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
         <div class="w-10 h-10 bg-indigo-600/30 border border-indigo-500 rounded-xl flex items-center justify-center text-xl sync-pulse">⚡</div>
         <div>
-          <h3 class="text-sm font-bold text-slate-100">Engine Sinkronisasi Data Pokok</h3>
+          <h3 class="text-sm font-bold text-slate-100">Engine Sinkronisasi TAKOLA SIKKA</h3>
           <p class="text-[11px] text-slate-400">Server Portal Revitalisasi Dinas Pendidikan</p>
         </div>
       </div>
@@ -1103,7 +1175,7 @@
       document.getElementById('sidebarOperator').innerText = opDisplay;
       document.getElementById('userNamaSekolah').innerText = namaSchDisplay;
 
-      document.getElementById('dapodikHeaderTitle').innerText = `${namaSchDisplay.toUpperCase()} - 2026/2027 (versi 2026.a)`;
+      document.getElementById('dapodikHeaderTitle').innerText = `${namaSchDisplay.toUpperCase()} - 2026/2027 (TAKOLA SIKKA)`;
       document.getElementById('cardHeaderNamaSekolah').innerText = namaSchDisplay.toUpperCase();
 
       document.getElementById('b_npsn').innerText = npsnDisplay || '-';
@@ -1313,7 +1385,6 @@
       }
     }
 
-    // PERBAIKAN 3: FUNGSI PREVIEW DOKUMEN & GAMBAR AGAR TAMPIL TERLIHAT JELAS
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -1361,9 +1432,12 @@
 
     function tutupModalPreview() { document.getElementById('modalPreviewDokumen').classList.add('hidden'); }
 
-    // PERBAIKAN 1: PETA INTERAKTIF GIS DENGAN SEARCH PENCARIAN NAMA SEKOLAH
+    // INTEGRASI PETA INTERAKTIF SATELLITE + GPS DETECT + PARSE GOOGLE MAPS COORDS
     let mapInstance = null;
     let markerInstance = null;
+    let streetLayer = null;
+    let satelliteLayer = null;
+    let currentIsSatellite = true;
     let tempLat = -8.621430;
     let tempLong = 122.215430;
 
@@ -1377,9 +1451,14 @@
 
       setTimeout(() => {
         if (!mapInstance) {
-          mapInstance = L.map('mapContainer').setView([tempLat, tempLong], 15);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapInstance);
-          
+          streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
+          // Layer Citra Satelit Google (google.cn/vt/lyrs=s)
+          satelliteLayer = L.tileLayer('https://www.google.cn/maps/vt?lyrs=s,h&x={x}&y={y}&z={z}', { maxZoom: 20 });
+
+          mapInstance = L.map('mapContainer', {
+            layers: [satelliteLayer]
+          }).setView([tempLat, tempLong], 16);
+
           markerInstance = L.marker([tempLat, tempLong], { draggable: true }).addTo(mapInstance);
           
           markerInstance.on('dragend', function () {
@@ -1396,18 +1475,16 @@
             document.getElementById('lblSelectedLong').innerText = tempLong;
           });
 
-          // Menambahkan Control Geocoder (Search Bar pada Peta untuk pencarian nama sekolah/lokasi)
           const geocoder = L.Control.geocoder({
             defaultMarkGeocode: false,
-            placeholder: 'Cari Nama Sekolah atau Lokasi...',
+            placeholder: 'Cari Nama Sekolah / Jalan / Desa...',
             errorMessage: 'Lokasi tidak ditemukan.'
           })
           .on('markgeocode', function(e) {
-            const bbox = e.geocode.bbox;
             const center = e.geocode.center;
             tempLat = center.lat.toFixed(6);
             tempLong = center.lng.toFixed(6);
-            mapInstance.setView(center, 16);
+            mapInstance.setView(center, 17);
             markerInstance.setLatLng(center);
             document.getElementById('lblSelectedLat').innerText = tempLat;
             document.getElementById('lblSelectedLong').innerText = tempLong;
@@ -1415,11 +1492,83 @@
           .addTo(mapInstance);
 
         } else {
-          mapInstance.setView([tempLat, tempLong], 15);
+          mapInstance.setView([tempLat, tempLong], 16);
           markerInstance.setLatLng([tempLat, tempLong]);
           mapInstance.invalidateSize();
         }
       }, 300);
+    }
+
+    function toggleMapType() {
+      const btn = document.getElementById('btnMapType');
+      if (currentIsSatellite) {
+        mapInstance.removeLayer(satelliteLayer);
+        mapInstance.addLayer(streetLayer);
+        btn.innerHTML = '<span>🗺️</span> Mode Peta: Jalanan';
+        currentIsSatellite = false;
+      } else {
+        mapInstance.removeLayer(streetLayer);
+        mapInstance.addLayer(satelliteLayer);
+        btn.innerHTML = '<span>🛰️</span> Mode Peta: Satelit';
+        currentIsSatellite = true;
+      }
+    }
+
+    function dapatkanLokasiGPSPerangkat() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          tempLat = position.coords.latitude.toFixed(6);
+          tempLong = position.coords.longitude.toFixed(6);
+          mapInstance.setView([tempLat, tempLong], 17);
+          markerInstance.setLatLng([tempLat, tempLong]);
+          document.getElementById('lblSelectedLat').innerText = tempLat;
+          document.getElementById('lblSelectedLong').innerText = tempLong;
+          alert(`Lokasi GPS Anda berhasil terdeteksi!\nLatitude: ${tempLat}\nLongitude: ${tempLong}`);
+        }, (error) => {
+          alert('Gagal mendeteksi GPS. Pastikan izin akses lokasi/GPS pada browser Anda telah diaktifkan.');
+        }, { enableHighAccuracy: true });
+      } else {
+        alert('Browser Anda tidak mendukung fitur Geolocation GPS.');
+      }
+    }
+
+    function parseAndSetCoords() {
+      const inputVal = document.getElementById('inpPasteCoords').value.trim();
+      if (!inputVal) return alert('Silakan tempel teks koordinat dari Google Maps terlebih dahulu.');
+
+      // Match format DMS Google Maps (8°42'09.7"S 122°06'17.3"E)
+      const dmsRegex = /(-?\d+)\Delta*°\s*(\d+)\s*['’]\s*([\d.]+)\s*["”]?\s*([NS])\s*(-?\d+)\Delta*°\s*(\d+)\s*['’]\s*([\d.]+)\s*["”]?\s*([EW])/i;
+      // Match format Decimal (-8.702700, 122.104800)
+      const decimalRegex = /(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/;
+
+      let matchDms = inputVal.match(dmsRegex);
+      let matchDec = inputVal.match(decimalRegex);
+
+      if (matchDms) {
+        let latDeg = parseFloat(matchDms[1]), latMin = parseFloat(matchDms[2]), latSec = parseFloat(matchDms[3]), latDir = matchDms[4].toUpperCase();
+        let longDeg = parseFloat(matchDms[5]), longMin = parseFloat(matchDms[6]), longSec = parseFloat(matchDms[7]), longDir = matchDms[8].toUpperCase();
+
+        let latCalculated = latDeg + (latMin / 60) + (latSec / 3600);
+        if (latDir === 'S') latCalculated = -latCalculated;
+
+        let longCalculated = longDeg + (longMin / 60) + (longSec / 3600);
+        if (longDir === 'W') longCalculated = -longCalculated;
+
+        tempLat = latCalculated.toFixed(6);
+        tempLong = longCalculated.toFixed(6);
+      } else if (matchDec) {
+        tempLat = parseFloat(matchDec[1]).toFixed(6);
+        tempLong = parseFloat(matchDec[2]).toFixed(6);
+      } else {
+        alert('Format koordinat tidak dikenali. Tempelkan format Google Maps seperti: 8°42\'09.7"S 122°06\'17.3"E atau -8.702700, 122.104800');
+        return;
+      }
+
+      mapInstance.setView([tempLat, tempLong], 17);
+      markerInstance.setLatLng([tempLat, tempLong]);
+      document.getElementById('lblSelectedLat').innerText = tempLat;
+      document.getElementById('lblSelectedLong').innerText = tempLong;
+      alert(`Koordinat Google Maps Berhasil Diterapkan:\nLatitude: ${tempLat}\nLongitude: ${tempLong}`);
     }
 
     function tutupModalPeta() { document.getElementById('modalPeta').classList.add('hidden'); }
@@ -1457,7 +1606,6 @@
     }
 
     function bukaModal(id) { 
-      // PERBAIKAN 2: Kosongkan field form saat membuka modal bangunan agar form tidak menyimpan cache data sebelumnya
       if(id === 'modalBangunan') {
         document.getElementById('edit_b_id').value = '';
         document.getElementById('b_nama').value = '';
@@ -1520,11 +1668,9 @@
       document.getElementById('statSiswa').innerText = totalSiswa;
     }
 
-    // PERBAIKAN 2: FUNGSI UPDATE TAMPILAN PANEL BANGUNAN ALA DAPODIK
     function updateStatusPanelBangunanDapodik() {
       const panel = document.getElementById('panelBangunan');
       const btnTambah = document.getElementById('btnTambahBangunan');
-      const wrapperTabel = document.getElementById('wrapperTabelBangunan');
 
       if (listTanah.length === 0) {
         panel.classList.add('opacity-40', 'pointer-events-none', 'select-none');
