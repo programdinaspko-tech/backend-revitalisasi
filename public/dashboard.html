@@ -56,7 +56,6 @@
       </nav>
     </div>
 
-    <!-- Admin Profile & Logout -->
     <div class="p-4 border-t border-slate-800">
       <div class="flex items-center justify-between">
         <div class="sidebar-text">
@@ -73,7 +72,6 @@
   <!-- MAIN CONTENT AREA -->
   <main class="flex-1 p-6 overflow-y-auto">
     
-    <!-- HEADER NAVBAR DINAS -->
     <header class="bg-slate-800 text-white rounded-xl p-4 mb-6 shadow-md flex justify-between items-center">
       <div class="flex items-center gap-3">
         <button onclick="toggleSidebarDinas()" class="text-xl cursor-pointer hover:text-indigo-400 transition" title="Sembunyikan/Tampilkan Sidebar">≡</button>
@@ -718,13 +716,13 @@
       }
       tbody.innerHTML = masterSekolah.map(function(item) {
         return '<tr class="hover:bg-slate-50 border-b border-slate-100">' +
-          '<td class="p-3.5"><p class="font-mono font-bold text-indigo-700">' + (item.npsn || '-') + '</p><p class="font-bold text-slate-900">' + item.nama_sekolah + '</p></td>' +
+          '<td class="p-3.5"><p class="font-mono font-bold text-indigo-700">' + (item.npsn || '-') + '</p><p class="font-bold text-slate-900">' + (item.nama_sekolah || item.nama || '-') + '</p></td>' +
           '<td class="p-3.5"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (item.jenjang || 'SD') + '</span></td>' +
           '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_kepala_sekolah || '-') + '</p></td>' +
           '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.operator || '-') + '</p></td>' +
           '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_bank || '-') + '</p></td>' +
           '<td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>' +
-          '<td class="p-3.5 text-center"><button onclick="bukaDetailSekolah(\'' + (item.npsn || item.nama_sekolah) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>' +
+          '<td class="p-3.5 text-center"><button onclick="bukaDetailSekolah(\'' + (item.npsn || item.nama_sekolah || item.nama) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>' +
         '</tr>';
       }).join('');
     }
@@ -740,23 +738,27 @@
 
     function bukaDetailSekolah(identifier) {
       masterSekolah = getRegisteredSekolahList();
-      let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier; });
+      let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier || s.nama === identifier; });
       if (!sch) return alert('Data detail sekolah tidak ditemukan.');
 
-      document.getElementById('modalDetailTitle').innerText = 'Detail Profil: ' + sch.nama_sekolah;
+      document.getElementById('modalDetailTitle').innerText = 'Detail Profil: ' + (sch.nama_sekolah || sch.nama || '-');
       let contentHtml = '<div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">' +
-          '<div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">' + sch.nama_sekolah + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">' + (sch.nama_sekolah || sch.nama || '-') + '</p></div>' +
           '<div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">' + (sch.npsn || '-') + '</p></div>' +
           '<div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">' + (sch.jenjang || 'SD') + '</p></div>' +
-          '<div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">' + (sch.status_sekolah || 'Negeri') + ' / Akred:' + (sch.akreditasi || 'B') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">' + (sch.status_sekolah || '-') + ' / Akred:' + (sch.akreditasi || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">SK Pendirian / Tgl:</p><p class="font-bold">' + (sch.sk_pendirian || '-') + ' / ' + (sch.tgl_sk_pendirian || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Alamat / Kecamatan:</p><p class="font-bold">' + (sch.alamat || '-') + ', Kec. ' + (sch.kecamatan || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Kabupaten / Provinsi:</p><p class="font-bold">' + (sch.kabupaten || '-') + ' - ' + (sch.provinsi || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Daya Listrik / Air:</p><p class="font-bold">' + (sch.daya_listrik || '-') + ' Watt / ' + (sch.sumber_air || '-') + '</p></div>' +
         '</div>' +
-        '<div class="space-y-2">' +
-          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Kontak</h4>' +
+        '<div class="space-y-2 mt-3">' +
+          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Rekening Bank</h4>' +
           '<div class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border">' +
-            '<div><p class="text-slate-500">Kepala Sekolah:</p><p class="font-bold">' + (sch.nama_kepala_sekolah || '-') + '</p></div>' +
-            '<div><p class="text-slate-500">NIP Kepala Sekolah:</p><p class="font-bold font-mono">' + (sch.nip_kepala_sekolah || '-') + '</p></div>' +
-            '<div><p class="text-slate-500">Operator Sekolah:</p><p class="font-bold">' + (sch.operator || '-') + '</p></div>' +
-            '<div><p class="text-slate-500">No. WhatsApp:</p><p class="font-bold">' + (sch.wa_operator || '-') + '</p></div>' +
+            '<div><p class="text-slate-500">Kepala Sekolah:</p><p class="font-bold">' + (sch.nama_kepala_sekolah || '-') + ' (NIP: ' + (sch.nip_kepala_sekolah || '-') + ')</p></div>' +
+            '<div><p class="text-slate-500">Operator & WA:</p><p class="font-bold">' + (sch.operator || '-') + ' (' + (sch.wa_operator || '-') + ')</p></div>' +
+            '<div><p class="text-slate-500">Bank & Rekening:</p><p class="font-bold">' + (sch.nama_bank || '-') + ' - ' + (sch.no_rekening || '-') + ' a.n ' + (sch.pemilik_rekening || '-') + '</p></div>' +
+            '<div><p class="text-slate-500">Koordinat (Lat, Long):</p><p class="font-bold font-mono">' + (sch.latitude || '-') + ', ' + (sch.longitude || '-') + '</p></div>' +
           '</div>' +
         '</div>';
       document.getElementById('modalDetailContent').innerHTML = contentHtml;
@@ -773,7 +775,7 @@
       let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
 
       syncList.forEach(function(s) {
-        let namaSch = s.nama_sekolah;
+        let namaSch = s.nama_sekolah || s.nama;
         if (s.tanah && Array.isArray(s.tanah)) {
           s.tanah.forEach(function(t) { allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: (t.panjang || 0) + ' x ' + (t.lebar || 0), luas: ((t.panjang || 0) * (t.lebar || 0)) + ' m²', sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }); });
         }
@@ -883,7 +885,7 @@
       let allGTK = [], allSiswa = [], allRombel = [];
 
       syncList.forEach(function(s) {
-        let namaSch = s.nama_sekolah;
+        let namaSch = s.nama_sekolah || s.nama;
         if (s.gtk && Array.isArray(s.gtk)) {
           s.gtk.forEach(function(g) { allGTK.push({ nama_sekolah: namaSch, nama: g.nama, nip: g.nip || '-', jk: g.jk, kualifikasi: g.kualifikasi, status: g.status, serdik: g.serdik, jabatan: g.jabatan, jam_mengajar: g.jam }); });
         }
@@ -957,7 +959,7 @@
       let filterJenjang = document.getElementById('filterSyncJenjang') ? document.getElementById('filterSyncJenjang').value : 'ALL';
 
       let filtered = syncList.filter(function(s) {
-        let matchName = (s.nama_sekolah || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
+        let matchName = (s.nama_sekolah || s.nama || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
         let matchJenjang = filterJenjang === 'ALL' || (s.jenjang || 'SD').toUpperCase() === filterJenjang.toUpperCase();
         return matchName && matchJenjang && s.jumlah_item > 0;
       });
@@ -970,7 +972,7 @@
       }
       tbody.innerHTML = filtered.map(function(s) {
         return '<tr class="border-b hover:bg-slate-50">' +
-          '<td class="p-3.5 font-bold">' + s.nama_sekolah + '</td>' +
+          '<td class="p-3.5 font-bold">' + (s.nama_sekolah || s.nama || '-') + '</td>' +
           '<td class="p-3.5 font-mono text-indigo-700 font-bold">' + (s.npsn || '-') + '</td>' +
           '<td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (s.jenjang || 'SD') + '</span></td>' +
           '<td class="p-3.5 text-center text-slate-600">' + new Date(s.created_at || Date.now()).toLocaleString('id-ID') + '</td>' +
@@ -992,7 +994,7 @@
 
       tbody.innerHTML = users.map(function(u, index) {
         const usernameDisplay = u.operator || u.username || 'OPS';
-        const instansiDisplay = u.nama_sekolah || u.instansi || 'SEKOLAH';
+        const instansiDisplay = u.nama_sekolah || u.nama || u.instansi || 'SEKOLAH';
         const statusUser = u.status || 'Pending';
         const isApproved = statusUser === 'Disetujui' || statusUser === 'Aktif';
         const isRejected = statusUser === 'Ditolak';
@@ -1054,12 +1056,13 @@
       }
     }
 
+    // PENANGANAN HAPUS USER: Pembersihan Total (Clean Cascade Wipe)
     function hapusUser(index) {
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
         let targetUser = users[index];
         let targetNPSN = targetUser.npsn;
-        let targetNama = targetUser.nama_sekolah || targetUser.username || targetUser.instansi;
+        let targetNama = targetUser.nama_sekolah || targetUser.nama || targetUser.username || targetUser.instansi;
 
         let konfirmasi = confirm('⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "' + targetNama + '" (NPSN: ' + (targetNPSN || '-') + ')?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!');
         
@@ -1068,12 +1071,16 @@
           localStorage.setItem('registered_users', JSON.stringify(users));
 
           let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-          syncList = syncList.filter(function(s) { return s.npsn !== targetNPSN && s.nama_sekolah !== targetNama; });
+          syncList = syncList.filter(function(s) { 
+            return s.npsn !== targetNPSN && s.nama_sekolah !== targetNama && s.nama !== targetNama; 
+          });
           localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
 
           ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(function(key) {
             let list = JSON.parse(localStorage.getItem(key) || '[]');
-            list = list.filter(function(item) { return item.npsn !== targetNPSN && item.nama_sekolah !== targetNama; });
+            list = list.filter(function(item) { 
+              return item.npsn !== targetNPSN && item.nama_sekolah !== targetNama && item.nama !== targetNama; 
+            });
             localStorage.setItem(key, JSON.stringify(list));
           });
 
@@ -1081,6 +1088,7 @@
           fetchUsers();
           updateBerandaStats();
           renderGrafikBeranda();
+          fetchSekolah();
         }
       }
     }
@@ -1090,13 +1098,13 @@
       masterGTK = JSON.parse(localStorage.getItem('master_gtk')) || [];
       masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
 
-      let names = masterSekolah.map(function(s) { return s.nama_sekolah; });
+      let names = masterSekolah.map(function(s) { return s.nama_sekolah || s.nama; });
       let reg = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if(document.getElementById('statTotalSekolah')) document.getElementById('statTotalSekolah').innerText = masterSekolah.length;
       if(document.getElementById('statSinkron')) document.getElementById('statSinkron').innerText = masterSekolah.length;
       if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(function(x) { return x.status === 'Pending'; }).length;
-      if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = masterGTK.filter(function(g) { return names.includes(g.nama_sekolah); }).length;
-      if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = masterSiswaKelas.filter(function(s) { return names.includes(s.nama_sekolah); }).reduce(function(acc,c) { return acc+(c.total_aktif||((parseInt(c.u1_l)||0)+(parseInt(c.u1_p)||0)+(parseInt(c.u2_l)||0)+(parseInt(c.u2_p)||0))); }, 0);
+      if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = masterGTK.filter(function(g) { return names.includes(g.nama_sekolah || g.nama); }).length;
+      if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = masterSiswaKelas.filter(function(s) { return names.includes(s.nama_sekolah || s.nama); }).reduce(function(acc,c) { return acc+(c.total_aktif||((parseInt(c.u1_l)||0)+(parseInt(c.u1_p)||0)+(parseInt(c.u2_l)||0)+(parseInt(c.u2_p)||0))); }, 0);
     }
 
     function exportTabelKeExcel(containerId, namaFile) {
