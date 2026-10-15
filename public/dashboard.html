@@ -1061,34 +1061,49 @@
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
         let targetUser = users[index];
-        let targetNPSN = targetUser.npsn;
-        let targetNama = targetUser.nama_sekolah || targetUser.nama || targetUser.username || targetUser.instansi;
+        let targetNPSN = (targetUser.npsn || '').trim();
+        let targetNama = (targetUser.nama_sekolah || targetUser.nama || targetUser.username || targetUser.instansi || '').trim().toLowerCase();
 
         let konfirmasi = confirm('⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "' + targetNama + '" (NPSN: ' + (targetNPSN || '-') + ')?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!');
         
         if (konfirmasi) {
+          // 1. Hapus user dari daftar registered_users
           users.splice(index, 1);
           localStorage.setItem('registered_users', JSON.stringify(users));
 
+          // 2. Hapus total dari master_sinkron_list (Penyebab utama data sekolah masih muncul)
           let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-          syncList = syncList.filter(function(s) { 
-            return s.npsn !== targetNPSN && s.nama_sekolah !== targetNama && s.nama !== targetNama; 
+          syncList = syncList.filter(function(s) {
+            let sNpsn = (s.npsn || '').trim();
+            let sNama = (s.nama_sekolah || s.nama || '').trim().toLowerCase();
+            // Cocokkan berdasarkan NPSN atau Nama Sekolah
+            let isMatchNpsn = targetNPSN && sNpsn === targetNPSN;
+            let isMatchNama = targetNama && sNama === targetNama;
+            return !(isMatchNpsn || isMatchNama);
           });
           localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
 
+          // 3. Hapus juga dari seluruh master data terkait lainnya (cascade wipe)
           ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(function(key) {
             let list = JSON.parse(localStorage.getItem(key) || '[]');
-            list = list.filter(function(item) { 
-              return item.npsn !== targetNPSN && item.nama_sekolah !== targetNama && item.nama !== targetNama; 
+            list = list.filter(function(item) {
+              let itemNpsn = (item.npsn || '').trim();
+              let itemNama = (item.nama_sekolah || item.nama || '').trim().toLowerCase();
+              let matchNpsn = targetNPSN && itemNpsn === targetNPSN;
+              let matchNama = targetNama && itemNama === targetNama;
+              return !(matchNpsn || matchNama);
             });
             localStorage.setItem(key, JSON.stringify(list));
           });
 
           alert('User dan seluruh data rekapitulasi sekolah terkait telah BERHASIL dihapus total dari sistem!');
+          
+          // Refresh ulang tampilan admin agar data langsung hilang seketika
           fetchUsers();
           updateBerandaStats();
           renderGrafikBeranda();
           fetchSekolah();
+          populateDropdowns();
         }
       }
     }
