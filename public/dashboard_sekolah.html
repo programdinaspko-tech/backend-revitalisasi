@@ -8,8 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Leaflet CSS untuk Peta Interaktif -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet Control Geocoder CSS (Untuk fitur Search Lokasi Sekolah di Map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet Control Geocoder JS -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
     .sidebar-active { background-color: #1e293b; border-left: 4px solid #38bdf8; }
@@ -206,24 +210,6 @@
           </div>
         </div>
       </div>
-
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="bg-rose-600 text-white px-4 py-3 font-bold text-sm flex items-center gap-2">
-          <span>📑</span> Informasi Pendataan Sarpras
-        </div>
-        <div class="p-4 text-xs space-y-2.5 text-slate-600">
-          <p>• <b>Versi Aplikasi:</b> v.2026.a</p>
-          <p>• <b>Versi Database:</b> 2.98d</p>
-          <hr class="my-2">
-          <p class="font-bold text-slate-800">Panduan Revitalisasi:</p>
-          <ul class="list-disc pl-4 space-y-1">
-            <li>Lengkapi profil pada menu <b>Data Sekolah</b>.</li>
-            <li>Isi Kualifikasi & Jam Mengajar pada menu <b>Data GTK</b>.</li>
-            <li>Isi rincian DO & PIP pada menu <b>Peserta Didik</b>.</li>
-            <li>Upload 6 foto sudut pandang pada ruang bertipe Rusak Sedang/Berat.</li>
-          </ul>
-        </div>
-      </div>
     </section>
 
     <!-- 2. TAB DATA SEKOLAH -->
@@ -233,9 +219,9 @@
         <div class="border-b pb-3 flex justify-between items-center">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Profil & Infrastruktur Sekolah</h3>
-            <p class="text-xs text-slate-500">Lengkapi data pokok, legalitas, rekening operasional, serta utilitas pendukung sekolah.</p>
+            <p class="text-xs text-slate-500">Seluruh form di bawah ini bersifat wajib diisi untuk kelengkapan data pokok.</p>
           </div>
-          <span class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Form Terstruktur</span>
+          <span class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Wajib Diisi Lengkap</span>
         </div>
 
         <form id="formSekolah" class="space-y-6" onsubmit="event.preventDefault(); simpanProfilSekolah();">
@@ -246,33 +232,33 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Sekolah <span class="text-rose-500">*Terkunci</span></label>
-                <input type="text" id="inpNamaSekolah" readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-slate-700 cursor-not-allowed">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Sekolah <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpNamaSekolah" required class="w-full border rounded-lg p-2 text-sm bg-slate-50 font-bold text-slate-800">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">NPSN <span class="text-rose-500">*Terkunci</span></label>
-                <input type="text" id="inpNpsn" readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-mono font-bold text-indigo-700 cursor-not-allowed">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">NPSN <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpNpsn" required class="w-full border rounded-lg p-2 text-sm bg-slate-50 font-mono font-bold text-indigo-700">
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Bentuk Pendidikan</label>
-                <select id="inpBentuk" onchange="renderFormSiswaLabels();" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Bentuk Pendidikan <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpBentuk" required onchange="renderFormSiswaLabels();" class="w-full border rounded-lg p-2 text-sm">
                   <option value="SD">SD</option>
                   <option value="SMP">SMP</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sekolah</label>
-                <select id="inpStatus" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sekolah <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpStatus" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="Negeri" selected>Negeri</option>
                   <option value="Swasta">Swasta</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Akreditasi</label>
-                <select id="inpAkreditasi" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Akreditasi <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpAkreditasi" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="A">A</option>
                   <option value="B" selected>B</option>
                   <option value="C">C</option>
@@ -282,23 +268,23 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">No. SK Pendirian / Operasional</label>
-                <input type="text" id="inpSk" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">No. SK Pendirian / Operasional <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpSk" required class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal SK Pendirian</label>
-                <input type="date" id="inpTglSk" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal SK Pendirian <span class="text-rose-500">*Wajib</span></label>
+                <input type="date" id="inpTglSk" required class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div class="md:col-span-2">
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Alamat Jalan / Desa / Kelurahan</label>
-                <input type="text" id="inpAlamat" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Alamat Jalan / Desa / Kelurahan <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpAlamat" required class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                <select id="inpKecamatan" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpKecamatan" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="Alok">Alok</option>
                   <option value="Alok Barat">Alok Barat</option>
                   <option value="Alok Timur">Alok Timur</option>
@@ -322,19 +308,19 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Kode Pos</label>
-                <input type="text" id="inpKodePos" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Kode Pos <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpKodePos" required class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Kabupaten / Kota</label>
-                <input type="text" id="inpKab" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Kabupaten / Kota <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpKab" required class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Provinsi</label>
-                <input type="text" id="inpProv" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Provinsi <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpProv" required class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
           </div>
@@ -359,8 +345,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Operator Sekolah <span class="text-rose-500">*Terkunci</span></label>
-                <input type="text" id="inpOperator" readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-slate-700 cursor-not-allowed">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Operator Sekolah <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpOperator" required class="w-full border rounded-lg p-2 text-sm bg-slate-50 font-bold text-slate-700">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">No. Kontak / WhatsApp Operator (Wajib Angka) <span class="text-rose-500">*Wajib</span></label>
@@ -378,8 +364,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Bank</label>
-                <select id="inpBank" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Bank <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpBank" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="Bank NTT" selected>Bank NTT</option>
                   <option value="Bank BRI">Bank BRI</option>
                   <option value="Bank BNI">Bank BNI</option>
@@ -387,12 +373,12 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">No. Rekening Sekolah</label>
-                <input type="text" id="inpNoRek" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">No. Rekening Sekolah <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpNoRek" required class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pemilik Rekening</label>
-                <input type="text" id="inpNamaRek" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pemilik Rekening <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpNamaRek" required class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
           </div>
@@ -406,8 +392,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Sumber Listrik & Daya (VA)</label>
-                <select id="inpListrik" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Sumber Listrik & Daya (VA) <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpListrik" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="PLN" selected>PLN</option>
                   <option value="Diesel">Diesel</option>
                   <option value="Tenaga Surya">Tenaga Surya</option>
@@ -416,8 +402,8 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Akses Internet</label>
-                <select id="inpInternet" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Akses Internet <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpInternet" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="Wifi" selected>Wifi</option>
                   <option value="Modem(Router)">Modem (Router)</option>
                   <option value="Starlink">Starlink</option>
@@ -426,8 +412,8 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Sumber Air Bersih</label>
-                <select id="inpAir" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Sumber Air Bersih <span class="text-rose-500">*Wajib</span></label>
+                <select id="inpAir" required class="w-full border rounded-lg p-2 text-sm">
                   <option value="Sumur / PDAM" selected>Sumur Bor / PDAM</option>
                   <option value="Mata Air">Mata Air</option>
                   <option value="Tadah Hujan">Tadah Hujan</option>
@@ -437,19 +423,19 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Lintang (Latitude)</label>
-                <input type="text" id="inpLat" class="w-full border rounded-lg p-2 text-sm font-mono">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Lintang (Latitude) <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpLat" required readonly class="w-full border rounded-lg p-2 text-sm font-mono bg-slate-50">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Bujur (Longitude)</label>
-                <input type="text" id="inpLong" class="w-full border rounded-lg p-2 text-sm font-mono">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Bujur (Longitude) <span class="text-rose-500">*Wajib</span></label>
+                <input type="text" id="inpLong" required readonly class="w-full border rounded-lg p-2 text-sm font-mono bg-slate-50">
               </div>
             </div>
 
             <!-- TOMBOL PILIH TITIK DARI PETA INTERAKTIF -->
             <div class="pt-1">
               <button type="button" onclick="bukaPetaModal()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs px-4 py-2.5 rounded-lg font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
-                <span>🗺️</span> Pilih Titik Lokasi dari Peta Interaktif (GIS)
+                <span>🗺️</span> Pilih Titik Lokasi dari Peta Interaktif (GIS) dengan Pencarian Nama Sekolah
               </button>
             </div>
           </div>
@@ -469,7 +455,7 @@
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><span>🏞️</span> Data Tanah Sekolah</h3>
-            <p class="text-xs text-slate-500">Klik salah satu baris tanah untuk menampilkan bangunan di atasnya.</p>
+            <p class="text-xs text-slate-500">Klik salah satu baris tanah untuk membuka menu bangunan di bawahnya.</p>
           </div>
           <button onclick="bukaModalTanah()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
             <span>+</span> Tambah Tanah
@@ -495,7 +481,8 @@
         </div>
       </div>
 
-      <div id="panelBangunan" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+      <!-- PANEL BANGUNAN (DAPODIK STYLE: TERKUNCI JIKA BELUM ADA TANAH) -->
+      <div id="panelBangunan" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition-all duration-300">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 id="labelJudulBangunan" class="text-base font-bold text-emerald-800 flex items-center gap-2">
@@ -503,12 +490,12 @@
             </h3>
             <p class="text-xs text-slate-500">Daftar bangunan fisik yang berdiri di atas tanah terpilih.</p>
           </div>
-          <button onclick="bukaModalBangunan()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
+          <button id="btnTambahBangunan" onclick="bukaModalBangunan()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
             <span>+</span> Tambah Bangunan
           </button>
         </div>
 
-        <div class="overflow-x-auto">
+        <div id="wrapperTabelBangunan" class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead class="bg-emerald-50 text-emerald-900 uppercase font-bold border-b border-emerald-200">
               <tr>
@@ -693,15 +680,15 @@
 
   </main>
 
-  <!-- MODAL PETA INTERAKTIF GIS -->
+  <!-- MODAL PETA INTERAKTIF GIS DENGAN PENCARIAN SEKOLAH -->
   <div id="modalPeta" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col">
       <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
-        <h3 class="text-sm font-bold flex items-center gap-2"><span>📍</span> Pilih Titik Lokasi Sekolah pada Peta Interaktif</h3>
+        <h3 class="text-sm font-bold flex items-center gap-2"><span>📍</span> Pilih Titik Lokasi Sekolah (Dilengkapi Search & GPS)</h3>
         <button onclick="tutupModalPeta()" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
       </div>
       <div class="p-4 space-y-3">
-        <p class="text-xs text-slate-500">Geser peta atau klik pada lokasi bangunan sekolah Anda untuk menentukan titik koordinat Latitude dan Longitude secara akurat.</p>
+        <p class="text-xs text-slate-500">Gunakan kotak pencarian di pojok kiri atas peta untuk mencari nama sekolah Anda, atau klik langsung pada titik lokasi bangunan sekolah.</p>
         <div id="mapContainer" class="w-full h-96 rounded-xl border z-0"></div>
         <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border">
           <div><span class="font-semibold text-slate-500">Latitude Dipilih:</span> <span id="lblSelectedLat" class="font-mono font-bold text-indigo-700">-</span></div>
@@ -715,7 +702,7 @@
     </div>
   </div>
 
-  <!-- MODAL PREVIEW DOKUMEN / GAMBAR -->
+  <!-- MODAL PREVIEW DOKUMEN / GAMBAR (PERBAIKAN TAMPILAN PREVIEW) -->
   <div id="modalPreviewDokumen" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
@@ -724,7 +711,7 @@
         </h3>
         <button onclick="tutupModalPreview()" class="text-white hover:text-slate-200 font-bold text-lg shrink-0 cursor-pointer">✕</button>
       </div>
-      <div class="p-4 bg-slate-100 flex-1 overflow-y-auto flex items-center justify-center min-h-[400px]">
+      <div class="p-4 bg-slate-100 flex-1 overflow-y-auto flex items-center justify-center min-h-[450px]">
         <div id="previewContainerContent" class="w-full h-full flex items-center justify-center"></div>
       </div>
       <div class="bg-white px-6 py-3 border-t flex justify-between items-center shrink-0">
@@ -1035,7 +1022,7 @@
       npsn: activeUser.npsn || '',
       bentuk: jenjangLogin || 'SD',
       status: 'Negeri',
-      akreditasi: '',
+      akreditasi: 'B',
       sk: '',
       tglSk: '',
       alamat: '',
@@ -1047,14 +1034,14 @@
       nipKasek: '',
       operator: activeUser.operator || activeUser.username || '',
       hpOperator: '',
-      bank: '',
+      bank: 'Bank NTT',
       noRek: '',
       namaRek: '',
-      listrik: '',
-      internet: '',
-      air: '',
-      lat: '',
-      long: ''
+      listrik: 'PLN',
+      internet: 'Wifi',
+      air: 'Sumur / PDAM',
+      lat: '-8.621430',
+      long: '122.215430'
     };
 
     let listTanah = JSON.parse(localStorage.getItem('sch_tanah_' + storageKey)) || (existingMaster && existingMaster.tanah ? existingMaster.tanah : []);
@@ -1135,7 +1122,7 @@
       document.getElementById('inpNpsn').value = npsnDisplay;
       document.getElementById('inpBentuk').value = dataSekolah.bentuk || 'SD';
       document.getElementById('inpStatus').value = dataSekolah.status || 'Negeri';
-      document.getElementById('inpAkreditasi').value = dataSekolah.akreditasi || '';
+      document.getElementById('inpAkreditasi').value = dataSekolah.akreditasi || 'B';
       document.getElementById('inpSk').value = dataSekolah.sk || '';
       document.getElementById('inpTglSk').value = dataSekolah.tglSk || '';
       document.getElementById('inpAlamat').value = dataSekolah.alamat || '';
@@ -1150,11 +1137,11 @@
       document.getElementById('inpBank').value = dataSekolah.bank || 'Bank NTT';
       document.getElementById('inpNoRek').value = dataSekolah.noRek || '';
       document.getElementById('inpNamaRek').value = dataSekolah.namaRek || '';
-      document.getElementById('inpListrik').value = dataSekolah.listrik || '';
-      document.getElementById('inpInternet').value = dataSekolah.internet || '';
-      document.getElementById('inpAir').value = dataSekolah.air || '';
-      document.getElementById('inpLat').value = dataSekolah.lat || '';
-      document.getElementById('inpLong').value = dataSekolah.long || '';
+      document.getElementById('inpListrik').value = dataSekolah.listrik || 'PLN';
+      document.getElementById('inpInternet').value = dataSekolah.internet || 'Wifi';
+      document.getElementById('inpAir').value = dataSekolah.air || 'Sumur / PDAM';
+      document.getElementById('inpLat').value = dataSekolah.lat || '-8.621430';
+      document.getElementById('inpLong').value = dataSekolah.long || '122.215430';
 
       renderFormSiswaLabels();
     }
@@ -1188,6 +1175,7 @@
           console.error("Gagal memuat profil dari API:", error);
         }
       }
+      updateStatusPanelBangunanDapodik();
     });
 
     function simpanProfilSekolah() {
@@ -1325,6 +1313,7 @@
       }
     }
 
+    // PERBAIKAN 3: FUNGSI PREVIEW DOKUMEN & GAMBAR AGAR TAMPIL TERLIHAT JELAS
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -1339,9 +1328,9 @@
 
       if (!fileData || fileData === 'undefined' || fileData === 'null' || String(fileData).trim() === '') {
         container.innerHTML = `
-          <div class="text-center space-y-3 py-10">
+          <div class="text-center space-y-3 py-12">
             <div class="text-5xl text-amber-500">⚠️</div>
-            <p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik.</p>
+            <p class="text-sm font-bold text-slate-700">File dokumen belum diunggah atau belum tersedia.</p>
           </div>`;
         return;
       }
@@ -1350,28 +1339,29 @@
 
       if (strData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || strData.toLowerCase().endsWith('.pdf')) {
         container.innerHTML = `
-          <div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300">
+          <div class="w-full h-[520px] bg-white rounded-xl overflow-hidden border border-slate-300 shadow-inner">
             <iframe src="${strData}" class="w-full h-full" frameborder="0"></iframe>
           </div>`;
       } 
-      else if (strData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(strData)) {
+      else if (strData.startsWith('data:image/') || strData.startsWith('http') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(strData)) {
         container.innerHTML = `
-          <div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto">
-            <img src="${strData}" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md">
+          <div class="w-full max-h-[520px] flex items-center justify-center p-2 bg-slate-900 rounded-xl border border-slate-700 overflow-auto shadow-md">
+            <img src="${strData}" alt="Pratinjau Gambar" class="max-w-full max-h-[480px] object-contain rounded-lg">
           </div>`;
       } 
       else {
         container.innerHTML = `
-          <div class="text-center space-y-3 py-10">
+          <div class="text-center space-y-3 py-12">
             <div class="text-5xl text-indigo-500">📄</div>
             <p class="text-sm font-bold text-slate-700">${fileName || 'Dokumen Terlampir'}</p>
-            <a href="${strData}" download="${fileName || 'dokumen'}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a>
+            <a href="${strData}" download="${fileName || 'dokumen'}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md transition">📥 Unduh / Buka Berkas Dokumen</a>
           </div>`;
       }
     }
 
     function tutupModalPreview() { document.getElementById('modalPreviewDokumen').classList.add('hidden'); }
 
+    // PERBAIKAN 1: PETA INTERAKTIF GIS DENGAN SEARCH PENCARIAN NAMA SEKOLAH
     let mapInstance = null;
     let markerInstance = null;
     let tempLat = -8.621430;
@@ -1389,19 +1379,41 @@
         if (!mapInstance) {
           mapInstance = L.map('mapContainer').setView([tempLat, tempLong], 15);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapInstance);
+          
           markerInstance = L.marker([tempLat, tempLong], { draggable: true }).addTo(mapInstance);
+          
           markerInstance.on('dragend', function () {
             let pos = markerInstance.getLatLng();
             tempLat = pos.lat.toFixed(6); tempLong = pos.lng.toFixed(6);
             document.getElementById('lblSelectedLat').innerText = tempLat;
             document.getElementById('lblSelectedLong').innerText = tempLong;
           });
+
           mapInstance.on('click', function (e) {
             tempLat = e.latlng.lat.toFixed(6); tempLong = e.latlng.lng.toFixed(6);
             markerInstance.setLatLng([tempLat, tempLong]);
             document.getElementById('lblSelectedLat').innerText = tempLat;
             document.getElementById('lblSelectedLong').innerText = tempLong;
           });
+
+          // Menambahkan Control Geocoder (Search Bar pada Peta untuk pencarian nama sekolah/lokasi)
+          const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false,
+            placeholder: 'Cari Nama Sekolah atau Lokasi...',
+            errorMessage: 'Lokasi tidak ditemukan.'
+          })
+          .on('markgeocode', function(e) {
+            const bbox = e.geocode.bbox;
+            const center = e.geocode.center;
+            tempLat = center.lat.toFixed(6);
+            tempLong = center.lng.toFixed(6);
+            mapInstance.setView(center, 16);
+            markerInstance.setLatLng(center);
+            document.getElementById('lblSelectedLat').innerText = tempLat;
+            document.getElementById('lblSelectedLong').innerText = tempLong;
+          })
+          .addTo(mapInstance);
+
         } else {
           mapInstance.setView([tempLat, tempLong], 15);
           markerInstance.setLatLng([tempLat, tempLong]);
@@ -1444,7 +1456,21 @@
       document.getElementById(`nav-${tabName}`).classList.add('sidebar-active');
     }
 
-    function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function bukaModal(id) { 
+      // PERBAIKAN 2: Kosongkan field form saat membuka modal bangunan agar form tidak menyimpan cache data sebelumnya
+      if(id === 'modalBangunan') {
+        document.getElementById('edit_b_id').value = '';
+        document.getElementById('b_nama').value = '';
+        document.getElementById('b_panjang').value = '';
+        document.getElementById('b_lebar').value = '';
+        document.getElementById('b_luas').value = '';
+        document.getElementById('b_lantai').value = '1';
+        document.getElementById('b_jenis').value = 'Permanen';
+        document.getElementById('b_kondisi').value = 'Baik';
+        document.getElementById('b_foto_keseluruhan').value = '';
+      }
+      document.getElementById(id).classList.remove('hidden'); 
+    }
     function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
 
     function hitungLuasTanah() {
@@ -1494,6 +1520,21 @@
       document.getElementById('statSiswa').innerText = totalSiswa;
     }
 
+    // PERBAIKAN 2: FUNGSI UPDATE TAMPILAN PANEL BANGUNAN ALA DAPODIK
+    function updateStatusPanelBangunanDapodik() {
+      const panel = document.getElementById('panelBangunan');
+      const btnTambah = document.getElementById('btnTambahBangunan');
+      const wrapperTabel = document.getElementById('wrapperTabelBangunan');
+
+      if (listTanah.length === 0) {
+        panel.classList.add('opacity-40', 'pointer-events-none', 'select-none');
+        btnTambah.setAttribute('disabled', 'true');
+      } else {
+        panel.classList.remove('opacity-40', 'pointer-events-none', 'select-none');
+        btnTambah.removeAttribute('disabled');
+      }
+    }
+
     function renderTanah() {
       const tbody = document.getElementById('tbodyTanah');
       tbody.innerHTML = listTanah.map(t => {
@@ -1521,7 +1562,8 @@
           </tr>
         `;
       }).join('');
-      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah. Silakan tambah data tanah.</td></tr>`;
+      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah. Silakan tambah data tanah agar menu bangunan terbuka.</td></tr>`;
+      updateStatusPanelBangunanDapodik();
     }
 
     function renderBangunan() {
@@ -1705,7 +1747,7 @@
         tampilkanPeringatanHierarki("Pelanggaran Alur Hierarki Sarpras", "Anda belum menginput data <b>Tanah Sekolah</b>. Sesuai alur standar Dapodik, Anda wajib mengisi data <b>Tanah</b> terlebih dahulu sebelum dapat menambahkan data <b>Bangunan</b>.");
         return;
       }
-      document.getElementById('edit_b_id').value = ''; bukaModal('modalBangunan');
+      bukaModal('modalBangunan');
     }
     function bukaModalRuang() {
       if (listBangunan.length === 0) {
