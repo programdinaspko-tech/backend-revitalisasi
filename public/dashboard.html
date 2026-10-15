@@ -31,27 +31,27 @@
       </div>
 
       <nav class="mt-4 px-2 space-y-1 text-xs">
-        <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition sidebar-active font-medium">
+        <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition sidebar-active font-medium cursor-pointer">
           <span>📊</span> Beranda Rekapitulasi
         </button>
 
-        <button onclick="switchTab('sekolah')" id="nav-sekolah" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium">
+        <button onclick="switchTab('sekolah')" id="nav-sekolah" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🏫</span> Data Sekolah & Profil
         </button>
 
-        <button onclick="switchTab('sarpras')" id="nav-sarpras" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium">
+        <button onclick="switchTab('sarpras')" id="nav-sarpras" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🏗️</span> Rekapitulasi Sarpras
         </button>
 
-        <button onclick="switchTab('gtk-siswa')" id="nav-gtk-siswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium">
+        <button onclick="switchTab('gtk-siswa')" id="nav-gtk-siswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>👨‍🎓</span> Rekap GTK, Siswa & Rombel
         </button>
 
-        <button onclick="switchTab('rekap-sinkron')" id="nav-rekap-sinkron" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium">
+        <button onclick="switchTab('rekap-sinkron')" id="nav-rekap-sinkron" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🔄</span> Rekap Sinkronisasi Data
         </button>
 
-        <button onclick="switchTab('user')" id="nav-user" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium">
+        <button onclick="switchTab('user')" id="nav-user" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🔑</span> Manager User & Akses
         </button>
       </nav>
@@ -64,7 +64,7 @@
           <p id="userAdminName" class="text-xs font-bold text-white truncate max-w-[130px]">admin_dinas</p>
           <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-medium">Super Admin</span>
         </div>
-        <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-white transition font-medium shadow-sm">
+        <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-white transition font-medium shadow-sm cursor-pointer">
           Logout
         </button>
       </div>
@@ -218,9 +218,9 @@
         </div>
 
         <div class="flex bg-slate-100 p-1 rounded-xl border text-xs font-bold w-full md:w-auto justify-center">
-          <button id="subTabTanahBtn" onclick="switchSubSarpras('tanah')" class="px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border">1. Tanah & Bangunan</button>
-          <button id="subTabRuangBtn" onclick="switchSubSarpras('ruang')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent">2. Ruang</button>
-          <button id="subTabAlatBtn" onclick="switchSubSarpras('alat')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent">3. Alat & Bantuan</button>
+          <button id="subTabTanahBtn" onclick="switchSubSarpras('tanah')" class="px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer">1. Tanah & Bangunan</button>
+          <button id="subTabRuangBtn" onclick="switchSubSarpras('ruang')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent cursor-pointer">2. Ruang</button>
+          <button id="subTabAlatBtn" onclick="switchSubSarpras('alat')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent cursor-pointer">3. Alat & Bantuan</button>
         </div>
       </div>
 
@@ -337,9 +337,9 @@
         </div>
 
         <div class="flex bg-slate-100 p-1 rounded-xl border text-xs font-bold w-full md:w-auto justify-center">
-          <button id="subTabGTKBtn" onclick="switchSubGTKSiswa('gtk')" class="px-3.5 py-1.5 rounded-lg transition gtk-tab-active border">👨‍🏫 1. Rekap GTK</button>
-          <button id="subTabSiswaBtn" onclick="switchSubGTKSiswa('siswa')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent">🎓 2. Peserta Didik (SPM)</button>
-          <button id="subTabRombelBtn" onclick="switchSubGTKSiswa('rombel')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent">👥 3. Data Rombel</button>
+          <button id="subTabGTKBtn" onclick="switchSubGTKSiswa('gtk')" class="px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer">👨‍🏫 1. Rekap GTK</button>
+          <button id="subTabSiswaBtn" onclick="switchSubGTKSiswa('siswa')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer">🎓 2. Peserta Didik (SPM)</button>
+          <button id="subTabRombelBtn" onclick="switchSubGTKSiswa('rombel')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer">👥 3. Data Rombel</button>
         </div>
       </div>
 
@@ -400,7 +400,6 @@
         </div>
       </div>
 
-      <!-- 3. SUB TAB REKAP ROMBONGAN BELAJAR (ROMBEL) -->
       <div id="subRombelContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
         <div class="flex justify-between items-center border-b pb-3">
           <h3 class="text-sm font-bold text-slate-900"><span>👥</span> Rekapitulasi Data Rombongan Belajar (Rombel)</h3>
@@ -488,11 +487,11 @@
     <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
       <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
         <h3 id="modalDetailTitle" class="text-sm font-bold">Detail Profil Sekolah</h3>
-        <button onclick="tutupModalDetailSekolah()" class="text-white hover:text-slate-200 font-bold text-lg">✕</button>
+        <button onclick="tutupModalDetailSekolah()" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
       </div>
       <div class="p-6 space-y-4 text-xs max-h-[80vh] overflow-y-auto" id="modalDetailContent"></div>
       <div class="bg-slate-50 px-6 py-3 border-t flex justify-end">
-        <button onclick="tutupModalDetailSekolah()" class="px-4 py-2 bg-slate-700 text-white rounded-lg font-bold text-xs">Tutup</button>
+        <button onclick="tutupModalDetailSekolah()" class="px-4 py-2 bg-slate-700 text-white rounded-lg font-bold text-xs cursor-pointer">Tutup</button>
       </div>
     </div>
   </div>
@@ -502,14 +501,14 @@
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
         <h3 id="previewJudul" class="text-sm font-bold flex items-center gap-2 truncate pr-4"><span>👁️</span> Pratinjau Dokumen</h3>
-        <button onclick="tutupModalPreview()" class="text-white hover:text-slate-200 font-bold text-lg shrink-0">✕</button>
+        <button onclick="tutupModalPreview()" class="text-white hover:text-slate-200 font-bold text-lg shrink-0 cursor-pointer">✕</button>
       </div>
       <div class="p-4 bg-slate-100 flex-1 overflow-y-auto flex items-center justify-center min-h-[400px]">
         <div id="previewContainerContent" class="w-full h-full flex items-center justify-center"></div>
       </div>
       <div class="bg-white px-6 py-3 border-t flex justify-between items-center shrink-0">
         <span id="previewInfoFooter" class="text-xs text-slate-500 font-medium truncate"></span>
-        <button onclick="tutupModalPreview()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold text-xs">Tutup Pratinjau</button>
+        <button onclick="tutupModalPreview()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold text-xs cursor-pointer">Tutup Pratinjau</button>
       </div>
     </div>
   </div>
@@ -526,127 +525,11 @@
       if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
     }
 
-function getRegisteredSekolahList() {
-  let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-  let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
-
-  let allTanah = [];
-  let allBangunan = [];
-  let allRuang = [];
-  let allAlat = [];
-  let allGTK = [];
-  let allSiswa = [];
-  let allRombel = [];
-
-  syncList.forEach(s => {
-    let namaSch = s.nama_sekolah;
-    
-    if (s.tanah && Array.isArray(s.tanah)) {
-      s.tanah.forEach(t => {
-        allTanah.push({
-          nama_sekolah: namaSch,
-          nama_lahan: t.nama,
-          no_sertifikat: t.sertifikat,
-          pxl: `${t.panjang || 0} x ${t.lebar || 0}`,
-          luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`,
-          sisa_lahan: 'Terhitung',
-          kepemilikan: t.milik,
-          pdf: t.pdf || t.pdfData || '',
-          denah: t.denah || t.denahData || ''
-        });
-      });
+    function getRegisteredSekolahList() {
+      let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
+      return syncList;
     }
-
-    if (s.bangunan && Array.isArray(s.bangunan)) {
-      s.bangunan.forEach(b => {
-        allBangunan.push({
-          nama_sekolah: namaSch,
-          nama_bangunan: b.nama,
-          pxl: `${b.panjang || 0} x ${b.lebar || 0}`,
-          luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`,
-          lantai: b.lantai,
-          jenis: b.jenis,
-          kondisi: b.kondisi,
-          foto: b.foto || b.fotoData || ''
-        });
-      });
-    }
-
-    if (s.ruang && Array.isArray(s.ruang)) {
-      s.ruang.forEach(r => {
-        allRuang.push({
-          nama_sekolah: namaSch,
-          nama_ruang: r.nama,
-          jenis_ruang: r.jenis,
-          pxl: `${r.panjang || 0} x ${r.lebar || 0}`,
-          luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`,
-          kondisi: r.kondisi,
-          riwayat: r.keterangan || '-',
-          fotoData: r.fotoData1 || r.fotoData || ''
-        });
-      });
-    }
-
-    if (s.alat && Array.isArray(s.alat)) {
-      s.alat.forEach(a => {
-        allAlat.push({
-          nama_sekolah: namaSch,
-          nama_barang: a.nama,
-          kategori: a.kategori,
-          jumlah: a.jumlah,
-          baik: a.baik,
-          rusak: a.rusak
-        });
-      });
-    }
-
-    if (s.gtk && Array.isArray(s.gtk)) {
-      s.gtk.forEach(g => {
-        allGTK.push({
-          nama_sekolah: namaSch,
-          nama: g.nama,
-          nip: g.nip || '-',
-          jk: g.jk,
-          kualifikasi: g.kualifikasi,
-          status: g.status,
-          serdik: g.serdik,
-          jabatan: g.jabatan,
-          jam_mengajar: g.jam
-        });
-      });
-    }
-
-    if (s.siswa && Array.isArray(s.siswa)) {
-      s.siswa.forEach(si => {
-        allSiswa.push({
-          nama_sekolah: namaSch,
-          tingkat_kelas: si.kelas,
-          u1_l: si.u1_l,
-          u1_p: si.u1_p,
-          u2_l: si.u2_l,
-          u2_p: si.u2_p,
-          do_l: si.do_l,
-          do_p: si.do_p,
-          pip_l: si.pip_l,
-          pip_p: si.pip_p
-        });
-      });
-    }
-
-    if (s.rombel && Array.isArray(s.rombel)) {
-      s.rombel.forEach(ro => {
-        allRombel.push({
-          nama_sekolah: namaSch,
-          nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-',
-          tingkat: ro.tingkat || ro.tingkat_kelas || '-',
-          wali_kelas: ro.wali_kelas || ro.wali || '-'
-        });
-      });
-    }
-  });
-
-  return syncList;
-}
 
     let masterSekolah = getRegisteredSekolahList();
     let masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
@@ -657,7 +540,6 @@ function getRegisteredSekolahList() {
     let masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
     let masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
 
-    // FUNGSI PREVIEW DOKUMEN DI SISI ADMIN
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -669,12 +551,7 @@ function getRegisteredSekolahList() {
       footerInfo.innerText = `Nama File: ${fileName || 'Tanpa Nama'}`;
 
       if (!fileData) {
-        container.innerHTML = `
-          <div class="text-center space-y-3 py-10">
-            <div class="text-5xl text-amber-500">⚠️</div>
-            <p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p>
-          </div>
-        `;
+        container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p></div>`;
         return;
       }
 
@@ -716,17 +593,10 @@ function getRegisteredSekolahList() {
       if (tabName === 'beranda') { updateBerandaStats(); renderGrafikBeranda(); }
       if (tabName === 'sekolah') fetchSekolah();
       if (tabName === 'sarpras') { 
-        masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
-        masterBangunan = JSON.parse(localStorage.getItem('master_bangunan')) || [];
-        masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
-        masterAlat = JSON.parse(localStorage.getItem('master_alat')) || [];
         populateDropdowns(); 
         renderRekapSarprasLengkap(); 
       }
       if (tabName === 'gtk-siswa') { 
-        masterGTK = JSON.parse(localStorage.getItem('master_gtk')) || [];
-        masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
-        masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
         populateDropdowns(); 
         renderGTKSiswaLengkap(); 
       }
@@ -738,19 +608,19 @@ function getRegisteredSekolahList() {
       document.getElementById('subSarprasTanahContent').classList.add('hidden');
       document.getElementById('subSarprasRuangContent').classList.add('hidden');
       document.getElementById('subSarprasAlatContent').classList.add('hidden');
-      document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
-      document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
-      document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
+      document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
 
       if (sub === 'tanah') {
         document.getElementById('subSarprasTanahContent').classList.remove('hidden');
-        document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border";
+        document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
       } else if (sub === 'ruang') {
         document.getElementById('subSarprasRuangContent').classList.remove('hidden');
-        document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border";
+        document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
       } else if (sub === 'alat') {
         document.getElementById('subSarprasAlatContent').classList.remove('hidden');
-        document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border";
+        document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
       }
     }
 
@@ -758,23 +628,22 @@ function getRegisteredSekolahList() {
       document.getElementById('subGTKContent').classList.add('hidden');
       document.getElementById('subSiswaContent').classList.add('hidden');
       document.getElementById('subRombelContent').classList.add('hidden');
-      document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
-      document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
-      document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent";
+      document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
 
       if (sub === 'gtk') {
         document.getElementById('subGTKContent').classList.remove('hidden');
-        document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border";
+        document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
       } else if (sub === 'siswa') {
         document.getElementById('subSiswaContent').classList.remove('hidden');
-        document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border";
+        document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
       } else if (sub === 'rombel') {
         document.getElementById('subRombelContent').classList.remove('hidden');
-        document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border";
+        document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
       }
     }
 
-    // --- GRAFIK BERANDA ---
     let chartSinkronInstance = null;
     let chartJenjangInstance = null;
     let chartKerusakanInstance = null;
@@ -798,10 +667,7 @@ function getRegisteredSekolahList() {
         type: 'doughnut',
         data: {
           labels: ['Ter-Sinkron', 'Draft Pending'],
-          datasets: [{
-            data: [totalSekolah, totalDraft],
-            backgroundColor: ['#10b981', '#f59e0b']
-          }]
+          datasets: [{ data: [totalSekolah, totalDraft], backgroundColor: ['#10b981', '#f59e0b'] }]
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
@@ -812,11 +678,7 @@ function getRegisteredSekolahList() {
         type: 'bar',
         data: {
           labels: ['Jenjang SD', 'Jenjang SMP'],
-          datasets: [{
-            label: 'Jumlah Sekolah',
-            data: [totalSD, totalSMP],
-            backgroundColor: ['#4f46e5', '#0284c7']
-          }]
+          datasets: [{ label: 'Jumlah Sekolah', data: [totalSD, totalSMP], backgroundColor: ['#4f46e5', '#0284c7'] }]
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
@@ -827,18 +689,9 @@ function getRegisteredSekolahList() {
         type: 'bar',
         data: {
           labels: ['Rusak Sedang', 'Rusak Berat'],
-          datasets: [{
-            label: 'Jumlah Ruang',
-            data: [totalRusakSedang, totalRusakBerat],
-            backgroundColor: ['#f59e0b', '#e11d48']
-          }]
+          datasets: [{ label: 'Jumlah Ruang', data: [totalRusakSedang, totalRusakBerat], backgroundColor: ['#f59e0b', '#e11d48'] }]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
       });
     }
 
@@ -858,7 +711,7 @@ function getRegisteredSekolahList() {
           <td class="p-3.5"><p class="font-bold text-slate-800">${item.operator || '-'}</p></td>
           <td class="p-3.5"><p class="font-bold text-slate-800">${item.nama_bank || '-'}</p></td>
           <td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>
-          <td class="p-3.5 text-center"><button onclick="bukaDetailSekolah('${item.npsn || item.nama_sekolah}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition">🔍 Detail</button></td>
+          <td class="p-3.5 text-center"><button onclick="bukaDetailSekolah('${item.npsn || item.nama_sekolah}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>
         </tr>
       `).join('');
     }
@@ -883,7 +736,7 @@ function getRegisteredSekolahList() {
           <div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">${sch.nama_sekolah}</p></div>
           <div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">${sch.npsn || '-'}</p></div>
           <div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">${sch.jenjang || 'SD'}</p></div>
-          <div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">${sch.status_sekolah || 'Negeri'} / Akred: ${sch.akreditasi || 'B'}</p></div>
+          <div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">${sch.status_sekolah \vert{}\vert{} 'Negeri'} / Akred:${sch.akreditasi || 'B'}</p></div>
         </div>
         <div class="space-y-2">
           <h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Kontak</h4>
@@ -892,13 +745,6 @@ function getRegisteredSekolahList() {
             <div><p class="text-slate-500">NIP Kepala Sekolah:</p><p class="font-bold font-mono">${sch.nip_kepala_sekolah || '-'}</p></div>
             <div><p class="text-slate-500">Operator Sekolah:</p><p class="font-bold">${sch.operator || '-'}</p></div>
             <div><p class="text-slate-500">No. WhatsApp:</p><p class="font-bold">${sch.wa_operator || '-'}</p></div>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <h4 class="font-bold text-indigo-600 uppercase text-[11px]">📍 Lokasi & Alamat</h4>
-          <div class="bg-white p-3 rounded-lg border space-y-1">
-            <p><span class="text-slate-500 font-semibold">Alamat:</span> ${sch.alamat || '-'}, Kec. ${sch.kecamatan || '-'}, Kab. ${sch.kabupaten || '-'}, Prov. ${sch.provinsi || '-'}</p>
-            <p><span class="text-slate-500 font-semibold">Koordinat GPS:</span> Lintang (${sch.latitude || '-'}), Bujur (${sch.longitude || '-'})</p>
           </div>
         </div>
       `;
@@ -910,92 +756,67 @@ function getRegisteredSekolahList() {
       document.getElementById('modalDetailSekolah').classList.add('hidden');
     }
 
-function renderRekapSarprasLengkap() {
-  masterSekolah = getRegisteredSekolahList();
-  masterTanah = JSON.parse(localStorage.getItem('master_tanah')) || [];
-  masterBangunan = JSON.parse(localStorage.getItem('master_bangunan')) || [];
-  masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
-  masterAlat = JSON.parse(localStorage.getItem('master_alat')) || [];
+    function renderRekapSarprasLengkap() {
+      let syncList = getRegisteredSekolahList();
+      let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
 
-  const validNames = masterSekolah.map(s => s.nama_sekolah);
-  let selSekolah = document.getElementById('sarprasSekolahFilter')?.value || 'ALL';
-  let searchKey = document.getElementById('sarprasCariInput')?.value.toLowerCase() || '';
+      syncList.forEach(s => {
+        let namaSch = s.nama_sekolah;
+        if (s.tanah && Array.isArray(s.tanah)) {
+          s.tanah.forEach(t => allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: `${t.panjang \vert{}\vert{} 0} x${t.lebar || 0}`, luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`, sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }));
+        }
+        if (s.bangunan && Array.isArray(s.bangunan)) {
+          s.bangunan.forEach(b => allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: `${b.panjang \vert{}\vert{} 0} x${b.lebar || 0}`, luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`, lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }));
+        }
+        if (s.ruang && Array.isArray(s.ruang)) {
+          s.ruang.forEach(r => allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: `${r.panjang \vert{}\vert{} 0} x${r.lebar || 0}`, luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`, kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }));
+        }
+        if (s.alat && Array.isArray(s.alat)) {
+          s.alat.forEach(a => allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }));
+        }
+      });
 
-  let fTanah = masterTanah.filter(t => validNames.includes(t.nama_sekolah) && (selSekolah === 'ALL' || t.nama_sekolah === selSekolah));
-  let fBangunan = masterBangunan.filter(b => validNames.includes(b.nama_sekolah) && (selSekolah === 'ALL' || b.nama_sekolah === selSekolah));
-  let fRuang = masterRuang.filter(r => validNames.includes(r.nama_sekolah) && (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
-  let fAlat = masterAlat.filter(a => validNames.includes(a.nama_sekolah) && (selSekolah === 'ALL' || a.nama_sekolah === selSekolah));
+      let selSekolah = document.getElementById('sarprasSekolahFilter')?.value || 'ALL';
+      let searchKey = document.getElementById('sarprasCariInput')?.value.toLowerCase() || '';
 
-  if (searchKey) {
-    fTanah = fTanah.filter(t => (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey));
-    fBangunan = fBangunan.filter(b => (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey));
-    fRuang = fRuang.filter(r => (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey));
-    fAlat = fAlat.filter(a => (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey));
-  }
+      let fTanah = allTanah.filter(t => (selSekolah === 'ALL' || t.nama_sekolah === selSekolah));
+      let fBangunan = allBangunan.filter(b => (selSekolah === 'ALL' || b.nama_sekolah === selSekolah));
+      let fRuang = allRuang.filter(r => (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
+      let fAlat = allAlat.filter(a => (selSekolah === 'ALL' || a.nama_sekolah === selSekolah));
 
-  document.getElementById('badgeCountTanah').innerText = `Terdata: ${fTanah.length} Lahan`;
-  document.getElementById('badgeCountBangunan').innerText = `Terdata: ${fBangunan.length} Bangunan`;
-  document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
-  document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
+      if (searchKey) {
+        fTanah = fTanah.filter(t => (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey));
+        fBangunan = fBangunan.filter(b => (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey));
+        fRuang = fRuang.filter(r => (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey));
+        fAlat = fAlat.filter(a => (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey));
+      }
 
-  document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(t => {
-    let pdfUrl = t.pdf ? encodeURIComponent(t.pdf) : '';
-    let denahUrl = t.denah ? encodeURIComponent(t.denah) : '';
-    return `
-      <tr class="border-b">
-        <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
-        <td class="p-3">${t.no_sertifikat || '-'}</td>
-        <td class="p-3">${t.pxl || '-'}</td>
-        <td class="p-3 font-bold">${t.luas || '-'}</td>
-        <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
-        <td class="p-3">${t.kepemilikan || '-'}</td>
-        <td class="p-3 text-[10px] space-x-1">
-          <button onclick="previewDokumen('Sertifikat PDF', 'Sertifikat Tanah', decodeURIComponent('${pdfUrl}'))" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
-          <button onclick="previewDokumen('Denah Lahan', 'Denah Lahan', decodeURIComponent('${denahUrl}'))" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
-        </td>
-      </tr>
-    `;
-  }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
+      document.getElementById('badgeCountTanah').innerText = `Terdata: ${fTanah.length} Lahan`;
+      document.getElementById('badgeCountBangunan').innerText = `Terdata: ${fBangunan.length} Bangunan`;
+      document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
+      document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
 
-  document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(b => {
-    let fotoUrl = b.foto ? encodeURIComponent(b.foto) : '';
-    return `
-      <tr class="border-b">
-        <td class="p-3 font-bold">${b.nama_bangunan}</td>
-        <td class="p-3">${b.nama_sekolah}</td>
-        <td class="p-3">${b.pxl || '-'}</td>
-        <td class="p-3 font-bold">${b.luas || '-'}</td>
-        <td class="p-3">${b.lantai || 1}</td>
-        <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${b.jenis || '-'}</span></td>
-        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi || '-'}</span></td>
-        <td class="p-3 text-[10px]">
-          <button onclick="previewDokumen('Foto Bangunan', 'Foto Gedung', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
-        </td>
-      </tr>
-    `;
-  }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>`;
-
-  document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(r => {
-    let fotoUrl = r.fotoData ? encodeURIComponent(r.fotoData) : '';
-    return `
-      <tr class="border-b">
-        <td class="p-3 font-bold">${r.nama_ruang}</td>
-        <td class="p-3">${r.nama_sekolah}</td>
-        <td class="p-3">${r.jenis_ruang}</td>
-        <td class="p-3">${r.pxl || '-'}</td>
-        <td class="p-3 font-bold">${r.luas || '-'}</td>
-        <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
-        <td class="p-3">${r.riwayat || '-'}</td>
-        <td class="p-3 text-[10px]">
-          <button onclick="previewDokumen('Dokumentasi GPS Ruang', 'Foto Ruang', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
-        </td>
-      </tr>
-    `;
-  }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>`;
-}
+      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(t => {
+        let pdfUrl = t.pdf ? encodeURIComponent(t.pdf) : '';
+        let denahUrl = t.denah ? encodeURIComponent(t.denah) : '';
+        return `
+          <tr class="border-b">
+            <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
+            <td class="p-3">${t.no_sertifikat || '-'}</td>
+            <td class="p-3">${t.pxl || '-'}</td>
+            <td class="p-3 font-bold">${t.luas || '-'}</td>
+            <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
+            <td class="p-3">${t.kepemilikan || '-'}</td>
+            <td class="p-3 text-[10px] space-x-1">
+              <button onclick="previewDokumen('Sertifikat PDF', 'Sertifikat Tanah', decodeURIComponent('${pdfUrl}'))" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
+              <button onclick="previewDokumen('Denah Lahan', 'Denah Lahan', decodeURIComponent('${denahUrl}'))" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
+            </td>
+          </tr>
+        `;
+      }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
 
       document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(b => {
-        let fotoSafe = b.fotoData ? encodeURIComponent(b.fotoData) : '';
+        let fotoUrl = b.foto ? encodeURIComponent(b.foto) : '';
         return `
           <tr class="border-b">
             <td class="p-3 font-bold">${b.nama_bangunan}</td>
@@ -1006,14 +827,14 @@ function renderRekapSarprasLengkap() {
             <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${b.jenis || '-'}</span></td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi || '-'}</span></td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Foto Bangunan', '${b.foto || 'gedung.jpg'}', decodeURIComponent('${fotoSafe}'))" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</span>
+              <button onclick="previewDokumen('Foto Bangunan', 'Foto Gedung', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
             </td>
           </tr>
         `;
       }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>`;
 
       document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(r => {
-        let fotoRSafe = r.fotoData ? encodeURIComponent(r.fotoData) : '';
+        let fotoUrl = r.fotoData ? encodeURIComponent(r.fotoData) : '';
         return `
           <tr class="border-b">
             <td class="p-3 font-bold">${r.nama_ruang}</td>
@@ -1024,30 +845,49 @@ function renderRekapSarprasLengkap() {
             <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
             <td class="p-3">${r.riwayat || '-'}</td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Dokumentasi GPS Ruang', 'gps_ruang.jpg', decodeURIComponent('${fotoRSafe}'))" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</span>
+              <button onclick="previewDokumen('Dokumentasi GPS Ruang', 'Foto Ruang', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
             </td>
           </tr>
         `;
       }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>`;
 
       document.getElementById('rekapAlatTableBody').innerHTML = fAlat.length ? fAlat.map(a => `
-        <tr class="border-b"><td class="p-3 font-bold">${a.nama_barang}</td><td class="p-3">${a.nama_sekolah}</td><td class="p-3">${a.kategori}</td><td class="p-3 font-bold">${a.jumlah} Unit</td><td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Baik: ${a.baik ?? a.jumlah}</span> <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">Rusak: ${a.rusak ?? 0}</span></td></tr>
+        <tr class="border-b">
+          <td class="p-3 font-bold">${a.nama_barang}</td>
+          <td class="p-3">${a.nama_sekolah}</td>
+          <td class="p-3">${a.kategori}</td>
+          <td class="p-3 font-bold">${a.jumlah} Unit</td>
+          <td class="p-3">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Baik: ${a.baik ?? a.jumlah}</span>
+            <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">Rusak: ${a.rusak ?? 0}</span>
+          </td>
+        </tr>
       `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data alat yang sesuai filter.</td></tr>`;
     }
 
     function renderGTKSiswaLengkap() {
-      masterSekolah = getRegisteredSekolahList();
-      masterGTK = JSON.parse(localStorage.getItem('master_gtk')) || [];
-      masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
-      masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
+      let syncList = getRegisteredSekolahList();
+      let allGTK = [], allSiswa = [], allRombel = [];
 
-      const validNames = masterSekolah.map(s => s.nama_sekolah);
+      syncList.forEach(s => {
+        let namaSch = s.nama_sekolah;
+        if (s.gtk && Array.isArray(s.gtk)) {
+          s.gtk.forEach(g => allGTK.push({ nama_sekolah: namaSch, nama: g.nama, nip: g.nip || '-', jk: g.jk, kualifikasi: g.kualifikasi, status: g.status, serdik: g.serdik, jabatan: g.jabatan, jam_mengajar: g.jam }));
+        }
+        if (s.siswa && Array.isArray(s.siswa)) {
+          s.siswa.forEach(si => allSiswa.push({ nama_sekolah: namaSch, tingkat_kelas: si.kelas, u1_l: si.u1_l, u1_p: si.u1_p, u2_l: si.u2_l, u2_p: si.u2_p, do_l: si.do_l, do_p: si.do_p, pip_l: si.pip_l, pip_p: si.pip_p }));
+        }
+        if (s.rombel && Array.isArray(s.rombel)) {
+          s.rombel.forEach(ro => allRombel.push({ nama_sekolah: namaSch, nama_rombel: ro.nama_rombel || ro.nama || ro.kelas || '-', tingkat: ro.tingkat || ro.tingkat_kelas || '-', wali_kelas: ro.wali_kelas || ro.wali || '-' }));
+        }
+      });
+
       let selSekolah = document.getElementById('gtkSiswaSekolahFilter')?.value || 'ALL';
       let searchKey = document.getElementById('gtkSiswaCariInput')?.value.toLowerCase() || '';
 
-      let fGTK = masterGTK.filter(g => validNames.includes(g.nama_sekolah) && (selSekolah === 'ALL' || g.nama_sekolah === selSekolah));
-      let fSiswa = masterSiswaKelas.filter(s => validNames.includes(s.nama_sekolah) && (selSekolah === 'ALL' || s.nama_sekolah === selSekolah));
-      let fRombel = masterRombel.filter(r => validNames.includes(r.nama_sekolah) && (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
+      let fGTK = allGTK.filter(g => (selSekolah === 'ALL' || g.nama_sekolah === selSekolah));
+      let fSiswa = allSiswa.filter(s => (selSekolah === 'ALL' || s.nama_sekolah === selSekolah));
+      let fRombel = allRombel.filter(r => (selSekolah === 'ALL' || r.nama_sekolah === selSekolah));
 
       if (searchKey) {
         fGTK = fGTK.filter(g => (g.nama || '').toLowerCase().includes(searchKey) || (g.nip || '').toLowerCase().includes(searchKey) || (g.nama_sekolah || '').toLowerCase().includes(searchKey));
@@ -1056,11 +896,10 @@ function renderRekapSarprasLengkap() {
       }
 
       document.getElementById('badgeCountGTK').innerText = `Total: ${fGTK.length} GTK`;
-      let totSiswa = fSiswa.reduce((acc, curr) => acc + (curr.total_aktif || ((parseInt(curr.u1_l)||0)+(parseInt(curr.u1_p)||0)+(parseInt(curr.u2_l)||0)+(parseInt(curr.u2_p)||0))), 0);
+      let totSiswa = fSiswa.reduce((acc, curr) => acc + ((parseInt(curr.u1_l)||0)+(parseInt(curr.u1_p)||0)+(parseInt(curr.u2_l)||0)+(parseInt(curr.u2_p)||0)), 0);
       document.getElementById('badgeCountSiswa').innerText = `Total: ${totSiswa} Siswa`;
       document.getElementById('badgeCountRombel').innerText = `Total: ${fRombel.length} Rombel`;
 
-      // Render GTK
       document.getElementById('rekapGTKTableBody').innerHTML = fGTK.length ? fGTK.map(g => `
         <tr class="border-b hover:bg-slate-50">
           <td class="p-3"><p class="font-bold text-slate-800">${g.nama}</p><p class="text-slate-400 font-mono text-[10px]">${g.nip || '-'}</p></td>
@@ -1070,63 +909,35 @@ function renderRekapSarprasLengkap() {
           <td class="p-3">${g.status || '-'}</td>
           <td class="p-3">${g.serdik || '-'}</td>
           <td class="p-3">${g.jabatan || '-'}</td>
-          <td class="p-3 text-center font-bold text-slate-700">${g.jam_mengajar || g.jam || 0} Jam</td>
+          <td class="p-3 text-center font-bold text-slate-700">${g.jam_mengajar || 0} Jam</td>
         </tr>
       `).join('') : `<tr><td colspan="8" class="p-6 text-center text-slate-400">Belum ada data GTK yang sesuai filter.</td></tr>`;
 
-      // Render Siswa
-      const tbodySiswa = document.getElementById('rekapSiswaTableBody');
-      if (fSiswa.length === 0) {
-        tbodySiswa.innerHTML = `<tr><td colspan="11" class="p-8 text-center text-slate-400 bg-slate-50/50">
-          <div class="flex flex-col items-center justify-center space-y-1">
-            <span class="text-2xl">📥</span>
-            <p class="font-semibold">Belum ada data peserta didik yang sesuai filter pencarian.</p>
-          </div>
-        </td></tr>`;
-      } else {
-        tbodySiswa.innerHTML = fSiswa.map(s => {
-          let u1l = parseInt(s.u1_l || s.siswa_l) || 0;
-          let u1p = parseInt(s.u1_p || s.siswa_p) || 0;
-          let u2l = parseInt(s.u2_l) || 0;
-          let u2p = parseInt(s.u2_p) || 0;
-          let dol = parseInt(s.do_l) || 0;
-          let dop = parseInt(s.do_p) || 0;
-          let pipl = parseInt(s.pip_l) || 0;
-          let pipp = parseInt(s.pip_p) || 0;
-          let tot = u1l + u1p + u2l + u2p;
-
-          return `
-            <tr class="border-b text-center hover:bg-slate-50">
-              <td class="p-3 text-left font-bold text-slate-800">${s.nama_sekolah}</td>
-              <td class="p-3 text-left font-semibold text-indigo-700">${s.tingkat_kelas || s.kelas}</td>
-              <td class="p-3 bg-sky-50/60">${u1l}</td>
-              <td class="p-3 bg-sky-50/60">${u1p}</td>
-              <td class="p-3 bg-sky-100/60">${u2l}</td>
-              <td class="p-3 bg-sky-100/60">${u2p}</td>
-              <td class="p-3 bg-amber-50/50">${dol}</td>
-              <td class="p-3 bg-amber-50/50">${dop}</td>
-              <td class="p-3 bg-emerald-50/50">${pipl}</td>
-              <td class="p-3 bg-emerald-50/50">${pipp}</td>
-              <td class="p-3 font-extrabold bg-indigo-50 text-indigo-900">${tot} Siswa</td>
-            </tr>
-          `;
-        }).join('');
-      }
-
-      // Render Rombel
-      const tbodyRombel = document.getElementById('rekapRombelTableBody');
-      if (fRombel.length === 0) {
-        tbodyRombel.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">Belum ada data rombel yang sesuai filter.</td></tr>`;
-      } else {
-        tbodyRombel.innerHTML = fRombel.map(ro => `
-          <tr class="border-b hover:bg-slate-50">
-            <td class="p-3 font-bold text-slate-800">${ro.nama_sekolah}</td>
-            <td class="p-3 font-semibold text-indigo-700">${ro.nama_rombel}</td>
-            <td class="p-3"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${ro.tingkat}</span></td>
-            <td class="p-3 font-bold text-slate-800">${ro.wali_kelas}</td>
+      document.getElementById('rekapSiswaTableBody').innerHTML = fSiswa.length ? fSiswa.map(s => {
+        let u1l = parseInt(s.u1_l) || 0, u1p = parseInt(s.u1_p) || 0, u2l = parseInt(s.u2_l) || 0, u2p = parseInt(s.u2_p) || 0;
+        let dol = parseInt(s.do_l) || 0, dop = parseInt(s.do_p) || 0, pipl = parseInt(s.pip_l) || 0, pipp = parseInt(s.pip_p) || 0;
+        let tot = u1l + u1p + u2l + u2p;
+        return `
+          <tr class="border-b text-center hover:bg-slate-50">
+            <td class="p-3 text-left font-bold text-slate-800">${s.nama_sekolah}</td>
+            <td class="p-3 text-left font-semibold text-indigo-700">${s.tingkat_kelas}</td>
+            <td class="p-3 bg-sky-50/60">${u1l}</td><td class="p-3 bg-sky-50/60">${u1p}</td>
+            <td class="p-3 bg-sky-100/60">${u2l}</td><td class="p-3 bg-sky-100/60">${u2p}</td>
+            <td class="p-3 bg-amber-50/50">${dol}</td><td class="p-3 bg-amber-50/50">${dop}</td>
+            <td class="p-3 bg-emerald-50/50">${pipl}</td><td class="p-3 bg-emerald-50/50">${pipp}</td>
+            <td class="p-3 font-extrabold bg-indigo-50 text-indigo-900">${tot} Siswa</td>
           </tr>
-        `).join('');
-      }
+        `;
+      }).join('') : `<tr><td colspan="11" class="p-6 text-center text-slate-400">Belum ada data siswa.</td></tr>`;
+
+      document.getElementById('rekapRombelTableBody').innerHTML = fRombel.length ? fRombel.map(ro => `
+        <tr class="border-b hover:bg-slate-50">
+          <td class="p-3 font-bold text-slate-800">${ro.nama_sekolah}</td>
+          <td class="p-3 font-semibold text-indigo-700">${ro.nama_rombel}</td>
+          <td class="p-3"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${ro.tingkat}</span></td>
+          <td class="p-3 font-bold text-slate-800">${ro.wali_kelas}</td>
+        </tr>
+      `).join('') : `<tr><td colspan="4" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>`;
     }
 
     function renderTabelRekapSinkron() {
@@ -1143,7 +954,7 @@ function renderRekapSarprasLengkap() {
       const tbody = document.getElementById('rekapSinkronTableBody');
       if (!tbody) return;
       if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi aktif yang sesuai dengan filter.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi aktif.</td></tr>`;
         return;
       }
       tbody.innerHTML = filtered.map(s => `
