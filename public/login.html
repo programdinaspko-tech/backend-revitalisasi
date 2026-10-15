@@ -183,7 +183,7 @@
         return;
       }
 
-      // 2. Cek Login User Sekolah dari LocalStorage (Versi Lebih Fleksibel)
+// 2. Cek Login User Sekolah dari LocalStorage (Versi Lebih Fleksibel)
 let registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
 
 const foundUser = registeredUsers.find(u => {
@@ -235,7 +235,7 @@ localStorage.setItem('user', JSON.stringify({
 alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
 alertBox.textContent = '✓ Login User Sekolah Berhasil! Mengalihkan ke Dashboard Sekolah...';
 alertBox.classList.remove('hidden');
-setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);
+setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);    });
 
     // HANDLER SUBMIT REGISTRASI AKUN SEKOLAH
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
