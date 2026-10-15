@@ -525,7 +525,9 @@
       if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
     }
 
-    // Fungsi Toggle Sidebar Hamburger Admin
+    // Cache Global untuk Penanganan Dokumen / Gambar Preview
+    window.previewCache = {};
+
     function toggleSidebarDinas() {
       const sidebar = document.getElementById('sidebarDinas');
       const texts = document.querySelectorAll('.sidebar-text');
@@ -555,7 +557,13 @@
     let masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
     let masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
 
-    // PERBAIKAN: Validasi Pratinjau Dokumen jika file kosong/belum diunggah
+    // PERBAIKAN: Penanganan Pratinjau Dokumen Menggunakan Global Cache Key
+    function previewDokumenKey(cacheKey) {
+      const item = window.previewCache[cacheKey];
+      if (!item) return alert('File preview tidak ditemukan.');
+      previewDokumen(item.tipe, item.fileName, item.fileData);
+    }
+
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -573,7 +581,7 @@
 
       if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || fileData.toLowerCase().endsWith('.pdf')) {
         container.innerHTML = `<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="${fileData}" class="w-full h-full" frameborder="0"></iframe></div>`;
-      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(fileData)) {
+      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) \vert{}\vert{} /\.(jpg\vert{}jpeg\vert{}png)$/i.test(fileData)) {
         container.innerHTML = `<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="${fileData}" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>`;
       } else {
         container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-indigo-500">📄</div><p class="text-sm font-bold text-slate-700">${fileName}</p><a href="${fileData}" download="${fileName}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a></div>`;
@@ -773,6 +781,7 @@
     }
 
     function renderRekapSarprasLengkap() {
+      window.previewCache = {}; // Reset cache
       let syncList = getRegisteredSekolahList();
       let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
 
@@ -812,9 +821,12 @@
       document.getElementById('badgeCountRuang').innerText = `Terdata: ${fRuang.length} Ruang`;
       document.getElementById('badgeCountAlat').innerText = `Terdata: ${fAlat.length} Asset/Alat`;
 
-      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(t => {
-        let pdfUrl = t.pdf ? encodeURIComponent(t.pdf) : '';
-        let denahUrl = t.denah ? encodeURIComponent(t.denah) : '';
+      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map((t, idx) => {
+        let keyPdf = `tanah_pdf_${idx}`;
+        let keyDenah = `tanah_denah_${idx}`;
+        window.previewCache[keyPdf] = { tipe: 'Sertifikat PDF', fileName: 'Sertifikat Tanah', fileData: t.pdf };
+        window.previewCache[keyDenah] = { tipe: 'Denah Lahan', fileName: 'Denah Lahan', fileData: t.denah };
+
         return `
           <tr class="border-b">
             <td class="p-3"><b>${t.nama_lahan}</b><br><span class="text-[10px] text-slate-500">${t.nama_sekolah}</span></td>
@@ -824,15 +836,17 @@
             <td class="p-3 text-emerald-600 font-bold">${t.sisa_lahan || '-'}</td>
             <td class="p-3">${t.kepemilikan || '-'}</td>
             <td class="p-3 text-[10px] space-x-1">
-              <button onclick="previewDokumen('Sertifikat PDF', 'Sertifikat Tanah', decodeURIComponent('${pdfUrl}'))" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
-              <button onclick="previewDokumen('Denah Lahan', 'Denah Lahan', decodeURIComponent('${denahUrl}'))" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
+              <button onclick="previewDokumenKey('${keyPdf}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>
+              <button onclick="previewDokumenKey('${keyDenah}')" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>
             </td>
           </tr>
         `;
       }).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>`;
 
-      document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(b => {
-        let fotoUrl = b.foto ? encodeURIComponent(b.foto) : '';
+      document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map((b, idx) => {
+        let keyFoto = `bangunan_foto_${idx}`;
+        window.previewCache[keyFoto] = { tipe: 'Foto Bangunan', fileName: 'Foto Gedung', fileData: b.foto };
+
         return `
           <tr class="border-b">
             <td class="p-3 font-bold">${b.nama_bangunan}</td>
@@ -843,14 +857,16 @@
             <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${b.jenis || '-'}</span></td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi || '-'}</span></td>
             <td class="p-3 text-[10px]">
-              <button onclick="previewDokumen('Foto Bangunan', 'Foto Gedung', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
+              <button onclick="previewDokumenKey('${keyFoto}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</button>
             </td>
           </tr>
         `;
       }).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>`;
 
-      document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(r => {
-        let fotoUrl = r.fotoData ? encodeURIComponent(r.fotoData) : '';
+      document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map((r, idx) => {
+        let keyFoto = `ruang_foto_${idx}`;
+        window.previewCache[keyFoto] = { tipe: 'Dokumentasi GPS Ruang', fileName: 'Foto Ruang 6 Sudut', fileData: r.fotoData };
+
         return `
           <tr class="border-b">
             <td class="p-3 font-bold">${r.nama_ruang}</td>
@@ -861,7 +877,7 @@
             <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
             <td class="p-3">${r.riwayat || '-'}</td>
             <td class="p-3 text-[10px]">
-              <button onclick="previewDokumen('Dokumentasi GPS Ruang', 'Foto Ruang', decodeURIComponent('${fotoUrl}'))" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
+              <button onclick="previewDokumenKey('${keyFoto}')" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>
             </td>
           </tr>
         `;
@@ -1010,7 +1026,7 @@
           <tr class="hover:bg-slate-50 border-b">
             <td class="p-3.5 font-bold text-slate-900">${usernameDisplay}</td>
             <td class="p-3.5 font-semibold text-slate-800">${instansiDisplay}</td>
-            <td class="p-3.5 font-mono text-indigo-600 font-bold">${u.npsn} (${u.jenjang || 'SD'})</td>
+            <td class="p-3.5 font-mono text-indigo-600 font-bold">${u.npsn || '-'} (${u.jenjang || 'SD'})</td>
             <td class="p-3.5 text-center">
               <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ${badgeColor}">
                 ${statusUser}
@@ -1019,7 +1035,7 @@
             <td class="p-3.5 text-center">
               <div class="flex items-center justify-center gap-1.5 flex-wrap">
                 ${!isApproved ? `
-                  <button onclick="setujuiUser(${index})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition">
+                  <button onclick="setujuiUser(${index})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
                     ✓ Setuju
                   </button>
                 ` : `
@@ -1029,7 +1045,7 @@
                 `}
                 
                 ${!isRejected ? `
-                  <button onclick="tolakUser(${index})" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition">
+                  <button onclick="tolakUser(${index})" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
                     ✕ Tolak
                   </button>
                 ` : `
@@ -1038,10 +1054,10 @@
                   </button>
                 `}
 
-                <button onclick="resetPasswordUser(${index})" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition">
+                <button onclick="resetPasswordUser(${index})" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
                   🔑 Reset
                 </button>
-                <button onclick="hapusUser(${index})" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition">
+                <button onclick="hapusUser(${index})" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">
                   🗑️ Hapus
                 </button>
               </div>
@@ -1079,19 +1095,37 @@
       }
     }
 
-    // PERBAIKAN: Berikan Notifikasi Konfirmasi Hapus User yang Menghilangkan Data Sekolah
+    // PERBAIKAN UTAMA: Hapus Total User Beserta SELURUH Data Rekapitulasi Sekolah Terkait
     function hapusUser(index) {
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
         let targetUser = users[index];
-        let sekolahName = targetUser.nama_sekolah || targetUser.username || 'Sekolah Terkait';
-        let konfirmasi = confirm(`⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "${sekolahName}"?\n\nTindakan ini akan menghapus akun beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan siswa sekolah secara total dari server!`);
+        let targetNPSN = targetUser.npsn;
+        let targetNama = targetUser.nama_sekolah || targetUser.username || targetUser.instansi;
+
+        let konfirmasi = confirm(`⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "${targetNama}" (NPSN: ${targetNPSN || '-'})?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!`);
         
         if (konfirmasi) {
+          // 1. Hapus User dari registered_users
           users.splice(index, 1);
           localStorage.setItem('registered_users', JSON.stringify(users));
-          alert('User dan seluruh data sekolah terkait berhasil dihapus.');
+
+          // 2. Hapus Data dari Master Sinkron
+          let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+          syncList = syncList.filter(s => s.npsn !== targetNPSN && s.nama_sekolah !== targetNama);
+          localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
+
+          // 3. Hapus Data dari Master Sarpras, GTK, Siswa, Rombel
+          ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(key => {
+            let list = JSON.parse(localStorage.getItem(key) || '[]');
+            list = list.filter(item => item.npsn !== targetNPSN && item.nama_sekolah !== targetNama);
+            localStorage.setItem(key, JSON.stringify(list));
+          });
+
+          alert('User dan seluruh data rekapitulasi sekolah terkait telah BERHASIL dihapus total dari sistem!');
           fetchUsers();
+          updateBerandaStats();
+          renderGrafikBeranda();
         }
       }
     }
