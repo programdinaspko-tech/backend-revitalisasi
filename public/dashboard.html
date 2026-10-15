@@ -171,7 +171,7 @@
           </div>
           <div class="flex items-center gap-2 w-full md:w-auto">
             <input type="text" id="filterCari" onkeyup="filterTabelSekolah()" placeholder="🔍 Cari NPSN / Nama Sekolah..." class="border rounded-lg px-3 py-1.5 text-xs w-64 outline-none">
-            <button onclick="exportTabelKeExcel('tabelSekolahContainer', 'Rekap_Profil_Sekolah_TIK.xls')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
+            <button onclick="exportTabelProfilSekolahExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
               <span>📥</span> Export Excel
             </button>
           </div>
@@ -667,16 +667,26 @@
 
     function renderGrafikBeranda() {
       masterSekolah = getRegisteredSekolahList();
-      masterRuang = JSON.parse(localStorage.getItem('master_ruang')) || [];
+      let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
       let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      
       let totalSekolah = masterSekolah.length;
       let totalDraft = regUsers.filter(function(x) { return x.status === 'Pending'; }).length;
 
       let totalSD = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SD'; }).length;
       let totalSMP = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SMP'; }).length;
 
-      let totalRusakSedang = masterRuang.filter(function(r) { return r.kondisi === 'Rusak Sedang'; }).length;
-      let totalRusakBerat = masterRuang.filter(function(r) { return r.kondisi === 'Rusak Berat'; }).length;
+      // Hitung total ruang rusak sedang & berat langsung dari sinkronisasi real sekolah
+      let totalRusakSedang = 0;
+      let totalRusakBerat = 0;
+      syncList.forEach(function(s) {
+        if (s.ruang && Array.isArray(s.ruang)) {
+          s.ruang.forEach(function(r) {
+            if (r.kondisi === 'Rusak Sedang') totalRusakSedang++;
+            if (r.kondisi === 'Rusak Berat') totalRusakBerat++;
+          });
+        }
+      });
 
       const ctx1 = document.getElementById('chartSinkronisasi').getContext('2d');
       if (chartSinkronInstance) chartSinkronInstance.destroy();
@@ -796,10 +806,33 @@
       syncList.forEach(function(s) {
         let namaSch = s.nama_sekolah || s.nama;
         if (s.tanah && Array.isArray(s.tanah)) {
-          s.tanah.forEach(function(t) { allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: (t.panjang || 0) + ' x ' + (t.lebar || 0), luas: ((t.panjang || 0) * (t.lebar || 0)) + ' m²', sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }); });
+          s.tanah.forEach(function(t) { 
+            allTanah.push({ 
+              nama_sekolah: namaSch, 
+              nama_lahan: t.nama, 
+              no_sertifikat: t.sertifikat, 
+              pxl: (t.panjang || 0) + ' x ' + (t.lebar || 0), 
+              luas: ((t.panjang || 0) * (t.lebar || 0)) + ' m²', 
+              sisa_lahan: 'Terhitung', 
+              kepemilikan: t.milik, 
+              pdf: t.pdf || t.pdfData || t.dokumenPdf || '', 
+              denah: t.denah || t.denahData || t.dokumenDenah || '' 
+            }); 
+          });
         }
         if (s.bangunan && Array.isArray(s.bangunan)) {
-          s.bangunan.forEach(function(b) { allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: (b.panjang || 0) + ' x ' + (b.lebar || 0), luas: ((b.panjang || 0) * (b.lebar || 0)) + ' m²', lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }); });
+          s.bangunan.forEach(function(b) { 
+            allBangunan.push({ 
+              nama_sekolah: namaSch, 
+              nama_bangunan: b.nama, 
+              pxl: (b.panjang || 0) + ' x ' + (b.lebar || 0), 
+              luas: ((b.panjang || 0) * (b.lebar || 0)) + ' m²', 
+              lantai: b.lantai, 
+              jenis: b.jenis, 
+              kondisi: b.kondisi, 
+              foto: b.foto || b.fotoData || b.dokumenFoto || '' 
+            }); 
+          });
         }
         if (s.ruang && Array.isArray(s.ruang)) {
           s.ruang.forEach(function(r) { 
@@ -811,12 +844,12 @@
               luas: ((r.panjang || 0) * (r.lebar || 0)) + ' m²', 
               kondisi: r.kondisi, 
               riwayat: r.keterangan || '-', 
-              fotoData1: r.fotoData1 || r.fotoData || '',
-              fotoData2: r.fotoData2 || '',
-              fotoData3: r.fotoData3 || '',
-              fotoData4: r.fotoData4 || '',
-              fotoData5: r.fotoData5 || '',
-              fotoData6: r.fotoData6 || ''
+              fotoData1: r.fotoData1 || r.foto1 || '',
+              fotoData2: r.fotoData2 || r.foto2 || '',
+              fotoData3: r.fotoData3 || r.foto3 || '',
+              fotoData4: r.fotoData4 || r.foto4 || '',
+              fotoData5: r.fotoData5 || r.foto5 || '',
+              fotoData6: r.fotoData6 || r.foto6 || ''
             }); 
           });
         }
@@ -1002,7 +1035,6 @@
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
       let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       
-      // Gabungkan data ter-sinkron dan draft sekolah yang terdaftar
       let allCombined = [];
       regUsers.forEach(function(u) {
         let matchedSync = syncList.find(function(s) { return s.npsn === u.npsn || s.nama_sekolah === u.nama_sekolah || s.nama === u.nama; });
@@ -1207,6 +1239,31 @@
       let htmlFormated = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + tempDiv.innerHTML + '</body></html>';
       let blob = new Blob([htmlFormated], { type: 'application/vnd.ms-excel' });
       downloadBlob(blob, namaFile);
+    }
+
+    function exportTabelProfilSekolahExcel() {
+      masterSekolah = getRegisteredSekolahList();
+      if (!masterSekolah.length) return alert('Tidak ada data sekolah untuk diexport.');
+      
+      let cleanHtml = '<table border="1"><thead><tr><th>NPSN</th><th>Nama Sekolah</th><th>Jenjang</th><th>Status / Akreditasi</th><th>Kepala Sekolah</th><th>Operator & WA</th><th>Inventaris TIK</th><th>Status Sinkron</th></tr></thead><tbody>';
+      masterSekolah.forEach(function(s) {
+        let tikStr = s.tik && Array.isArray(s.tik) ? s.tik.map(function(t) { return t.nama + ': ' + t.jumlah + ' (' + t.kondisi + ')'; }).join(', ') : '-';
+        cleanHtml += '<tr>' +
+          '<td>' + (s.npsn || '-') + '</td>' +
+          '<td>' + (s.nama_sekolah || s.nama || '-') + '</td>' +
+          '<td>' + (s.jenjang || 'SD') + '</td>' +
+          '<td>' + (s.status_sekolah || '-') + ' / ' + (s.akreditasi || '-') + '</td>' +
+          '<td>' + (s.nama_kepala_sekolah || '-') + '</td>' +
+          '<td>' + (s.operator || '-') + ' (' + (s.wa_operator || '-') + ')</td>' +
+          '<td>' + tikStr + '</td>' +
+          '<td>Ter-Sinkron</td>' +
+        '</tr>';
+      });
+      cleanHtml += '</tbody></table>';
+
+      let htmlFormated = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + cleanHtml + '</body></html>';
+      let blob = new Blob([htmlFormated], { type: 'application/vnd.ms-excel' });
+      downloadBlob(blob, 'Rekap_Profil_Sekolah_TIK_Clean.xls');
     }
 
     function exportSarprasAktifKeExcel() {
