@@ -1325,27 +1325,54 @@
     }
 
     // PERBAIKAN: Pratinjau Dokumen dengan penanganan file kosong yang akurat
-    function previewDokumen(tipe, fileName, fileData) {
-      const modal = document.getElementById('modalPreviewDokumen');
-      const judul = document.getElementById('previewJudul');
-      const container = document.getElementById('previewContainerContent');
-      const footerInfo = document.getElementById('previewInfoFooter');
-      
-      modal.classList.remove('hidden');
-      judul.innerHTML = `<span>👁️</span> Pratinjau ${tipe}: <span class="text-indigo-300 ml-1">${fileName || 'Dokumen'}</span>`;
-      footerInfo.innerText = `File URL / Dokumen: ${fileName || 'Tanpa Nama'}`;
+  function previewDokumen(tipe, fileName, fileData) {
+  const modal = document.getElementById('modalPreviewDokumen');
+  const judul = document.getElementById('previewJudul');
+  const container = document.getElementById('previewContainerContent');
+  const footerInfo = document.getElementById('previewInfoFooter');
+  
+  if (!modal) return;
+  modal.classList.remove('hidden');
 
-      if (!fileData || fileData === 'undefined' || fileData === 'null' || fileData.trim() === '') {
-        container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik.</p></div>`;
-        return;
-      }
+  if (judul) judul.innerHTML = '<span>👁️</span> Pratinjau ' + tipe + ': <span class="text-indigo-300 ml-1">' + (fileName || 'Dokumen') + '</span>';
+  if (footerInfo) footerInfo.innerText = 'File: ' + (fileName || 'Dokumen');
 
-      if (fileData.toLowerCase().endsWith('.pdf') || fileData.includes('/uploads/') || fileData.startsWith('data:application/pdf')) {
-        container.innerHTML = `<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="${fileData}" class="w-full h-full" frameborder="0"></iframe></div>`;
-      } else {
-        container.innerHTML = `<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="${fileData}" alt="Pratinjau" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>`;
-      }
-    }
+  // Pengecekan validitas string file fisik
+  if (!fileData || fileData === 'undefined' || fileData === 'null' || String(fileData).trim() === '') {
+    container.innerHTML = `
+      <div class="text-center space-y-3 py-10">
+        <div class="text-5xl text-amber-500">⚠️</div>
+        <p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik.</p>
+      </div>`;
+    return;
+  }
+
+  const strData = String(fileData);
+
+  // Jika file berupa PDF (Base64 DataURL atau URL file PDF)
+  if (strData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || strData.toLowerCase().endsWith('.pdf')) {
+    container.innerHTML = `
+      <div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300">
+        <iframe src="${strData}" class="w-full h-full" frameborder="0"></iframe>
+      </div>`;
+  } 
+  // Jika file berupa Gambar (JPG, PNG, JPEG)
+  else if (strData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) \vert{}\vert{} /\.(jpg\vert{}jpeg\vert{}png)$/i.test(strData)) {
+    container.innerHTML = `
+      <div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto">
+        <img src="${strData}" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md">
+      </div>`;
+  } 
+  // File tipe lainnya
+  else {
+    container.innerHTML = `
+      <div class="text-center space-y-3 py-10">
+        <div class="text-5xl text-indigo-500">📄</div>
+        <p class="text-sm font-bold text-slate-700">${fileName || 'Dokumen Terlampir'}</p>
+        <a href="${strData}" download="${fileName || 'dokumen'}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a>
+      </div>`;
+  }
+}
 
     function tutupModalPreview() { document.getElementById('modalPreviewDokumen').classList.add('hidden'); }
 
