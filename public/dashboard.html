@@ -18,13 +18,13 @@
 <body class="bg-slate-100 min-h-screen flex text-slate-800">
 
   <!-- SIDEBAR NAVIGATION ADMIN DINAS -->
-  <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0 min-h-screen shadow-xl">
+  <aside id="sidebarDinas" class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0 min-h-screen shadow-xl transition-all duration-300">
     <div>
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
         <div class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center border border-white/20 shadow-lg shrink-0">
             <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
           </div>
-        <div>
+        <div class="sidebar-text">
           <h1 class="font-extrabold text-sm tracking-wide text-slate-100">DINAS PKO</h1>
           <p id="sidebarRole" class="text-[11px] text-slate-400">Inovasi Revitalisasi</p>
         </div>
@@ -32,27 +32,27 @@
 
       <nav class="mt-4 px-2 space-y-1 text-xs">
         <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition sidebar-active font-medium cursor-pointer">
-          <span>📊</span> Beranda Rekapitulasi
+          <span>📊</span> <span class="sidebar-text">Beranda Rekapitulasi</span>
         </button>
 
         <button onclick="switchTab('sekolah')" id="nav-sekolah" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>🏫</span> Data Sekolah & Profil
+          <span>🏫</span> <span class="sidebar-text">Data Sekolah & Profil</span>
         </button>
 
         <button onclick="switchTab('sarpras')" id="nav-sarpras" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>🏗️</span> Rekapitulasi Sarpras
+          <span>🏗️</span> <span class="sidebar-text">Rekapitulasi Sarpras</span>
         </button>
 
         <button onclick="switchTab('gtk-siswa')" id="nav-gtk-siswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>👨‍🎓</span> Rekap GTK, Siswa & Rombel
+          <span>👨‍🎓</span> <span class="sidebar-text">Rekap GTK, Siswa & Rombel</span>
         </button>
 
         <button onclick="switchTab('rekap-sinkron')" id="nav-rekap-sinkron" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>🔄</span> Rekap Sinkronisasi Data
+          <span>🔄</span> <span class="sidebar-text">Rekap Sinkronisasi Data</span>
         </button>
 
         <button onclick="switchTab('user')" id="nav-user" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>🔑</span> Manager User & Akses
+          <span>🔑</span> <span class="sidebar-text">Manager User & Akses</span>
         </button>
       </nav>
     </div>
@@ -60,7 +60,7 @@
     <!-- Admin Profile & Logout -->
     <div class="p-4 border-t border-slate-800">
       <div class="flex items-center justify-between">
-        <div>
+        <div class="sidebar-text">
           <p id="userAdminName" class="text-xs font-bold text-white truncate max-w-[130px]">admin_dinas</p>
           <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-medium">Super Admin</span>
         </div>
@@ -77,7 +77,7 @@
     <!-- HEADER NAVBAR DINAS -->
     <header class="bg-slate-800 text-white rounded-xl p-4 mb-6 shadow-md flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <span class="text-xl">≡</span>
+        <button onclick="toggleSidebarDinas()" class="text-xl cursor-pointer hover:text-indigo-400 transition" title="Sembunyikan/Tampilkan Sidebar">≡</button>
         <h2 class="text-base font-bold tracking-wide">PORTAL REKAPITULASI DATA SEKOLAH DINAS — TAHUN 2026/2027</h2>
       </div>
       <div class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-xs px-3 py-1 rounded-full font-bold">
@@ -525,6 +525,21 @@
       if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
     }
 
+    // Fungsi Toggle Sidebar Hamburger Admin
+    function toggleSidebarDinas() {
+      const sidebar = document.getElementById('sidebarDinas');
+      const texts = document.querySelectorAll('.sidebar-text');
+      if (sidebar.classList.contains('w-64')) {
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-20');
+        texts.forEach(el => el.classList.add('hidden'));
+      } else {
+        sidebar.classList.remove('w-20');
+        sidebar.classList.add('w-64');
+        texts.forEach(el => el.classList.remove('hidden'));
+      }
+    }
+
     function getRegisteredSekolahList() {
       let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
       let syncList = rawSyncList.filter(s => s.npsn && s.nama_sekolah && s.jumlah_item > 0);
@@ -540,6 +555,7 @@
     let masterSiswaKelas = JSON.parse(localStorage.getItem('master_siswa')) || [];
     let masterRombel = JSON.parse(localStorage.getItem('master_rombel')) || [];
 
+    // PERBAIKAN: Validasi Pratinjau Dokumen jika file kosong/belum diunggah
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -550,14 +566,14 @@
       judul.innerHTML = `<span>👁️</span> Pratinjau ${tipe}: <span class="text-indigo-300 ml-1">${fileName || 'Dokumen'}</span>`;
       footerInfo.innerText = `Nama File: ${fileName || 'Tanpa Nama'}`;
 
-      if (!fileData) {
+      if (!fileData || fileData === 'undefined' || fileData === 'null' || fileData.trim() === '') {
         container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p></div>`;
         return;
       }
 
-      if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf'))) {
+      if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || fileData.toLowerCase().endsWith('.pdf')) {
         container.innerHTML = `<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="${fileData}" class="w-full h-full" frameborder="0"></iframe></div>`;
-      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName))) {
+      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(fileData)) {
         container.innerHTML = `<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="${fileData}" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>`;
       } else {
         container.innerHTML = `<div class="text-center space-y-3 py-10"><div class="text-5xl text-indigo-500">📄</div><p class="text-sm font-bold text-slate-700">${fileName}</p><a href="${fileData}" download="${fileName}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a></div>`;
@@ -1063,12 +1079,20 @@
       }
     }
 
+    // PERBAIKAN: Berikan Notifikasi Konfirmasi Hapus User yang Menghilangkan Data Sekolah
     function hapusUser(index) {
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
-        users.splice(index, 1);
-        localStorage.setItem('registered_users', JSON.stringify(users));
-        fetchUsers();
+        let targetUser = users[index];
+        let sekolahName = targetUser.nama_sekolah || targetUser.username || 'Sekolah Terkait';
+        let konfirmasi = confirm(`⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "${sekolahName}"?\n\nTindakan ini akan menghapus akun beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan siswa sekolah secara total dari server!`);
+        
+        if (konfirmasi) {
+          users.splice(index, 1);
+          localStorage.setItem('registered_users', JSON.stringify(users));
+          alert('User dan seluruh data sekolah terkait berhasil dihapus.');
+          fetchUsers();
+        }
       }
     }
 
