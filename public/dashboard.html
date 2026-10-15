@@ -166,12 +166,12 @@
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
         <div class="flex flex-col md:flex-row justify-between items-center gap-3 mb-4">
           <div>
-            <h3 class="text-lg font-bold text-slate-800">Data Sekolah & Profil Terintegrasi</h3>
-            <p class="text-xs text-slate-500">Merekap seluruh data inputan profil, penanggung jawab, rekening, serta utilitas GIS sekolah.</p>
+            <h3 class="text-lg font-bold text-slate-800">Data Sekolah & Profil Terintegrasi (Rekap TIK)</h3>
+            <p class="text-xs text-slate-500">Merekap seluruh data inputan profil, penanggung jawab, utilitas GIS, serta inventaris jenis TIK sekolah.</p>
           </div>
           <div class="flex items-center gap-2 w-full md:w-auto">
             <input type="text" id="filterCari" onkeyup="filterTabelSekolah()" placeholder="🔍 Cari NPSN / Nama Sekolah..." class="border rounded-lg px-3 py-1.5 text-xs w-64 outline-none">
-            <button onclick="exportTabelKeExcel('tabelSekolahContainer', 'Rekap_Profil_Sekolah.xls')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
+            <button onclick="exportTabelKeExcel('tabelSekolahContainer', 'Rekap_Profil_Sekolah_TIK.xls')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
               <span>📥</span> Export Excel
             </button>
           </div>
@@ -185,7 +185,7 @@
                 <th class="p-3.5">Jenjang / Status / Akred</th>
                 <th class="p-3.5">Kepala Sekolah & NIP</th>
                 <th class="p-3.5">Operator & WhatsApp</th>
-                <th class="p-3.5">Rekening Bank</th>
+                <th class="p-3.5">Inventaris Jenis TIK (Dimiliki/0)</th>
                 <th class="p-3.5 text-center">Status Sinkron</th>
                 <th class="p-3.5 text-center">Aksi Detail Inputan</th>
               </tr>
@@ -417,13 +417,18 @@
       </div>
     </section>
 
-    <!-- 5. TAB REKAP SINKRONISASI DATA -->
+    <!-- 5. TAB REKAP SINKRONISASI DATA (DENGAN FILTER AKTIF) -->
     <section id="tab-rekap-sinkron" class="tab-content hidden space-y-4">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-center gap-3 border-b pb-4">
           <h3 class="text-lg font-bold text-slate-800"><span>🔄</span> Rekapitulasi & Log Sinkronisasi Data Sekolah</h3>
           <div class="flex flex-wrap items-center gap-2">
             <input type="text" id="filterSyncCari" onkeyup="renderTabelRekapSinkron()" placeholder="🔍 Cari Nama Sekolah..." class="border rounded-lg px-3 py-1.5 text-xs w-48 outline-none">
+            <select id="filterSyncStatus" onchange="renderTabelRekapSinkron()" class="border rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none">
+              <option value="ALL">-- Semua Status Sinkron --</option>
+              <option value="Ter-Sinkron">Ter-Sinkron</option>
+              <option value="Draft">Draft (Belum Sinkron)</option>
+            </select>
             <select id="filterSyncJenjang" onchange="renderTabelRekapSinkron()" class="border rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none">
               <option value="ALL">-- Semua Jenjang --</option>
               <option value="SD">SD</option>
@@ -442,8 +447,9 @@
                 <th class="p-3.5">Nama Sekolah</th>
                 <th class="p-3.5">NPSN</th>
                 <th class="p-3.5 text-center">Jenjang</th>
+                <th class="p-3.5 text-center">Status Sinkron</th>
                 <th class="p-3.5 text-center">Waktu / Tanggal Sinkron</th>
-                <th class="p-3.5 text-center">Jumlah Sinkron (Item)</th>
+                <th class="p-3.5 text-center">Jumlah Item</th>
               </tr>
             </thead>
             <tbody id="rekapSinkronTableBody" class="divide-y divide-slate-100"></tbody>
@@ -502,7 +508,7 @@
       <div class="p-4 bg-slate-100 flex-1 overflow-y-auto flex items-center justify-center min-h-[400px]">
         <div id="previewContainerContent" class="w-full h-full flex items-center justify-center"></div>
       </div>
-      <div class="bg-white px-6 py-3 border-t flex justify-between items-center shrink-0">
+      <div class="bg-slate-50 px-6 py-3 border-t flex justify-between items-center shrink-0">
         <span id="previewInfoFooter" class="text-xs text-slate-500 font-medium truncate"></span>
         <button onclick="tutupModalPreview()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold text-xs cursor-pointer">Tutup Pratinjau</button>
       </div>
@@ -591,7 +597,7 @@
       const selectGTK = document.getElementById('gtkSiswaSekolahFilter');
       let optionsHtml = '<option value="ALL">-- Tampilkan Semua Sekolah --</option>';
       masterSekolah.forEach(function(s) {
-        optionsHtml += '<option value="' + s.nama_sekolah + '">' + s.nama_sekolah + ' (' + s.npsn + ')</option>';
+        optionsHtml += '<option value="' + (s.nama_sekolah || s.nama) + '">' + (s.nama_sekolah || s.nama) + ' (' + s.npsn + ')</option>';
       });
       if(selectSarpras) selectSarpras.innerHTML = optionsHtml;
       if(selectGTK) selectGTK.innerHTML = optionsHtml;
@@ -715,12 +721,19 @@
         return;
       }
       tbody.innerHTML = masterSekolah.map(function(item) {
+        let tikSummary = '<span class="text-slate-400 italic">Belum diinput</span>';
+        if (item.tik && Array.isArray(item.tik) && item.tik.length > 0) {
+          tikSummary = item.tik.map(function(t) {
+            return '<span class="inline-block bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] mr-1 mb-1 font-medium">' + t.nama + ': <b>' + t.jumlah + '</b> (' + t.kondisi + ')</span>';
+          }).join('');
+        }
+
         return '<tr class="hover:bg-slate-50 border-b border-slate-100">' +
           '<td class="p-3.5"><p class="font-mono font-bold text-indigo-700">' + (item.npsn || '-') + '</p><p class="font-bold text-slate-900">' + (item.nama_sekolah || item.nama || '-') + '</p></td>' +
           '<td class="p-3.5"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (item.jenjang || 'SD') + '</span></td>' +
           '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_kepala_sekolah || '-') + '</p></td>' +
           '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.operator || '-') + '</p></td>' +
-          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_bank || '-') + '</p></td>' +
+          '<td class="p-3.5 max-w-xs">' + tikSummary + '</td>' +
           '<td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>' +
           '<td class="p-3.5 text-center"><button onclick="bukaDetailSekolah(\'' + (item.npsn || item.nama_sekolah || item.nama) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>' +
         '</tr>';
@@ -741,7 +754,13 @@
       let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier || s.nama === identifier; });
       if (!sch) return alert('Data detail sekolah tidak ditemukan.');
 
-      document.getElementById('modalDetailTitle').innerText = 'Detail Profil: ' + (sch.nama_sekolah || sch.nama || '-');
+      let tikDetailHtml = '<p class="text-slate-400 italic">Belum ada inventaris TIK</p>';
+      if (sch.tik && Array.isArray(sch.tik) && sch.tik.length > 0) {
+        tikDetailHtml = sch.tik.map(function(t) {
+          return '<div class="flex justify-between border-b py-1"><span>' + t.nama + ':</span><span class="font-bold">Jumlah: ' + t.jumlah + ' (' + t.kondisi + ')</span></div>';
+        }).join('');
+      }
+
       let contentHtml = '<div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">' +
           '<div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">' + (sch.nama_sekolah || sch.nama || '-') + '</p></div>' +
           '<div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">' + (sch.npsn || '-') + '</p></div>' +
@@ -753,12 +772,12 @@
           '<div><p class="text-slate-500 font-semibold">Daya Listrik / Air:</p><p class="font-bold">' + (sch.daya_listrik || '-') + ' Watt / ' + (sch.sumber_air || '-') + '</p></div>' +
         '</div>' +
         '<div class="space-y-2 mt-3">' +
-          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Rekening Bank</h4>' +
-          '<div class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border">' +
+          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Inventaris Jenis TIK</h4>' +
+          '<div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-lg border">' +
             '<div><p class="text-slate-500">Kepala Sekolah:</p><p class="font-bold">' + (sch.nama_kepala_sekolah || '-') + ' (NIP: ' + (sch.nip_kepala_sekolah || '-') + ')</p></div>' +
             '<div><p class="text-slate-500">Operator & WA:</p><p class="font-bold">' + (sch.operator || '-') + ' (' + (sch.wa_operator || '-') + ')</p></div>' +
-            '<div><p class="text-slate-500">Bank & Rekening:</p><p class="font-bold">' + (sch.nama_bank || '-') + ' - ' + (sch.no_rekening || '-') + ' a.n ' + (sch.pemilik_rekening || '-') + '</p></div>' +
-            '<div><p class="text-slate-500">Koordinat (Lat, Long):</p><p class="font-bold font-mono">' + (sch.latitude || '-') + ', ' + (sch.longitude || '-') + '</p></div>' +
+            '<div class="md:col-span-2"><p class="text-slate-500 font-semibold mb-1">Inventaris Jenis TIK (Tervalidasi):</p><div class="bg-slate-50 p-2 rounded border text-xs">' + tikDetailHtml + '</div></div>' +
+            '<div class="md:col-span-2"><p class="text-slate-500">Koordinat (Lat, Long):</p><p class="font-bold font-mono">' + (sch.latitude || '-') + ', ' + (sch.longitude || '-') + '</p></div>' +
           '</div>' +
         '</div>';
       document.getElementById('modalDetailContent').innerHTML = contentHtml;
@@ -783,7 +802,23 @@
           s.bangunan.forEach(function(b) { allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: (b.panjang || 0) + ' x ' + (b.lebar || 0), luas: ((b.panjang || 0) * (b.lebar || 0)) + ' m²', lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }); });
         }
         if (s.ruang && Array.isArray(s.ruang)) {
-          s.ruang.forEach(function(r) { allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: (r.panjang || 0) + ' x ' + (r.lebar || 0), luas: ((r.panjang || 0) * (r.lebar || 0)) + ' m²', kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }); });
+          s.ruang.forEach(function(r) { 
+            allRuang.push({ 
+              nama_sekolah: namaSch, 
+              nama_ruang: r.nama, 
+              jenis_ruang: r.jenis, 
+              pxl: (r.panjang || 0) + ' x ' + (r.lebar || 0), 
+              luas: ((r.panjang || 0) * (r.lebar || 0)) + ' m²', 
+              kondisi: r.kondisi, 
+              riwayat: r.keterangan || '-', 
+              fotoData1: r.fotoData1 || r.fotoData || '',
+              fotoData2: r.fotoData2 || '',
+              fotoData3: r.fotoData3 || '',
+              fotoData4: r.fotoData4 || '',
+              fotoData5: r.fotoData5 || '',
+              fotoData6: r.fotoData6 || ''
+            }); 
+          });
         }
         if (s.alat && Array.isArray(s.alat)) {
           s.alat.forEach(function(a) { allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }); });
@@ -849,8 +884,13 @@
       }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>';
 
       document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(function(r, idx) {
-        let keyFoto = 'ruang_foto_' + idx;
-        window.previewCache[keyFoto] = { tipe: 'Dokumentasi GPS Ruang', fileName: 'Foto Ruang 6 Sudut', fileData: r.fotoData };
+        let k1 = 'r_f1_' + idx, k2 = 'r_f2_' + idx, k3 = 'r_f3_' + idx, k4 = 'r_f4_' + idx, k5 = 'r_f5_' + idx, k6 = 'r_f6_' + idx;
+        window.previewCache[k1] = { tipe: 'Sudut 1 (Depan)', fileName: 'Foto Sudut 1', fileData: r.fotoData1 };
+        window.previewCache[k2] = { tipe: 'Sudut 2 (Kanan)', fileName: 'Foto Sudut 2', fileData: r.fotoData2 };
+        window.previewCache[k3] = { tipe: 'Sudut 3 (Kiri)', fileName: 'Foto Sudut 3', fileData: r.fotoData3 };
+        window.previewCache[k4] = { tipe: 'Sudut 4 (Belakang)', fileName: 'Foto Sudut 4', fileData: r.fotoData4 };
+        window.previewCache[k5] = { tipe: 'Sudut 5 (Plafon/Atap)', fileName: 'Foto Sudut 5', fileData: r.fotoData5 };
+        window.previewCache[k6] = { tipe: 'Sudut 6 (Lantai/Dinding)', fileName: 'Foto Sudut 6', fileData: r.fotoData6 };
 
         return '<tr class="border-b">' +
             '<td class="p-3 font-bold">' + r.nama_ruang + '</td>' +
@@ -860,8 +900,13 @@
             '<td class="p-3 font-bold">' + (r.luas || '-') + '</td>' +
             '<td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">' + r.kondisi + '</span></td>' +
             '<td class="p-3">' + (r.riwayat || '-') + '</td>' +
-            '<td class="p-3 text-[10px]">' +
-              '<button onclick="previewDokumenKey(\'' + keyFoto + '\')" class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6 Sudut GPS</button>' +
+            '<td class="p-3 text-[10px] space-x-1">' +
+              '<button onclick="previewDokumenKey(\'' + k1 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">1</button>' +
+              (r.fotoData2 ? '<button onclick="previewDokumenKey(\'' + k2 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">2</button>' : '') +
+              (r.fotoData3 ? '<button onclick="previewDokumenKey(\'' + k3 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">3</button>' : '') +
+              (r.fotoData4 ? '<button onclick="previewDokumenKey(\'' + k4 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">4</button>' : '') +
+              (r.fotoData5 ? '<button onclick="previewDokumenKey(\'' + k5 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">5</button>' : '') +
+              (r.fotoData6 ? '<button onclick="previewDokumenKey(\'' + k6 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">6</button>' : '') +
             '</td>' +
           '</tr>';
       }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>';
@@ -955,28 +1000,65 @@
 
     function renderTabelRekapSinkron() {
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      
+      // Gabungkan data ter-sinkron dan draft sekolah yang terdaftar
+      let allCombined = [];
+      regUsers.forEach(function(u) {
+        let matchedSync = syncList.find(function(s) { return s.npsn === u.npsn || s.nama_sekolah === u.nama_sekolah || s.nama === u.nama; });
+        if (matchedSync) {
+          allCombined.push({
+            nama_sekolah: matchedSync.nama_sekolah || matchedSync.nama,
+            npsn: matchedSync.npsn,
+            jenjang: matchedSync.jenjang || u.jenjang || 'SD',
+            status: 'Ter-Sinkron',
+            waktu: matchedSync.created_at || matchedSync.waktu_sinkron || new Date().toISOString(),
+            jumlah_item: matchedSync.jumlah_item || 0
+          });
+        } else {
+          allCombined.push({
+            nama_sekolah: u.nama_sekolah || u.nama || u.username,
+            npsn: u.npsn || '-',
+            jenjang: u.jenjang || 'SD',
+            status: 'Draft',
+            waktu: '-',
+            jumlah_item: 0
+          });
+        }
+      });
+
       let keyword = document.getElementById('filterSyncCari') ? document.getElementById('filterSyncCari').value.toLowerCase() : '';
+      let filterStatus = document.getElementById('filterSyncStatus') ? document.getElementById('filterSyncStatus').value : 'ALL';
       let filterJenjang = document.getElementById('filterSyncJenjang') ? document.getElementById('filterSyncJenjang').value : 'ALL';
 
-      let filtered = syncList.filter(function(s) {
-        let matchName = (s.nama_sekolah || s.nama || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
+      let filtered = allCombined.filter(function(s) {
+        let matchName = (s.nama_sekolah || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
+        let matchStatus = filterStatus === 'ALL' || s.status === filterStatus;
         let matchJenjang = filterJenjang === 'ALL' || (s.jenjang || 'SD').toUpperCase() === filterJenjang.toUpperCase();
-        return matchName && matchJenjang && s.jumlah_item > 0;
+        return matchName && matchStatus && matchJenjang;
       });
 
       const tbody = document.getElementById('rekapSinkronTableBody');
       if (!tbody) return;
       if (!filtered.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi aktif.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi atau sekolah yang sesuai filter.</td></tr>';
         return;
       }
+
       tbody.innerHTML = filtered.map(function(s) {
+        let badgeStatus = s.status === 'Ter-Sinkron' ? 
+          '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span>' : 
+          '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700">Draft (Belum Sinkron)</span>';
+        
+        let waktuStr = s.waktu !== '-' ? new Date(s.waktu).toLocaleString('id-ID') : '<span class="text-slate-400 italic">Belum pernah sinkron</span>';
+
         return '<tr class="border-b hover:bg-slate-50">' +
-          '<td class="p-3.5 font-bold">' + (s.nama_sekolah || s.nama || '-') + '</td>' +
-          '<td class="p-3.5 font-mono text-indigo-700 font-bold">' + (s.npsn || '-') + '</td>' +
-          '<td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (s.jenjang || 'SD') + '</span></td>' +
-          '<td class="p-3.5 text-center text-slate-600">' + new Date(s.created_at || Date.now()).toLocaleString('id-ID') + '</td>' +
-          '<td class="p-3.5 text-center font-bold text-emerald-700">⚡ ' + (s.jumlah_item || 0) + ' Item</td>' +
+          '<td class="p-3.5 font-bold">' + s.nama_sekolah + '</td>' +
+          '<td class="p-3.5 font-mono text-indigo-700 font-bold">' + s.npsn + '</td>' +
+          '<td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + s.jenjang + '</span></td>' +
+          '<td class="p-3.5 text-center">' + badgeStatus + '</td>' +
+          '<td class="p-3.5 text-center text-slate-600">' + waktuStr + '</td>' +
+          '<td class="p-3.5 text-center font-bold text-emerald-700">⚡ ' + s.jumlah_item + ' Item</td>' +
         '</tr>';
       }).join('');
     }
@@ -1056,7 +1138,6 @@
       }
     }
 
-    // PENANGANAN HAPUS USER: Pembersihan Total (Clean Cascade Wipe)
     function hapusUser(index) {
       let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (users[index]) {
@@ -1067,23 +1148,19 @@
         let konfirmasi = confirm('⚠️ PERINGATAN KERAS:\n\nApakah Anda yakin ingin menghapus user "' + targetNama + '" (NPSN: ' + (targetNPSN || '-') + ')?\n\nTindakan ini akan menghapus akun registrasi beserta seluruh data rekapitulasi, profil, sarpras, GTK, dan peserta didik sekolah secara total dari sistem!');
         
         if (konfirmasi) {
-          // 1. Hapus user dari daftar registered_users
           users.splice(index, 1);
           localStorage.setItem('registered_users', JSON.stringify(users));
 
-          // 2. Hapus total dari master_sinkron_list (Penyebab utama data sekolah masih muncul)
           let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
           syncList = syncList.filter(function(s) {
             let sNpsn = (s.npsn || '').trim();
             let sNama = (s.nama_sekolah || s.nama || '').trim().toLowerCase();
-            // Cocokkan berdasarkan NPSN atau Nama Sekolah
             let isMatchNpsn = targetNPSN && sNpsn === targetNPSN;
             let isMatchNama = targetNama && sNama === targetNama;
             return !(isMatchNpsn || isMatchNama);
           });
           localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
 
-          // 3. Hapus juga dari seluruh master data terkait lainnya (cascade wipe)
           ['master_tanah', 'master_bangunan', 'master_ruang', 'master_alat', 'master_gtk', 'master_siswa', 'master_rombel'].forEach(function(key) {
             let list = JSON.parse(localStorage.getItem(key) || '[]');
             list = list.filter(function(item) {
@@ -1097,8 +1174,6 @@
           });
 
           alert('User dan seluruh data rekapitulasi sekolah terkait telah BERHASIL dihapus total dari sistem!');
-          
-          // Refresh ulang tampilan admin agar data langsung hilang seketika
           fetchUsers();
           updateBerandaStats();
           renderGrafikBeranda();
