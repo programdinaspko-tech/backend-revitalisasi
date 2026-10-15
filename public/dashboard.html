@@ -736,7 +736,7 @@
           <div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">${sch.nama_sekolah}</p></div>
           <div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">${sch.npsn || '-'}</p></div>
           <div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">${sch.jenjang || 'SD'}</p></div>
-          <div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">${sch.status_sekolah \vert{}\vert{} 'Negeri'} / Akred:${sch.akreditasi || 'B'}</p></div>
+          <div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">${sch.status_sekolah || 'Negeri'} / Akred:${sch.akreditasi || 'B'}</p></div>
         </div>
         <div class="space-y-2">
           <h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Kontak</h4>
@@ -763,13 +763,13 @@
       syncList.forEach(s => {
         let namaSch = s.nama_sekolah;
         if (s.tanah && Array.isArray(s.tanah)) {
-          s.tanah.forEach(t => allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: `${t.panjang \vert{}\vert{} 0} x${t.lebar || 0}`, luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`, sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }));
+          s.tanah.forEach(t => allTanah.push({ nama_sekolah: namaSch, nama_lahan: t.nama, no_sertifikat: t.sertifikat, pxl: `${t.panjang || 0} x ${t.lebar || 0}`, luas: `${(t.panjang || 0) * (t.lebar || 0)} m²`, sisa_lahan: 'Terhitung', kepemilikan: t.milik, pdf: t.pdf || t.pdfData || '', denah: t.denah || t.denahData || '' }));
         }
         if (s.bangunan && Array.isArray(s.bangunan)) {
-          s.bangunan.forEach(b => allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: `${b.panjang \vert{}\vert{} 0} x${b.lebar || 0}`, luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`, lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }));
+          s.bangunan.forEach(b => allBangunan.push({ nama_sekolah: namaSch, nama_bangunan: b.nama, pxl: `${b.panjang || 0} x ${b.lebar || 0}`, luas: `${(b.panjang || 0) * (b.lebar || 0)} m²`, lantai: b.lantai, jenis: b.jenis, kondisi: b.kondisi, foto: b.foto || b.fotoData || '' }));
         }
         if (s.ruang && Array.isArray(s.ruang)) {
-          s.ruang.forEach(r => allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: `${r.panjang \vert{}\vert{} 0} x${r.lebar || 0}`, luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`, kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }));
+          s.ruang.forEach(r => allRuang.push({ nama_sekolah: namaSch, nama_ruang: r.nama, jenis_ruang: r.jenis, pxl: `${r.panjang || 0} x ${r.lebar || 0}`, luas: `${(r.panjang || 0) * (r.lebar || 0)} m²`, kondisi: r.kondisi, riwayat: r.keterangan || '-', fotoData: r.fotoData1 || r.fotoData || '' }));
         }
         if (s.alat && Array.isArray(s.alat)) {
           s.alat.forEach(a => allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }));
