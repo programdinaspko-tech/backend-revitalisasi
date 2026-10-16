@@ -70,8 +70,8 @@
 
         <form id="loginForm" class="space-y-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Username</label>
-            <input type="text" id="loginUsername" required placeholder="Contoh: IUS atau admin_dinas" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Username / NPSN</label>
+            <input type="text" id="loginUsername" required placeholder="Contoh: Ibu Elsa, IUS, SDK NANGABLO, atau NPSN" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
           </div>
 
           <div>
@@ -96,7 +96,7 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">NPSN Sekolah</label>
-              <input type="text" id="regNpsn" required placeholder="50302320" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+              <input type="text" id="regNpsn" required placeholder="50302177" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Jenjang Pendidikan</label>
@@ -111,12 +111,12 @@
 
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nama Resmi Sekolah</label>
-            <input type="text" id="regNamaSekolah" required placeholder="SD INPRES LEDAGOBA" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+            <input type="text" id="regNamaSekolah" required placeholder="SDK NANGABLO" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
           </div>
 
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Operator</label>
-            <input type="text" id="regOperator" required placeholder="IUS" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+            <input type="text" id="regOperator" required placeholder="Ibu Elsa" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
           </div>
 
           <div>
@@ -144,6 +144,47 @@
   <script>
     let isRegisterMode = false;
 
+    // INITALIZE SEED DATA UNTUK LINTAS BROWSER / FALLBACK BROWSER BARU
+    function initSeedUsers() {
+      let currentUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      const defaultUsers = [
+        {
+          npsn: "50302177",
+          jenjang: "SD",
+          nama_sekolah: "SDK NANGABLO",
+          operator: "Ibu Elsa",
+          username: "Ibu Elsa",
+          password: "123",
+          status: "Disetujui"
+        },
+        {
+          npsn: "50302320",
+          jenjang: "SD",
+          nama_sekolah: "SD INPRES LEDAGOBA",
+          operator: "IUS",
+          username: "IUS",
+          password: "123",
+          status: "Disetujui"
+        }
+      ];
+
+      // Gabungkan akun default jika belum ada di browser ini
+      defaultUsers.forEach(def => {
+        let exists = currentUsers.some(u => 
+          (u.npsn && u.npsn === def.npsn) || 
+          (u.operator && u.operator.toLowerCase() === def.operator.toLowerCase())
+        );
+        if (!exists) {
+          currentUsers.push(def);
+        }
+      });
+
+      localStorage.setItem('registered_users', JSON.stringify(currentUsers));
+    }
+
+    // Jalankan inisialisasi saat halaman dibuka
+    initSeedUsers();
+
     function switchMode() {
       isRegisterMode = !isRegisterMode;
       const loginSec = document.getElementById('loginSection');
@@ -165,7 +206,7 @@
     }
 
     // HANDLER SUBMIT LOGIN
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value;
@@ -183,57 +224,83 @@
         return;
       }
 
-// 2. Cek Login User Sekolah dari LocalStorage (Versi Lebih Fleksibel)
-let registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      // 2. Coba Autentikasi via API Server Terlebih Dahulu (Jika API Server Aktif)
+      try {
+        let res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        if (res.ok) {
+          let data = await res.json();
+          localStorage.setItem('token', data.token || 'mock_user_token');
+          localStorage.setItem('user', JSON.stringify(data.user));
+          
+          alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+          alertBox.textContent = '✓ Login Berhasil via Database Server! Mengalihkan...';
+          alertBox.classList.remove('hidden');
+          setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);
+          return;
+        }
+      } catch (err) {
+        console.warn('API Server tidak merespon/offline, beralih ke verifikasi Lokal Browser.');
+      }
 
-const foundUser = registeredUsers.find(u => {
-  let op = (u.operator || u.username || '').trim().toLowerCase();
-  let sch = (u.nama_sekolah || u.nama || u.instansi || '').trim().toLowerCase();
-  let npsnVal = (u.npsn || '').trim().toLowerCase();
-  let inputName = username.trim().toLowerCase();
-  
-  return op === inputName || sch === inputName || npsnVal === inputName;
-});
+      // 3. Fallback: Cek Login User Sekolah dari LocalStorage (Versi Fleksibel & Bebas Duplicate Identifier)
+      let registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
 
-if (!foundUser) {
-  alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
-  alertBox.textContent = '❌ Login Gagal: Akun tidak ditemukan berdasarkan Username, Nama Sekolah, atau NPSN tersebut.';
-  alertBox.classList.remove('hidden');
-  return;
-}
+      const foundUser = registeredUsers.find(u => {
+        let op = (u.operator || u.username || '').trim().toLowerCase();
+        let sch = (u.nama_sekolah || u.nama || u.instansi || '').trim().toLowerCase();
+        let npsnVal = (u.npsn || '').trim().toLowerCase();
+        let inputName = username.trim().toLowerCase();
+        
+        return op === inputName || sch === inputName || npsnVal === inputName;
+      });
 
-// 3. Validasi Status Persetujuan Admin (Dibuat Case-Insensitive)
-let statusUser = (foundUser.status || 'Pending').trim().toLowerCase();
-let isAllowed = statusUser === 'disetujui' || statusUser === 'aktif' || statusUser === 'approved';
+      if (!foundUser) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Akun tidak ditemukan berdasarkan Username, Nama Sekolah, atau NPSN tersebut.';
+        alertBox.classList.remove('hidden');
+        return;
+      }
 
-if (!isAllowed) {
-  alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200';
-  alertBox.textContent = `⏳ Login Gagal: Akun Anda berstatus "${foundUser.status || 'Pending'}". Harap minta persetujuan ulang ke Admin Dinas.`;
-  alertBox.classList.remove('hidden');
-  return;
-}
+      // 4. Validasi Status Persetujuan Admin (Case-Insensitive)
+      let statusUser = (foundUser.status || 'Pending').trim().toLowerCase();
+      let isAllowed = statusUser === 'disetujui' || statusUser === 'aktif' || statusUser === 'approved';
 
-// 4. Validasi Password
-if (foundUser.password && foundUser.password !== password) {
-  alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
-  alertBox.textContent = '❌ Login Gagal: Kata sandi salah.';
-  alertBox.classList.remove('hidden');
-  return;
-}
+      if (!isAllowed) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200';
+        alertBox.textContent = `⏳ Login Gagal: Akun Anda berstatus "${foundUser.status || 'Pending'}". Harap minta persetujuan ulang ke Admin Dinas.`;
+        alertBox.classList.remove('hidden');
+        return;
+      }
 
-// Berhasil Login User Sekolah
-localStorage.setItem('token', 'mock_user_token');
-localStorage.setItem('user', JSON.stringify({ 
-  username: foundUser.operator || foundUser.username, 
-  role: 'User Sekolah',
-  nama_sekolah: foundUser.nama_sekolah || foundUser.nama || foundUser.instansi,
-  npsn: foundUser.npsn
-}));
+      // 5. Validasi Password
+      if (foundUser.password && foundUser.password !== password) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Kata sandi salah.';
+        alertBox.classList.remove('hidden');
+        return;
+      }
 
-alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
-alertBox.textContent = '✓ Login User Sekolah Berhasil! Mengalihkan ke Dashboard Sekolah...';
-alertBox.classList.remove('hidden');
-setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);    });
+      // Berhasil Login User Sekolah
+      let userSession = {
+        username: foundUser.operator || foundUser.username, 
+        role: 'User Sekolah',
+        nama_sekolah: foundUser.nama_sekolah || foundUser.nama || foundUser.instansi,
+        npsn: foundUser.npsn || '50302177',
+        jenjang: foundUser.jenjang || 'SD'
+      };
+
+      localStorage.setItem('token', 'mock_user_token');
+      localStorage.setItem('user', JSON.stringify(userSession));
+
+      alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+      alertBox.textContent = '✓ Login User Sekolah Berhasil! Mengalihkan ke Dashboard Sekolah...';
+      alertBox.classList.remove('hidden');
+      setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);
+    });
 
     // HANDLER SUBMIT REGISTRASI AKUN SEKOLAH
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
