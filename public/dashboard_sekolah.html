@@ -1833,58 +1833,57 @@
 
     // SIMPAN TANAH DENGAN PENANGANAN ERROR STORAGE AMAN
     async function simpanTanah() {
-      const editId = document.getElementById('edit_t_id').value;
-      const nama = document.getElementById('t_nama').value;
-      const sertifikat = document.getElementById('t_sertifikat').value;
-      const panjang = parseFloat(document.getElementById('t_panjang').value) || 0;
-      const lebar = parseFloat(document.getElementById('t_lebar').value) || 0;
-      const milik = document.getElementById('t_milik').value;
-      
-      const pdfInput = document.getElementById('t_dok_pdf').files[0];
-      const denahInput = document.getElementById('t_foto_denah').files[0];
+  const editId = document.getElementById('edit_t_id').value;
+  const nama = document.getElementById('t_nama').value;
+  const sertifikat = document.getElementById('t_sertifikat').value;
+  const panjang = parseFloat(document.getElementById('t_panjang').value) || 0;
+  const lebar = parseFloat(document.getElementById('t_lebar').value) || 0;
+  const milik = document.getElementById('t_milik').value;
+  
+  const pdfInput = document.getElementById('t_dok_pdf').files[0];
+  const denahInput = document.getElementById('t_foto_denah').files[0];
 
-      if (!nama) return alert('Nama tanah wajib diisi');
+  if (!nama) return alert('Nama tanah wajib diisi');
 
-      let existing = editId ? listTanah.find(t => t.id == editId) : null;
-      let pdfUrl = existing ? existing.pdf : '';
-      let denahUrl = existing ? existing.denah : '';
+  let existing = editId ? listTanah.find(t => t.id == editId) : null;
+  let pdfUrl = existing ? existing.pdf : '';
+  let denahUrl = existing ? existing.denah : '';
 
-      try {
-        if (pdfInput) {
-          if (pdfInput.size > 2097152) {
-            alert("⚠️ Ukuran file PDF terlalu besar (> 2MB). Harap kompres file PDF agar aman disimpan di browser.");
-            return;
-          }
-          pdfUrl = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = e => resolve(e.target.result);
-            reader.readAsDataURL(pdfInput);
-          });
-        }
-        if (denahInput) {
-          denahUrl = await kompresGambar(denahInput, 800, 0.6);
-        }
-
-        if (editId) {
-          const idx = listTanah.findIndex(t => t.id == editId);
-          if (idx !== -1) {
-            listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl };
-          }
-        } else {
-          const newId = Date.now();
-          listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl });
-          if (!selectedTanahId) selectedTanahId = newId;
-        }
-
-        localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
-        renderTanah(); 
-        tutupModal('modalTanah');
-        alert('Data Tanah dan Dokumen berhasil disimpan dengan aman!');
-      } catch (error) {
-        console.error("Kesalahan penyimpanan localStorage:", error);
-        alert('Gagal menyimpan file ke memori browser karena ukuran file terlalu besar. Harap gunakan file PDF yang lebih kecil.');
+  try {
+    // Menggunakan Object URL untuk PDF agar tidak membebani localStorage
+    if (pdfInput) {
+      if (pdfInput.size > 5242880) { // Batas 5MB
+        alert("⚠️ Ukuran file PDF terlalu besar (> 5MB). Harap unggah file PDF yang lebih kecil.");
+        return;
       }
+      // Membuat Object URL yang aman dan ringan untuk browser
+      pdfUrl = URL.createObjectURL(pdfInput);
     }
+
+    if (denahInput) {
+      denahUrl = await kompresGambar(denahInput, 800, 0.5);
+    }
+
+    if (editId) {
+      const idx = listTanah.findIndex(t => t.id == editId);
+      if (idx !== -1) {
+        listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl };
+      }
+    } else {
+      const newId = Date.now();
+      listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl });
+      if (!selectedTanahId) selectedTanahId = newId;
+    }
+
+    localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
+    renderTanah(); 
+    tutupModal('modalTanah');
+    alert('Data Tanah dan Dokumen PDF berhasil disimpan!');
+  } catch (error) {
+    console.error("Gagal menyimpan:", error);
+    alert('Gagal menyimpan file karena melebihi kapasitas memori browser.');
+  }
+}
 
     async function simpanBangunan() {
       const editId = document.getElementById('edit_b_id').value;
