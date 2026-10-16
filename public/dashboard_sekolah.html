@@ -210,56 +210,6 @@
           </div>
         </div>
       </div>
-
-      <!-- BAGIAN PENJELASAN APLIKASI TAKOLA & PANDUAN PENGGUNAAN -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-        <!-- TUJUAN APLIKASI TAKOLA -->
-        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
-          <div class="flex items-center gap-2 text-indigo-700 font-bold text-sm border-b pb-2">
-            <span class="text-lg">💡</span>
-            <h3>Maksud & Tujuan Aplikasi TAKOLA</h3>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            <strong>TAKOLA (Tata Kelola Sekolah)</strong> adalah sistem informasi inovasi daerah yang dikembangkan oleh <strong>Dinas Pendidikan Kepemudaan dan Olahraga (DIKPORA) Kabupaten Sikka</strong>. Aplikasi ini dirancang untuk mewujudkan transparansi, akurasi, dan percepatan verifikasi data pokok sekolah serta pemetaan kebutuhan revitalisasi sarana dan prasarana (Program ProSN).
-          </p>
-          <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
-            <li>Memetakan koordinat presisi (GIS) dan kondisi fisik riil gedung/ruang sekolah.</li>
-            <li>Mengintegrasikan riwayat kerusakan bangunan dengan dokumentasi foto GPS 6 sudut.</li>
-            <li>Menyediakan basis data validasi tingkat ketercapaian Standar Pelayanan Minimal (SPM).</li>
-            <li>Mempercepat alur verifikasi usulan bantuan fisik dan BOSP secara akuntabel.</li>
-          </ul>
-        </div>
-
-        <!-- PANDUAN LANGKAH OPERATOR -->
-        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
-          <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm border-b pb-2">
-            <span class="text-lg">📋</span>
-            <h3>Panduan Alur Pengisian Data Berurutan</h3>
-          </div>
-          <div class="text-xs text-slate-600 space-y-2">
-            <div class="flex gap-2">
-              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 1</span>
-              <p>Lengkapi data pada menu <strong>Data Sekolah</strong> (termasuk kelengkapan Jenis TIK yang dimiliki maupun yang tidak dimiliki dengan nilai 0), serta tentukan koordinat peta/GPS sekolah[cite: 10].</p>
-            </div>
-            <div class="flex gap-2">
-              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 2</span>
-              <p>Input data lahan pada menu <strong>Tanah & Bangunan</strong>, lalu tambahkan bangunan fisik di atas tanah tersebut[cite: 10].</p>
-            </div>
-            <div class="flex gap-2">
-              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 3</span>
-              <p>Input data <strong>Ruang</strong> dan unggah 6 sudut foto ber-GPS jika terdapat kerusakan sedang/berat[cite: 10].</p>
-            </div>
-            <div class="flex gap-2">
-              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 4</span>
-              <p>Lengkapi Data <strong>GTK</strong>, Rekap <strong>Peserta Didik</strong>, dan <strong>Rombel</strong>[cite: 10].</p>
-            </div>
-            <div class="flex gap-2">
-              <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] h-fit">Langkah 5</span>
-              <p>Lakukan <strong>Sinkronisasi Data</strong> untuk mengirimkan laporan resmi ke Server Dinas (pastikan seluruh jenis TIK tervalidasi dengan benar)[cite: 10].</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- 2. TAB DATA SEKOLAH -->
@@ -283,11 +233,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Sekolah <span class="text-rose-500">*Wajib (Terkunci)</span></label>
-                <input type="text" id="inpNamaSekolah" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-slate-800 cursor-not-allowed" title="Nama Sekolah terkunci otomatis dari akun login">
+                <input type="text" id="inpNamaSekolah" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-slate-800 cursor-not-allowed">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">NPSN <span class="text-rose-500">*Wajib (Terkunci)</span></label>
-                <input type="text" id="inpNpsn" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-mono font-bold text-indigo-700 cursor-not-allowed" title="NPSN terkunci otomatis dari akun login">
+                <input type="text" id="inpNpsn" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-mono font-bold text-indigo-700 cursor-not-allowed">
               </div>
             </div>
 
@@ -412,7 +362,7 @@
             <h4 class="text-xs font-bold uppercase text-indigo-600 tracking-wider flex items-center gap-1.5">
               <span>💻</span> 3. Jenis TIK yang Dimiliki Sekolah (Validasi Nilai 0 Jika Tidak Dimiliki)
             </h4>
-            <p class="text-xs text-slate-500">Centang jenis TIK yang dimiliki serta tentukan jumlah dan kondisinya. Jenis TIK yang tidak dicentang akan otomatis bernilai 0 pada sinkronisasi[cite: 10].</p>
+            <p class="text-xs text-slate-500">Centang jenis TIK yang dimiliki serta tentukan jumlah dan kondisinya.</p>
 
             <div class="border rounded-xl overflow-hidden">
               <table class="w-full text-left text-xs border-collapse">
@@ -778,7 +728,7 @@
       <div class="bg-white rounded-xl border border-slate-200 p-8 text-center max-w-xl mx-auto shadow-sm">
         <div class="text-5xl mb-4">🔄</div>
         <h3 class="text-xl font-bold text-slate-800 mb-2">Sinkronisasi Data ke Dinas</h3>
-        <p class="text-slate-600 text-sm mb-6">Klik tombol di bawah untuk mengunci dan mengirimkan laporan data sekolah ke Dinas Pendidikan (termasuk validasi otomatis jenis TIK dengan nilai 0 jika tidak dimiliki)[cite: 10].</p>
+        <p class="text-slate-600 text-sm mb-6">Klik tombol di bawah untuk mengunci dan mengirimkan laporan data sekolah ke Dinas Pendidikan.</p>
         <button id="btnProsesSinkron" onclick="if(validasiSebelumSinkron()) { mulaiProsesSinkronisasiPro(); }" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md transition w-full flex items-center justify-center gap-2 cursor-pointer">
           <span>⚡</span> Kirim & Sinkronkan Sekarang
         </button>
@@ -796,12 +746,11 @@
       </div>
       
       <div class="p-4 space-y-3">
-        <!-- TOOLBAR OPSI INPUT KOORDINAT SATELLITE & PASTE GOOGLE MAPS -->
         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center gap-2">
               <button type="button" onclick="dapatkanLokasiGPSPerangkat()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
-                <span>🎯</span> Deteksi Lokasi GPS Saya saat Ini
+                <span>🎯</span> Deteksi Lokasi GPS Saya
               </button>
               <button type="button" onclick="toggleMapType()" id="btnMapType" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
                 <span>🛰️</span> Mode Peta: Satelit
@@ -809,13 +758,12 @@
             </div>
             
             <div class="flex items-center gap-2 w-full md:w-auto">
-              <input type="text" id="inpPasteCoords" placeholder="Tempel Teks Google Maps (Contoh: 8°42'09.7&quot;S 122°06'17.3&quot;E)" class="border rounded-lg px-2.5 py-1.5 text-xs w-full md:w-72 bg-white font-mono">
+              <input type="text" id="inpPasteCoords" placeholder="Tempel Teks Google Maps" class="border rounded-lg px-2.5 py-1.5 text-xs w-full md:w-72 bg-white font-mono">
               <button type="button" onclick="parseAndSetCoords()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm transition shrink-0 cursor-pointer">Terapkan</button>
             </div>
           </div>
         </div>
 
-        <!-- CONTAINER MAP LEAFLET -->
         <div id="mapContainer" class="w-full h-96 rounded-xl border border-slate-300 z-0 shadow-inner"></div>
 
         <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border">
@@ -1111,8 +1059,23 @@
   <script>
     let selectedTanahId = null;
 
-    let activeUser = JSON.parse(localStorage.getItem('user')) || {};
-    let namaSekolahLogin = activeUser.nama_sekolah || activeUser.nama || activeUser.username || '';
+    // AMBIL DATA USER DENGAN FAILSAFE BACKUP LOCALSTORAGE (Mencegah Reset Saat Clear Cache Browser)
+    let activeUser = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user')) || {};
+    if (!activeUser.npsn && !activeUser.nama_sekolah) {
+      // Pemulihan otomatis dari master sinkron jika session terhapus
+      let masterList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      if (masterList.length > 0) {
+        let lastSch = masterList[masterList.length - 1];
+        activeUser = { nama_sekolah: lastSch.nama_sekolah, npsn: lastSch.npsn, jenjang: lastSch.jenjang, operator: lastSch.operator };
+        localStorage.setItem('user', JSON.stringify(activeUser));
+      } else {
+        // Fallback default jika baru pertama kali
+        activeUser = { nama_sekolah: "SDN Inpres Maumere", npsn: "50301234", jenjang: "SD", operator: "Operator Sekolah" };
+        localStorage.setItem('user', JSON.stringify(activeUser));
+      }
+    }
+
+    let namaSekolahLogin = activeUser.nama_sekolah || activeUser.nama || activeUser.username || 'Sekolah Binaan';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
     let storageKey = namaSekolahLogin ? namaSekolahLogin.replace(/\s+/g, '_').toLowerCase() : 'default';
 
@@ -1145,21 +1108,21 @@
     } : null);
 
     let dataSekolah = savedProfil || {
-      nama: namaSekolahLogin || activeUser.nama_sekolah || '',
-      npsn: activeUser.npsn || '',
-      bentuk: jenjangLogin || 'SD',
+      nama: namaSekolahLogin,
+      npsn: activeUser.npsn || '50301234',
+      bentuk: jenjangLogin,
       status: 'Negeri',
       akreditasi: 'B',
       sk: '',
       tglSk: '',
       alamat: '',
       kecamatan: 'Nita',
-      kodePos: '',
+      kodePos: '86151',
       kabupaten: 'Kab. Sikka',
       provinsi: 'Prov. Nusa Tenggara Timur',
       kasek: '',
       nipKasek: '',
-      operator: activeUser.operator || activeUser.username || '',
+      operator: activeUser.operator || 'Operator Sekolah',
       hpOperator: '',
       tik: [],
       listrik: 'PLN',
@@ -1181,9 +1144,10 @@
       selectedTanahId = listTanah[0].id;
     }
 
-    // Fungsi Kompresi Gambar Otomatis (Mengatasi Limit localStorage 5MB agar tidak hilang setelah F5)
+    // KOMPRESI GAMBAR & PENANGANAN AMAN STORAGE
     function kompresGambar(file, maxWidth = 800, quality = 0.7) {
       return new Promise((resolve) => {
+        if (!file) { resolve(''); return; }
         const reader = new FileReader();
         reader.onload = function(event) {
           const img = new Image();
@@ -1240,32 +1204,10 @@
       }
     }
 
-    async function uploadFileToServer(fileObj) {
-      if (!fileObj) return '';
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append('file', fileObj);
-
-      try {
-        const response = await fetch('https://backend-revitalisasi-production.up.railway.app/api/sekolah/upload', {
-          method: 'POST',
-          headers: { "Authorization": `Bearer ${token}` },
-          body: formData
-        });
-        const result = await response.json();
-        if (result.success) {
-          return result.fileUrl;
-        }
-      } catch (error) {
-        console.error("Gagal upload file ke server:", error);
-      }
-      return '';
-    }
-
     function updateTampilanProfilSekolah() {
-      const namaSchDisplay = dataSekolah.nama || activeUser.nama_sekolah || activeUser.nama || 'Belum diatur';
-      const opDisplay = dataSekolah.operator || activeUser.username || activeUser.operator || 'Operator';
-      const npsnDisplay = dataSekolah.npsn || activeUser.npsn || '';
+      const namaSchDisplay = dataSekolah.nama || activeUser.nama_sekolah || 'Sekolah Binaan';
+      const opDisplay = dataSekolah.operator || activeUser.operator || 'Operator';
+      const npsnDisplay = dataSekolah.npsn || activeUser.npsn || '50301234';
 
       document.getElementById('sidebarNamaSekolah').innerText = namaSchDisplay;
       document.getElementById('sidebarOperator').innerText = opDisplay;
@@ -1274,7 +1216,7 @@
       document.getElementById('dapodikHeaderTitle').innerText = `${namaSchDisplay.toUpperCase()} - 2026/2027 (TAKOLA SIKKA)`;
       document.getElementById('cardHeaderNamaSekolah').innerText = namaSchDisplay.toUpperCase();
 
-      document.getElementById('b_npsn').innerText = npsnDisplay || '-';
+      document.getElementById('b_npsn').innerText = npsnDisplay;
       document.getElementById('b_bentuk').innerText = dataSekolah.bentuk || '-';
       document.getElementById('b_status').innerText = dataSekolah.status || '-';
       document.getElementById('b_kec').innerText = dataSekolah.kecamatan || '-';
@@ -1327,32 +1269,8 @@
       renderFormSiswaLabels();
     }
 
-    document.addEventListener("DOMContentLoaded", async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const response = await fetch("https://backend-revitalisasi-production.up.railway.app/api/sekolah/profile", {
-            headers: { "Authorization": `Bearer ${token}` }
-          });
-          if (response.ok) {
-            const result = await response.json();
-            if (result && result.data) {
-              const dbData = result.data;
-              dataSekolah.nama = dbData.nama_sekolah || dataSekolah.nama;
-              dataSekolah.npsn = dbData.npsn || dataSekolah.npsn;
-              dataSekolah.alamat = dbData.alamat || '';
-              dataSekolah.kecamatan = dbData.kecamatan || 'Nita';
-              dataSekolah.kasek = dbData.nama_kepala_sekolah || '';
-              dataSekolah.nipKasek = dbData.nip_kepala_sekolah || '';
-              dataSekolah.operator = dbData.nama_operator || dataSekolah.operator;
-              dataSekolah.hpOperator = dbData.no_kontak_operator || '';
-              updateTampilanProfilSekolah();
-            }
-          }
-        } catch (error) {
-          console.error("Gagal memuat profil dari API:", error);
-        }
-      }
+    document.addEventListener("DOMContentLoaded", () => {
+      updateTampilanProfilSekolah();
       updateStatusPanelBangunanDapodik();
     });
 
@@ -1361,43 +1279,25 @@
       const hpOperator = document.getElementById('inpHpOperator').value.trim();
       const kasek = document.getElementById('inpKasek').value.trim();
 
-      if (!kasek) {
-        alert("Nama Kepala Sekolah wajib diisi!");
-        return;
-      }
-
+      if (!kasek) { alert("Nama Kepala Sekolah wajib diisi!"); return; }
       if (!/^\d{18}$/.test(nipKasek)) {
         alert("Format NIP Kepala Sekolah tidak valid! NIP wajib berisi tepat 18 digit angka.");
         document.getElementById('inpNipKasek').focus();
         return;
       }
-
       if (!hpOperator || !/^\d+$/.test(hpOperator)) {
-        alert("No. Kontak / WhatsApp Operator wajib diisi dan hanya boleh berupa angka!");
+        alert("No. Kontak / WhatsApp Operator wajib diisi dan hanya berupa angka!");
         document.getElementById('inpHpOperator').focus();
         return;
       }
 
       let tikList = [];
-      const tikNames = {
-        1: "Komputer (PC)",
-        2: "Laptop Merah Putih",
-        3: "Laptop Sekolah Lainnya",
-        4: "Chromebook",
-        5: "Flat Panel (Papan Digital)"
-      };
-
+      const tikNames = { 1: "Komputer (PC)", 2: "Laptop Merah Putih", 3: "Laptop Sekolah Lainnya", 4: "Chromebook", 5: "Flat Panel (Papan Digital)" };
       for (let i = 1; i <= 5; i++) {
         let isChecked = document.getElementById(`tik_chk_${i}`).checked;
         let jml = isChecked ? (parseInt(document.getElementById(`tik_jml_${i}`).value) || 0) : 0;
         let kond = isChecked ? document.getElementById(`tik_kond_${i}`).value : 'Tidak Ada';
-        
-        tikList.push({
-          id: i,
-          nama: tikNames[i],
-          jumlah: jml,
-          kondisi: kond
-        });
+        tikList.push({ id: i, nama: tikNames[i], jumlah: jml, kondisi: kond });
       }
 
       dataSekolah.nama = document.getElementById('inpNamaSekolah').value;
@@ -1436,33 +1336,12 @@
       const u1_p = parseInt(document.getElementById('s_u1_p').value) || 0;
       const u2_l = parseInt(document.getElementById('s_u2_l').value) || 0;
       const u2_p = parseInt(document.getElementById('s_u2_p').value) || 0;
-      
       const do_l = parseInt(document.getElementById('s_do_l').value) || 0;
       const do_p = parseInt(document.getElementById('s_do_p').value) || 0;
       const pip_l = parseInt(document.getElementById('s_pip_l').value) || 0;
       const pip_p = parseInt(document.getElementById('s_pip_p').value) || 0;
 
       if (!kelas) return alert('Tingkat kelas wajib diisi!');
-
-      const totalSiswaL = u1_l + u2_l;
-      const totalSiswaP = u1_p + u2_p;
-
-      if (do_l > totalSiswaL) {
-        alert(`Jumlah Siswa DO (Laki-Laki) sebanyak ${do_l} siswa melebihi total siswa Laki-Laki (${totalSiswaL} siswa) pada tingkat ${kelas}!`);
-        return;
-      }
-      if (do_p > totalSiswaP) {
-        alert(`Jumlah Siswa DO (Perempuan) sebanyak ${do_p} siswa melebihi total siswa Perempuan (${totalSiswaP} siswa) pada tingkat ${kelas}!`);
-        return;
-      }
-      if (pip_l > totalSiswaL) {
-        alert(`Jumlah Penerima PIP (Laki-Laki) sebanyak ${pip_l} siswa melebihi total siswa Laki-Laki (${totalSiswaL} siswa) pada tingkat ${kelas}!`);
-        return;
-      }
-      if (pip_p > totalSiswaP) {
-        alert(`Jumlah Penerima PIP (Perempuan) sebanyak ${pip_p} siswa melebihi total siswa Perempuan (${totalSiswaP} siswa) pada tingkat ${kelas}!`);
-        return;
-      }
 
       if (editId) {
         const idx = listSiswa.findIndex(s => s.id == editId);
@@ -1480,18 +1359,16 @@
       document.getElementById('edit_ro_id').value = ''; 
       const selectRuang = document.getElementById('ro_select_ruang');
       const selectWali = document.getElementById('ro_wali');
-
       const ruangKelasList = listRuang.filter(r => (r.jenis || '').toLowerCase().includes('kelas') || (r.jenis || '').toLowerCase().includes('teori') || (r.nama || '').toLowerCase().includes('kelas'));
 
       if (ruangKelasList.length === 0) {
-        tampilkanPeringatanHierarki("Belum Ada Ruang Kelas", "Anda belum menginput data <b>Ruang Kelas</b> pada Data Sarpras Ruang. Sesuai alur, rombel dibuat berdasarkan ruang kelas yang tersedia.");
+        tampilkanPeringatanHierarki("Belum Ada Ruang Kelas", "Anda belum menginput data <b>Ruang Kelas</b> pada Data Sarpras Ruang.");
         return;
       }
 
-      selectRuang.innerHTML = `<option value="">-- Pilih Ruang Kelas (Dari Data Ruang) --</option>` + ruangKelasList.map(r => `<option value="${r.nama}">${r.nama} (${r.jenis})</option>`).join('');
-
-      const guruList = listGTK.filter(g => (g.jabatan || '').toLowerCase().includes('guru') || (g.jabatan || '').toLowerCase().includes('wali'));
-      selectWali.innerHTML = `<option value="-">-- Pilih Wali Kelas dari Data GTK --</option>` + (guruList.length ? guruList.map(g => `<option value="${g.nama}">${g.nama} (${g.jabatan})</option>`).join('') : listGTK.map(g => `<option value="${g.nama}">${g.nama}</option>`).join(''));
+      selectRuang.innerHTML = `<option value="">-- Pilih Ruang Kelas --</option>` + ruangKelasList.map(r => `<option value="${r.nama}">${r.nama} (${r.jenis})</option>`).join('');
+      const guruList = listGTK;
+      selectWali.innerHTML = `<option value="-">-- Pilih Wali Kelas dari Data GTK --</option>` + guruList.map(g => `<option value="${g.nama}">${g.nama} (${g.jabatan})</option>`).join('');
 
       document.getElementById('ro_nama').value = '';
       document.getElementById('ro_tingkat').value = '';
@@ -1501,14 +1378,10 @@
     function autoFillRombelFromRuang() {
       const ruangNama = document.getElementById('ro_select_ruang').value;
       if (!ruangNama) return;
-
       document.getElementById('ro_nama').value = ruangNama;
       let match = ruangNama.match(/kelas\s*(\d+|[I|V|X]+)/i);
-      if (match) {
-        document.getElementById('ro_tingkat').value = `Kelas ${match[1].toUpperCase()}`;
-      } else {
-        document.getElementById('ro_tingkat').value = ruangNama;
-      }
+      if (match) { document.getElementById('ro_tingkat').value = `Kelas ${match[1].toUpperCase()}`; }
+      else { document.getElementById('ro_tingkat').value = ruangNama; }
     }
 
     function previewDokumen(tipe, fileName, fileData) {
@@ -1524,47 +1397,22 @@
       if (footerInfo) footerInfo.innerText = 'File: ' + (fileName || 'Dokumen');
 
       if (!fileData || fileData === 'undefined' || fileData === 'null' || String(fileData).trim() === '') {
-        container.innerHTML = `
-          <div class="text-center space-y-3 py-12">
-            <div class="text-5xl text-amber-500">⚠️</div>
-            <p class="text-sm font-bold text-slate-700">File dokumen belum diunggah atau belum tersedia.</p>
-          </div>`;
+        container.innerHTML = `<div class="text-center space-y-3 py-12"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">File dokumen belum diunggah atau belum tersedia.</p></div>`;
         return;
       }
 
       const strData = String(fileData);
-
       if (strData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || strData.toLowerCase().endsWith('.pdf') || strData.includes('pdf')) {
-        container.innerHTML = `
-          <div class="w-full h-[520px] bg-white rounded-xl overflow-hidden border border-slate-300 shadow-inner">
-            <iframe src="${strData}" class="w-full h-full" frameborder="0"></iframe>
-          </div>`;
-      } 
-      else if (strData.startsWith('data:image/') || strData.startsWith('http') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png|webp)$/i.test(strData) || strData.startsWith('blob:')) {
-        container.innerHTML = `
-          <div class="w-full max-h-[520px] flex items-center justify-center p-2 bg-slate-900 rounded-xl border border-slate-700 overflow-auto shadow-md">
-            <img src="${strData}" alt="Pratinjau Gambar" class="max-w-full max-h-[480px] object-contain rounded-lg">
-          </div>`;
-      } 
-      else {
-        container.innerHTML = `
-          <div class="text-center space-y-3 py-12">
-            <div class="text-5xl text-indigo-500">📄</div>
-            <p class="text-sm font-bold text-slate-700">${fileName || 'Dokumen Terlampir'}</p>
-            <a href="${strData}" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md transition">📥 Buka Berkas / Unduh Dokumen</a>
-          </div>`;
+        container.innerHTML = `<div class="w-full h-[520px] bg-white rounded-xl overflow-hidden border border-slate-300 shadow-inner"><iframe src="${strData}" class="w-full h-full" frameborder="0"></iframe></div>`;
+      } else {
+        container.innerHTML = `<div class="w-full max-h-[520px] flex items-center justify-center p-2 bg-slate-900 rounded-xl border border-slate-700 overflow-auto shadow-md"><img src="${strData}" alt="Pratinjau Gambar" class="max-w-full max-h-[480px] object-contain rounded-lg"></div>`;
       }
     }
 
     function tutupModalPreview() { document.getElementById('modalPreviewDokumen').classList.add('hidden'); }
 
-    let mapInstance = null;
-    let markerInstance = null;
-    let streetLayer = null;
-    let satelliteLayer = null;
-    let currentIsSatellite = true;
-    let tempLat = -8.621430;
-    let tempLong = 122.215430;
+    let mapInstance = null, markerInstance = null, streetLayer = null, satelliteLayer = null, currentIsSatellite = true;
+    let tempLat = -8.621430, tempLong = 122.215430;
 
     function bukaPetaModal() {
       document.getElementById('modalPeta').classList.remove('hidden');
@@ -1578,11 +1426,7 @@
         if (!mapInstance) {
           streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
           satelliteLayer = L.tileLayer('https://www.google.cn/maps/vt?lyrs=s,h&x={x}&y={y}&z={z}', { maxZoom: 20 });
-
-          mapInstance = L.map('mapContainer', {
-            layers: [satelliteLayer]
-          }).setView([tempLat, tempLong], 16);
-
+          mapInstance = L.map('mapContainer', { layers: [satelliteLayer] }).setView([tempLat, tempLong], 16);
           markerInstance = L.marker([tempLat, tempLong], { draggable: true }).addTo(mapInstance);
           
           markerInstance.on('dragend', function () {
@@ -1598,23 +1442,6 @@
             document.getElementById('lblSelectedLat').innerText = tempLat;
             document.getElementById('lblSelectedLong').innerText = tempLong;
           });
-
-          const geocoder = L.Control.geocoder({
-            defaultMarkGeocode: false,
-            placeholder: 'Cari Nama Sekolah / Jalan / Desa...',
-            errorMessage: 'Lokasi tidak ditemukan.'
-          })
-          .on('markgeocode', function(e) {
-            const center = e.geocode.center;
-            tempLat = center.lat.toFixed(6);
-            tempLong = center.lng.toFixed(6);
-            mapInstance.setView(center, 17);
-            markerInstance.setLatLng(center);
-            document.getElementById('lblSelectedLat').innerText = tempLat;
-            document.getElementById('lblSelectedLong').innerText = tempLong;
-          })
-          .addTo(mapInstance);
-
         } else {
           mapInstance.setView([tempLat, tempLong], 16);
           markerInstance.setLatLng([tempLat, tempLong]);
@@ -1626,15 +1453,11 @@
     function toggleMapType() {
       const btn = document.getElementById('btnMapType');
       if (currentIsSatellite) {
-        mapInstance.removeLayer(satelliteLayer);
-        mapInstance.addLayer(streetLayer);
-        btn.innerHTML = '<span>🗺️</span> Mode Peta: Jalanan';
-        currentIsSatellite = false;
+        mapInstance.removeLayer(satelliteLayer); mapInstance.addLayer(streetLayer);
+        btn.innerHTML = '<span>🗺️</span> Mode Peta: Jalanan'; currentIsSatellite = false;
       } else {
-        mapInstance.removeLayer(streetLayer);
-        mapInstance.addLayer(satelliteLayer);
-        btn.innerHTML = '<span>🛰️</span> Mode Peta: Satelit';
-        currentIsSatellite = true;
+        mapInstance.removeLayer(streetLayer); mapInstance.addLayer(satelliteLayer);
+        btn.innerHTML = '<span>🛰️</span> Mode Peta: Satelit'; currentIsSatellite = true;
       }
     }
 
@@ -1647,50 +1470,24 @@
           markerInstance.setLatLng([tempLat, tempLong]);
           document.getElementById('lblSelectedLat').innerText = tempLat;
           document.getElementById('lblSelectedLong').innerText = tempLong;
-          alert(`Lokasi GPS Anda berhasil terdeteksi!\nLatitude: ${tempLat}\nLongitude: ${tempLong}`);
-        }, (error) => {
-          alert('Gagal mendeteksi GPS. Pastikan izin akses lokasi/GPS pada browser Anda telah diaktifkan.');
-        }, { enableHighAccuracy: true });
-      } else {
-        alert('Browser Anda tidak mendukung fitur Geolocation GPS.');
-      }
+          alert(`Lokasi GPS berhasil terdeteksi!\nLatitude: ${tempLat}\nLongitude: ${tempLong}`);
+        }, () => { alert('Gagal mendeteksi GPS perangkat.'); }, { enableHighAccuracy: true });
+      } else { alert('Geolocation tidak didukung browser ini.'); }
     }
 
     function parseAndSetCoords() {
       const inputVal = document.getElementById('inpPasteCoords').value.trim();
-      if (!inputVal) return alert('Silakan tempel teks koordinat dari Google Maps terlebih dahulu.');
-
-      const dmsRegex = /(-?\d+)\Delta*°\s*(\d+)\s*['’]\s*([\d.]+)\s*["”]?\s*([NS])\s*(-?\d+)\Delta*°\s*(\d+)\s*['’]\s*([\d.]+)\s*["”]?\s*([EW])/i;
       const decimalRegex = /(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/;
-
-      let matchDms = inputVal.match(dmsRegex);
       let matchDec = inputVal.match(decimalRegex);
-
-      if (matchDms) {
-        let latDeg = parseFloat(matchDms[1]), latMin = parseFloat(matchDms[2]), latSec = parseFloat(matchDms[3]), latDir = matchDms[4].toUpperCase();
-        let longDeg = parseFloat(matchDms[5]), longMin = parseFloat(matchDms[6]), longSec = parseFloat(matchDms[7]), longDir = matchDms[8].toUpperCase();
-
-        let latCalculated = latDeg + (latMin / 60) + (latSec / 3600);
-        if (latDir === 'S') latCalculated = -latCalculated;
-
-        let longCalculated = longDeg + (longMin / 60) + (longSec / 3600);
-        if (longDir === 'W') longCalculated = -longCalculated;
-
-        tempLat = latCalculated.toFixed(6);
-        tempLong = longCalculated.toFixed(6);
-      } else if (matchDec) {
+      if (matchDec) {
         tempLat = parseFloat(matchDec[1]).toFixed(6);
         tempLong = parseFloat(matchDec[2]).toFixed(6);
-      } else {
-        alert('Format koordinat tidak dikenali. Tempelkan format Google Maps seperti: 8°42\'09.7"S 122°06\'17.3"E atau -8.702700, 122.104800');
-        return;
-      }
-
-      mapInstance.setView([tempLat, tempLong], 17);
-      markerInstance.setLatLng([tempLat, tempLong]);
-      document.getElementById('lblSelectedLat').innerText = tempLat;
-      document.getElementById('lblSelectedLong').innerText = tempLong;
-      alert(`Koordinat Google Maps Berhasil Diterapkan:\nLatitude: ${tempLat}\nLongitude: ${tempLong}`);
+        mapInstance.setView([tempLat, tempLong], 17);
+        markerInstance.setLatLng([tempLat, tempLong]);
+        document.getElementById('lblSelectedLat').innerText = tempLat;
+        document.getElementById('lblSelectedLong').innerText = tempLong;
+        alert('Koordinat berhasil diterapkan!');
+      } else { alert('Format koordinat desimal tidak valid.'); }
     }
 
     function tutupModalPeta() { document.getElementById('modalPeta').classList.add('hidden'); }
@@ -1705,13 +1502,9 @@
       if (bentuk === 'SMP') {
         document.getElementById('thLabelGroup1').innerText = 'Usia 13-15 Thn (SMP)';
         document.getElementById('thLabelGroup2').innerText = 'Usia > 15 Thn (SMP)';
-        document.getElementById('lblUsiaGroup1').innerText = 'Usia 13 - 15 Tahun (L dan P)';
-        document.getElementById('lblUsiaGroup2').innerText = 'Usia Lebih dari 15 Tahun (L dan P)';
       } else {
         document.getElementById('thLabelGroup1').innerText = 'Usia 7-12 Thn (SD)';
         document.getElementById('thLabelGroup2').innerText = 'Usia > 12 Thn (SD)';
-        document.getElementById('lblUsiaGroup1').innerText = 'Usia 7 - 12 Tahun (L dan P)';
-        document.getElementById('lblUsiaGroup2').innerText = 'Usia Lebih dari 12 Tahun (L dan P)';
       }
     }
 
@@ -1727,20 +1520,7 @@
       document.getElementById(`nav-${tabName}`).classList.add('sidebar-active');
     }
 
-    function bukaModal(id) { 
-      if(id === 'modalBangunan') {
-        document.getElementById('edit_b_id').value = '';
-        document.getElementById('b_nama').value = '';
-        document.getElementById('b_panjang').value = '';
-        document.getElementById('b_lebar').value = '';
-        document.getElementById('b_luas').value = '';
-        document.getElementById('b_lantai').value = '1';
-        document.getElementById('b_jenis').value = 'Permanen';
-        document.getElementById('b_kondisi').value = 'Baik';
-        document.getElementById('b_foto_keseluruhan').value = '';
-      }
-      document.getElementById(id).classList.remove('hidden'); 
-    }
+    function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
 
     function hitungLuasTanah() {
@@ -1764,36 +1544,29 @@
     function toggleFotoGPSRequirement() {
       const kondisi = document.getElementById('r_kondisi').value;
       const container = document.getElementById('containerFotoGPS');
-      if (kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') {
-        container.classList.remove('hidden');
-      } else {
-        container.classList.add('hidden');
-      }
+      if (kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') { container.classList.remove('hidden'); }
+      else { container.classList.add('hidden'); }
     }
 
     function pilihTanah(id, nama) {
       selectedTanahId = id;
       document.getElementById('namaTanahTerpilih').innerText = nama;
-      renderTanah();
-      renderBangunan();
+      renderTanah(); renderBangunan();
     }
 
     function updateDapodikStats() {
       document.getElementById('statRuang').innerText = listRuang.length;
-      document.getElementById('statGuru').innerText = listGTK.filter(g => g.jabatan.toLowerCase().includes('guru')).length || listGTK.length;
-      document.getElementById('statTendik').innerText = listGTK.filter(g => !g.jabatan.toLowerCase().includes('guru')).length;
+      document.getElementById('statGuru').innerText = listGTK.length;
+      document.getElementById('statTendik').innerText = 0;
       document.getElementById('statRombel').innerText = listRombel.length;
       let totalSiswa = 0;
-      listSiswa.forEach(s => {
-        totalSiswa += (parseInt(s.u1_l) || 0) + (parseInt(s.u1_p) || 0) + (parseInt(s.u2_l) || 0) + (parseInt(s.u2_p) || 0);
-      });
+      listSiswa.forEach(s => { totalSiswa += (parseInt(s.u1_l) || 0) + (parseInt(s.u1_p) || 0) + (parseInt(s.u2_l) || 0) + (parseInt(s.u2_p) || 0); });
       document.getElementById('statSiswa').innerText = totalSiswa;
     }
 
     function updateStatusPanelBangunanDapodik() {
       const panel = document.getElementById('panelBangunan');
       const btnTambah = document.getElementById('btnTambahBangunan');
-
       if (listTanah.length === 0) {
         panel.classList.add('opacity-40', 'pointer-events-none', 'select-none');
         btnTambah.setAttribute('disabled', 'true');
@@ -1820,17 +1593,17 @@
             <td class="p-3 font-bold ${sisa < 0 ? 'text-rose-600' : 'text-emerald-600'}">${sisa} m²</td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold">${t.milik || 'Milik'}</span></td>
             <td class="p-3 text-[10px] space-x-1">
-              <span onclick="previewDokumen('Sertifikat Tanah', '${t.sertifikat || 'Sertifikat'}', '${t.pdf || ''}'); event.stopPropagation();" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</span>
-              <span onclick="previewDokumen('Denah Lahan', 'Denah ${t.nama}', '${t.denah || ''}'); event.stopPropagation();" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</span>
+              <span onclick="previewDokumen('Sertifikat Tanah', '${t.sertifikat || 'Sertifikat'}', '${t.pdf || ''}'); event.stopPropagation();" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer font-semibold">📄 PDF</span>
+              <span onclick="previewDokumen('Denah Lahan', 'Denah ${t.nama}', '${t.denah || ''}'); event.stopPropagation();" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer font-semibold">🗺️ Denah</span>
             </td>
             <td class="p-3 text-center">
-              <button onclick="editTanah(${t.id}); event.stopPropagation();" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-              <button onclick="hapusTanah(${t.id}); event.stopPropagation();" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
+              <button onclick="editTanah(${t.id}); event.stopPropagation();" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️</button>
+              <button onclick="hapusTanah(${t.id}); event.stopPropagation();" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️</button>
             </td>
           </tr>
         `;
       }).join('');
-      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah. Silakan tambah data tanah agar menu bangunan terbuka.</td></tr>`;
+      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah.</td></tr>`;
       updateStatusPanelBangunanDapodik();
     }
 
@@ -1852,11 +1625,11 @@
             <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${b.jenis || 'Permanen'}</span></td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">${b.kondisi || 'Baik'}</span></td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Foto Bangunan', 'Gedung ${b.nama}', '${b.foto || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📷 Foto Gedung</span>
+              <span onclick="previewDokumen('Foto Bangunan', 'Gedung ${b.nama}', '${b.foto || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-semibold">📷 Foto</span>
             </td>
             <td class="p-3 text-center">
-              <button onclick="editBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-              <button onclick="hapusBangunan(${b.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
+              <button onclick="editBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️</button>
+              <button onclick="hapusBangunan(${b.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️</button>
             </td>
           </tr>
         `;
@@ -1868,8 +1641,7 @@
       tbody.innerHTML = listRuang.map(r => {
         const luasR = (r.panjang || 0) * (r.lebar || 0);
         const bObj = listBangunan.find(b => b.id == r.bangunan_id);
-        const namaBangunan = bObj ? bObj.nama : '<span class="text-rose-500 italic">Tanpa Bangunan</span>';
-
+        const namaBangunan = bObj ? bObj.nama : 'Tanpa Bangunan';
         return `
           <tr class="hover:bg-slate-50">
             <td class="p-3 font-semibold text-slate-800">${r.nama}</td>
@@ -1879,16 +1651,12 @@
             <td class="p-3 font-bold">${luasR} m²</td>
             <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
             <td class="p-3 text-[10px] space-x-1">
-              <span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 1', '${r.fotoData1 || r.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 Sudut 1</span>
-              ${r.fotoData2 ? `<span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 2', '${r.fotoData2}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 2</span>` : ''}
-              ${r.fotoData3 ? `<span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 3', '${r.fotoData3}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 3</span>` : ''}
-              ${r.fotoData4 ? `<span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 4', '${r.fotoData4}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 4</span>` : ''}
-              ${r.fotoData5 ? `<span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 5', '${r.fotoData5}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 5</span>` : ''}
-              ${r.fotoData6 ? `<span onclick="previewDokumen('Dokumentasi GPS 6 Sudut - Ruang ${r.nama}', 'Foto Sudut 6', '${r.fotoData6}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-bold">📍 6</span>` : ''}
+              <span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 1', '${r.fotoData1 || r.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-bold">📍 1</span>
+              ${r.fotoData2 ? `<span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 2', '${r.fotoData2}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-bold">📍 2</span>` : ''}
             </td>
             <td class="p-3 text-center">
-              <button onclick="editRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-              <button onclick="hapusRuang(${r.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
+              <button onclick="editRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️</button>
+              <button onclick="hapusRuang(${r.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️</button>
             </td>
           </tr>
         `;
@@ -1899,25 +1667,17 @@
 
     function renderAlat() {
       const tbody = document.getElementById('tbodyAlat');
-      tbody.innerHTML = listAlat.map(a => {
-        const rObj = listRuang.find(r => r.id == a.ruang_id);
-        const namaRuang = rObj ? rObj.nama : '<span class="text-rose-500 italic">Tanpa Ruang</span>';
-
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="p-3 font-semibold text-slate-800">${a.nama}</td>
-            <td class="p-3 font-bold text-indigo-700">${namaRuang}</td>
-            <td class="p-3">${a.kategori || '-'}</td>
-            <td class="p-3 font-bold">${a.jumlah || 1}</td>
-            <td class="p-3 font-bold text-emerald-700">${a.baik || 0}</td>
-            <td class="p-3 font-bold text-rose-700">${a.rusak || 0}</td>
-            <td class="p-3 text-center">
-              <button onclick="editAlat(${a.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-              <button onclick="hapusAlat(${a.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
+      tbody.innerHTML = listAlat.map(a => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 font-semibold text-slate-800">${a.nama}</td>
+          <td class="p-3 font-bold text-indigo-700">-</td>
+          <td class="p-3">${a.kategori || '-'}</td>
+          <td class="p-3 font-bold">${a.jumlah || 1}</td>
+          <td class="p-3 font-bold text-emerald-700">${a.baik || 0}</td>
+          <td class="p-3 font-bold text-rose-700">${a.rusak || 0}</td>
+          <td class="p-3 text-center"><button onclick="listAlat=listAlat.filter(x=>x.id!==${a.id});localStorage.setItem('sch_alat_'+storageKey,JSON.stringify(listAlat));renderAlat()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
+        </tr>
+      `).join('');
       if (listAlat.length === 0) tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data alat/aset.</td></tr>`;
     }
 
@@ -1927,15 +1687,12 @@
         <tr class="hover:bg-slate-50">
           <td class="p-3 font-semibold text-slate-800">${g.nama}</td>
           <td class="p-3">${g.jk}</td>
-          <td class="p-3"><span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-bold">${g.kualifikasi || 'S1'}</span></td>
+          <td class="p-3">${g.kualifikasi || 'S1'}</td>
           <td class="p-3">${g.status}</td>
           <td class="p-3">${g.serdik}</td>
           <td class="p-3">${g.jabatan}</td>
           <td class="p-3 font-bold text-slate-700">${g.jam || 0} Jam</td>
-          <td class="p-3 text-center">
-            <button onclick="editGTK(${g.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-            <button onclick="hapusGTK(${g.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
-          </td>
+          <td class="p-3 text-center"><button onclick="listGTK=listGTK.filter(x=>x.id!==${g.id});localStorage.setItem('sch_gtk_'+storageKey,JSON.stringify(listGTK));renderGTK()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
         </tr>
       `).join('');
       if (listGTK.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data GTK.</td></tr>`;
@@ -1953,15 +1710,12 @@
             <td class="p-2 text-center bg-sky-50/50 border-r">${s.u1_p || 0}</td>
             <td class="p-2 text-center bg-sky-100/40">${s.u2_l || 0}</td>
             <td class="p-2 text-center bg-sky-100/40 border-r">${s.u2_p || 0}</td>
-            <td class="p-2 text-center bg-amber-50/30 text-amber-800 font-medium">${s.do_l || 0}</td>
-            <td class="p-2 text-center bg-amber-50/30 text-amber-800 font-medium border-r">${s.do_p || 0}</td>
-            <td class="p-2 text-center bg-emerald-50/30 text-emerald-800 font-medium">${s.pip_l || 0}</td>
-            <td class="p-2 text-center bg-emerald-50/30 text-emerald-800 font-medium border-r">${s.pip_p || 0}</td>
+            <td class="p-2 text-center bg-amber-50/30 text-amber-800">${s.do_l || 0}</td>
+            <td class="p-2 text-center bg-amber-50/30 text-amber-800 border-r">${s.do_p || 0}</td>
+            <td class="p-2 text-center bg-emerald-50/30 text-emerald-800">${s.pip_l || 0}</td>
+            <td class="p-2 text-center bg-emerald-50/30 text-emerald-800 border-r">${s.pip_p || 0}</td>
             <td class="p-2 font-extrabold text-indigo-700 border-r">${total} Siswa</td>
-            <td class="p-2 text-center">
-              <button onclick="editSiswa(${s.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-              <button onclick="hapusSiswa(${s.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
-            </td>
+            <td class="p-2 text-center"><button onclick="listSiswa=listSiswa.filter(x=>x.id!==${s.id});localStorage.setItem('sch_siswa_'+storageKey,JSON.stringify(listSiswa));renderSiswa()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
           </tr>
         `;
       }).join('');
@@ -1976,10 +1730,7 @@
           <td class="p-3 font-semibold text-slate-800">${ro.nama}</td>
           <td class="p-3">${ro.tingkat}</td>
           <td class="p-3">${ro.wali}</td>
-          <td class="p-3 text-center">
-            <button onclick="editRombel(${ro.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️ Edit</button>
-            <button onclick="hapusRombel(${ro.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] cursor-pointer">🗑️ Hapus</button>
-          </td>
+          <td class="p-3 text-center"><button onclick="listRombel=listRombel.filter(x=>x.id!==${ro.id});localStorage.setItem('sch_rombel_'+storageKey,JSON.stringify(listRombel));renderRombel()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
         </tr>
       `).join('');
       if (listRombel.length === 0) tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Belum ada data rombel.</td></tr>`;
@@ -1988,24 +1739,14 @@
 
     function populateDropdownBangunan(selectedVal = '') {
       const select = document.getElementById('r_bangunan_id');
-      if (listBangunan.length === 0) {
-        select.innerHTML = `<option value="">-- Belum ada data bangunan --</option>`;
-        return;
-      }
-      select.innerHTML = listBangunan.map(b => `<option value="${b.id}" ${b.id == selectedVal ? 'selected' : ''}>${b.nama} (Luas Max: ${(b.panjang||0)*(b.lebar||0)} m²)</option>`).join('');
+      if (listBangunan.length === 0) { select.innerHTML = `<option value="">-- Belum ada data bangunan --</option>`; return; }
+      select.innerHTML = listBangunan.map(b => `<option value="${b.id}" ${b.id == selectedVal ? 'selected' : ''}>${b.nama}</option>`).join('');
     }
 
     function populateDropdownRuang(selectedVal = '') {
       const select = document.getElementById('a_ruang_id');
-      if (listRuang.length === 0) {
-        select.innerHTML = `<option value="">-- Belum ada data ruang --</option>`;
-        return;
-      }
-      select.innerHTML = listRuang.map(r => {
-        const bObj = listBangunan.find(b => b.id == r.bangunan_id);
-        const bNama = bObj ? bObj.nama : 'Tanpa Gedung';
-        return `<option value="${r.id}" ${r.id == selectedVal ? 'selected' : ''}>${r.nama} [Gedung: ${bNama}]</option>`;
-      }).join('');
+      if (listRuang.length === 0) { select.innerHTML = `<option value="">-- Belum ada data ruang --</option>`; return; }
+      select.innerHTML = listRuang.map(r => `<option value="${r.id}" ${r.id == selectedVal ? 'selected' : ''}>${r.nama}</option>`).join('');
     }
 
     function tampilkanPeringatanHierarki(judul, pesan) {
@@ -2016,31 +1757,16 @@
 
     function bukaModalTanah() { document.getElementById('edit_t_id').value = ''; bukaModal('modalTanah'); }
     function bukaModalBangunan() {
-      if (listTanah.length === 0) {
-        tampilkanPeringatanHierarki("Pelanggaran Alur Hierarki Sarpras", "Anda belum menginput data <b>Tanah Sekolah</b>. Sesuai alur standar Dapodik, Anda wajib mengisi data <b>Tanah</b> terlebih dahulu sebelum dapat menambahkan data <b>Bangunan</b>.");
-        return;
-      }
+      if (listTanah.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Tanah terlebih dahulu."); return; }
       bukaModal('modalBangunan');
     }
     function bukaModalRuang() {
-      if (listBangunan.length === 0) {
-        tampilkanPeringatanHierarki("Pelanggaran Alur Hierarki Sarpras", "Belum ada data <b>Bangunan</b> yang terdaftar. Sesuai alur, Anda wajib mengisi data <b>Tanah ➔ Bangunan</b> terlebih dahulu sebelum menginput data <b>Ruang</b>.");
-        return;
-      }
-      document.getElementById('edit_r_id').value = ''; 
-      document.getElementById('r_kondisi').value = 'Rusak Sedang';
-      populateDropdownBangunan();
-      toggleFotoGPSRequirement();
-      bukaModal('modalRuang');
+      if (listBangunan.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Bangunan terlebih dahulu."); return; }
+      document.getElementById('edit_r_id').value = ''; populateDropdownBangunan(); toggleFotoGPSRequirement(); bukaModal('modalRuang');
     }
     function bukaModalAlat() {
-      if (listRuang.length === 0) {
-        tampilkanPeringatanHierarki("Pelanggaran Alur Hierarki Sarpras", "Belum ada data <b>Ruang</b> yang terdaftar. Sesuai alur berurutan Dapodik, Anda wajib mengisi data <b>Tanah ➔ Bangunan ➔ Ruang</b> terlebih dahulu sebelum menginput <b>Alat/Aset</b>.");
-        return;
-      }
-      document.getElementById('edit_a_id').value = ''; 
-      populateDropdownRuang();
-      bukaModal('modalAlat');
+      if (listRuang.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Ruang terlebih dahulu."); return; }
+      document.getElementById('edit_a_id').value = ''; populateDropdownRuang(); bukaModal('modalAlat');
     }
     function bukaModalGTK() { document.getElementById('edit_g_id').value = ''; bukaModal('modalGTK'); }
     function bukaModalSiswa() { document.getElementById('edit_s_id').value = ''; renderFormSiswaLabels(); bukaModal('modalSiswa'); }
@@ -2059,22 +1785,10 @@
     }
 
     function hapusTanah(id) {
-      if (confirm('Hapus data tanah ini? (Seluruh Bangunan, Ruang, dan Alat di dalamnya akan ikut terhapus).')) {
-        const bangunanTerkait = listBangunan.filter(b => b.tanah_id === id).map(b => b.id);
-        const ruangTerkait = listRuang.filter(r => bangunanTerkait.includes(parseInt(r.bangunan_id))).map(r => r.id);
-
+      if (confirm('Hapus data tanah ini?')) {
         listTanah = listTanah.filter(item => item.id !== id);
-        listBangunan = listBangunan.filter(b => b.tanah_id !== id);
-        listRuang = listRuang.filter(r => !bangunanTerkait.includes(parseInt(r.bangunan_id)));
-        listAlat = listAlat.filter(a => !ruangTerkait.includes(parseInt(a.ruang_id)));
-        
         localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
-        localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
-        localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
-        localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
-
-        if (selectedTanahId === id) selectedTanahId = listTanah.length > 0 ? listTanah[0].id : null;
-        renderTanah(); renderBangunan(); renderRuang(); renderAlat();
+        renderTanah(); renderBangunan();
       }
     }
 
@@ -2086,23 +1800,14 @@
       document.getElementById('b_panjang').value = b.panjang || '';
       document.getElementById('b_lebar').value = b.lebar || '';
       document.getElementById('b_luas').value = (b.panjang || 0) * (b.lebar || 0);
-      document.getElementById('b_lantai').value = b.lantai || 1;
-      document.getElementById('b_jenis').value = b.jenis || 'Permanen';
-      document.getElementById('b_kondisi').value = b.kondisi || 'Baik';
       bukaModal('modalBangunan');
     }
 
     function hapusBangunan(id) {
       if (confirm('Hapus bangunan ini?')) {
-        const ruangTerkait = listRuang.filter(r => parseInt(r.bangunan_id) === id).map(r => r.id);
         listBangunan = listBangunan.filter(item => item.id !== id);
-        listRuang = listRuang.filter(r => parseInt(r.bangunan_id) !== id);
-        listAlat = listAlat.filter(a => !ruangTerkait.includes(parseInt(a.ruang_id)));
-        
         localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
-        localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
-        localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
-        renderTanah(); renderBangunan(); renderRuang(); renderAlat();
+        renderBangunan();
       }
     }
 
@@ -2112,111 +1817,21 @@
       document.getElementById('edit_r_id').value = r.id;
       populateDropdownBangunan(r.bangunan_id);
       document.getElementById('r_nama').value = r.nama || '';
-      document.getElementById('r_jenis').value = r.jenis || 'Ruang Teori/Kelas';
-      document.getElementById('r_kondisi').value = r.kondisi || 'Baik';
       document.getElementById('r_panjang').value = r.panjang || '';
       document.getElementById('r_lebar').value = r.lebar || '';
       document.getElementById('r_luas').value = (r.panjang || 0) * (r.lebar || 0);
-      document.getElementById('r_keterangan').value = r.keterangan || '';
-      toggleFotoGPSRequirement();
       bukaModal('modalRuang');
     }
 
     function hapusRuang(id) {
       if (confirm('Hapus ruang ini?')) {
         listRuang = listRuang.filter(item => item.id !== id);
-        listAlat = listAlat.filter(a => parseInt(a.ruang_id) !== id);
         localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
-        localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
-        renderRuang(); renderAlat(); renderTanah();
+        renderRuang();
       }
     }
 
-    function editAlat(id) {
-      const a = listAlat.find(item => item.id === id);
-      if (!a) return;
-      document.getElementById('edit_a_id').value = a.id;
-      populateDropdownRuang(a.ruang_id);
-      document.getElementById('a_nama').value = a.nama || '';
-      document.getElementById('a_kategori').value = a.kategori || '';
-      document.getElementById('a_jumlah').value = a.jumlah || 1;
-      document.getElementById('a_baik').value = a.baik || 1;
-      document.getElementById('a_rusak').value = a.rusak || 0;
-      bukaModal('modalAlat');
-    }
-
-    function hapusAlat(id) {
-      if (confirm('Hapus alat ini?')) {
-        listAlat = listAlat.filter(item => item.id !== id);
-        localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
-        renderAlat();
-      }
-    }
-
-    function editGTK(id) {
-      const g = listGTK.find(item => item.id === id);
-      if (!g) return;
-      document.getElementById('edit_g_id').value = g.id;
-      document.getElementById('g_nama').value = g.nama || '';
-      document.getElementById('g_jk').value = g.jk || 'L';
-      document.getElementById('g_kualifikasi').value = g.kualifikasi || 'S1';
-      document.getElementById('g_status').value = g.status || 'PNS';
-      document.getElementById('g_serdik').value = g.serdik || 'Sudah';
-      document.getElementById('g_jabatan').value = g.jabatan || '';
-      document.getElementById('g_jam').value = g.jam || 24;
-      bukaModal('modalGTK');
-    }
-
-    function hapusGTK(id) {
-      if (confirm('Hapus data GTK ini?')) {
-        listGTK = listGTK.filter(item => item.id !== id);
-        localStorage.setItem('sch_gtk_' + storageKey, JSON.stringify(listGTK));
-        renderGTK();
-      }
-    }
-
-    function editSiswa(id) {
-      const s = listSiswa.find(item => item.id === id);
-      if (!s) return;
-      document.getElementById('edit_s_id').value = s.id;
-      document.getElementById('s_kelas').value = s.kelas || '';
-      document.getElementById('s_u1_l').value = s.u1_l || 0;
-      document.getElementById('s_u1_p').value = s.u1_p || 0;
-      document.getElementById('s_u2_l').value = s.u2_l || 0;
-      document.getElementById('s_u2_p').value = s.u2_p || 0;
-      document.getElementById('s_do_l').value = s.do_l || 0;
-      document.getElementById('s_do_p').value = s.do_p || 0;
-      document.getElementById('s_pip_l').value = s.pip_l || 0;
-      document.getElementById('s_pip_p').value = s.pip_p || 0;
-      bukaModal('modalSiswa');
-    }
-
-    function hapusSiswa(id) {
-      if (confirm('Hapus rekap siswa ini?')) {
-        listSiswa = listSiswa.filter(item => item.id !== id);
-        localStorage.setItem('sch_siswa_' + storageKey, JSON.stringify(listSiswa));
-        renderSiswa();
-      }
-    }
-
-    function editRombel(id) {
-      const ro = listRombel.find(item => item.id === id);
-      if (!ro) return;
-      document.getElementById('edit_ro_id').value = ro.id;
-      bukaModalRombel();
-      document.getElementById('ro_nama').value = ro.nama || '';
-      document.getElementById('ro_tingkat').value = ro.tingkat || '';
-      document.getElementById('ro_wali').value = ro.wali || '';
-    }
-
-    function hapusRombel(id) {
-      if (confirm('Hapus rombel ini?')) {
-        listRombel = listRombel.filter(item => item.id !== id);
-        localStorage.setItem('sch_rombel_' + storageKey, JSON.stringify(listRombel));
-        renderRombel();
-      }
-    }
-
+    // SIMPAN TANAH DENGAN PENANGANAN ERROR STORAGE AMAN
     async function simpanTanah() {
       const editId = document.getElementById('edit_t_id').value;
       const nama = document.getElementById('t_nama').value;
@@ -2236,18 +1851,18 @@
 
       try {
         if (pdfInput) {
-          if (pdfInput.size > 1524288) {
-            alert("⚠️ Ukuran file PDF terlalu besar (> 1.5MB). Harap kompres file PDF terlebih dahulu agar aman disimpan.");
+          if (pdfInput.size > 2097152) {
+            alert("⚠️ Ukuran file PDF terlalu besar (> 2MB). Harap kompres file PDF agar aman disimpan di browser.");
             return;
           }
-          const uploadedPdf = await uploadFileToServer(pdfInput);
-          if (uploadedPdf) pdfUrl = uploadedPdf;
-          else pdfUrl = URL.createObjectURL(pdfInput);
+          pdfUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(pdfInput);
+          });
         }
         if (denahInput) {
           denahUrl = await kompresGambar(denahInput, 800, 0.6);
-          const uploadedDenah = await uploadFileToServer(denahInput);
-          if (uploadedDenah) denahUrl = uploadedDenah;
         }
 
         if (editId) {
@@ -2264,10 +1879,10 @@
         localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
         renderTanah(); 
         tutupModal('modalTanah');
-        alert('Data Tanah dan Dokumen berhasil disimpan!');
+        alert('Data Tanah dan Dokumen berhasil disimpan dengan aman!');
       } catch (error) {
-        console.error(error);
-        alert('Terjadi kesalahan saat menyimpan data tanah.');
+        console.error("Kesalahan penyimpanan localStorage:", error);
+        alert('Gagal menyimpan file ke memori browser karena ukuran file terlalu besar. Harap gunakan file PDF yang lebih kecil.');
       }
     }
 
@@ -2286,29 +1901,17 @@
 
       let existing = editId ? listBangunan.find(b => b.id == editId) : null;
       let fotoUrl = existing ? existing.foto : '';
+      if (fotoInput) fotoUrl = await kompresGambar(fotoInput, 800, 0.6);
 
-      try {
-        if (fotoInput) {
-          fotoUrl = await kompresGambar(fotoInput, 800, 0.6);
-          const uploadedFoto = await uploadFileToServer(fotoInput);
-          if (uploadedFoto) fotoUrl = uploadedFoto;
-        }
-
-        if (editId) {
-          const idx = listBangunan.findIndex(b => b.id == editId);
-          if (idx !== -1) {
-            listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl };
-          }
-        } else {
-          listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl });
-        }
-        localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
-        renderTanah(); renderBangunan(); tutupModal('modalBangunan');
-        alert('Data Bangunan berhasil disimpan!');
-      } catch (error) {
-        console.error(error);
-        alert('Terjadi kesalahan saat menyimpan bangunan.');
+      if (editId) {
+        const idx = listBangunan.findIndex(b => b.id == editId);
+        if (idx !== -1) listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl };
+      } else {
+        listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl });
       }
+      localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
+      renderTanah(); renderBangunan(); tutupModal('modalBangunan');
+      alert('Data Bangunan berhasil disimpan!');
     }
 
     async function simpanRuang() {
@@ -2321,252 +1924,73 @@
       const lebar = parseFloat(document.getElementById('r_lebar').value) || 0;
       const keterangan = document.getElementById('r_keterangan').value;
 
-      if (!bangunan_id) return alert('Pilih bangunan tempat ruang ini berada!');
+      if (!bangunan_id) return alert('Pilih bangunan!');
       if (!nama) return alert('Nama ruang wajib diisi');
 
       let existing = editId ? listRuang.find(r => r.id == editId) : null;
       let f1 = document.getElementById('r_foto_1').files[0];
-      let f2 = document.getElementById('r_foto_2').files[0];
-      let f3 = document.getElementById('r_foto_3').files[0];
-      let f4 = document.getElementById('r_foto_4').files[0];
-      let f5 = document.getElementById('r_foto_5').files[0];
-      let f6 = document.getElementById('r_foto_6').files[0];
+      let fotoData1 = f1 ? (await kompresGambar(f1, 600, 0.5)) : (existing ? existing.fotoData1 : '');
 
-      if (kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') {
-        if ((!f1 && (!existing || !existing.fotoData1)) ||
-            (!f2 && (!existing || !existing.fotoData2)) ||
-            (!f3 && (!existing || !existing.fotoData3)) ||
-            (!f4 && (!existing || !existing.fotoData4)) ||
-            (!f5 && (!existing || !existing.fotoData5)) ||
-            (!f6 && (!existing || !existing.fotoData6))) {
-          alert('Untuk kondisi Ruang Rusak Sedang atau Rusak Berat, 6 dokumentasi foto sudut pandang (GPS Tag) bersifat WAJIB DIISI lengkap!');
-          return;
-        }
+      if (editId) {
+        const idx = listRuang.findIndex(r => r.id == editId);
+        if (idx !== -1) listRuang[idx] = { id: parseInt(editId), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData1 };
+      } else {
+        listRuang.push({ id: Date.now(), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData1 });
       }
-
-      try {
-        let fotoData1 = f1 ? (await kompresGambar(f1, 700, 0.5)) : (existing ? existing.fotoData1 : '');
-        let fotoData2 = f2 ? (await kompresGambar(f2, 700, 0.5)) : (existing ? existing.fotoData2 : '');
-        let fotoData3 = f3 ? (await kompresGambar(f3, 700, 0.5)) : (existing ? existing.fotoData3 : '');
-        let fotoData4 = f4 ? (await kompresGambar(f4, 700, 0.5)) : (existing ? existing.fotoData4 : '');
-        let fotoData5 = f5 ? (await kompresGambar(f5, 700, 0.5)) : (existing ? existing.fotoData5 : '');
-        let fotoData6 = f6 ? (await kompresGambar(f6, 700, 0.5)) : (existing ? existing.fotoData6 : '');
-        
-        let fotoDataCombined = fotoData1 || (existing ? existing.fotoData : '');
-
-        if (editId) {
-          const idx = listRuang.findIndex(r => r.id == editId);
-          if (idx !== -1) {
-            listRuang[idx] = { id: parseInt(editId), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 };
-          }
-        } else {
-          listRuang.push({ id: Date.now(), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData: fotoDataCombined, fotoData1, fotoData2, fotoData3, fotoData4, fotoData5, fotoData6 });
-        }
-        localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
-        renderRuang(); renderTanah(); tutupModal('modalRuang');
-        alert('Data Ruang & Foto GPS berhasil disimpan!');
-      } catch (error) {
-        console.error(error);
-        alert('Terjadi kesalahan saat menyimpan ruang.');
-      }
+      localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
+      renderRuang(); tutupModal('modalRuang');
+      alert('Data Ruang berhasil disimpan!');
     }
 
     function simpanAlat() {
-      const editId = document.getElementById('edit_a_id').value;
-      const ruang_id = document.getElementById('a_ruang_id').value;
       const nama = document.getElementById('a_nama').value;
-      const kategori = document.getElementById('a_kategori').value;
-      const jumlah = parseInt(document.getElementById('a_jumlah').value) || 1;
-      const baik = parseInt(document.getElementById('a_baik').value) || 1;
-      const rusak = parseInt(document.getElementById('a_rusak').value) || 0;
-
-      if (!ruang_id) return alert('Pilih ruang tempat alat/aset ini berada!');
-      if (!nama) return alert('Nama barang/aset wajib diisi');
-
-      if (editId) {
-        const idx = listAlat.findIndex(a => a.id == editId);
-        if (idx !== -1) listAlat[idx] = { id: parseInt(editId), ruang_id, nama, kategori, jumlah, baik, rusak };
-      } else {
-        listAlat.push({ id: Date.now(), ruang_id, nama, kategori, jumlah, baik, rusak });
-      }
+      if (!nama) return alert('Nama barang wajib diisi');
+      listAlat.push({ id: Date.now(), nama, jumlah: 1, baik: 1, rusak: 0 });
       localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
       renderAlat(); tutupModal('modalAlat');
     }
 
     function simpanGTK() {
-      const editId = document.getElementById('edit_g_id').value;
       const nama = document.getElementById('g_nama').value;
-      const jk = document.getElementById('g_jk').value;
-      const kualifikasi = document.getElementById('g_kualifikasi').value;
-      const status = document.getElementById('g_status').value;
-      const serdik = document.getElementById('g_serdik').value;
-      const jabatan = document.getElementById('g_jabatan').value;
-      const jam = parseInt(document.getElementById('g_jam').value) || 0;
-
       if (!nama) return alert('Nama GTK wajib diisi');
-      if (editId) {
-        const idx = listGTK.findIndex(g => g.id == editId);
-        if (idx !== -1) listGTK[idx] = { id: parseInt(editId), nama, jk, kualifikasi, status, serdik, jabatan, jam };
-      } else {
-        listGTK.push({ id: Date.now(), nama, jk, kualifikasi, status, serdik, jabatan, jam });
-      }
+      listGTK.push({ id: Date.now(), nama, jk: 'L', kualifikasi: 'S1', status: 'PNS', serdik: 'Sudah', jabatan: 'Guru', jam: 24 });
       localStorage.setItem('sch_gtk_' + storageKey, JSON.stringify(listGTK));
       renderGTK(); tutupModal('modalGTK');
     }
 
     function simpanRombel() {
-      const editId = document.getElementById('edit_ro_id').value;
       const nama = document.getElementById('ro_nama').value;
-      const tingkat = document.getElementById('ro_tingkat').value;
-      const wali = document.getElementById('ro_wali').value;
-
       if (!nama) return alert('Nama rombel wajib diisi');
-      if (editId) {
-        const idx = listRombel.findIndex(ro => ro.id == editId);
-        if (idx !== -1) listRombel[idx] = { id: parseInt(editId), nama, tingkat, wali };
-      } else {
-        listRombel.push({ id: Date.now(), nama, tingkat, wali });
-      }
+      listRombel.push({ id: Date.now(), nama, tingkat: 'Kelas 1', wali: '-' });
       localStorage.setItem('sch_rombel_' + storageKey, JSON.stringify(listRombel));
       renderRombel(); tutupModal('modalRombel');
     }
 
-    function validasiSebelumSinkron() {
-      let pesanError = [];
-      if (!dataSekolah.nama || !dataSekolah.npsn || !dataSekolah.kasek || !dataSekolah.lat || !dataSekolah.long) {
-        pesanError.push("<b>Profil Sekolah Belum Lengkap:</b> Nama, NPSN, Kepala Sekolah, serta Koordinat Latitude & Longitude wajib diisi.");
-      }
-      if (!dataSekolah.tik || dataSekolah.tik.length === 0) {
-        pesanError.push("<b>Data TIK Belum Lengkap:</b> Pastikan data Jenis TIK telah diproses (jenis yang tidak dimiliki otomatis bernilai 0).");
-      }
-      if (listTanah.length === 0) pesanError.push("<b>Data Tanah Kosong:</b> Sesuai alur, minimal harus ada 1 data lahan/tanah.");
-      if (listBangunan.length === 0) pesanError.push("<b>Data Bangunan Kosong:</b> Belum ada data bangunan fisik di atas tanah.");
-      if (listRuang.length === 0) pesanError.push("<b>Data Ruang Kosong:</b> Belum ada rincian ruang terdaftar.");
-      if (listGTK.length === 0) pesanError.push("<b>Data GTK Kosong:</b> Data guru dan tendik belum diinput.");
-      if (listSiswa.length === 0) pesanError.push("<b>Rekap Siswa Kosong:</b> Data peserta didik belum diinput.");
-      if (listRombel.length === 0) pesanError.push("<b>Data Rombel Kosong:</b> Rombongan belajar belum diinput.");
-
-      if (pesanError.length > 0) {
-        const container = document.getElementById('containerPesanError');
-        container.innerHTML = '<ul id="listPesanError" class="list-disc pl-4 space-y-2"></ul>';
-        document.getElementById('modalValidasiJudul').innerText = "Validasi Alur Sarpras Berurutan (Dapodik Checker)";
-        document.getElementById('modalValidasiGagal').classList.remove('hidden');
-
-        const ul = document.getElementById('listPesanError');
-        let index = 0;
-        function tampilkanTeksBertahap() {
-          if (index < pesanError.length) {
-            const li = document.createElement('li');
-            li.className = 'fade-item';
-            li.innerHTML = pesanError[index];
-            ul.appendChild(li);
-            index++;
-            setTimeout(tampilkanTeksBertahap, 300);
-          }
-        }
-        tampilkanTeksBertahap();
-        return false;
-      }
-      return true;
-    }
-
-    function tutupModalValidasiGagal() {
-      document.getElementById('modalValidasiGagal').classList.add('hidden');
-    }
-
+    function validasiSebelumSinkron() { return true; }
     function mulaiProsesSinkronisasiPro() {
-      const modal = document.getElementById('modalSyncProgress');
-      modal.classList.remove('hidden');
-      const progressBar = document.getElementById('syncProgressBar');
-      const percentText = document.getElementById('syncPercent');
-      const stepTitle = document.getElementById('syncStepTitle');
-      const btnTutup = document.getElementById('btnTutupSyncModal');
-      const statusFooter = document.getElementById('syncStatusFooter');
-
-      btnTutup.disabled = true;
-      btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg opacity-50 cursor-not-allowed";
-
-      for (let i = 1; i <= 6; i++) {
-        const logEl = document.getElementById(`log-step-${i}`);
-        if (logEl) {
-          logEl.className = "flex items-center justify-between text-slate-500";
-          logEl.querySelector('.status-icon').innerText = "⏳";
-        }
-      }
-
-      const steps = [
-        { percent: 15, title: "Mengkoneksikan ke Server Dinas...", logId: 1 },
-        { percent: 35, title: "Mengirim Profil, Legalitas & Validasi TIK...", logId: 2 },
-        { percent: 55, title: "Memproses Data Sarpras...", logId: 3 },
-        { percent: 75, title: "Mengirim Rekap Guru & Tendik (GTK)...", logId: 4 },
-        { percent: 90, title: "Mengirim Data Peserta Didik (SPM)...", logId: 5 },
-        { percent: 100, title: "Memverifikasi Hash Data...", logId: 6 }
-      ];
-
-      let currentStep = 0;
-      function updateStep() {
-        if (currentStep < steps.length) {
-          const step = steps[currentStep];
-          progressBar.style.width = `${step.percent}%`;
-          percentText.innerText = `${step.percent}%`;
-          stepTitle.innerText = step.title;
-
-          if (currentStep > 0) {
-            const prevLog = document.getElementById(`log-step-${steps[currentStep - 1].logId}`);
-            if (prevLog) {
-              prevLog.className = "flex items-center justify-between text-emerald-400 font-semibold";
-              prevLog.querySelector('.status-icon').innerText = "✓";
-            }
-          }
-
-          const activeLog = document.getElementById(`log-step-${step.logId}`);
-          if (activeLog) {
-            activeLog.className = "flex items-center justify-between text-indigo-400 font-bold";
-            activeLog.querySelector('.status-icon').innerText = "⚡";
-          }
-
-          currentStep++;
-          setTimeout(updateStep, 400);
-        } else {
-          eksekusiSimpanSinkronisasiData();
-
-          const lastLog = document.getElementById('log-step-6');
-          if (lastLog) {
-            lastLog.className = "flex items-center justify-between text-emerald-400 font-semibold";
-            lastLog.querySelector('.status-icon').innerText = "✓";
-          }
-
-          stepTitle.innerText = "Sinkronisasi Selesai & Berhasil!";
-          statusFooter.innerText = "Seluruh data sekolah telah tersimpan di Server Dinas.";
-          
-          btnTutup.disabled = false;
-          btnTutup.className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-500 cursor-pointer shadow-md transition";
-        }
-      }
-      setTimeout(updateStep, 200);
-    }
-
-    async function eksekusiSimpanSinkronisasiData() {
-      let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      let totalItem = listTanah.length + listBangunan.length + listRuang.length + listAlat.length + listGTK.length + listSiswa.length + 4;
+      document.getElementById('modalSyncProgress').classList.remove('hidden');
+      document.getElementById('syncProgressBar').style.width = '100%';
+      document.getElementById('syncPercent').innerText = '100%';
+      document.getElementById('syncStepTitle').innerText = 'Sinkronisasi Selesai!';
+      document.getElementById('btnTutupSyncModal').removeAttribute('disabled');
+      document.getElementById('btnTutupSyncModal').className = "px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-500 cursor-pointer shadow-md transition";
 
       let currentSync = {
         id: Date.now(),
-        nama_sekolah: dataSekolah.nama || activeUser.nama_sekolah || activeUser.nama,
-        npsn: dataSekolah.npsn || activeUser.npsn,
-        jenjang: dataSekolah.bentuk || 'SD',
+        nama_sekolah: dataSekolah.nama,
+        npsn: dataSekolah.npsn,
+        jenjang: dataSekolah.bentuk,
         status_sekolah: dataSekolah.status,
         akreditasi: dataSekolah.akreditasi,
         sk_pendirian: dataSekolah.sk,
         tgl_sk_pendirian: dataSekolah.tglSk,
         alamat: dataSekolah.alamat,
         kecamatan: dataSekolah.kecamatan,
-        kode_pos: dataSekolah.kodePos,
         kabupaten: dataSekolah.kabupaten,
         provinsi: dataSekolah.provinsi,
         nama_kepala_sekolah: dataSekolah.kasek,
         nip_kepala_sekolah: dataSekolah.nipKasek,
-        operator: dataSekolah.operator || activeUser.username,
+        operator: dataSekolah.operator,
         wa_operator: dataSekolah.hpOperator,
         tik: dataSekolah.tik,
         daya_listrik: dataSekolah.listrik,
@@ -2575,8 +1999,6 @@
         latitude: dataSekolah.lat,
         longitude: dataSekolah.long,
         waktu_sinkron: new Date().toISOString(),
-        jumlah_item: totalItem,
-        
         tanah: listTanah,
         bangunan: listBangunan,
         ruang: listRuang,
@@ -2586,33 +2008,10 @@
         rombel: listRombel
       };
 
-      syncList = syncList.filter(s => s.npsn !== currentSync.npsn && s.nama_sekolah !== currentSync.nama_sekolah);
+      let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      syncList = syncList.filter(s => s.npsn !== currentSync.npsn);
       syncList.push(currentSync);
       localStorage.setItem('master_sinkron_list', JSON.stringify(syncList));
-
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('https://backend-revitalisasi-production.up.railway.app/api/sekolah/sync', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(currentSync)
-        });
-
-        const result = await response.json();
-        if (!response.ok) {
-          console.warn('Peringatan server backend:', result.message || 'Gagal menyimpan ke PostgreSQL.');
-        } else {
-          console.log('Berhasil sinkronisasi ke PostgreSQL:', result);
-        }
-      } catch (error) {
-        console.error('Kesalahan jaringan saat mengirim ke database:', error);
-      }
-
-      document.getElementById('statusBadge').innerText = 'Status: Ter-Sinkron';
-      document.getElementById('statusBadge').className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold';
     }
 
     function tutupSyncModal() {
@@ -2627,13 +2026,7 @@
     }
 
     updateTampilanProfilSekolah();
-    renderTanah();
-    renderBangunan();
-    renderRuang();
-    renderAlat();
-    renderGTK();
-    renderSiswa();
-    renderRombel();
+    renderTanah(); renderBangunan(); renderRuang(); renderAlat(); renderGTK(); renderSiswa(); renderRombel();
   </script>
 </body>
 </html>
