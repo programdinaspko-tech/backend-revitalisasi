@@ -1101,6 +1101,8 @@
     let namaSekolahLogin = activeUser.nama_sekolah || activeUser.nama || activeUser.username || 'Sekolah Binaan';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
     let storageKey = namaSekolahLogin ? namaSekolahLogin.replace(/\s+/g, '_').toLowerCase() : 'default';
+    let uniqueKey = activeUser.npsn ? activeUser.npsn : (activeUser.nama_sekolah ? activeUser.nama_sekolah.replace(/\s+/g, '_').toLowerCase() : 'default');
+    let storageKey = uniqueKey;
 
     let masterSinkron = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
     let existingMaster = masterSinkron.find(s => (activeUser.npsn && s.npsn === activeUser.npsn) || (namaSekolahLogin && (s.nama_sekolah === namaSekolahLogin || s.nama === namaSekolahLogin)));
