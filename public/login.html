@@ -192,9 +192,6 @@ const foundUser = registeredUsers.find(u => {
   let npsnVal = (u.npsn || '').trim().toLowerCase();
   let inputName = username.trim().toLowerCase();
   
-  // Tambahan pencocokan NPSN jika user mengetikkan NPSN saat login
-  let npsnVal = (u.npsn || '').trim().toLowerCase();
-
   return op === inputName || sch === inputName || npsnVal === inputName;
 });
 
