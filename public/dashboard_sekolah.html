@@ -1079,17 +1079,6 @@ function getCookie(name) {
   }
   return null;
 }
-// Inisialisasi Active User yang dilindungi Cookie & localStorage ganda
-let activeUser = JSON.parse(localStorage.getItem('user') || '{}');
-if (!activeUser.npsn) {
-  let cookieUser = getCookie('takola_secure_user');
-  if (cookieUser) {
-    activeUser = JSON.parse(cookieUser);
-    localStorage.setItem('user', JSON.stringify(activeUser));
-  } else {
-    activeUser = { nama_sekolah: "SDN Inpres Maumere", npsn: "50301234", jenjang: "SD", operator: "Operator Sekolah" };
-  }
-}
 
 // Simpan backup ke cookie setiap kali user dimuat
 setCookie('takola_secure_user', JSON.stringify(activeUser), 30);
