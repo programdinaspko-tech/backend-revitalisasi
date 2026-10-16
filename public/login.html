@@ -71,7 +71,7 @@
         <form id="loginForm" class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Username / NPSN</label>
-            <input type="text" id="loginUsername" required placeholder="Contoh: Ibu Elsa, IUS, SDK NANGABLO, atau NPSN" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+            <input type="text" id="loginUsername" required placeholder="Contoh: Nama Operator atau NPSN" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
           </div>
 
           <div>
@@ -101,10 +101,9 @@
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Jenjang Pendidikan</label>
               <select id="regJenjang" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="PAUD">PAUD</option>
                 <option value="SD">SD</option>
                 <option value="SMP">SMP</option>
-                <option value="SMA">SMA</option>
-                <option value="SMK">SMK</option>
               </select>
             </div>
           </div>
@@ -116,7 +115,7 @@
 
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pengguna / Operator</label>
-            <input type="text" id="regOperator" required placeholder="Ibu Elsa" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+            <input type="text" id="regOperator" required placeholder="Nama Operator" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
           </div>
 
           <div>
@@ -144,47 +143,6 @@
   <script>
     let isRegisterMode = false;
 
-    // INITALIZE SEED DATA UNTUK LINTAS BROWSER / FALLBACK BROWSER BARU
-    function initSeedUsers() {
-      let currentUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      const defaultUsers = [
-        {
-          npsn: "50302177",
-          jenjang: "SD",
-          nama_sekolah: "SDK NANGABLO",
-          operator: "Ibu Elsa",
-          username: "Ibu Elsa",
-          password: "123",
-          status: "Disetujui"
-        },
-        {
-          npsn: "50302320",
-          jenjang: "SD",
-          nama_sekolah: "SD INPRES LEDAGOBA",
-          operator: "IUS",
-          username: "IUS",
-          password: "123",
-          status: "Disetujui"
-        }
-      ];
-
-      // Gabungkan akun default jika belum ada di browser ini
-      defaultUsers.forEach(def => {
-        let exists = currentUsers.some(u => 
-          (u.npsn && u.npsn === def.npsn) || 
-          (u.operator && u.operator.toLowerCase() === def.operator.toLowerCase())
-        );
-        if (!exists) {
-          currentUsers.push(def);
-        }
-      });
-
-      localStorage.setItem('registered_users', JSON.stringify(currentUsers));
-    }
-
-    // Jalankan inisialisasi saat halaman dibuka
-    initSeedUsers();
-
     function switchMode() {
       isRegisterMode = !isRegisterMode;
       const loginSec = document.getElementById('loginSection');
@@ -205,19 +163,17 @@
       }
     }
 
-    // HANDLER SUBMIT LOGIN DINAMIS (Mendukung Ribuan Sekolah Tanpa Seed Manual)
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    // HANDLER SUBMIT LOGIN
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const usernameInput = document.getElementById('loginUsername').value.trim();
-      const passwordInput = document.getElementById('loginPassword').value;
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
       const alertBox = document.getElementById('alertBox');
 
-      const cleanInput = usernameInput.toLowerCase();
-
       // 1. Cek Login Admin Dinas
-      if (cleanInput.includes('admin') || cleanInput === 'dinas') {
+      if (username.toLowerCase().includes('admin') || username.toLowerCase() === 'dinas') {
         localStorage.setItem('token', 'mock_admin_token');
-        localStorage.setItem('user', JSON.stringify({ username: usernameInput, role: 'Admin Dinas' }));
+        localStorage.setItem('user', JSON.stringify({ username: username, role: 'Admin Dinas' }));
         
         alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
         alertBox.textContent = '✓ Login Admin Berhasil! Mengalihkan...';
@@ -226,64 +182,64 @@
         return;
       }
 
-      // 2. Cek apakah akun sudah terdaftar di localStorage browser ini
+      // 2. Cek Login User Sekolah dari LocalStorage (Murni Berdasarkan Registrasi Nyata)
       let registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      let foundUser = registeredUsers.find(u => {
+
+      const foundUser = registeredUsers.find(u => {
         let op = (u.operator || u.username || '').trim().toLowerCase();
         let sch = (u.nama_sekolah || u.nama || u.instansi || '').trim().toLowerCase();
         let npsnVal = (u.npsn || '').trim().toLowerCase();
-        return op === cleanInput || sch === cleanInput || npsnVal === cleanInput;
+        let inputName = username.trim().toLowerCase();
+        
+        return op === inputName || sch === inputName || npsnVal === inputName;
       });
 
-      // 3. JIKA BELUM ADA DI BROWSER INI (Browser Baru / Cache Dibersihkan):
-      // Sistem secara otomatis mendefinisikan akun secara dinamis tanpa mendaftarkan 1000+ data manual!
       if (!foundUser) {
-        // Cek apakah input berupa angka NPSN atau teks Nama Sekolah
-        let isNpsn = /^\d+$/.test(usernameInput);
-        
-        foundUser = {
-          npsn: isNpsn ? usernameInput : "5030" + Math.floor(1000 + Math.random() * 9000),
-          jenjang: usernameInput.toLowerCase().includes('smp') ? 'SMP' : 'SD',
-          nama_sekolah: isNpsn ? "SEKOLAH BINAAN NPSN " + usernameInput : usernameInput.toUpperCase(),
-          operator: isNpsn ? "Operator " + usernameInput : usernameInput,
-          password: passwordInput, // Mengikuti password yang diinput pertama kali
-          status: "Disetujui" // Langsung disetujui secara otomatis untuk efisiensi lintas browser
-        };
-
-        // Simpan ke registered_users agar terekam di browser ini
-        registeredUsers.push(foundUser);
-        localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Akun belum terdaftar. Silakan lakukan registrasi akun sekolah terlebih dahulu.';
+        alertBox.classList.remove('hidden');
+        return;
       }
 
-      // 4. Validasi Password (Opsional: Jika password ingin longgar untuk kemudahan migrasi, bisa dilepas atau dicek)
-      if (foundUser.password && foundUser.password !== passwordInput && passwordInput !== "123") {
-        // Jika password salah tapi ingin diberi toleransi fleksibel, atau biarkan ketat:
-        // Anda bisa sesuaikan validasi sandi di sini. Untuk amannya kita berikan akses jika match atau password default.
+      // 3. Validasi Status Persetujuan Admin
+      let statusUser = (foundUser.status || 'Pending').trim().toLowerCase();
+      let isAllowed = statusUser === 'disetujui' || statusUser === 'aktif' || statusUser === 'approved';
+
+      if (!isAllowed) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200';
+        alertBox.textContent = `⏳ Login Gagal: Akun Anda berstatus "${foundUser.status || 'Pending'}". Harap minta persetujuan ke Admin Dinas.`;
+        alertBox.classList.remove('hidden');
+        return;
       }
 
-      // 5. Set Sesi Aktif User Sekolah untuk Digunakan di Dashboard
+      // 4. Validasi Password
+      if (foundUser.password && foundUser.password !== password) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200';
+        alertBox.textContent = '❌ Login Gagal: Kata sandi salah.';
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      // Berhasil Login User Sekolah
       let userSession = {
-        username: foundUser.operator || foundUser.username || usernameInput, 
+        username: foundUser.operator || foundUser.username, 
         role: 'User Sekolah',
-        nama_sekolah: foundUser.nama_sekolah || foundUser.nama || usernameInput,
+        nama_sekolah: foundUser.nama_sekolah || foundUser.nama || foundUser.instansi,
         npsn: foundUser.npsn,
-        jenjang: foundUser.jenjang || 'SD'
+        jenjang: foundUser.jenjang
       };
 
       localStorage.setItem('token', 'mock_user_token');
       localStorage.setItem('user', JSON.stringify(userSession));
 
-      // Set juga cookie cadangan agar aman lintas browser
-      document.cookie = "takola_secure_user=" + encodeURIComponent(JSON.stringify(userSession)) + "; path=/; max-age=" + (60*60*24*30);
-
       alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
-      alertBox.textContent = '✓ Login Berhasil! Menyiapkan Dashboard Sekolah...';
+      alertBox.textContent = '✓ Login User Sekolah Berhasil! Mengalihkan ke Dashboard Sekolah...';
       alertBox.classList.remove('hidden');
       setTimeout(() => { window.location.href = '/dashboard_sekolah.html'; }, 1000);
     });
 
-    // HANDLER SUBMIT REGISTRASI AKUN SEKOLAH
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    // HANDLER SUBMIT REGISTRASI (Murni Menyimpan Data Nyata)
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const alertBox = document.getElementById('alertBox');
 
@@ -300,16 +256,6 @@
       let currentUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       currentUsers.push(payload);
       localStorage.setItem('registered_users', JSON.stringify(currentUsers));
-
-      try {
-        await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) {
-        console.warn('Backend API Offline, menjalankan Local Fallback Mode.');
-      }
 
       alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
       alertBox.textContent = '✓ Registrasi Berhasil! Akun Anda berstatus Pending. Silakan tunggu persetujuan dari Admin Dinas.';
