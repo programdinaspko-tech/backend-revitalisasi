@@ -71,7 +71,7 @@
               • Tanah & Bangunan
             </button>
             <button onclick="switchTab('sarpras-ruang')" id="nav-sarpras-ruang" class="w-full text-left py-2 px-3 text-slate-300 hover:text-white hover:bg-slate-800 rounded transition cursor-pointer">
-              • Ruang
+              • Ruang & Rombel
             </button>
             <button onclick="switchTab('sarpras-alat')" id="nav-sarpras-alat" class="w-full text-left py-2 px-3 text-slate-300 hover:text-white hover:bg-slate-800 rounded transition cursor-pointer">
               • Alat, Angkutan & Bantuan
@@ -84,9 +84,6 @@
         </button>
         <button onclick="switchTab('siswa')" id="nav-siswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>👨‍🎓</span> <span class="sidebar-text">Peserta Didik</span>
-        </button>
-        <button onclick="switchTab('rombel')" id="nav-rombel" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
-          <span>👥</span> <span class="sidebar-text">Data Rombel</span>
         </button>
         <button onclick="switchTab('sinkron')" id="nav-sinkron" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🔄</span> <span class="sidebar-text">Sinkronisasi Data</span>
@@ -122,7 +119,7 @@
       </div>
     </header>
 
-    <!-- 1. TAB BERANDA -->
+    <!-- 1. TAB BERANDA DENGAN PANDUAN PENGGUNAAN -->
     <section id="tab-beranda" class="tab-content space-y-5">
       <div class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow-sm flex justify-between items-center">
         <span>TAKOLA SIKKA (Tata Kelola Sekolah) - Versi Aplikasi : 2026.a (Program ProSN Revitalisasi)</span>
@@ -130,10 +127,10 @@
       </div>
 
       <!-- KARTU STATISTIK COLORFUL DAPODIK -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-purple-700 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
           <div>
-            <p class="text-[11px] uppercase font-semibold text-purple-200">Jumlah Ruang Kelas</p>
+            <p class="text-[11px] uppercase font-semibold text-purple-200">Jumlah Ruang</p>
             <p id="statRuang" class="text-3xl font-extrabold mt-1">0</p>
           </div>
           <div class="text-3xl opacity-80">🏛️</div>
@@ -141,18 +138,10 @@
 
         <div class="bg-sky-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
           <div>
-            <p class="text-[11px] uppercase font-semibold text-sky-200">Jumlah Guru</p>
+            <p class="text-[11px] uppercase font-semibold text-sky-200">Jumlah GTK</p>
             <p id="statGuru" class="text-3xl font-extrabold mt-1">0</p>
           </div>
           <div class="text-3xl opacity-80">🎓</div>
-        </div>
-
-        <div class="bg-lime-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
-          <div>
-            <p class="text-[11px] uppercase font-semibold text-lime-200">Jumlah Tendik</p>
-            <p id="statTendik" class="text-3xl font-extrabold mt-1">0</p>
-          </div>
-          <div class="text-3xl opacity-80">👤</div>
         </div>
 
         <div class="bg-emerald-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
@@ -165,10 +154,31 @@
 
         <div class="bg-orange-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
           <div>
-            <p class="text-[11px] uppercase font-semibold text-orange-200">Jumlah Rombel</p>
+            <p class="text-[11px] uppercase font-semibold text-orange-200">Jumlah Rombel (Kelas)</p>
             <p id="statRombel" class="text-3xl font-extrabold mt-1">0</p>
           </div>
           <div class="text-3xl opacity-80">👥</div>
+        </div>
+      </div>
+
+      <!-- KARTU PANDUAN PENGGUNAAN APLIKASI BERANDA -->
+      <div class="bg-white rounded-xl border border-sky-200 shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-sky-600 to-indigo-600 text-white px-5 py-3.5 font-bold text-sm flex items-center gap-2">
+          <span>📖</span> <span>Panduan Pengisian Data TAKOLA Sikka (Wajib Berurutan & Sesuai Sifat Wajib Input)</span>
+        </div>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-700">
+          <div class="bg-sky-50/60 p-4 rounded-xl border border-sky-100 space-y-2">
+            <h4 class="font-extrabold text-sky-900 text-sm flex items-center gap-1.5"><span>1️⃣</span> Data Sekolah & Profil</h4>
+            <p>Lengkapi profil identitas sekolah, penanggung jawab (NIP 18 digit wajib), kepemilikan TIK dengan validasi nilai 0 jika tidak ada, serta titik koordinat GPS akurat[cite: 14].</p>
+          </div>
+          <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 space-y-2">
+            <h4 class="font-extrabold text-emerald-900 text-sm flex items-center gap-1.5"><span>2️⃣</span> Sarpras Berurutan</h4>
+            <p>Input data wajib berurutan: <b>Tanah</b> ➔ <b>Bangunan</b> (dilengkapi jumlah ruang, tahun rehab, dokumen PUPR) ➔ <b>Ruang & Rombel</b> (lengkap ukuran, kondisi, foto 6 sudut jika rusak)[cite: 13, 14].</p>
+          </div>
+          <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 space-y-2">
+            <h4 class="font-extrabold text-indigo-900 text-sm flex items-center gap-1.5"><span>3️⃣</span> GTK, Siswa & Sinkron</h4>
+            <p>Lengkapi data GTK (NIP/NIK, status kawin, tugas mapel), rekap peserta didik sesuai rentang usia akurat (SD/SMP), lalu lakukan sinkronisasi akhir ke Dinas[cite: 13, 14].</p>
+          </div>
         </div>
       </div>
 
@@ -193,7 +203,7 @@
               <div class="flex"><span class="w-32 font-semibold text-slate-500">Operator:</span> <span id="b_op">-</span></div>
               <div class="flex"><span class="w-32 font-semibold text-slate-500">Sumber Listrik:</span> <span id="b_listrik" class="font-medium text-slate-700">-</span></div>
               <div class="flex"><span class="w-32 font-semibold text-slate-500">Akses Internet:</span> <span id="b_internet" class="font-medium text-slate-700">-</span></div>
-              <div class="flex"><span class="w-32 font-semibold text-slate-500">Status Penerimaan Dana BOSP:</span> <span class="text-emerald-600 font-bold">Ya</span></div>
+              <div class="flex"><span class="w-32 font-semibold text-slate-500">Status Dana BOSP:</span> <span class="text-emerald-600 font-bold">Ya</span></div>
             </div>
           </div>
         </div>
@@ -215,13 +225,12 @@
     <!-- 2. TAB DATA SEKOLAH -->
     <section id="tab-sekolah" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm max-w-4xl mx-auto space-y-6">
-        
         <div class="border-b pb-3 flex justify-between items-center">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Profil & Infrastruktur Sekolah</h3>
-            <p class="text-xs text-slate-500">Seluruh form di bawah ini bersifat wajib diisi untuk kelengkapan data pokok.</p>
+            <p class="text-xs text-slate-500">Seluruh form di bawah ini bersifat wajib diisi lengkap sebelum dapat disimpan[cite: 14].</p>
           </div>
-          <span class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Wajib Diisi Lengkap</span>
+          <span class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Wajib Diisi</span>
         </div>
 
         <form id="formSekolah" class="space-y-6" onsubmit="event.preventDefault(); simpanProfilSekolah();">
@@ -232,11 +241,11 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Sekolah <span class="text-rose-500">*Wajib (Terkunci)</span></label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Sekolah <span class="text-rose-500">*Wajib</span></label>
                 <input type="text" id="inpNamaSekolah" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-slate-800 cursor-not-allowed">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">NPSN <span class="text-rose-500">*Wajib (Terkunci)</span></label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">NPSN <span class="text-rose-500">*Wajib</span></label>
                 <input type="text" id="inpNpsn" required readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-mono font-bold text-indigo-700 cursor-not-allowed">
               </div>
             </div>
@@ -269,7 +278,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">No. SK Pendirian / Operasional <span class="text-rose-500">*Wajib</span></label>
-                <input type="text" id="inpSk" required class="w-full border rounded-lg p-2 text-sm">
+                <input type="text" id="inpSk" required class="w-full border rounded-lg p-2 text-sm" placeholder="Contoh: 421.1/SK/2010">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal SK Pendirian <span class="text-rose-500">*Wajib</span></label>
@@ -316,11 +325,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">Kabupaten / Kota <span class="text-rose-500">*Wajib</span></label>
-                <input type="text" id="inpKab" required class="w-full border rounded-lg p-2 text-sm">
+                <input type="text" id="inpKab" required value="Kab. Sikka" class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">Provinsi <span class="text-rose-500">*Wajib</span></label>
-                <input type="text" id="inpProv" required class="w-full border rounded-lg p-2 text-sm">
+                <input type="text" id="inpProv" required value="Prov. Nusa Tenggara Timur" class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
           </div>
@@ -362,7 +371,7 @@
             <h4 class="text-xs font-bold uppercase text-indigo-600 tracking-wider flex items-center gap-1.5">
               <span>💻</span> 3. Jenis TIK yang Dimiliki Sekolah (Validasi Nilai 0 Jika Tidak Dimiliki)
             </h4>
-            <p class="text-xs text-slate-500">Centang jenis TIK yang dimiliki serta tentukan jumlah dan kondisinya.</p>
+            <p class="text-xs text-slate-500">Centang jenis TIK yang dimiliki serta tentukan jumlah dan kondisinya secara wajib[cite: 14].</p>
 
             <div class="border rounded-xl overflow-hidden">
               <table class="w-full text-left text-xs border-collapse">
@@ -489,7 +498,6 @@
               </div>
             </div>
 
-            <!-- TOMBOL PILIH TITIK DARI PETA INTERAKTIF SATELLITE -->
             <div class="pt-1">
               <button type="button" onclick="bukaPetaModal()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs px-4 py-2.5 rounded-lg font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
                 <span>🗺️</span> Pilih Titik Lokasi dari Peta Citra Satelit & GPS (Google Maps Model)
@@ -499,20 +507,20 @@
 
           <div class="pt-4 border-t flex justify-end">
             <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-6 py-2.5 rounded-lg font-bold shadow-md transition flex items-center gap-2 cursor-pointer">
-              <span>💾</span> Simpan Perubahan Data Sekolah
+              <span>💾</span> Simpan Perubahan Data Sekolah (Wajib Lengkap)
             </button>
           </div>
         </form>
       </div>
     </section>
 
-    <!-- 3. TAB SARPRAS -->
+    <!-- 3. TAB SARPRAS (TANAH & BANGUNAN) -->
     <section id="tab-sarpras" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><span>🏞️</span> Data Tanah Sekolah</h3>
-            <p class="text-xs text-slate-500">Klik salah satu baris tanah untuk membuka menu bangunan di bawahnya.</p>
+            <p class="text-xs text-slate-500">Klik salah satu baris tanah untuk mengelola bangunan di atasnya[cite: 14].</p>
           </div>
           <button onclick="bukaModalTanah()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
             <span>+</span> Tambah Tanah
@@ -527,7 +535,7 @@
                 <th class="p-3">No Sertifikat</th>
                 <th class="p-3">P x L (m)</th>
                 <th class="p-3">Luas Tanah</th>
-                <th class="p-3">Sisa Lahan Tersedia</th>
+                <th class="p-3">Sisa Lahan</th>
                 <th class="p-3">Kepemilikan</th>
                 <th class="p-3">Dokumen Review</th>
                 <th class="p-3 text-center">Aksi</th>
@@ -538,14 +546,14 @@
         </div>
       </div>
 
-      <!-- PANEL BANGUNAN (DAPODIK STYLE) -->
+      <!-- PANEL BANGUNAN SESUAI KONSEP TERBARU -->
       <div id="panelBangunan" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition-all duration-300">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 id="labelJudulBangunan" class="text-base font-bold text-emerald-800 flex items-center gap-2">
               <span>🏢</span> Bangunan pada <span id="namaTanahTerpilih" class="underline decoration-emerald-500 font-extrabold">Tanah Utama Sekolah</span>
             </h3>
-            <p class="text-xs text-slate-500">Daftar bangunan fisik yang berdiri di atas tanah terpilih.</p>
+            <p class="text-xs text-slate-500">Daftar bangunan fisik (Wajib isi jumlah ruang, tahun terakhir direhab 1993-2026, & File PUPR)[cite: 13].</p>
           </div>
           <button id="btnTambahBangunan" onclick="bukaModalBangunan()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
             <span>+</span> Tambah Bangunan
@@ -557,12 +565,11 @@
             <thead class="bg-emerald-50 text-emerald-900 uppercase font-bold border-b border-emerald-200">
               <tr>
                 <th class="p-3">Nama Bangunan</th>
-                <th class="p-3">P x L (m)</th>
-                <th class="p-3">Luas Tapak</th>
-                <th class="p-3">Lantai</th>
-                <th class="p-3">Jenis</th>
+                <th class="p-3">P x L (m²)</th>
+                <th class="p-3">Jml Ruang</th>
+                <th class="p-3">Thn Rehab</th>
                 <th class="p-3">Kondisi</th>
-                <th class="p-3">Foto Review</th>
+                <th class="p-3">Dokumen PUPR</th>
                 <th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -572,33 +579,34 @@
       </div>
     </section>
 
-    <!-- SUB-TAB SARPRAS RUANG -->
+    <!-- SUB-TAB SARPRAS RUANG & ROMBEL (PENGGABUNGAN KONSEP TERBARU) -->
     <section id="tab-sarpras-ruang" class="tab-content hidden space-y-4">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
         <div class="flex justify-between items-center mb-4">
           <div>
-            <h3 class="text-lg font-bold text-slate-800">Data Ruang</h3>
-            <p class="text-sm text-slate-500">Kelola rincian ruang kelas, laboratorium, perpustakaan, dan ruang administrasi.</p>
+            <h3 class="text-lg font-bold text-slate-800">Data Ruang & Rombongan Belajar (Rombel)</h3>
+            <p class="text-xs text-slate-500">Kelola rincian 13 jenis ruang, tahun bangun/rehab khusus kelas, ukuran, kondisi kerusakan, serta foto 6 sudut wajib jika rusak sedang/berat[cite: 13].</p>
           </div>
           <button onclick="bukaModalRuang()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
             + Tambah Ruang
           </button>
         </div>
-        <table class="w-full text-left text-xs border-collapse">
-          <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
-            <tr>
-              <th class="p-3">Nama Ruang</th>
-              <th class="p-3">Berada di Bangunan</th>
-              <th class="p-3">Jenis Ruang</th>
-              <th class="p-3">P x L (m)</th>
-              <th class="p-3">Luas (m²)</th>
-              <th class="p-3">Kondisi Kerusakan</th>
-              <th class="p-3">Foto 6 Sudut (GPS Tag)</th>
-              <th class="p-3 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="tbodyRuang" class="divide-y divide-slate-100"></tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-3">Nama Ruang / Kelas</th>
+                <th class="p-3">Jenis Ruang</th>
+                <th class="p-3">P x L x Luas</th>
+                <th class="p-3">Info Rombel & Tahun</th>
+                <th class="p-3">Kondisi & Kerusakan</th>
+                <th class="p-3">Foto 6 Sudut (GPS)</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyRuang" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -608,7 +616,7 @@
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Data Alat, Angkutan & Bantuan</h3>
-            <p class="text-sm text-slate-500">Kelola inventaris peralatan, fasilitas angkutan, serta bantuan operasional.</p>
+            <p class="text-xs text-slate-500">Kelola inventaris peralatan, fasilitas angkutan, serta bantuan operasional[cite: 14].</p>
           </div>
           <button onclick="bukaModalAlat()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
             + Tambah Alat / Asset
@@ -631,13 +639,13 @@
       </div>
     </section>
 
-    <!-- 4. TAB GTK -->
+    <!-- 4. TAB GTK SESUAI KONSEP TERBARU -->
     <section id="tab-gtk" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
         <div class="flex justify-between items-center mb-4">
           <div>
-            <h3 class="text-lg font-bold text-slate-800">Data Guru & Tenaga Kependidikan</h3>
-            <p class="text-xs text-slate-500">Daftar GTK beserta jenjang kualifikasi dan beban jam mengajar mingguan.</p>
+            <h3 class="text-lg font-bold text-slate-800">Data Guru & Tenaga Kependidikan (GTK)</h3>
+            <p class="text-xs text-slate-500">Dilengkapi NIP/NIK, TTL, Alamat KTP, NUPTK, Sertifikasi, Status Kawin (lengkap pasangan & anak), serta Tugas Guru & Mapel[cite: 13].</p>
           </div>
           <button onclick="bukaModalGTK()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
             + Tambah GTK
@@ -647,13 +655,11 @@
           <table class="w-full text-left text-xs text-slate-600">
             <thead class="bg-slate-100 uppercase font-bold text-slate-700 border-b">
               <tr>
-                <th class="p-3">Nama Lengkap</th>
-                <th class="p-3">JK</th>
-                <th class="p-3">Kualifikasi</th>
-                <th class="p-3">Status</th>
-                <th class="p-3">Serdik</th>
-                <th class="p-3">Jabatan</th>
-                <th class="p-3">Jam Mengajar / Mgg</th>
+                <th class="p-3">Nama & NIP/NIK</th>
+                <th class="p-3">TTL & Alamat KTP</th>
+                <th class="p-3">NUPTK & Sertifikasi</th>
+                <th class="p-3">Status Kawin</th>
+                <th class="p-3">Tugas & Mapel</th>
                 <th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -663,13 +669,13 @@
       </div>
     </section>
 
-    <!-- 5. TAB PESERTA DIDIK -->
+    <!-- 5. TAB PESERTA DIDIK SESUAI RENTANG USIA SMP / SD TERBARU -->
     <section id="tab-siswa" class="tab-content hidden">
-      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex justify-between items-center mb-4">
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex justify-between items-center">
           <div>
-            <h3 class="text-lg font-bold text-slate-800">Rekap Peserta Didik per Kelas (Kebutuhan SPM)</h3>
-            <p class="text-xs text-slate-500">Rincian data siswa aktif berdasarkan rentang usia SPM, angka putus sekolah (DO), dan penerima PIP.</p>
+            <h3 class="text-lg font-bold text-slate-800">Rekap Peserta Didik per Kelas & Rentang Usia (SPM)</h3>
+            <p class="text-xs text-slate-500">Akumulasi total siswa wajib klop (Total = Umur + DO + PIP + Residu tanpa selisih)[cite: 13].</p>
           </div>
           <button onclick="bukaModalSiswa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
             + Input Rekap Siswa
@@ -679,19 +685,26 @@
           <table class="w-full text-left text-xs text-slate-600 border-collapse">
             <thead class="bg-slate-100 uppercase font-bold text-slate-700 border-b">
               <tr>
-                <th class="p-2 border-r" rowspan="2">Tingkat Kelas</th>
-                <th id="thLabelGroup1" class="p-2 text-center border-r bg-sky-50" colspan="2">Usia 7-12 Thn (SD)</th>
-                <th id="thLabelGroup2" class="p-2 text-center border-r bg-sky-100" colspan="2">> 12 Thn (SD)</th>
-                <th class="p-2 text-center border-x bg-amber-50/50" colspan="2">Siswa DO</th>
-                <th class="p-2 text-center border-r bg-emerald-50/50" colspan="2">Penerima PIP</th>
-                <th class="p-2 font-extrabold text-indigo-700 border-r" rowspan="2">Total Aktif</th>
+                <th class="p-2 border-r" rowspan="2">Kelas</th>
+                <th class="p-2 text-center border-r bg-sky-50" colspan="2">Total Siswa</th>
+                <th id="thLabelGroup1" class="p-2 text-center border-r bg-indigo-50" colspan="2">Rentang 1 (L/P)</th>
+                <th id="thLabelGroup2" class="p-2 text-center border-r bg-indigo-100" colspan="2">Rentang 2 (L/P)</th>
+                <th id="thLabelGroup3" class="p-2 text-center border-r bg-sky-100" colspan="2">Rentang 3 (L/P)</th>
+                <th class="p-2 text-center border-x bg-amber-50/50" colspan="2">DO (L/P)</th>
+                <th class="p-2 text-center border-r bg-purple-50/50" colspan="2">Residu (L/P)</th>
+                <th class="p-2 text-center border-r bg-emerald-50/50" colspan="2">PIP (L/P)</th>
+                <th class="p-2 text-center border-r bg-rose-50/50" colspan="2">Belum PIP (L/P)</th>
                 <th class="p-2 text-center" rowspan="2">Aksi</th>
               </tr>
               <tr class="bg-slate-200/60 text-[10px] text-slate-600 font-semibold border-b">
                 <th class="p-1 text-center bg-sky-50">L</th><th class="p-1 text-center bg-sky-50 border-r">P</th>
+                <th class="p-1 text-center bg-indigo-50">L</th><th class="p-1 text-center bg-indigo-50 border-r">P</th>
+                <th class="p-1 text-center bg-indigo-100">L</th><th class="p-1 text-center bg-indigo-100 border-r">P</th>
                 <th class="p-1 text-center bg-sky-100">L</th><th class="p-1 text-center bg-sky-100 border-r">P</th>
                 <th class="p-1 text-center bg-amber-100/50">L</th><th class="p-1 text-center bg-amber-100/50 border-r">P</th>
+                <th class="p-1 text-center bg-purple-100/50">L</th><th class="p-1 text-center bg-purple-100/50 border-r">P</th>
                 <th class="p-1 text-center bg-emerald-100/50">L</th><th class="p-1 text-center bg-emerald-100/50 border-r">P</th>
+                <th class="p-1 text-center bg-rose-100/50">L</th><th class="p-1 text-center bg-rose-100/50 border-r">P</th>
               </tr>
             </thead>
             <tbody id="tbodySiswa" class="divide-y divide-slate-100"></tbody>
@@ -700,35 +713,12 @@
       </div>
     </section>
 
-    <!-- 6. TAB ROMBEL -->
-    <section id="tab-rombel" class="tab-content hidden">
-      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-bold text-slate-800">Rombongan Belajar (Rombel)</h3>
-          <button onclick="bukaModalRombel()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
-            + Input Jumlah Rombel
-          </button>
-        </div>
-        <table class="w-full text-left text-xs text-slate-600">
-          <thead class="bg-slate-100 uppercase font-semibold text-slate-700 border-b">
-            <tr>
-              <th class="p-3">Nama Rombel / Kelas</th>
-              <th class="p-3">Tingkat</th>
-              <th class="p-3">Wali Kelas</th>
-              <th class="p-3 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="tbodyRombel" class="divide-y divide-slate-100"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 7. TAB SINKRONISASI -->
+    <!-- 6. TAB SINKRONISASI -->
     <section id="tab-sinkron" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-8 text-center max-w-xl mx-auto shadow-sm">
         <div class="text-5xl mb-4">🔄</div>
         <h3 class="text-xl font-bold text-slate-800 mb-2">Sinkronisasi Data ke Dinas</h3>
-        <p class="text-slate-600 text-sm mb-6">Klik tombol di bawah untuk mengunci dan mengirimkan laporan data sekolah ke Dinas Pendidikan.</p>
+        <p class="text-slate-600 text-sm mb-6">Klik tombol di bawah untuk memeriksa validitas wajib dan mengirimkan laporan akhir ke Dinas Pendidikan[cite: 14].</p>
         <button id="btnProsesSinkron" onclick="if(validasiSebelumSinkron()) { mulaiProsesSinkronisasiPro(); }" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md transition w-full flex items-center justify-center gap-2 cursor-pointer">
           <span>⚡</span> Kirim & Sinkronkan Sekarang
         </button>
@@ -737,7 +727,7 @@
 
   </main>
 
-  <!-- MODAL PETA INTERAKTIF GIS SATELLITE + SEARCH + GPS AUTOMATIC -->
+  <!-- MODAL PETA INTERAKTIF GIS -->
   <div id="modalPeta" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col">
       <div class="bg-indigo-600 text-white px-6 py-3.5 flex justify-between items-center">
@@ -767,8 +757,8 @@
         <div id="mapContainer" class="w-full h-96 rounded-xl border border-slate-300 z-0 shadow-inner"></div>
 
         <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border">
-          <div><span class="font-semibold text-slate-500">Latitude Dipilih:</span> <span id="lblSelectedLat" class="font-mono font-bold text-indigo-700">-</span></div>
-          <div><span class="font-semibold text-slate-500">Longitude Dipilih:</span> <span id="lblSelectedLong" class="font-mono font-bold text-indigo-700">-</span></div>
+          <div><span class="font-semibold text-slate-500">Latitude:</span> <span id="lblSelectedLat" class="font-mono font-bold text-indigo-700">-</span></div>
+          <div><span class="font-semibold text-slate-500">Longitude:</span> <span id="lblSelectedLong" class="font-mono font-bold text-indigo-700">-</span></div>
         </div>
       </div>
 
@@ -832,22 +822,22 @@
     </div>
   </div>
 
-  <!-- MODALS DIALOG -->
+  <!-- MODAL TANAH -->
   <div id="modalTanah" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalTanahTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Tanah</h3>
       <input type="hidden" id="edit_t_id">
       <div class="space-y-3 text-xs">
-        <div><label class="block font-semibold mb-1">Nama Lahan/Tanah</label><input id="t_nama" type="text" class="w-full border p-2 rounded"></div>
-        <div><label class="block font-semibold mb-1">No Sertifikat</label><input id="t_sertifikat" type="text" class="w-full border p-2 rounded"></div>
+        <div><label class="block font-semibold mb-1">Nama Lahan/Tanah <span class="text-rose-500">*Wajib</span></label><input id="t_nama" type="text" required class="w-full border p-2 rounded"></div>
+        <div><label class="block font-semibold mb-1">No Sertifikat <span class="text-rose-500">*Wajib</span></label><input id="t_sertifikat" type="text" required class="w-full border p-2 rounded"></div>
         <div class="grid grid-cols-3 gap-2">
-          <div><label class="block font-semibold mb-1">Panjang (m)</label><input id="t_panjang" type="number" oninput="hitungLuasTanah()" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Lebar (m)</label><input id="t_lebar" type="number" oninput="hitungLuasTanah()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Panjang (m) <span class="text-rose-500">*Wajib</span></label><input id="t_panjang" type="number" required oninput="hitungLuasTanah()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Lebar (m) <span class="text-rose-500">*Wajib</span></label><input id="t_lebar" type="number" required oninput="hitungLuasTanah()" class="w-full border p-2 rounded"></div>
           <div><label class="block font-semibold mb-1">Luas (m²)</label><input id="t_luas" type="number" readonly class="w-full border p-2 rounded bg-slate-100 font-bold"></div>
         </div>
         <div><label class="block font-semibold mb-1">Kepemilikan</label><select id="t_milik" class="w-full border p-2 rounded"><option value="Milik">Milik</option><option value="Sewa">Sewa</option><option value="Pinjam">Pinjam</option></select></div>
-        <div><label class="block font-semibold mb-1">Upload Dokumen Sertifikat (PDF max 2MB)</label><input id="t_dok_pdf" type="file" accept=".pdf,image/*" class="w-full border p-1 rounded text-xs"></div>
-        <div><label class="block font-semibold mb-1">Upload Foto Denah Lahan (JPG/PNG)</label><input id="t_foto_denah" type="file" accept="image/*" class="w-full border p-1 rounded text-xs"></div>
+        <div><label class="block font-semibold mb-1">Upload Dokumen Sertifikat (PDF max 2MB) <span class="text-rose-500">*Wajib</span></label><input id="t_dok_pdf" type="file" accept=".pdf,image/*" required class="w-full border p-1 rounded text-xs"></div>
+        <div><label class="block font-semibold mb-1">Upload Foto Denah Lahan (JPG/PNG) <span class="text-rose-500">*Wajib</span></label><input id="t_foto_denah" type="file" accept="image/*" required class="w-full border p-1 rounded text-xs"></div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
         <button onclick="tutupModal('modalTanah')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded text-xs font-semibold cursor-pointer">Batal</button>
@@ -856,25 +846,29 @@
     </div>
   </div>
 
+  <!-- MODAL BANGUNAN SESUAI KONSEP TERBARU (JUMLAH RUANG, TAHUN REHAB 1993-2026, FILE PUPR) -->
   <div id="modalBangunan" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalBangunanTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Bangunan</h3>
       <input type="hidden" id="edit_b_id">
       <div class="space-y-3 text-xs">
-        <div><label class="block font-semibold mb-1">Nama Bangunan</label><input id="b_nama" type="text" class="w-full border p-2 rounded"></div>
+        <div><label class="block font-semibold mb-1">Nama Bangunan <span class="text-rose-500">*Wajib</span></label><input id="b_nama" type="text" required class="w-full border p-2 rounded"></div>
         <div class="grid grid-cols-3 gap-2">
-          <div><label class="block font-semibold mb-1">Panjang (m)</label><input id="b_panjang" type="number" oninput="hitungLuasBangunan()" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Lebar (m)</label><input id="b_lebar" type="number" oninput="hitungLuasBangunan()" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Luas (m²)</label><input id="b_luas" type="number" readonly class="w-full border p-2 rounded bg-slate-100 font-bold"></div>
+          <div><label class="block font-semibold mb-1">Panjang (m) <span class="text-rose-500">*Wajib</span></label><input id="b_panjang" type="number" required oninput="hitungLuasBangunan()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Lebar (m) <span class="text-rose-500">*Wajib</span></label><input id="b_lebar" type="number" required oninput="hitungLuasBangunan()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Luas Tapak (m²)</label><input id="b_luas" type="number" readonly class="w-full border p-2 rounded bg-slate-100 font-bold"></div>
         </div>
         <div class="grid grid-cols-3 gap-2">
-          <div><label class="block font-semibold mb-1">Jml Lantai</label><input id="b_lantai" type="number" value="1" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Jenis</label><select id="b_jenis" class="w-full border p-2 rounded"><option value="Permanen">Permanen</option><option value="Semi Permanen">Semi Permanen</option></select></div>
+          <div><label class="block font-semibold mb-1">Jumlah Ruang dalam Bangunan <span class="text-rose-500">*Wajib</span></label><input id="b_jml_ruang" type="number" min="1" value="1" required class="w-full border p-2 rounded"></div>
+          <div>
+            <label class="block font-semibold mb-1">Tahun Terakhir Direhab <span class="text-rose-500">*Wajib</span></label>
+            <select id="b_thn_rehab" required class="w-full border p-2 rounded bg-white font-bold text-indigo-700"></select>
+          </div>
           <div><label class="block font-semibold mb-1">Kondisi</label><select id="b_kondisi" class="w-full border p-2 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select></div>
         </div>
         <div>
-          <label class="block font-semibold mb-1">Upload Foto Keseluruhan Bangunan (JPG/PNG)</label>
-          <input id="b_foto_keseluruhan" type="file" accept="image/*" class="w-full border p-1 rounded text-xs">
+          <label class="block font-semibold mb-1">Upload File PUPR Bangunan (PDF / Gambar max 2MB) <span class="text-rose-500">*Wajib</span></label>
+          <input id="b_file_pupr" type="file" accept=".pdf,image/*" required class="w-full border p-1 rounded text-xs">
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
@@ -884,30 +878,83 @@
     </div>
   </div>
 
+  <!-- MODAL RUANG & ROMBEL SESUAI KONSEP TERBARU (13 JENIS RUANG, KELAS DENGAN THN DIBANGUN/REHAB, FOTO 6 SUDUT JIKA RUSAK) -->
   <div id="modalRuang" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-xl shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h3 id="modalRuangTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Ruang</h3>
+      <h3 id="modalRuangTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Ruang & Rombel</h3>
       <input type="hidden" id="edit_r_id">
       <div class="space-y-3 text-xs">
         <div>
-          <label class="block font-semibold mb-1">Berada di Bangunan</label>
-          <select id="r_bangunan_id" class="w-full border p-2 rounded bg-white font-semibold text-emerald-800"></select>
+          <label class="block font-semibold mb-1">Berada di Bangunan <span class="text-rose-500">*Wajib</span></label>
+          <select id="r_bangunan_id" required class="w-full border p-2 rounded bg-white font-semibold text-emerald-800"></select>
         </div>
 
-        <div><label class="block font-semibold mb-1">Nama Ruang</label><input id="r_nama" type="text" class="w-full border p-2 rounded"></div>
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">Jenis Ruang</label><select id="r_jenis" class="w-full border p-2 rounded"><option value="Ruang Teori/Kelas">Ruang Teori/Kelas</option><option value="Laboratorium">Laboratorium</option><option value="Perpustakaan">Perpustakaan</option></select></div>
-          <div><label class="block font-semibold mb-1">Kondisi</label><select id="r_kondisi" onchange="toggleFotoGPSRequirement()" class="w-full border p-2 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang" selected>Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select></div>
+          <div>
+            <label class="block font-semibold mb-1">Jenis Ruang <span class="text-rose-500">*Wajib</span></label>
+            <select id="r_jenis" required onchange="toggleFormJenisRuang()" class="w-full border p-2 rounded bg-white font-bold text-indigo-700">
+              <option value="Ruang Kelas">Ruang Kelas</option>
+              <option value="Ruang Perpustakaan">Ruang Perpustakaan</option>
+              <option value="Laboratorium IPA">Laboratorium IPA</option>
+              <option value="Laboratorium Komputer">Laboratorium Komputer</option>
+              <option value="Ruang Pimpinan">Ruang Pimpinan</option>
+              <option value="Ruang Guru">Ruang Guru</option>
+              <option value="Ruang Tata Usaha">Ruang Tata Usaha</option>
+              <option value="Tempat Beribadah">Tempat Beribadah</option>
+              <option value="Ruang UKS">Ruang UKS</option>
+              <option value="Jamban (Toilet / WC)">Jamban (Toilet / WC)</option>
+              <option value="Gudang">Gudang</option>
+              <option value="Ruang Sirkulasi">Ruang Sirkulasi</option>
+              <option value="Tempat Bermain/Berolahraga">Tempat Bermain/Berolahraga</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1">Nama Ruang / Rombel <span class="text-rose-500">*Wajib</span></label>
+            <input id="r_nama" type="text" required placeholder="Contoh: Ruang Kelas 1A" class="w-full border p-2 rounded">
+          </div>
         </div>
+
+        <!-- KHUSUS RUANG KELAS: MUNCULKAN DATA ROMBEL & TAHUN PERTAMA/TERAKHIR DIBANGUN/REHAB -->
+        <div id="containerKhususKelas" class="bg-indigo-50/70 p-3 rounded-lg border border-indigo-200 space-y-2">
+          <label class="block font-bold text-indigo-900">🎓 Rincian Rombel & Tahun Bangun/Rehab Ruang Kelas</label>
+          <div class="grid grid-cols-3 gap-2">
+            <div><label class="block mb-1 font-semibold">Nama Rombel <span class="text-rose-500">*</span></label><input id="r_rombel_nama" type="text" placeholder="Contoh: VII-A / 1 A" class="w-full border p-1.5 rounded bg-white"></div>
+            <div>
+              <label class="block mb-1 font-semibold">Tahun Pertama Dibangun <span class="text-rose-500">*</span></label>
+              <select id="r_thn_pertama" class="w-full border p-1.5 rounded bg-white font-mono"></select>
+            </div>
+            <div>
+              <label class="block mb-1 font-semibold">Tahun Terakhir Direhab <span class="text-rose-500">*</span></label>
+              <select id="r_thn_terakhir" class="w-full border p-1.5 rounded bg-white font-mono"></select>
+            </div>
+          </div>
+        </div>
+
         <div class="grid grid-cols-3 gap-2">
-          <div><label class="block font-semibold mb-1">Panjang (m)</label><input id="r_panjang" type="number" oninput="hitungLuasRuang()" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Lebar (m)</label><input id="r_lebar" type="number" oninput="hitungLuasRuang()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Panjang (m) <span class="text-rose-500">*</span></label><input id="r_panjang" type="number" required oninput="hitungLuasRuang()" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Lebar (m) <span class="text-rose-500">*</span></label><input id="r_lebar" type="number" required oninput="hitungLuasRuang()" class="w-full border p-2 rounded"></div>
           <div><label class="block font-semibold mb-1">Luas (m²)</label><input id="r_luas" type="number" readonly class="w-full border p-2 rounded bg-slate-100 font-bold"></div>
         </div>
-        <div><label class="block font-semibold mb-1">Keterangan / Riwayat Rehab</label><textarea id="r_keterangan" class="w-full border p-2 rounded h-16"></textarea></div>
-        
-        <div id="containerFotoGPS" class="bg-amber-50 p-3 rounded-lg border border-amber-200 space-y-2">
-          <label class="block font-bold text-amber-900">📸 Dokumentasi 6 Sudut Pandang (Kamera GPS Tag Lokasi) <span class="text-rose-600">*Wajib Diisi</span></label>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold mb-1">Kondisi Kerusakan <span class="text-rose-500">*</span></label>
+            <select id="r_kondisi" required onchange="toggleFotoGPSRequirement()" class="w-full border p-2 rounded bg-white font-bold">
+              <option value="Baik" selected>Baik</option>
+              <option value="Rusak Ringan">Rusak Ringan</option>
+              <option value="Rusak Sedang">Rusak Sedang</option>
+              <option value="Rusak Berat">Rusak Berat</option>
+            </select>
+          </div>
+          <div id="containerJumlahKerusakan" class="hidden">
+            <label class="block font-semibold mb-1 text-rose-700">Jumlah Kerusakan Ruang / Aset <span class="text-rose-500">*</span></label>
+            <input id="r_jml_kerusakan" type="number" min="1" value="1" class="w-full border p-2 rounded bg-white">
+          </div>
+        </div>
+
+        <!-- FOTO 6 SUDUT PANDANG (WAJIB JIKA KONDISI RUSAK SEDANG ATAU BERAT) -->
+        <div id="containerFotoGPS" class="hidden bg-amber-50 p-3 rounded-lg border border-amber-300 space-y-2">
+          <label class="block font-bold text-amber-900">📸 Dokumentasi Kerusakan 6 Sudut Pandang (Kamera GPS Tag Lokasi) <span class="text-rose-600">*Wajib Diisi</span></label>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
             <div><span class="text-[10px] font-semibold">1. Depan Ruang *</span><input id="r_foto_1" type="file" accept="image/*" class="w-full border p-1 rounded text-[10px] bg-white"></div>
             <div><span class="text-[10px] font-semibold">2. Samping Kanan *</span><input id="r_foto_2" type="file" accept="image/*" class="w-full border p-1 rounded text-[10px] bg-white"></div>
@@ -932,11 +979,11 @@
       <input type="hidden" id="edit_a_id">
       <div class="space-y-3 text-xs">
         <div>
-          <label class="block font-semibold mb-1">Berada di Ruang</label>
-          <select id="a_ruang_id" class="w-full border p-2 rounded bg-white font-semibold text-indigo-800"></select>
+          <label class="block font-semibold mb-1">Berada di Ruang <span class="text-rose-500">*Wajib</span></label>
+          <select id="a_ruang_id" required class="w-full border p-2 rounded bg-white font-semibold text-indigo-800"></select>
         </div>
 
-        <div><label class="block font-semibold mb-1">Nama Barang / Asset</label><input id="a_nama" type="text" class="w-full border p-2 rounded"></div>
+        <div><label class="block font-semibold mb-1">Nama Barang / Asset <span class="text-rose-500">*Wajib</span></label><input id="a_nama" type="text" required class="w-full border p-2 rounded"></div>
         <div><label class="block font-semibold mb-1">Kategori</label><input id="a_kategori" type="text" placeholder="Contoh: Meubeuler, Elektronik" class="w-full border p-2 rounded"></div>
         <div class="grid grid-cols-3 gap-2">
           <div><label class="block font-semibold mb-1">Total Jumlah</label><input id="a_jumlah" type="number" value="1" class="w-full border p-2 rounded"></div>
@@ -951,23 +998,82 @@
     </div>
   </div>
 
+  <!-- MODAL GTK SESUAI KONSEP TERBARU (NIP/NIK, TTL, ALAMAT KTP, NUPTK, SERTIFIKASI, STATUS KAWIN LENGKAP) -->
   <div id="modalGTK" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl">
+    <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalGTKTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data GTK</h3>
       <input type="hidden" id="edit_g_id">
       <div class="space-y-3 text-xs">
-        <div><label class="block font-semibold mb-1">Nama Lengkap</label><input id="g_nama" type="text" class="w-full border p-2 rounded"></div>
+        <div><label class="block font-semibold mb-1">Nama Lengkap <span class="text-rose-500">*Wajib</span></label><input id="g_nama" type="text" required class="w-full border p-2 rounded"></div>
+        
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">JK</label><select id="g_jk" class="w-full border p-2 rounded"><option value="L">Laki-Laki</option><option value="P">Perempuan</option></select></div>
-          <div><label class="block font-semibold mb-1">Kualifikasi</label><select id="g_kualifikasi" class="w-full border p-2 rounded"><option value="S1">S1 / D4</option><option value="S2">S2</option><option value="SMA">SMA</option></select></div>
+          <div>
+            <label class="block font-semibold mb-1">NIP (PNS) / NIK (Honor) <span class="text-rose-500">*Wajib</span></label>
+            <input id="g_nip_nik" type="text" required placeholder="Masukkan NIP atau NIK KTP" class="w-full border p-2 rounded font-mono">
+          </div>
+          <div>
+            <label class="block font-semibold mb-1">JK <span class="text-rose-500">*</span></label>
+            <select id="g_jk" class="w-full border p-2 rounded"><option value="L">Laki-Laki</option><option value="P">Perempuan</option></select>
+          </div>
         </div>
+
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">Status</label><select id="g_status" class="w-full border p-2 rounded"><option value="PNS">PNS</option><option value="PPPK">PPPK</option><option value="Honorer">Honorer</option></select></div>
-          <div><label class="block font-semibold mb-1">Serdik</label><select id="g_serdik" class="w-full border p-2 rounded"><option value="Sudah">Sudah</option><option value="Belum">Belum</option></select></div>
+          <div><label class="block font-semibold mb-1">Tempat Lahir <span class="text-rose-500">*</span></label><input id="g_tempat_lahir" type="text" required class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">Tanggal Lahir <span class="text-rose-500">*</span></label><input id="g_tgl_lahir" type="date" required class="w-full border p-2 rounded"></div>
         </div>
+
+        <div><label class="block font-semibold mb-1">Alamat Sesuai KTP <span class="text-rose-500">*Wajib</span></label><input id="g_alamat_ktp" type="text" required class="w-full border p-2 rounded"></div>
+
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">Jabatan</label><input id="g_jabatan" type="text" class="w-full border p-2 rounded"></div>
-          <div><label class="block font-semibold mb-1">Jam Mengajar</label><input id="g_jam" type="number" value="24" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-semibold mb-1">NUPTK</label><input id="g_nuptk" type="text" placeholder="16 digit NUPTK" class="w-full border p-2 rounded font-mono"></div>
+          <div>
+            <label class="block font-semibold mb-1">Bidang Studi Sertifikasi</label>
+            <input id="g_bidang_sertifikasi" type="text" placeholder="Kosongkan jika belum sertifikasi" class="w-full border p-2 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold mb-1">Status Kepegawaian <span class="text-rose-500">*</span></label>
+            <select id="g_status" class="w-full border p-2 rounded"><option value="PNS">PNS</option><option value="PPPK">PPPK</option><option value="Honorer">Honorer</option></select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1">Status Kawin <span class="text-rose-500">*</span></label>
+            <select id="g_status_kawin" onchange="toggleStatusKawinFields()" class="w-full border p-2 rounded bg-white font-bold">
+              <option value="Belum Kawin">Belum Kawin</option>
+              <option value="Kawin Tercatat">Kawin Tercatat</option>
+              <option value="Kawin Belum Tercatat">Kawin Belum Tercatat</option>
+              <option value="Cerai Mati">Cerai Mati</option>
+              <option value="Cerai Hidup">Cerai Hidup</option>
+              <option value="Janda">Janda</option>
+              <option value="Duda">Duda</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- JIKA STATUS KAWIN TERCATAT: MUNCULKAN NAMA PASANGAN, PEKERJAAN/SEKOLAH, JUMLAH ANAK -->
+        <div id="containerKawinTercatat" class="hidden bg-sky-50 p-3 rounded-lg border border-sky-200 space-y-2">
+          <label class="block font-bold text-sky-900">💍 Rincian Keluarga (Status Kawin Tercatat)</label>
+          <div class="grid grid-cols-2 gap-2">
+            <div><label class="block mb-1 font-semibold">Nama Istri / Suami</label><input id="g_nama_pasangan" type="text" class="w-full border p-1.5 rounded bg-white"></div>
+            <div><label class="block mb-1 font-semibold">Jumlah Anak</label><input id="g_jml_anak" type="number" min="0" value="0" class="w-full border p-1.5 rounded bg-white"></div>
+          </div>
+          <div><label class="block mb-1 font-semibold">Pekerjaan & Alamat Tempat Tugas Pasangan</label><input id="g_pekerjaan_pasangan" type="text" placeholder="Contoh: Guru di SDN Inpres Maumere / PNS Dinas" class="w-full border p-1.5 rounded bg-white"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border">
+          <div>
+            <label class="block font-semibold mb-1">Tugas Guru <span class="text-rose-500">*</span></label>
+            <select id="g_tugas_guru" onchange="toggleMapelField()" class="w-full border p-2 rounded bg-white font-bold">
+              <option value="Guru Kelas">Guru Kelas</option>
+              <option value="Guru Mapel">Guru Mapel</option>
+              <option value="Tenaga Kependidikan">Tenaga Kependidikan (Tendik)</option>
+            </select>
+          </div>
+          <div id="containerMapel" class="hidden">
+            <label class="block font-semibold mb-1 text-indigo-700">Mata Pelajaran yang Diajarkan <span class="text-rose-500">*</span></label>
+            <input id="g_mapel" type="text" placeholder="Contoh: Matematika, IPA" class="w-full border p-2 rounded bg-white">
+          </div>
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
@@ -977,61 +1083,69 @@
     </div>
   </div>
 
+  <!-- MODAL SISWA SESUAI RENTANG USIA SMP / SD TERBARU -->
   <div id="modalSiswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Input / Edit Rekap Peserta Didik</h3>
+    <div class="bg-white p-6 rounded-xl w-full max-w-xl shadow-2xl max-h-[90vh] overflow-y-auto">
+      <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Input / Edit Rekap Peserta Didik per Kelas</h3>
       <input type="hidden" id="edit_s_id">
       <div class="space-y-3 text-xs">
-        <div><label class="block font-semibold mb-1">Tingkat Kelas</label><input id="s_kelas" type="text" placeholder="Contoh: Kelas 1" class="w-full border p-2 rounded"></div>
-        <div class="bg-sky-50 p-3 rounded-lg border border-sky-200 space-y-2">
-          <label id="lblUsiaGroup1" class="block font-bold text-sky-900">Usia Rentang 1 (L dan P)</label>
+        <div><label class="block font-semibold mb-1">Tingkat Kelas <span class="text-rose-500">*Wajib</span></label><input id="s_kelas" type="text" required placeholder="Contoh: Kelas 7A / Kelas 1" class="w-full border p-2 rounded"></div>
+        
+        <div class="grid grid-cols-2 gap-2 bg-sky-50 p-3 rounded-lg border border-sky-200">
+          <div><label class="block mb-1 font-bold text-sky-900">Total Siswa Laki-Laki <span class="text-rose-500">*</span></label><input id="s_tot_l" type="number" min="0" value="0" required class="w-full border p-2 rounded bg-white font-bold"></div>
+          <div><label class="block mb-1 font-bold text-sky-900">Total Siswa Perempuan <span class="text-rose-500">*</span></label><input id="s_tot_p" type="number" min="0" value="0" required class="w-full border p-2 rounded bg-white font-bold"></div>
+        </div>
+
+        <!-- RENTANG USIA 1 -->
+        <div class="bg-indigo-50/70 p-3 rounded-lg border border-indigo-200 space-y-2">
+          <label id="lblModalUsiaGroup1" class="block font-bold text-indigo-900">Rentang Usia 1 (L dan P)</label>
           <div class="grid grid-cols-2 gap-2">
-            <div><label class="block mb-1">Laki-Laki</label><input id="s_u1_l" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
-            <div><label class="block mb-1">Perempuan</label><input id="s_u1_p" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
+            <div><label class="block mb-1">Laki-Laki</label><input id="s_u1_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+            <div><label class="block mb-1">Perempuan</label><input id="s_u1_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
           </div>
         </div>
+
+        <!-- RENTANG USIA 2 -->
+        <div class="bg-indigo-100/60 p-3 rounded-lg border border-indigo-300 space-y-2">
+          <label id="lblModalUsiaGroup2" class="block font-bold text-indigo-900">Rentang Usia 2 (L dan P)</label>
+          <div class="grid grid-cols-2 gap-2">
+            <div><label class="block mb-1">Laki-Laki</label><input id="s_u2_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+            <div><label class="block mb-1">Perempuan</label><input id="s_u2_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          </div>
+        </div>
+
+        <!-- RENTANG USIA 3 -->
         <div class="bg-sky-100/60 p-3 rounded-lg border border-sky-300 space-y-2">
-          <label id="lblUsiaGroup2" class="block font-bold text-sky-900">Usia Rentang 2 (L dan P)</label>
+          <label id="lblModalUsiaGroup3" class="block font-bold text-sky-900">Rentang Usia 3 (L dan P)</label>
           <div class="grid grid-cols-2 gap-2">
-            <div><label class="block mb-1">Laki-Laki</label><input id="s_u2_l" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
-            <div><label class="block mb-1">Perempuan</label><input id="s_u2_p" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
+            <div><label class="block mb-1">Laki-Laki</label><input id="s_u3_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+            <div><label class="block mb-1">Perempuan</label><input id="s_u3_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
           </div>
         </div>
+
         <div class="grid grid-cols-2 gap-2 bg-amber-50 p-3 rounded-lg border border-amber-200">
-          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (L)</label><input id="s_do_l" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
-          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (P)</label><input id="s_do_p" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (L)</label><input id="s_do_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (P)</label><input id="s_do_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
         </div>
+
+        <div class="grid grid-cols-2 gap-2 bg-purple-50 p-3 rounded-lg border border-purple-200">
+          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (L)</label><input id="s_residu_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (P)</label><input id="s_residu_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+        </div>
+
         <div class="grid grid-cols-2 gap-2 bg-emerald-50 p-3 rounded-lg border border-emerald-200">
-          <div><label class="block mb-1 font-semibold text-emerald-900">Penerima PIP (L)</label><input id="s_pip_l" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
-          <div><label class="block mb-1 font-semibold text-emerald-900">Penerima PIP (P)</label><input id="s_pip_p" type="number" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-emerald-900">Penerima PIP (L)</label><input id="s_pip_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-emerald-900">Penerima PIP (P)</label><input id="s_pip_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 bg-rose-50 p-3 rounded-lg border border-rose-200">
+          <div><label class="block mb-1 font-semibold text-rose-900">Belum Menerima PIP (L)</label><input id="s_belum_pip_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-rose-900">Belum Menerima PIP (P)</label><input id="s_belum_pip_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
         <button onclick="tutupModal('modalSiswa')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded text-xs font-semibold cursor-pointer">Batal</button>
         <button onclick="simpanSiswa()" class="px-4 py-2 bg-indigo-600 text-white rounded text-xs font-semibold cursor-pointer">Simpan Data</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="modalRombel" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl">
-      <h3 id="modalRombelTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Rombel</h3>
-      <input type="hidden" id="edit_ro_id">
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block font-semibold mb-1">Pilih Ruang Kelas (Sumber dari Data Ruang)</label>
-          <select id="ro_select_ruang" onchange="autoFillRombelFromRuang()" class="w-full border p-2 rounded bg-white font-bold text-indigo-800"></select>
-        </div>
-        <div><label class="block font-semibold mb-1">Nama Rombel / Kelas</label><input id="ro_nama" type="text" class="w-full border p-2 rounded"></div>
-        <div><label class="block font-semibold mb-1">Tingkat</label><input id="ro_tingkat" type="text" class="w-full border p-2 rounded"></div>
-        <div>
-          <label class="block font-semibold mb-1">Wali Kelas</label>
-          <select id="ro_wali" class="w-full border p-2 rounded bg-white"></select>
-        </div>
-      </div>
-      <div class="flex justify-end gap-2 mt-6">
-        <button onclick="tutupModal('modalRombel')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded text-xs font-semibold cursor-pointer">Batal</button>
-        <button onclick="simpanRombel()" class="px-4 py-2 bg-indigo-600 text-white rounded text-xs font-semibold cursor-pointer">Simpan Data</button>
       </div>
     </div>
   </div>
@@ -1042,14 +1156,14 @@
       <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
         <div class="w-10 h-10 bg-amber-500/20 border border-amber-500/40 rounded-xl flex items-center justify-center text-xl text-amber-400 sync-pulse">⚠️</div>
         <div>
-          <h3 id="modalValidasiJudul" class="text-sm font-bold text-slate-100">Validasi Alur Sarpras Berurutan</h3>
-          <p class="text-[11px] text-slate-400">Peringatan Hierarki Data Pokok</p>
+          <h3 id="modalValidasiJudul" class="text-sm font-bold text-slate-100">Validasi Data Wajib</h3>
+          <p class="text-[11px] text-slate-400">Peringatan Kelengkapan Sistem TAKOLA</p>
         </div>
       </div>
       <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 space-y-2 text-xs text-slate-300 max-h-60 overflow-y-auto" id="containerPesanError"></div>
       <div class="pt-2 flex justify-end items-center border-t border-slate-800 gap-2">
         <button onclick="tutupModalValidasiGagal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer">
-          Mengerti, Saya Perbaiki Alurnya
+          Mengerti, Saya Lengkapi Data
         </button>
       </div>
     </div>
@@ -1063,7 +1177,7 @@
 
     let selectedTanahId = null;
 
-    // AMBIL DATA USER DENGAN FAILSAFE COOKIE & LOCALSTORAGE
+    // AMBIL DATA USER DENGAN FAILSAFE COOKIE & LOCALSTORAGE LINTAS BROWSER
     function setCookie(name, value, days) {
       let expires = "";
       if (days) {
@@ -1087,15 +1201,12 @@
 
     let activeUser = JSON.parse(localStorage.getItem('user')) || {};
     
-    // Cek fallback cookie jika localStorage terhapus
     if (!activeUser.npsn && !activeUser.nama_sekolah) {
       let cookieUser = getCookie('takola_secure_user');
       if (cookieUser) {
         activeUser = JSON.parse(cookieUser);
         localStorage.setItem('user', JSON.stringify(activeUser));
       } else {
-        // JIKA TIDAK ADA SESI SAMA SEKALI, TENDANG KEMBALI KE LOGIN.HTML!
-        // Jangan memaksa default ke "SDN Inpres Maumere"
         alert("Sesi login tidak ditemukan. Silakan login terlebih dahulu.");
         window.location.href = '/login.html';
       }
@@ -1106,7 +1217,6 @@
     let namaSekolahLogin = activeUser.nama_sekolah || activeUser.nama || activeUser.username || 'Sekolah Binaan';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
     
-    // PENETAPAN STORAGEKEY DENGAN SATU BARIS BERSIH DENGAN HIERARKI: NPSN > NAMA SEKOLAH > DEFAULT
     let storageKey = activeUser.npsn ? activeUser.npsn : (namaSekolahLogin ? namaSekolahLogin.replace(/\s+/g, '_').toLowerCase() : 'default');
     
     let masterSinkron = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
@@ -1168,10 +1278,20 @@
     let listAlat = JSON.parse(localStorage.getItem('sch_alat_' + storageKey)) || (existingMaster && existingMaster.alat ? existingMaster.alat : []);
     let listGTK = JSON.parse(localStorage.getItem('sch_gtk_' + storageKey)) || (existingMaster && existingMaster.gtk ? existingMaster.gtk : []);
     let listSiswa = JSON.parse(localStorage.getItem('sch_siswa_' + storageKey)) || (existingMaster && existingMaster.siswa ? existingMaster.siswa : []);
-    let listRombel = JSON.parse(localStorage.getItem('sch_rombel_' + storageKey)) || (existingMaster && existingMaster.rombel ? existingMaster.rombel : []);
 
     if (listTanah.length > 0) {
       selectedTanahId = listTanah[0].id;
+    }
+
+    // ISI DROPDOWN TAHUN 1993 s.d. 2026
+    function populateTahunOptions() {
+      let optionsHTML = '';
+      for (let y = 2026; y >= 1993; y--) {
+        optionsHTML += `<option value="${y}">${y}</option>`;
+      }
+      document.getElementById('b_thn_rehab').innerHTML = optionsHTML;
+      document.getElementById('r_thn_pertama').innerHTML = optionsHTML;
+      document.getElementById('r_thn_terakhir').innerHTML = optionsHTML;
     }
 
     // KOMPRESI GAMBAR & PENANGANAN AMAN STORAGE
@@ -1300,8 +1420,10 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      populateTahunOptions();
       updateTampilanProfilSekolah();
       updateStatusPanelBangunanDapodik();
+      renderTanah(); renderBangunan(); renderRuang(); renderAlat(); renderGTK(); renderSiswa();
     });
 
     function simpanProfilSekolah() {
@@ -1359,25 +1481,76 @@
       switchTab('beranda');
     }
 
+    function toggleStatusKawinFields() {
+      const statusKawin = document.getElementById('g_status_kawin').value;
+      const container = document.getElementById('containerKawinTercatat');
+      if (statusKawin === 'Kawin Tercatat') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
+    function toggleMapelField() {
+      const tugas = document.getElementById('g_tugas_guru').value;
+      const container = document.getElementById('containerMapel');
+      if (tugas === 'Guru Mapel') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
+    function toggleFormJenisRuang() {
+      const jenis = document.getElementById('r_jenis').value;
+      const containerKelas = document.getElementById('containerKhususKelas');
+      if (jenis === 'Ruang Kelas') {
+        containerKelas.classList.remove('hidden');
+      } else {
+        containerKelas.classList.add('hidden');
+      }
+    }
+
+    function toggleFotoGPSRequirement() {
+      const kondisi = document.getElementById('r_kondisi').value;
+      const containerFoto = document.getElementById('containerFotoGPS');
+      const containerJml = document.getElementById('containerJumlahKerusakan');
+      if (kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') {
+        containerFoto.classList.remove('hidden');
+        containerJml.classList.remove('hidden');
+      } else {
+        containerFoto.classList.add('hidden');
+        containerJml.classList.add('hidden');
+      }
+    }
+
     function simpanSiswa() {
       const editId = document.getElementById('edit_s_id').value;
       const kelas = document.getElementById('s_kelas').value;
+      const tot_l = parseInt(document.getElementById('s_tot_l').value) || 0;
+      const tot_p = parseInt(document.getElementById('s_tot_p').value) || 0;
       const u1_l = parseInt(document.getElementById('s_u1_l').value) || 0;
       const u1_p = parseInt(document.getElementById('s_u1_p').value) || 0;
       const u2_l = parseInt(document.getElementById('s_u2_l').value) || 0;
       const u2_p = parseInt(document.getElementById('s_u2_p').value) || 0;
+      const u3_l = parseInt(document.getElementById('s_u3_l').value) || 0;
+      const u3_p = parseInt(document.getElementById('s_u3_p').value) || 0;
       const do_l = parseInt(document.getElementById('s_do_l').value) || 0;
       const do_p = parseInt(document.getElementById('s_do_p').value) || 0;
+      const residu_l = parseInt(document.getElementById('s_residu_l').value) || 0;
+      const residu_p = parseInt(document.getElementById('s_residu_p').value) || 0;
       const pip_l = parseInt(document.getElementById('s_pip_l').value) || 0;
       const pip_p = parseInt(document.getElementById('s_pip_p').value) || 0;
+      const belum_pip_l = parseInt(document.getElementById('s_belum_pip_l').value) || 0;
+      const belum_pip_p = parseInt(document.getElementById('s_belum_pip_p').value) || 0;
 
       if (!kelas) return alert('Tingkat kelas wajib diisi!');
 
       if (editId) {
         const idx = listSiswa.findIndex(s => s.id == editId);
-        if (idx !== -1) listSiswa[idx] = { id: parseInt(editId), kelas, u1_l, u1_p, u2_l, u2_p, do_l, do_p, pip_l, pip_p };
+        if (idx !== -1) listSiswa[idx] = { id: parseInt(editId), kelas, tot_l, tot_p, u1_l, u1_p, u2_l, u2_p, u3_l, u3_p, do_l, do_p, residu_l, residu_p, pip_l, pip_p, belum_pip_l, belum_pip_p };
       } else {
-        listSiswa.push({ id: Date.now(), kelas, u1_l, u1_p, u2_l, u2_p, do_l, do_p, pip_l, pip_p });
+        listSiswa.push({ id: Date.now(), kelas, tot_l, tot_p, u1_l, u1_p, u2_l, u2_p, u3_l, u3_p, do_l, do_p, residu_l, residu_p, pip_l, pip_p, belum_pip_l, belum_pip_p });
       }
       localStorage.setItem('sch_siswa_' + storageKey, JSON.stringify(listSiswa));
       renderSiswa(); 
@@ -1385,36 +1558,26 @@
       alert('Data rekap siswa berhasil disimpan!');
     }
 
-    function bukaModalRombel() {
-      document.getElementById('edit_ro_id').value = ''; 
-      const selectRuang = document.getElementById('ro_select_ruang');
-      const selectWali = document.getElementById('ro_wali');
-      const ruangKelasList = listRuang.filter(r => (r.jenis || '').toLowerCase().includes('kelas') || (r.jenis || '').toLowerCase().includes('teori') || (r.nama || '').toLowerCase().includes('kelas'));
-
-      if (ruangKelasList.length === 0) {
-        tampilkanPeringatanHierarki("Belum Ada Ruang Kelas", "Anda belum menginput data <b>Ruang Kelas</b> pada Data Sarpras Ruang.");
-        return;
+    function renderFormSiswaLabels() {
+      const bentuk = document.getElementById('inpBentuk').value;
+      if (bentuk === 'SMP') {
+        document.getElementById('thLabelGroup1').innerText = '< 13 Thn (L/P)';
+        document.getElementById('thLabelGroup2').innerText = '13-15 Thn (L/P)';
+        document.getElementById('thLabelGroup3').innerText = '> 15 Thn (L/P)';
+        document.getElementById('lblModalUsiaGroup1').innerText = 'Usia Kurang dari 13 Tahun (L dan P)';
+        document.getElementById('lblModalUsiaGroup2').innerText = 'Usia 13 - 15 Tahun (L dan P)';
+        document.getElementById('lblModalUsiaGroup3').innerText = 'Usia Lebih dari 15 Tahun (L dan P)';
+      } else {
+        document.getElementById('thLabelGroup1').innerText = '< 7 Thn (L/P)';
+        document.getElementById('thLabelGroup2').innerText = '7-12 Thn (L/P)';
+        document.getElementById('thLabelGroup3').innerText = '> 12 Thn (L/P)';
+        document.getElementById('lblModalUsiaGroup1').innerText = 'Usia Kurang dari 7 Tahun (L dan P)';
+        document.getElementById('lblModalUsiaGroup2').innerText = 'Usia 7 - 12 Tahun (L dan P)';
+        document.getElementById('lblModalUsiaGroup3').innerText = 'Usia Lebih dari 12 Tahun (L dan P)';
       }
-
-      selectRuang.innerHTML = `<option value="">-- Pilih Ruang Kelas --</option>` + ruangKelasList.map(r => `<option value="${r.nama}">${r.nama} (${r.jenis})</option>`).join('');
-      const guruList = listGTK;
-      selectWali.innerHTML = `<option value="-">-- Pilih Wali Kelas dari Data GTK --</option>` + guruList.map(g => `<option value="${g.nama}">${g.nama} (${g.jabatan})</option>`).join('');
-
-      document.getElementById('ro_nama').value = '';
-      document.getElementById('ro_tingkat').value = '';
-      bukaModal('modalRombel');
     }
 
-    function autoFillRombelFromRuang() {
-      const ruangNama = document.getElementById('ro_select_ruang').value;
-      if (!ruangNama) return;
-      document.getElementById('ro_nama').value = ruangNama;
-      let match = ruangNama.match(/kelas\s*(\d+|[I|V|X]+)/i);
-      if (match) { document.getElementById('ro_tingkat').value = `Kelas ${match[1].toUpperCase()}`; }
-      else { document.getElementById('ro_tingkat').value = ruangNama; }
-    }
-
-    // FUNGSI PREVIEW DOKUMEN YANG DIPERBAIKI TOTAL (Mendukung Base64 PDF Aman Refresh)
+    // FUNGSI PREVIEW DOKUMEN / GAMBAR
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -1528,17 +1691,6 @@
       tutupModalPeta();
     }
 
-    function renderFormSiswaLabels() {
-      const bentuk = document.getElementById('inpBentuk').value;
-      if (bentuk === 'SMP') {
-        document.getElementById('thLabelGroup1').innerText = 'Usia 13-15 Thn (SMP)';
-        document.getElementById('thLabelGroup2').innerText = 'Usia > 15 Thn (SMP)';
-      } else {
-        document.getElementById('thLabelGroup1').innerText = 'Usia 7-12 Thn (SD)';
-        document.getElementById('thLabelGroup2').innerText = 'Usia > 12 Thn (SD)';
-      }
-    }
-
     function toggleSarprasDropdown() {
       document.getElementById('sarpras-dropdown').classList.toggle('hidden');
       document.getElementById('sarpras-arrow').classList.toggle('rotate-180');
@@ -1572,13 +1724,6 @@
       document.getElementById('r_luas').value = p * l;
     }
 
-    function toggleFotoGPSRequirement() {
-      const kondisi = document.getElementById('r_kondisi').value;
-      const container = document.getElementById('containerFotoGPS');
-      if (kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') { container.classList.remove('hidden'); }
-      else { container.classList.add('hidden'); }
-    }
-
     function pilihTanah(id, nama) {
       selectedTanahId = id;
       document.getElementById('namaTanahTerpilih').innerText = nama;
@@ -1588,10 +1733,10 @@
     function updateDapodikStats() {
       document.getElementById('statRuang').innerText = listRuang.length;
       document.getElementById('statGuru').innerText = listGTK.length;
-      document.getElementById('statTendik').innerText = 0;
-      document.getElementById('statRombel').innerText = listRombel.length;
+      let totalRombelKelas = listRuang.filter(r => r.jenis === 'Ruang Kelas').length;
+      document.getElementById('statRombel').innerText = totalRombelKelas;
       let totalSiswa = 0;
-      listSiswa.forEach(s => { totalSiswa += (parseInt(s.u1_l) || 0) + (parseInt(s.u1_p) || 0) + (parseInt(s.u2_l) || 0) + (parseInt(s.u2_p) || 0); });
+      listSiswa.forEach(s => { totalSiswa += (parseInt(s.tot_l) || 0) + (parseInt(s.tot_p) || 0); });
       document.getElementById('statSiswa').innerText = totalSiswa;
     }
 
@@ -1634,7 +1779,7 @@
           </tr>
         `;
       }).join('');
-      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah.</td></tr>`;
+      if (listTanah.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data tanah. Wajib isi minimal 1 data tanah.</td></tr>`;
       updateStatusPanelBangunanDapodik();
     }
 
@@ -1642,7 +1787,7 @@
       const tbody = document.getElementById('tbodyBangunan');
       const filtered = listBangunan.filter(b => b.tanah_id === selectedTanahId);
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada bangunan di atas tanah ini</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada bangunan di atas tanah ini. Wajib tambah bangunan.</td></tr>`;
         return;
       }
       tbody.innerHTML = filtered.map(b => {
@@ -1650,13 +1795,12 @@
         return `
           <tr class="hover:bg-slate-50">
             <td class="p-3 font-semibold text-slate-800">${b.nama}</td>
-            <td class="p-3">${b.panjang || 0} x ${b.lebar || 0}</td>
-            <td class="p-3 font-bold">${luasGedung} m²</td>
-            <td class="p-3">${b.lantai || 1}</td>
-            <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${b.jenis || 'Permanen'}</span></td>
+            <td class="p-3">${b.panjang || 0} x ${b.lebar || 0} (${luasGedung} m²)</td>
+            <td class="p-3 font-bold text-indigo-700">${b.jml_ruang || 1} Ruang</td>
+            <td class="p-3 font-semibold text-slate-700">${b.thn_rehab || '-'}</td>
             <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">${b.kondisi || 'Baik'}</span></td>
             <td class="p-3 text-[10px]">
-              <span onclick="previewDokumen('Foto Bangunan', 'Gedung ${b.nama}', '${b.foto || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-semibold">📷 Foto</span>
+              <span onclick="previewDokumen('File PUPR', 'PUPR ${b.nama}', '${b.pupr || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-semibold">📁 PUPR</span>
             </td>
             <td class="p-3 text-center">
               <button onclick="editBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️</button>
@@ -1671,19 +1815,21 @@
       const tbody = document.getElementById('tbodyRuang');
       tbody.innerHTML = listRuang.map(r => {
         const luasR = (r.panjang || 0) * (r.lebar || 0);
-        const bObj = listBangunan.find(b => b.id == r.bangunan_id);
-        const namaBangunan = bObj ? bObj.nama : 'Tanpa Bangunan';
+        let infoRombelTahun = '-';
+        if (r.jenis === 'Ruang Kelas') {
+          infoRombelTahun = `<span class="text-indigo-700 font-bold">Rombel: ${r.rombel_nama || '-'}</span><br><span class="text-[10px] text-slate-500">Bangun: ${r.thn_pertama || '-'} | Rehab: ${r.thn_terakhir || '-'}</span>`;
+        }
         return `
           <tr class="hover:bg-slate-50">
             <td class="p-3 font-semibold text-slate-800">${r.nama}</td>
-            <td class="p-3 font-bold text-emerald-700">${namaBangunan}</td>
-            <td class="p-3">${r.jenis}</td>
-            <td class="p-3">${r.panjang || 0} x ${r.lebar || 0}</td>
-            <td class="p-3 font-bold">${luasR} m²</td>
-            <td class="p-3"><span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
+            <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${r.jenis}</span></td>
+            <td class="p-3">${r.panjang || 0} x ${r.lebar || 0} (${luasR} m²)</td>
+            <td class="p-3">${infoRombelTahun}</td>
+            <td class="p-3 font-semibold">${r.kondisi} ${r.jml_kerusakan ? `<br><span class="text-rose-600 text-[10px]">Jml Rusak: ${r.jml_kerusakan}</span>` : ''}</td>
             <td class="p-3 text-[10px] space-x-1">
-              <span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 1', '${r.fotoData1 || r.fotoData || ''}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-bold">📍 1</span>
-              ${r.fotoData2 ? `<span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 2', '${r.fotoData2}')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer font-bold">📍 2</span>` : ''}
+              ${r.foto1 ? `<span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 1', '${r.foto1}')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded cursor-pointer font-bold">1</span>` : '-'}
+              ${r.foto2 ? `<span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 2', '${r.foto2}')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded cursor-pointer font-bold">2</span>` : ''}
+              ${r.foto3 ? `<span onclick="previewDokumen('Foto 6 Sudut', 'Sudut 3', '${r.foto3}')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded cursor-pointer font-bold">3</span>` : ''}
             </td>
             <td class="p-3 text-center">
               <button onclick="editRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] mr-1 cursor-pointer">✏️</button>
@@ -1692,7 +1838,7 @@
           </tr>
         `;
       }).join('');
-      if (listRuang.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang.</td></tr>`;
+      if (listRuang.length === 0) tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data ruang. Wajib isi minimal 1 data ruang.</td></tr>`;
       updateDapodikStats();
     }
 
@@ -1716,55 +1862,60 @@
       const tbody = document.getElementById('tbodyGTK');
       tbody.innerHTML = listGTK.map(g => `
         <tr class="hover:bg-slate-50">
-          <td class="p-3 font-semibold text-slate-800">${g.nama}</td>
-          <td class="p-3">${g.jk}</td>
-          <td class="p-3">${g.kualifikasi || 'S1'}</td>
-          <td class="p-3">${g.status}</td>
-          <td class="p-3">${g.serdik}</td>
-          <td class="p-3">${g.jabatan}</td>
-          <td class="p-3 font-bold text-slate-700">${g.jam || 0} Jam</td>
+          <td class="p-3">
+            <span class="font-bold text-slate-800">${g.nama}</span><br>
+            <span class="font-mono text-[10px] text-indigo-700">NIP/NIK: ${g.nip_nik || '-'}</span>
+          </td>
+          <td class="p-3">
+            <span>TTL: ${g.tempat_lahir || '-'}, ${g.tgl_lahir || '-'}</span><br>
+            <span class="text-[10px] text-slate-500">Alamat: ${g.alamat_ktp || '-'}</span>
+          </td>
+          <td class="p-3">
+            <span>NUPTK: ${g.nuptk || '-'}</span><br>
+            <span class="text-[10px] text-emerald-700 font-semibold">Sertifikasi: ${g.bidang_sertifikasi || 'Belum'}</span>
+          </td>
+          <td class="p-3">
+            <span>${g.status_kawin || '-'}</span>
+            ${g.status_kawin === 'Kawin Tercatat' ? `<br><span class="text-[10px] text-slate-600">Pasangan: ${g.nama_pasangan || '-'} (${g.jml_anak || 0} Anak)</span>` : ''}
+          </td>
+          <td class="p-3">
+            <span class="font-bold text-indigo-700">${g.tugas_guru || '-'}</span>
+            ${g.tugas_guru === 'Guru Mapel' ? `<br><span class="text-[10px] text-slate-600">Mapel: ${g.mapel || '-'}</span>` : ''}
+          </td>
           <td class="p-3 text-center"><button onclick="listGTK=listGTK.filter(x=>x.id!==${g.id});localStorage.setItem('sch_gtk_'+storageKey,JSON.stringify(listGTK));renderGTK()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
         </tr>
       `).join('');
-      if (listGTK.length === 0) tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data GTK.</td></tr>`;
+      if (listGTK.length === 0) tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Belum ada data GTK. Wajib isi minimal 1 GTK.</td></tr>`;
       updateDapodikStats();
     }
 
     function renderSiswa() {
       const tbody = document.getElementById('tbodySiswa');
       tbody.innerHTML = listSiswa.map(s => {
-        const total = (parseInt(s.u1_l) || 0) + (parseInt(s.u1_p) || 0) + (parseInt(s.u2_l) || 0) + (parseInt(s.u2_p) || 0);
         return `
           <tr class="hover:bg-slate-50">
             <td class="p-2 font-semibold text-slate-800 border-r">${s.kelas}</td>
-            <td class="p-2 text-center bg-sky-50/50">${s.u1_l || 0}</td>
-            <td class="p-2 text-center bg-sky-50/50 border-r">${s.u1_p || 0}</td>
-            <td class="p-2 text-center bg-sky-100/40">${s.u2_l || 0}</td>
-            <td class="p-2 text-center bg-sky-100/40 border-r">${s.u2_p || 0}</td>
+            <td class="p-2 text-center bg-sky-50 font-bold">${s.tot_l || 0}</td>
+            <td class="p-2 text-center bg-sky-50 font-bold border-r">${s.tot_p || 0}</td>
+            <td class="p-2 text-center bg-indigo-50/50">${s.u1_l || 0}</td>
+            <td class="p-2 text-center bg-indigo-50/50 border-r">${s.u1_p || 0}</td>
+            <td class="p-2 text-center bg-indigo-100/40">${s.u2_l || 0}</td>
+            <td class="p-2 text-center bg-indigo-100/40 border-r">${s.u2_p || 0}</td>
+            <td class="p-2 text-center bg-sky-100/40">${s.u3_l || 0}</td>
+            <td class="p-2 text-center bg-sky-100/40 border-r">${s.u3_p || 0}</td>
             <td class="p-2 text-center bg-amber-50/30 text-amber-800">${s.do_l || 0}</td>
             <td class="p-2 text-center bg-amber-50/30 text-amber-800 border-r">${s.do_p || 0}</td>
+            <td class="p-2 text-center bg-purple-50/30 text-purple-800">${s.residu_l || 0}</td>
+            <td class="p-2 text-center bg-purple-50/30 text-purple-800 border-r">${s.residu_p || 0}</td>
             <td class="p-2 text-center bg-emerald-50/30 text-emerald-800">${s.pip_l || 0}</td>
             <td class="p-2 text-center bg-emerald-50/30 text-emerald-800 border-r">${s.pip_p || 0}</td>
-            <td class="p-2 font-extrabold text-indigo-700 border-r">${total} Siswa</td>
+            <td class="p-2 text-center bg-rose-50/30 text-rose-800">${s.belum_pip_l || 0}</td>
+            <td class="p-2 text-center bg-rose-50/30 text-rose-800 border-r">${s.belum_pip_p || 0}</td>
             <td class="p-2 text-center"><button onclick="listSiswa=listSiswa.filter(x=>x.id!==${s.id});localStorage.setItem('sch_siswa_'+storageKey,JSON.stringify(listSiswa));renderSiswa()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
           </tr>
         `;
       }).join('');
-      if (listSiswa.length === 0) tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-slate-400">Belum ada rekap peserta didik.</td></tr>`;
-      updateDapodikStats();
-    }
-
-    function renderRombel() {
-      const tbody = document.getElementById('tbodyRombel');
-      tbody.innerHTML = listRombel.map(ro => `
-        <tr class="hover:bg-slate-50">
-          <td class="p-3 font-semibold text-slate-800">${ro.nama}</td>
-          <td class="p-3">${ro.tingkat}</td>
-          <td class="p-3">${ro.wali}</td>
-          <td class="p-3 text-center"><button onclick="listRombel=listRombel.filter(x=>x.id!==${ro.id});localStorage.setItem('sch_rombel_'+storageKey,JSON.stringify(listRombel));renderRombel()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
-        </tr>
-      `).join('');
-      if (listRombel.length === 0) tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Belum ada data rombel.</td></tr>`;
+      if (listSiswa.length === 0) tbody.innerHTML = `<tr><td colspan="18" class="p-4 text-center text-slate-400">Belum ada rekap peserta didik. Wajib input rekap siswa.</td></tr>`;
       updateDapodikStats();
     }
 
@@ -1777,7 +1928,7 @@
     function populateDropdownRuang(selectedVal = '') {
       const select = document.getElementById('a_ruang_id');
       if (listRuang.length === 0) { select.innerHTML = `<option value="">-- Belum ada data ruang --</option>`; return; }
-      select.innerHTML = listRuang.map(r => `<option value="${r.id}" ${r.id == selectedVal ? 'selected' : ''}>${r.nama}</option>`).join('');
+      select.innerHTML = listRuang.map(r => `<option value="${r.id}" ${r.id == selectedVal ? 'selected' : ''}>${r.nama} (${r.jenis})</option>`).join('');
     }
 
     function tampilkanPeringatanHierarki(judul, pesan) {
@@ -1788,18 +1939,19 @@
 
     function bukaModalTanah() { document.getElementById('edit_t_id').value = ''; bukaModal('modalTanah'); }
     function bukaModalBangunan() {
-      if (listTanah.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Tanah terlebih dahulu."); return; }
+      if (listTanah.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Tanah terlebih dahulu sebelum menambah Bangunan."); return; }
+      document.getElementById('edit_b_id').value = '';
       bukaModal('modalBangunan');
     }
     function bukaModalRuang() {
-      if (listBangunan.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Bangunan terlebih dahulu."); return; }
-      document.getElementById('edit_r_id').value = ''; populateDropdownBangunan(); toggleFotoGPSRequirement(); bukaModal('modalRuang');
+      if (listBangunan.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Bangunan terlebih dahulu sebelum menambah Ruang."); return; }
+      document.getElementById('edit_r_id').value = ''; populateDropdownBangunan(); toggleFormJenisRuang(); toggleFotoGPSRequirement(); bukaModal('modalRuang');
     }
     function bukaModalAlat() {
-      if (listRuang.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Ruang terlebih dahulu."); return; }
+      if (listRuang.length === 0) { tampilkanPeringatanHierarki("Pelanggaran Alur", "Anda wajib mengisi data Ruang terlebih dahulu sebelum menambah Alat."); return; }
       document.getElementById('edit_a_id').value = ''; populateDropdownRuang(); bukaModal('modalAlat');
     }
-    function bukaModalGTK() { document.getElementById('edit_g_id').value = ''; bukaModal('modalGTK'); }
+    function bukaModalGTK() { document.getElementById('edit_g_id').value = ''; toggleStatusKawinFields(); toggleMapelField(); bukaModal('modalGTK'); }
     function bukaModalSiswa() { document.getElementById('edit_s_id').value = ''; renderFormSiswaLabels(); bukaModal('modalSiswa'); }
 
     function editTanah(id) {
@@ -1831,6 +1983,9 @@
       document.getElementById('b_panjang').value = b.panjang || '';
       document.getElementById('b_lebar').value = b.lebar || '';
       document.getElementById('b_luas').value = (b.panjang || 0) * (b.lebar || 0);
+      document.getElementById('b_jml_ruang').value = b.jml_ruang || 1;
+      document.getElementById('b_thn_rehab').value = b.thn_rehab || '2026';
+      document.getElementById('b_kondisi').value = b.kondisi || 'Baik';
       bukaModal('modalBangunan');
     }
 
@@ -1847,10 +2002,14 @@
       if (!r) return;
       document.getElementById('edit_r_id').value = r.id;
       populateDropdownBangunan(r.bangunan_id);
+      document.getElementById('r_jenis').value = r.jenis || 'Ruang Kelas';
       document.getElementById('r_nama').value = r.nama || '';
       document.getElementById('r_panjang').value = r.panjang || '';
       document.getElementById('r_lebar').value = r.lebar || '';
       document.getElementById('r_luas').value = (r.panjang || 0) * (r.lebar || 0);
+      document.getElementById('r_kondisi').value = r.kondisi || 'Baik';
+      toggleFormJenisRuang();
+      toggleFotoGPSRequirement();
       bukaModal('modalRuang');
     }
 
@@ -1862,7 +2021,7 @@
       }
     }
 
-    // SIMPAN TANAH DENGAN BASE64 PERMANEN (Aman dari Refresh F5)
+    // SIMPAN TANAH DENGAN BASE64 PERMANEN (Aman dari Refresh F5 lintas browser)
     async function simpanTanah() {
       const editId = document.getElementById('edit_t_id').value;
       const nama = document.getElementById('t_nama').value;
@@ -1874,7 +2033,7 @@
       const pdfInput = document.getElementById('t_dok_pdf').files[0];
       const denahInput = document.getElementById('t_foto_denah').files[0];
 
-      if (!nama) return alert('Nama tanah wajib diisi');
+      if (!nama || !sertifikat || !panjang || !lebar) return alert('Semua kolom wajib diisi!');
 
       let existing = editId ? listTanah.find(t => t.id == editId) : null;
       let pdfUrl = existing ? existing.pdf : '';
@@ -1882,10 +2041,7 @@
 
       try {
         if (pdfInput) {
-          if (pdfInput.size > 2097152) { // Batas 2MB agar aman di localStorage
-            alert("⚠️ Ukuran file PDF maksimal 2MB agar dapat disimpan secara stabil.");
-            return;
-          }
+          if (pdfInput.size > 2097152) { alert("⚠️ Ukuran file PDF maksimal 2MB."); return; }
           pdfUrl = await new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = e => resolve(e.target.result);
@@ -1895,6 +2051,11 @@
 
         if (denahInput) {
           denahUrl = await kompresGambar(denahInput, 800, 0.5);
+        }
+
+        if (!editId && (!pdfUrl || !denahUrl)) {
+          alert('Upload Dokumen Sertifikat PDF dan Foto Denah Wajib Diisi!');
+          return;
         }
 
         if (editId) {
@@ -1911,10 +2072,9 @@
         localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
         renderTanah(); 
         tutupModal('modalTanah');
-        alert('Data Tanah dan Dokumen PDF berhasil disimpan permanen!');
+        alert('Data Tanah & Dokumen Berhasil Disimpan!');
       } catch (error) {
-        console.error("Gagal menyimpan:", error);
-        alert('Gagal menyimpan file ke memori browser karena melebihi kapasitas.');
+        alert('Gagal menyimpan file ke penyimpanan lokal.');
       }
     }
 
@@ -1923,102 +2083,174 @@
       const nama = document.getElementById('b_nama').value;
       const panjang = parseFloat(document.getElementById('b_panjang').value) || 0;
       const lebar = parseFloat(document.getElementById('b_lebar').value) || 0;
-      const lantai = document.getElementById('b_lantai').value;
-      const jenis = document.getElementById('b_jenis').value;
+      const jml_ruang = parseInt(document.getElementById('b_jml_ruang').value) || 1;
+      const thn_rehab = document.getElementById('b_thn_rehab').value;
       const kondisi = document.getElementById('b_kondisi').value;
-      const fotoInput = document.getElementById('b_foto_keseluruhan').files[0];
+      const puprInput = document.getElementById('b_file_pupr').files[0];
 
-      if (!nama) return alert('Nama bangunan wajib diisi');
-      if (!selectedTanahId) return alert('Pilih data tanah terlebih dahulu!');
+      if (!nama || !panjang || !lebar) return alert('Kolom wajib bangunan belum lengkap!');
+      if (!selectedTanahId) return alert('Pilih tanah terlebih dahulu!');
 
       let existing = editId ? listBangunan.find(b => b.id == editId) : null;
-      let fotoUrl = existing ? existing.foto : '';
-      if (fotoInput) fotoUrl = await kompresGambar(fotoInput, 800, 0.6);
+      let puprUrl = existing ? existing.pupr : '';
 
-      if (editId) {
-        const idx = listBangunan.findIndex(b => b.id == editId);
-        if (idx !== -1) listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl };
-      } else {
-        listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, lantai, jenis, kondisi, foto: fotoUrl });
+      try {
+        if (puprInput) {
+          if (puprInput.size > 2097152) { alert("⚠️ File PUPR maksimal 2MB."); return; }
+          puprUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(puprInput);
+          });
+        }
+
+        if (!editId && !puprUrl) {
+          alert('Upload File PUPR Wajib Diisi!');
+          return;
+        }
+
+        if (editId) {
+          const idx = listBangunan.findIndex(b => b.id == editId);
+          if (idx !== -1) listBangunan[idx] = { id: parseInt(editId), tanah_id: selectedTanahId, nama, panjang, lebar, jml_ruang, thn_rehab, kondisi, pupr: puprUrl };
+        } else {
+          listBangunan.push({ id: Date.now(), tanah_id: selectedTanahId, nama, panjang, lebar, jml_ruang, thn_rehab, kondisi, pupr: puprUrl });
+        }
+        localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
+        renderTanah(); renderBangunan(); tutupModal('modalBangunan');
+        alert('Data Bangunan & File PUPR Berhasil Disimpan!');
+      } catch (error) {
+        alert('Gagal menyimpan bangunan.');
       }
-      localStorage.setItem('sch_bangunan_' + storageKey, JSON.stringify(listBangunan));
-      renderTanah(); renderBangunan(); tutupModal('modalBangunan');
-      alert('Data Bangunan berhasil disimpan!');
     }
 
     async function simpanRuang() {
       const editId = document.getElementById('edit_r_id').value;
       const bangunan_id = document.getElementById('r_bangunan_id').value;
-      const nama = document.getElementById('r_nama').value;
       const jenis = document.getElementById('r_jenis').value;
-      const kondisi = document.getElementById('r_kondisi').value;
+      const nama = document.getElementById('r_nama').value;
       const panjang = parseFloat(document.getElementById('r_panjang').value) || 0;
       const lebar = parseFloat(document.getElementById('r_lebar').value) || 0;
-      const keterangan = document.getElementById('r_keterangan').value;
+      const kondisi = document.getElementById('r_kondisi').value;
+      const jml_kerusakan = parseInt(document.getElementById('r_jml_kerusakan').value) || 1;
 
-      if (!bangunan_id) return alert('Pilih bangunan!');
-      if (!nama) return alert('Nama ruang wajib diisi');
+      let rombel_nama = '', thn_pertama = '', thn_terakhir = '';
+      if (jenis === 'Ruang Kelas') {
+        rombel_nama = document.getElementById('r_rombel_nama').value;
+        thn_pertama = document.getElementById('r_thn_pertama').value;
+        thn_terakhir = document.getElementById('r_thn_terakhir').value;
+        if (!rombel_nama) return alert('Nama Rombel wajib diisi untuk Ruang Kelas!');
+      }
+
+      if (!bangunan_id || !nama || !panjang || !lebar) return alert('Kolom wajib ruang belum lengkap!');
 
       let existing = editId ? listRuang.find(r => r.id == editId) : null;
       let f1 = document.getElementById('r_foto_1').files[0];
-      let fotoData1 = f1 ? (await kompresGambar(f1, 600, 0.5)) : (existing ? existing.fotoData1 : '');
+      let f2 = document.getElementById('r_foto_2').files[0];
+      let f3 = document.getElementById('r_foto_3').files[0];
+
+      let foto1 = f1 ? (await kompresGambar(f1, 600, 0.5)) : (existing ? existing.foto1 : '');
+      let foto2 = f2 ? (await kompresGambar(f2, 600, 0.5)) : (existing ? existing.foto2 : '');
+      let foto3 = f3 ? (await kompresGambar(f3, 600, 0.5)) : (existing ? existing.foto3 : '');
+
+      if ((kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') && (!foto1 && !existing)) {
+        alert('Foto kerusakan 6 sudut wajib diunggah jika kondisi Ruang Rusak Sedang / Berat!');
+        return;
+      }
 
       if (editId) {
         const idx = listRuang.findIndex(r => r.id == editId);
-        if (idx !== -1) listRuang[idx] = { id: parseInt(editId), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData1 };
+        if (idx !== -1) listRuang[idx] = { id: parseInt(editId), bangunan_id, jenis, nama, panjang, lebar, kondisi, jml_kerusakan, rombel_nama, thn_pertama, thn_terakhir, foto1, foto2, foto3 };
       } else {
-        listRuang.push({ id: Date.now(), bangunan_id, nama, jenis, kondisi, panjang, lebar, keterangan, fotoData1 });
+        listRuang.push({ id: Date.now(), bangunan_id, jenis, nama, panjang, lebar, kondisi, jml_kerusakan, rombel_nama, thn_pertama, thn_terakhir, foto1, foto2, foto3 });
       }
       localStorage.setItem('sch_ruang_' + storageKey, JSON.stringify(listRuang));
       renderRuang(); tutupModal('modalRuang');
-      alert('Data Ruang berhasil disimpan!');
+      alert('Data Ruang & Rombel Berhasil Disimpan!');
     }
 
     function simpanAlat() {
       const nama = document.getElementById('a_nama').value;
-      if (!nama) return alert('Nama barang wajib diisi');
-      listAlat.push({ id: Date.now(), nama, jumlah: 1, baik: 1, rusak: 0 });
+      const ruang_id = document.getElementById('a_ruang_id').value;
+      if (!nama || !ruang_id) return alert('Nama barang dan ruang wajib diisi!');
+      listAlat.push({ id: Date.now(), ruang_id, nama, kategori: document.getElementById('a_kategori').value, jumlah: parseInt(document.getElementById('a_jumlah').value)||1, baik: parseInt(document.getElementById('a_baik').value)||1, rusak: parseInt(document.getElementById('a_rusak').value)||0 });
       localStorage.setItem('sch_alat_' + storageKey, JSON.stringify(listAlat));
       renderAlat(); tutupModal('modalAlat');
+      alert('Data Alat Berhasil Disimpan!');
     }
 
     function simpanGTK() {
       const nama = document.getElementById('g_nama').value;
-      if (!nama) return alert('Nama GTK wajib diisi');
-      listGTK.push({ id: Date.now(), nama, jk: 'L', kualifikasi: 'S1', status: 'PNS', serdik: 'Sudah', jabatan: 'Guru', jam: 24 });
+      const nip_nik = document.getElementById('g_nip_nik').value;
+      const tempat_lahir = document.getElementById('g_tempat_lahir').value;
+      const tgl_lahir = document.getElementById('g_tgl_lahir').value;
+      const alamat_ktp = document.getElementById('g_alamat_ktp').value;
+      const status_kawin = document.getElementById('g_status_kawin').value;
+      const tugas_guru = document.getElementById('g_tugas_guru').value;
+
+      if (!nama || !nip_nik || !tempat_lahir || !tgl_lahir || !alamat_ktp) {
+        alert('Semua kolom wajib identitas GTK harus diisi!');
+        return;
+      }
+
+      let nama_pasangan = '', jml_anak = 0, pekerjaan_pasangan = '', mapel = '';
+      if (status_kawin === 'Kawin Tercatat') {
+        nama_pasangan = document.getElementById('g_nama_pasangan').value;
+        jml_anak = parseInt(document.getElementById('g_jml_anak').value) || 0;
+        pekerjaan_pasangan = document.getElementById('g_pekerjaan_pasangan').value;
+      }
+      if (tugas_guru === 'Guru Mapel') {
+        mapel = document.getElementById('g_mapel').value;
+        if (!mapel) { alert('Mata pelajaran wajib diisi untuk Guru Mapel!'); return; }
+      }
+
+      listGTK.push({
+        id: Date.now(),
+        nama,
+        nip_nik,
+        jk: document.getElementById('g_jk').value,
+        tempat_lahir,
+        tgl_lahir,
+        alamat_ktp,
+        nuptk: document.getElementById('g_nuptk').value,
+        bidang_sertifikasi: document.getElementById('g_bidang_sertifikasi').value,
+        status: document.getElementById('g_status').value,
+        status_kawin,
+        nama_pasangan,
+        jml_anak,
+        pekerjaan_pasangan,
+        tugas_guru,
+        mapel
+      });
+
       localStorage.setItem('sch_gtk_' + storageKey, JSON.stringify(listGTK));
       renderGTK(); tutupModal('modalGTK');
+      alert('Data GTK Berhasil Disimpan!');
     }
 
-    function simpanRombel() {
-      const nama = document.getElementById('ro_nama').value;
-      if (!nama) return alert('Nama rombel wajib diisi');
-      listRombel.push({ id: Date.now(), nama, tingkat: 'Kelas 1', wali: '-' });
-      localStorage.setItem('sch_rombel_' + storageKey, JSON.stringify(listRombel));
-      renderRombel(); tutupModal('modalRombel');
-    }
-
-    // LOGIKA VALIDASI SINKRONISASI YANG LENGKAP
+    // LOGIKA VALIDASI SINKRONISASI YANG LENGKAP & SIFAT WAJIB
     function validasiSebelumSinkron() {
       let pesanError = [];
       if (!dataSekolah.sk || !dataSekolah.kasek) {
-        pesanError.push("• Profil Sekolah dan Nama Kepala Sekolah belum diisi lengkap pada menu Data Sekolah.");
+        pesanError.push("• Profil Sekolah dan Nama Kepala Sekolah wajib diisi pada menu Data Sekolah.");
       }
       if (listTanah.length === 0) {
-        pesanError.push("• Data Tanah minimal harus diisi 1 (satu) data pada menu Data Sarpras.");
+        pesanError.push("• Data Tanah minimal harus diisi 1 (satu) data.");
       }
       if (listBangunan.length === 0) {
-        pesanError.push("• Data Bangunan minimal harus diisi 1 (satu) data.");
+        pesanError.push("• Data Bangunan minimal harus diisi 1 (satu) data (lengkap File PUPR).");
       }
       if (listRuang.length === 0) {
-        pesanError.push("• Data Ruang minimal harus diisi 1 (satu) data.");
+        pesanError.push("• Data Ruang & Rombel minimal harus diisi 1 (satu) data.");
       }
       if (listGTK.length === 0) {
         pesanError.push("• Data GTK (Guru & Tenaga Kependidikan) belum diisi.");
       }
+      if (listSiswa.length === 0) {
+        pesanError.push("• Data Rekap Peserta Didik per Kelas belum diisi.");
+      }
 
       if (pesanError.length > 0) {
-        tampilkanPeringatanHierarki("Validasi Sinkronisasi Gagal", "Mohon lengkapi data pokok berikut sebelum melakukan sinkronisasi:<br><br>" + pesanError.join("<br>"));
+        tampilkanPeringatanHierarki("Validasi Sinkronisasi Gagal", "Mohon lengkapi seluruh form wajib berikut sebelum melakukan sinkronisasi:<br><br>" + pesanError.join("<br>"));
         return false;
       }
       return true;
@@ -2061,8 +2293,7 @@
         ruang: listRuang,
         alat: listAlat,
         gtk: listGTK,
-        siswa: listSiswa,
-        rombel: listRombel
+        siswa: listSiswa
       };
 
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
@@ -2082,9 +2313,6 @@
       setCookie('takola_secure_user', '', -1);
       window.location.href = '/login.html';
     }
-
-    updateTampilanProfilSekolah();
-    renderTanah(); renderBangunan(); renderRuang(); renderAlat(); renderGTK(); renderSiswa(); renderRombel();
   </script>
 </body>
 </html>
