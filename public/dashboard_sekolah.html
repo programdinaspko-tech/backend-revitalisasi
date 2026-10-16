@@ -846,7 +846,7 @@
           <div><label class="block font-semibold mb-1">Luas (m²)</label><input id="t_luas" type="number" readonly class="w-full border p-2 rounded bg-slate-100 font-bold"></div>
         </div>
         <div><label class="block font-semibold mb-1">Kepemilikan</label><select id="t_milik" class="w-full border p-2 rounded"><option value="Milik">Milik</option><option value="Sewa">Sewa</option><option value="Pinjam">Pinjam</option></select></div>
-        <div><label class="block font-semibold mb-1">Upload Dokumen Sertifikat (PDF)</label><input id="t_dok_pdf" type="file" accept=".pdf,image/*" class="w-full border p-1 rounded text-xs"></div>
+        <div><label class="block font-semibold mb-1">Upload Dokumen Sertifikat (PDF max 2MB)</label><input id="t_dok_pdf" type="file" accept=".pdf,image/*" class="w-full border p-1 rounded text-xs"></div>
         <div><label class="block font-semibold mb-1">Upload Foto Denah Lahan (JPG/PNG)</label><input id="t_foto_denah" type="file" accept="image/*" class="w-full border p-1 rounded text-xs"></div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
@@ -1057,23 +1057,46 @@
 
   <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
+    function tutupModalValidasiGagal() {
+      document.getElementById('modalValidasiGagal').classList.add('hidden');
+    }
+
     let selectedTanahId = null;
 
-    // AMBIL DATA USER DENGAN FAILSAFE BACKUP LOCALSTORAGE (Mencegah Reset Saat Clear Cache Browser)
-    let activeUser = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user')) || {};
-    if (!activeUser.npsn && !activeUser.nama_sekolah) {
-      // Pemulihan otomatis dari master sinkron jika session terhapus
-      let masterList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      if (masterList.length > 0) {
-        let lastSch = masterList[masterList.length - 1];
-        activeUser = { nama_sekolah: lastSch.nama_sekolah, npsn: lastSch.npsn, jenjang: lastSch.jenjang, operator: lastSch.operator };
+    // AMBIL DATA USER DENGAN FAILSAFE COOKIE & LOCALSTORAGE
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+      let nameEQ = name + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+      return null;
+    }
+
+    let activeUser = JSON.parse(localStorage.getItem('user')) || {};
+    if (!activeUser.npsn) {
+      let cookieUser = getCookie('takola_secure_user');
+      if (cookieUser) {
+        activeUser = JSON.parse(cookieUser);
         localStorage.setItem('user', JSON.stringify(activeUser));
       } else {
-        // Fallback default jika baru pertama kali
         activeUser = { nama_sekolah: "SDN Inpres Maumere", npsn: "50301234", jenjang: "SD", operator: "Operator Sekolah" };
         localStorage.setItem('user', JSON.stringify(activeUser));
       }
     }
+    setCookie('takola_secure_user', JSON.stringify(activeUser), 30);
 
     let namaSekolahLogin = activeUser.nama_sekolah || activeUser.nama || activeUser.username || 'Sekolah Binaan';
     let jenjangLogin = activeUser.jenjang || (namaSekolahLogin.toLowerCase().includes('smp') ? 'SMP' : 'SD');
@@ -1384,6 +1407,7 @@
       else { document.getElementById('ro_tingkat').value = ruangNama; }
     }
 
+    // FUNGSI PREVIEW DOKUMEN YANG DIPERBAIKI TOTAL (Mendukung Base64 PDF Aman Refresh)
     function previewDokumen(tipe, fileName, fileData) {
       const modal = document.getElementById('modalPreviewDokumen');
       const judul = document.getElementById('previewJudul');
@@ -1402,7 +1426,7 @@
       }
 
       const strData = String(fileData);
-      if (strData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || strData.toLowerCase().endsWith('.pdf') || strData.includes('pdf')) {
+      if (strData.startsWith('data:application/pdf') || strData.includes('pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf'))) {
         container.innerHTML = `<div class="w-full h-[520px] bg-white rounded-xl overflow-hidden border border-slate-300 shadow-inner"><iframe src="${strData}" class="w-full h-full" frameborder="0"></iframe></div>`;
       } else {
         container.innerHTML = `<div class="w-full max-h-[520px] flex items-center justify-center p-2 bg-slate-900 rounded-xl border border-slate-700 overflow-auto shadow-md"><img src="${strData}" alt="Pratinjau Gambar" class="max-w-full max-h-[480px] object-contain rounded-lg"></div>`;
@@ -1831,59 +1855,61 @@
       }
     }
 
-    // SIMPAN TANAH DENGAN PENANGANAN ERROR STORAGE AMAN
+    // SIMPAN TANAH DENGAN BASE64 PERMANEN (Aman dari Refresh F5)
     async function simpanTanah() {
-  const editId = document.getElementById('edit_t_id').value;
-  const nama = document.getElementById('t_nama').value;
-  const sertifikat = document.getElementById('t_sertifikat').value;
-  const panjang = parseFloat(document.getElementById('t_panjang').value) || 0;
-  const lebar = parseFloat(document.getElementById('t_lebar').value) || 0;
-  const milik = document.getElementById('t_milik').value;
-  
-  const pdfInput = document.getElementById('t_dok_pdf').files[0];
-  const denahInput = document.getElementById('t_foto_denah').files[0];
+      const editId = document.getElementById('edit_t_id').value;
+      const nama = document.getElementById('t_nama').value;
+      const sertifikat = document.getElementById('t_sertifikat').value;
+      const panjang = parseFloat(document.getElementById('t_panjang').value) || 0;
+      const lebar = parseFloat(document.getElementById('t_lebar').value) || 0;
+      const milik = document.getElementById('t_milik').value;
+      
+      const pdfInput = document.getElementById('t_dok_pdf').files[0];
+      const denahInput = document.getElementById('t_foto_denah').files[0];
 
-  if (!nama) return alert('Nama tanah wajib diisi');
+      if (!nama) return alert('Nama tanah wajib diisi');
 
-  let existing = editId ? listTanah.find(t => t.id == editId) : null;
-  let pdfUrl = existing ? existing.pdf : '';
-  let denahUrl = existing ? existing.denah : '';
+      let existing = editId ? listTanah.find(t => t.id == editId) : null;
+      let pdfUrl = existing ? existing.pdf : '';
+      let denahUrl = existing ? existing.denah : '';
 
-  try {
-    // Menggunakan Object URL untuk PDF agar tidak membebani localStorage
-    if (pdfInput) {
-      if (pdfInput.size > 5242880) { // Batas 5MB
-        alert("⚠️ Ukuran file PDF terlalu besar (> 5MB). Harap unggah file PDF yang lebih kecil.");
-        return;
+      try {
+        if (pdfInput) {
+          if (pdfInput.size > 2097152) { // Batas 2MB agar aman di localStorage
+            alert("⚠️ Ukuran file PDF maksimal 2MB agar dapat disimpan secara stabil.");
+            return;
+          }
+          pdfUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(pdfInput);
+          });
+        }
+
+        if (denahInput) {
+          denahUrl = await kompresGambar(denahInput, 800, 0.5);
+        }
+
+        if (editId) {
+          const idx = listTanah.findIndex(t => t.id == editId);
+          if (idx !== -1) {
+            listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl };
+          }
+        } else {
+          const newId = Date.now();
+          listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl });
+          if (!selectedTanahId) selectedTanahId = newId;
+        }
+
+        localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
+        renderTanah(); 
+        tutupModal('modalTanah');
+        alert('Data Tanah dan Dokumen PDF berhasil disimpan permanen!');
+      } catch (error) {
+        console.error("Gagal menyimpan:", error);
+        alert('Gagal menyimpan file ke memori browser karena melebihi kapasitas.');
       }
-      // Membuat Object URL yang aman dan ringan untuk browser
-      pdfUrl = URL.createObjectURL(pdfInput);
     }
-
-    if (denahInput) {
-      denahUrl = await kompresGambar(denahInput, 800, 0.5);
-    }
-
-    if (editId) {
-      const idx = listTanah.findIndex(t => t.id == editId);
-      if (idx !== -1) {
-        listTanah[idx] = { id: parseInt(editId), nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl };
-      }
-    } else {
-      const newId = Date.now();
-      listTanah.push({ id: newId, nama, sertifikat, panjang, lebar, milik, pdf: pdfUrl, denah: denahUrl });
-      if (!selectedTanahId) selectedTanahId = newId;
-    }
-
-    localStorage.setItem('sch_tanah_' + storageKey, JSON.stringify(listTanah));
-    renderTanah(); 
-    tutupModal('modalTanah');
-    alert('Data Tanah dan Dokumen PDF berhasil disimpan!');
-  } catch (error) {
-    console.error("Gagal menyimpan:", error);
-    alert('Gagal menyimpan file karena melebihi kapasitas memori browser.');
-  }
-}
 
     async function simpanBangunan() {
       const editId = document.getElementById('edit_b_id').value;
@@ -1965,7 +1991,32 @@
       renderRombel(); tutupModal('modalRombel');
     }
 
-    function validasiSebelumSinkron() { return true; }
+    // LOGIKA VALIDASI SINKRONISASI YANG LENGKAP
+    function validasiSebelumSinkron() {
+      let pesanError = [];
+      if (!dataSekolah.sk || !dataSekolah.kasek) {
+        pesanError.push("• Profil Sekolah dan Nama Kepala Sekolah belum diisi lengkap pada menu Data Sekolah.");
+      }
+      if (listTanah.length === 0) {
+        pesanError.push("• Data Tanah minimal harus diisi 1 (satu) data pada menu Data Sarpras.");
+      }
+      if (listBangunan.length === 0) {
+        pesanError.push("• Data Bangunan minimal harus diisi 1 (satu) data.");
+      }
+      if (listRuang.length === 0) {
+        pesanError.push("• Data Ruang minimal harus diisi 1 (satu) data.");
+      }
+      if (listGTK.length === 0) {
+        pesanError.push("• Data GTK (Guru & Tenaga Kependidikan) belum diisi.");
+      }
+
+      if (pesanError.length > 0) {
+        tampilkanPeringatanHierarki("Validasi Sinkronisasi Gagal", "Mohon lengkapi data pokok berikut sebelum melakukan sinkronisasi:<br><br>" + pesanError.join("<br>"));
+        return false;
+      }
+      return true;
+    }
+
     function mulaiProsesSinkronisasiPro() {
       document.getElementById('modalSyncProgress').classList.remove('hidden');
       document.getElementById('syncProgressBar').style.width = '100%';
@@ -2021,6 +2072,7 @@
     function logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      setCookie('takola_secure_user', '', -1);
       window.location.href = '/login.html';
     }
 
