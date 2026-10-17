@@ -73,4 +73,5 @@ exports.login = async (req, res) => {
     message: 'Server Error saat melakukan autentikasi database', 
     detail: error.message 
   });
-}
+ }
+};
