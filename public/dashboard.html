@@ -607,7 +607,11 @@
     }
 
     async function switchTab(tabName) {
-      await loadServerData();
+      try {
+        await loadServerData();
+      } catch (e) {
+        console.warn('Gagal sinkron data background saat pindah tab');
+      }
       document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
       document.querySelectorAll('nav button').forEach(function(el) { el.classList.remove('sidebar-active'); });
       
@@ -1350,12 +1354,19 @@
 
     // Inisialisasi awal memuat data dari database server saat halaman dibuka
     async function initDashboard() {
-      await loadServerData();
-      updateBerandaStats();
-      renderGrafikBeranda();
+      try {
+        await loadServerData();
+        updateBerandaStats();
+        renderGrafikBeranda();
+      } catch (err) {
+        console.error('Inisialisasi dashboard:', err);
+      }
     }
+      // Jalankan saat halaman siap
+    window.addEventListener('DOMContentLoaded', () => {
+      initDashboard();
+    });
 
-    initDashboard();
   </script>
 </body>
 </html>
