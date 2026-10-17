@@ -315,7 +315,7 @@
       </div>
     </section>
 
-    <!-- 4. TAB REKAP GTK (DENGAN TUGAS & PASANGAN), PESERTA DIDIK (DO & RESIDU) & ROMBEL -->
+    <!-- 4. TAB REKAP GTK & SISWA -->
     <section id="tab-gtk-siswa" class="tab-content hidden space-y-5">
       <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-3">
         <div class="flex items-center gap-3 w-full md:w-auto">
@@ -341,7 +341,7 @@
 
       <div id="subGTKContent" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-sm font-bold text-slate-900"><span>👨‍🏫</span> Rekapitulasi Data Guru & Tenaga Kependidikan (GTK, Tugas & Kawin Tercatat)</h3>
+          <h3 class="text-sm font-bold text-slate-900"><span>👨‍🏫</span> Rekapitulasi Data Guru & Tenaga Kependidikan</h3>
           <span id="badgeCountGTK" class="bg-sky-50 text-sky-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 GTK</span>
         </div>
         <div class="overflow-x-auto">
@@ -363,7 +363,7 @@
 
       <div id="subSiswaContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-sm font-bold text-slate-900"><span>🎓</span> Rekapitulasi Data Peserta Didik (Rentang Usia, DO Mandiri & Residu)</h3>
+          <h3 class="text-sm font-bold text-slate-900"><span>🎓</span> Rekapitulasi Data Peserta Didik</h3>
           <span id="badgeCountSiswa" class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 Siswa</span>
         </div>
         <div class="overflow-x-auto">
@@ -397,7 +397,7 @@
 
       <div id="subRombelContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-sm font-bold text-slate-900"><span>👥</span> Rekapitulasi Data Rombongan Belajar (Rombel)</h3>
+          <h3 class="text-sm font-bold text-slate-900"><span>👥</span> Rekapitulasi Data Rombongan Belajar</h3>
           <span id="badgeCountRombel" class="bg-purple-50 text-purple-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 Rombel</span>
         </div>
         <div class="overflow-x-auto">
@@ -496,7 +496,7 @@
     </div>
   </div>
 
-  <!-- MODAL PREVIEW DOKUMEN / GAMBAR (ADMIN) -->
+  <!-- MODAL PREVIEW DOKUMEN -->
   <div id="modalPreviewDokumen" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
@@ -526,6 +526,7 @@
     }
 
     window.previewCache = {};
+    let globalServerData = { schools: [], users: [] };
 
     function toggleSidebarDinas() {
       const sidebar = document.getElementById('sidebarDinas');
@@ -541,12 +542,21 @@
       }
     }
 
-    function getRegisteredSekolahList() {
-      let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      return rawSyncList;
+    // Ambil data langsung dari server database PostgreSQL
+    async function loadServerData() {
+      try {
+        const response = await fetch('/api/sekolah/all', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const resData = await response.json();
+        if (response.ok) {
+          globalServerData.schools = resData.data || [];
+          globalServerData.users = resData.users || [];
+        }
+      } catch (err) {
+        console.error('Gagal memuat data server:', err);
+      }
     }
-
-    let masterSekolah = getRegisteredSekolahList();
 
     function previewDokumenKey(cacheKey) {
       const item = window.previewCache[cacheKey];
@@ -583,7 +593,9 @@
     }
 
     function populateDropdowns() {
-      masterSekolah = getRegisteredSekolahList();
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       const selectSarpras = document.getElementById('sarprasSekolahFilter');
       const selectGTK = document.getElementById('gtkSiswaSekolahFilter');
       let optionsHtml = '<option value="ALL">-- Tampilkan Semua Sekolah --</option>';
@@ -594,7 +606,8 @@
       if(selectGTK) selectGTK.innerHTML = optionsHtml;
     }
 
-    function switchTab(tabName) {
+    async function switchTab(tabName) {
+      await loadServerData();
       document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
       document.querySelectorAll('nav button').forEach(function(el) { el.classList.remove('sidebar-active'); });
       
@@ -657,11 +670,13 @@
     let chartKerusakanInstance = null;
 
     function renderGrafikBeranda() {
-      masterSekolah = getRegisteredSekolahList();
-      let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
+      let regUsers = globalServerData.users;
       
       let totalSekolah = masterSekolah.length;
-      let totalDraft = regUsers.filter(function(x) { return x.status === 'Pending'; }).length;
+      let totalDraft = regUsers.filter(function(x) { return (x.status || '').toLowerCase() === 'pending'; }).length;
 
       let totalSD = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SD'; }).length;
       let totalSMP = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SMP'; }).length;
@@ -712,7 +727,9 @@
     }
 
     function fetchSekolah() {
-      masterSekolah = getRegisteredSekolahList();
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       const tbody = document.getElementById('sekolahTableBody');
       if (!tbody) return;
       if (masterSekolah.length === 0) {
@@ -749,7 +766,9 @@
     }
 
     function bukaDetailSekolah(identifier) {
-      masterSekolah = getRegisteredSekolahList();
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier || s.nama === identifier; });
       if (!sch) return alert('Data detail sekolah tidak ditemukan.');
 
@@ -789,7 +808,9 @@
 
     function renderRekapSarprasLengkap() {
       window.previewCache = {};
-      let syncList = getRegisteredSekolahList();
+      let syncList = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
 
       syncList.forEach(function(s) {
@@ -943,7 +964,9 @@
     }
 
     function renderGTKSiswaLengkap() {
-      let syncList = getRegisteredSekolahList();
+      let syncList = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       let allGTK = [], allSiswa = [], allRombel = [];
 
       syncList.forEach(function(s) {
@@ -1053,25 +1076,10 @@
       }).join('') : '<tr><td colspan="3" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>';
     }
 
-function renderTabelRekapSinkron() {
-      let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
-      let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      
+    function renderTabelRekapSinkron() {
+      let syncList = globalServerData.schools;
+      let regUsers = globalServerData.users;
       let allCombined = [];
-
-      // Jika belum ada user terdaftar tapi ada data sinkron, buat list dari sinkron
-      if (regUsers.length === 0 && syncList.length > 0) {
-        syncList.forEach(function(s) {
-          regUsers.push({
-            username: s.operator || 'Operator',
-            nama_sekolah: s.nama_sekolah || s.nama,
-            npsn: s.npsn,
-            jenjang: s.jenjang || 'SD',
-            status: 'Disetujui'
-          });
-        });
-        localStorage.setItem('registered_users', JSON.stringify(regUsers));
-      }
 
       regUsers.forEach(function(u) {
         let matchedSync = syncList.find(function(s) { 
@@ -1080,13 +1088,16 @@ function renderTabelRekapSinkron() {
         });
 
         if (matchedSync) {
+          let parsedData = {};
+          try { parsedData = typeof matchedSync.data_json === 'string' ? JSON.parse(matchedSync.data_json) : matchedSync.data_json; } catch(e) {}
+          
           allCombined.push({
-            nama_sekolah: matchedSync.nama_sekolah || matchedSync.nama || u.nama_sekolah,
+            nama_sekolah: parsedData.nama_sekolah || parsedData.nama || u.nama_sekolah,
             npsn: matchedSync.npsn || u.npsn || '-',
-            jenjang: matchedSync.jenjang || u.jenjang || 'SD',
+            jenjang: parsedData.jenjang || u.jenjang || 'SD',
             status: 'Ter-Sinkron',
-            waktu: matchedSync.waktu_sinkron || matchedSync.created_at || new Date().toISOString(),
-            jumlah_item: (matchedSync.ruang ? matchedSync.ruang.length : 0) + (matchedSync.gtk ? matchedSync.gtk.length : 0) + (matchedSync.tanah ? matchedSync.tanah.length : 0)
+            waktu: matchedSync.updated_at || new Date().toISOString(),
+            jumlah_item: (parsedData.ruang ? parsedData.ruang.length : 0) + (parsedData.gtk ? parsedData.gtk.length : 0) + (parsedData.tanah ? parsedData.tanah.length : 0)
           });
         } else {
           allCombined.push({
@@ -1136,10 +1147,13 @@ function renderTabelRekapSinkron() {
       }).join('');
     }
 
+    // MANAJEMEN USER TERHUBUNG DATABASE SERVER
     async function fetchUsers() {
+      await loadServerData();
       const tbody = document.getElementById('userTableBody');
-      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (!tbody) return;
 
+      let users = globalServerData.users;
       document.getElementById('badgeTotalUsers').innerText = 'Terdaftar: ' + users.length + ' User';
 
       if (users.length === 0) {
@@ -1147,9 +1161,9 @@ function renderTabelRekapSinkron() {
         return;
       }
 
-      tbody.innerHTML = users.map(function(u, index) {
+      tbody.innerHTML = users.map(function(u) {
         const usernameDisplay = u.operator || u.username || 'OPS';
-        const instansiDisplay = u.nama_sekolah || u.nama || u.instansi || 'SEKOLAH';
+        const instansiDisplay = u.nama_sekolah || u.nama || 'SEKOLAH';
         const statusUser = u.status || 'Pending';
         const isApproved = statusUser === 'Disetujui' || statusUser === 'Aktif' || statusUser === 'approved';
         const isRejected = statusUser === 'Ditolak' || statusUser === 'rejected';
@@ -1170,62 +1184,70 @@ function renderTabelRekapSinkron() {
             '<td class="p-3.5 text-center">' +
               '<div class="flex items-center justify-center gap-1.5 flex-wrap">' +
                 (!isApproved ?
-                  '<button onclick="setujuiUser(' + index + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✓ Setuju</button>' :
+                  '<button onclick="setujuiUser(\'' + u.npsn + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✓ Setuju</button>' :
                   '<button class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✓ Disetujui</button>') +
                 (!isRejected ?
-                  '<button onclick="tolakUser(' + index + ')" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✕ Tolak</button>' :
+                  '<button onclick="tolakUser(\'' + u.npsn + '\')" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✕ Tolak</button>' :
                   '<button class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✕ Ditolak</button>') +
-                '<button onclick="resetPasswordUser(' + index + ')" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🔑 Reset</button>' +
-                '<button onclick="hapusUser(' + index + ')" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🗑️ Hapus</button>' +
+                '<button onclick="hapusUser(\'' + u.npsn + '\')" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🗑️ Hapus</button>' +
               '</div>' +
             '</td>' +
           '</tr>';
       }).join('');
     }
 
-    async function setujuiUser(index) {
-      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      if (users[index]) {
-        users[index].status = 'Disetujui';
-        localStorage.setItem('registered_users', JSON.stringify(users));
+    async function setujuiUser(npsn) {
+      try {
+        const response = await fetch('/api/sekolah/user-status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ npsn, status: 'Disetujui' })
+        });
+        if (!response.ok) throw new Error('Gagal menyetujui user');
         alert('Akses untuk sekolah berhasil disetujui!');
         fetchUsers();
+      } catch (err) {
+        alert('Error: ' + err.message);
       }
     }
 
-    async function tolakUser(index) {
-      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      if (users[index]) {
-        users[index].status = 'Ditolak';
-        localStorage.setItem('registered_users', JSON.stringify(users));
+    async function tolakUser(npsn) {
+      try {
+        const response = await fetch('/api/sekolah/user-status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ npsn, status: 'Ditolak' })
+        });
+        if (!response.ok) throw new Error('Gagal menolak user');
         fetchUsers();
+      } catch (err) {
+        alert('Error: ' + err.message);
       }
     }
 
-    function resetPasswordUser(index) {
-      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      if (users[index]) {
-        users[index].password = '123456';
-        localStorage.setItem('registered_users', JSON.stringify(users));
-        alert('Password berhasil direset menjadi 123456');
-      }
-    }
+    async function hapusUser(npsn) {
+      if (!confirm('⚠️ Apakah Anda yakin ingin menghapus user dan seluruh data sekolah ini secara permanen dari database?')) return;
 
-    function hapusUser(index) {
-      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      if (users[index]) {
-        if (confirm('⚠️ Apakah Anda yakin ingin menghapus user ini?')) {
-          users.splice(index, 1);
-          localStorage.setItem('registered_users', JSON.stringify(users));
-          alert('User berhasil dihapus!');
-          fetchUsers();
-        }
+      try {
+        const response = await fetch('/api/sekolah/user/' + npsn, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const resData = await response.json();
+        if (!response.ok) throw new Error(resData.message || 'Gagal menghapus user');
+        
+        alert('User dan seluruh data sekolah terkait berhasil dihapus bersih dari database!');
+        fetchUsers();
+      } catch (err) {
+        alert('Error: ' + err.message);
       }
     }
     
     function updateBerandaStats() {
-      masterSekolah = getRegisteredSekolahList();
-      let reg = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
+      let reg = globalServerData.users;
       let totalGTK = 0, totalSiswa = 0;
 
       masterSekolah.forEach(function(s) {
@@ -1239,7 +1261,7 @@ function renderTabelRekapSinkron() {
 
       if(document.getElementById('statTotalSekolah')) document.getElementById('statTotalSekolah').innerText = masterSekolah.length;
       if(document.getElementById('statSinkron')) document.getElementById('statSinkron').innerText = masterSekolah.length;
-      if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(function(x) { return x.status === 'Pending'; }).length;
+      if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(function(x) { return (x.status || '').toLowerCase() === 'pending'; }).length;
       if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = totalGTK;
       if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = totalSiswa;
     }
@@ -1252,7 +1274,9 @@ function renderTabelRekapSinkron() {
     }
 
     function exportTabelProfilSekolahExcel() {
-      masterSekolah = getRegisteredSekolahList();
+      let masterSekolah = globalServerData.schools.map(s => {
+        try { return typeof s.data_json === 'string' ? JSON.parse(s.data_json) : s.data_json; } catch(e) { return s; }
+      });
       if (!masterSekolah.length) return alert('Tidak ada data sekolah untuk diexport.');
       
       let cleanHtml = '<table border="1"><thead><tr><th>NPSN</th><th>Nama Sekolah</th><th>Jenjang</th><th>Status / Akreditasi</th><th>Kepala Sekolah & NIP</th><th>Operator & WA</th><th>Inventaris TIK</th><th>Status Sinkron</th></tr></thead><tbody>';
@@ -1324,9 +1348,14 @@ function renderTabelRekapSinkron() {
       window.location.href = '/login.html';
     }
 
-    fetchSekolah();
-    updateBerandaStats();
-    renderGrafikBeranda();
+    // Inisialisasi awal memuat data dari database server saat halaman dibuka
+    async function initDashboard() {
+      await loadServerData();
+      updateBerandaStats();
+      renderGrafikBeranda();
+    }
+
+    initDashboard();
   </script>
 </body>
 </html>
