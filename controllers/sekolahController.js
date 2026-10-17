@@ -1,11 +1,17 @@
 const pool = require('../config/db');
 
-// Get All Sekolah & Rekap Sinkronisasi dari Database
+// Get All Sekolah & Rekap Sinkronisasi dari Database (Hanya ambil yang user-nya masih aktif/terdaftar)
 exports.getAllSekolah = async (req, res) => {
   try {
-    // Ambil data sinkronisasi sekolah yang tersimpan di server
-    const result = await pool.query(`SELECT * FROM master_sinkron_list ORDER BY updated_at DESC`);
+    // Ambil data users terlebih dahulu
     const usersResult = await pool.query(`SELECT * FROM registered_users ORDER BY id ASC`);
+    
+    // Ambil data sinkronisasi yang NPSN-nya benar-benar ada di registered_users
+    const result = await pool.query(`
+      SELECT m.* FROM master_sinkron_list m
+      JOIN registered_users r ON m.npsn = r.npsn
+      ORDER BY m.updated_at DESC
+    `);
     
     res.json({
       status: 'success',
@@ -18,7 +24,7 @@ exports.getAllSekolah = async (req, res) => {
   }
 };
 
-// Endpoint Sinkronisasi Menyeluruh (Konsep 1 s.d 3: Profil, Tanah, Bangunan/PUPR, Ruang, Alat, GTK, Siswa, Rombel)
+// Endpoint Sinkronisasi Menyeluruh
 exports.sinkronisasiData = async (req, res) => {
   const sekolahData = req.body;
 
@@ -27,8 +33,6 @@ exports.sinkronisasiData = async (req, res) => {
       return res.status(400).json({ message: 'NPSN sekolah wajib disertakan!' });
     }
 
-    // Simpan atau update data ke tabel database server PostgreSQL
-    // Pastikan tabel master_sinkron_list menampung JSON data lengkap
     const checkExist = await pool.query(`SELECT id FROM master_sinkron_list WHERE npsn = $1`, [sekolahData.npsn]);
     
     let queryText, queryValues;
@@ -63,18 +67,22 @@ exports.updateUserStatus = async (req, res) => {
     await pool.query(`UPDATE registered_users SET status = $1 WHERE npsn = $2`, [status, npsn]);
     res.json({ status: 'success', message: 'Status user berhasil diperbarui.' });
   } catch (err) {
+    console.error('Error updateUserStatus:', err.message);
     res.status(500).json({ message: 'Server error update status' });
   }
 };
 
-// Manajemen User: Hapus User
+// Manajemen User: Hapus User secara Bersih & Menyeluruh
 exports.deleteUser = async (req, res) => {
   const { npsn } = req.params;
   try {
+    // Hapus dari tabel user dan tabel sinkronisasi secara bersamaan
     await pool.query(`DELETE FROM registered_users WHERE npsn = $1`, [npsn]);
     await pool.query(`DELETE FROM master_sinkron_list WHERE npsn = $1`, [npsn]);
-    res.json({ status: 'success', message: 'User dan data sekolah terkait berhasil dihapus.' });
+    
+    res.json({ status: 'success', message: 'User dan seluruh data sekolah terkait berhasil dihapus bersih.' });
   } catch (err) {
+    console.error('Error deleteUser:', err.message);
     res.status(500).json({ message: 'Server error hapus user' });
   }
 };
