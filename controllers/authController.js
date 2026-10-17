@@ -4,16 +4,21 @@ const jwt = require('jsonwebtoken');
 
 // Logika Login User Terpusat (PostgreSQL - registered_users)
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
-
   try {
-    const cleanInput = (username || '').trim().toLowerCase();
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username dan password wajib diisi!' });
+    }
+
+    const cleanInput = username.trim().toLowerCase();
 
     // Query pencarian fleksibel ke tabel registered_users
     const userQuery = await pool.query(
       `SELECT * FROM registered_users 
        WHERE LOWER(operator) = $1 
           OR LOWER(npsn) = $1 
+          OR LOWER(username) = $1 
           OR LOWER(nama_sekolah) = $1`,
       [cleanInput]
     );
@@ -24,14 +29,6 @@ exports.login = async (req, res) => {
     } else {
       if (cleanInput.includes('admin') || cleanInput === 'dinas') {
         user = { id: 0, operator: username, role: 'Admin Dinas', status: 'Disetujui' };
-      } else {
-        const allUsers = await pool.query('SELECT * FROM registered_users');
-        user = allUsers.rows.find(u => {
-          let op = (u.operator || '').trim().toLowerCase();
-          let sch = (u.nama_sekolah || '').trim().toLowerCase();
-          let npsn = (u.npsn || '').trim().toLowerCase();
-          return op === cleanInput || sch === cleanInput || npsn === cleanInput;
-        });
       }
     }
 
@@ -47,31 +44,28 @@ exports.login = async (req, res) => {
 
     // Generate Token JWT
     const token = jwt.sign(
-      { id: user.id || 1, username: user.operator || user.nama_sekolah, role: user.role || 'User Sekolah', npsn: user.npsn },
+      { id: user.id || 1, username: user.operator || user.username, role: user.role || 'User Sekolah', npsn: user.npsn },
       process.env.JWT_SECRET || 'rahasia_super_aman',
       { expiresIn: '1d' }
     );
 
-    res.json({
+    return res.json({
       message: 'Login berhasil!',
       token: token,
       user: {
         id: user.id || 1,
-        username: user.operator || user.nama_sekolah,
+        username: user.operator || user.username,
         role: user.role || 'User Sekolah',
-        nama_sekolah: user.nama_sekolah,
-        npsn: user.npsn,
-        jenjang: user.jenjang
+        nama_sekolah: user.nama_sekolah || 'Dinas Pendidikan',
+        npsn: user.npsn || '00000000',
+        jenjang: user.jenjang || 'SD'
       }
     });
 
   } catch (error) {
-    console.error('Error pada authController login:', error.message);
-    console.error(error.stack);
-    // KIRIM PESAN ERROR ASLI KE BROWSER AGAR TERLIHAT DI UI
-    res.status(500).json({ 
-      message: 'Server Error: ' + error.message, 
-      detail: error.stack 
+    console.error('CRITICAL ERROR pada authController login:', error);
+    return res.status(500).json({ 
+      message: 'Terjadi kesalahan sistem: ' + (error.message || 'Database error tak dikenal')
     });
   }
 };
