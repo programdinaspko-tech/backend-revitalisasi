@@ -122,7 +122,7 @@
     <!-- 1. TAB BERANDA DENGAN PANDUAN PENGGUNAAN -->
     <section id="tab-beranda" class="tab-content space-y-5">
       <div class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow-sm flex justify-between items-center">
-        <span>TAKOLA SIKKA (Tata Kelola Sekolah) - Versi Aplikasi : 2026.b (Konsep 2 - Revitalisasi ProSN)</span>
+        <span>TAKOLA SIKKA (Tata Kelola Sekolah) - Versi Aplikasi : 2026.c (Konsep 3 - Revitalisasi ProSN)</span>
         <span class="text-xs bg-emerald-700 px-2.5 py-1 rounded">Aktif</span>
       </div>
 
@@ -164,20 +164,20 @@
       <!-- KARTU PANDUAN PENGGUNAAN APLIKASI BERANDA -->
       <div class="bg-white rounded-xl border border-sky-200 shadow-sm overflow-hidden">
         <div class="bg-gradient-to-r from-sky-600 to-indigo-600 text-white px-5 py-3.5 font-bold text-sm flex items-center gap-2">
-          <span>📖</span> <span>Panduan Pengisian Konsep 2 (Validasi Luas Ruang, Rombel Alat, Tugas Guru & Kunci Siswa)</span>
+          <span>📖</span> <span>Panduan Pengisian Konsep 3 (Pembaruan Data GTK, Pasangan, Siswa DO/Residu & Validasi Sinkron)</span>
         </div>
         <div class="p-5 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-700">
           <div class="bg-sky-50/60 p-4 rounded-xl border border-sky-100 space-y-2">
-            <h4 class="font-extrabold text-sky-900 text-sm flex items-center gap-1.5"><span>1️⃣</span> Logika Luas & Ruang</h4>
-            <p>Luas bangunan tidak boleh melebihi luas tanah, dan total luas ruang tidak boleh melebihi luas bangunan terpilih. Validasi ketat diterapkan.</p>
+            <h4 class="font-extrabold text-sky-900 text-sm flex items-center gap-1.5"><span>1️⃣</span> GTK & Domisili Pasangan</h4>
+            <p>Pilih tugas guru (Kelas, Mapel, Tendik) serta rincian domisili pasangan jika berstatus kawin tercatat untuk analisis penugasan.</p>
           </div>
           <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 space-y-2">
-            <h4 class="font-extrabold text-emerald-900 text-sm flex items-center gap-1.5"><span>2️⃣</span> Alat & Rombel Kelas</h4>
-            <p>Semua jenis ruang muncul saat input alat. Khusus ruang kelas, data rombel dimunculkan agar inventaris alat/aset terdata spesifik per rombel.</p>
+            <h4 class="font-extrabold text-emerald-900 text-sm flex items-center gap-1.5"><span>2️⃣</span> Siswa DO & Residu</h4>
+            <p>Input mandiri fleksibel pada baris kelas untuk siswa Putus Sekolah (DO) dan Residu tanpa batas rumus usia yang kaku.</p>
           </div>
           <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 space-y-2">
-            <h4 class="font-extrabold text-indigo-900 text-sm flex items-center gap-1.5"><span>3️⃣</span> GTK, Siswa & Aksi Edit</h4>
-            <p>Lengkapi tugas guru induk/mapel. Akumulasi total siswa L/P menjadi kunci mutlak usia/PIP/residu. Fitur Edit kini tersedia pada Alat dan Siswa.</p>
+            <h4 class="font-extrabold text-indigo-900 text-sm flex items-center gap-1.5"><span>3️⃣</span> Sinkronisasi Ketat</h4>
+            <p>Sistem memvalidasi kelengkapan profil, NIP Kepala Sekolah 18 digit, dokumen tanah/bangunan, hingga rekam data siswa sebelum sinkron.</p>
           </div>
         </div>
       </div>
@@ -639,7 +639,7 @@
       </div>
     </section>
 
-    <!-- 4. TAB GTK DENGAN TUGAS GURU INDUK & MAPEL -->
+    <!-- 4. TAB GTK DENGAN PEMBERDAYAAN TUGAS GURU INDUK & MAPEL -->
     <section id="tab-gtk" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
         <div class="flex justify-between items-center mb-4">
@@ -669,13 +669,13 @@
       </div>
     </section>
 
-    <!-- 5. TAB PESERTA DIDIK DENGAN KUNCI AKUMULASI USIA/PIP/RESIDU & AKSI EDIT -->
+    <!-- 5. TAB PESERTA DIDIK DENGAN KUNCI AKUMULASI USIA/PIP & INPUT MANDIRI DO/RESIDU -->
     <section id="tab-siswa" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div class="flex justify-between items-center">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Rekap Peserta Didik per Kelas & Rentang Usia (SPM)</h3>
-            <p class="text-xs text-slate-500">Total jumlah siswa L dan P menjadi kunci mutlak. Usia, PIP, Residu, dan DO harus klop tanpa selisih baru dapat disimpan.</p>
+            <p class="text-xs text-slate-500">Total jumlah siswa L dan P menjadi kunci mutlak. Data Siswa DO & Residu dapat diinput mandiri per baris kelas.</p>
           </div>
           <button onclick="bukaModalSiswa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
             + Input Rekap Siswa
@@ -846,7 +846,7 @@
     </div>
   </div>
 
-  <!-- MODAL BANGUNAN (LOGIKA LUAS BANGUNAN TIDAK MELEBIHI LUAS TANAH) -->
+  <!-- MODAL BANGUNAN -->
   <div id="modalBangunan" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalBangunanTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Bangunan</h3>
@@ -878,7 +878,7 @@
     </div>
   </div>
 
-  <!-- MODAL RUANG & ROMBEL (LOGIKA LUAS RUANG TIDAK MELEBIHI LUAS BANGUNAN) -->
+  <!-- MODAL RUANG & ROMBEL -->
   <div id="modalRuang" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-xl shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalRuangTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Ruang & Rombel</h3>
@@ -972,7 +972,7 @@
     </div>
   </div>
 
-  <!-- MODAL ALAT (SEMUA JENIS RUANG & ROMBEL KELAS, DENGAN AKSI EDIT) -->
+  <!-- MODAL ALAT -->
   <div id="modalAlat" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl">
       <h3 id="modalAlatTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data Alat & Aset</h3>
@@ -998,7 +998,7 @@
     </div>
   </div>
 
-  <!-- MODAL GTK (TUGAS GURU INDUK & MAPEL) -->
+  <!-- MODAL GTK (PEMBARUAN POIN 1: TUGAS GURU & KAWIN TERCATAT) -->
   <div id="modalGTK" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalGTKTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah / Edit Data GTK</h3>
@@ -1051,14 +1051,33 @@
           </div>
         </div>
 
-        <!-- Rincian Keluarga -->
+        <!-- Rincian Keluarga & Tempat Tugas Pasangan (Konsep 3) -->
         <div id="containerKawinTercatat" class="hidden bg-sky-50 p-3 rounded-lg border border-sky-200 space-y-2">
-          <label class="block font-bold text-sky-900">💍 Rincian Keluarga (Status Kawin Tercatat)</label>
+          <label class="block font-bold text-sky-900">💍 Rincian Keluarga & Status Pasangan (Konsep 3)</label>
           <div class="grid grid-cols-2 gap-2">
             <div><label class="block mb-1 font-semibold">Nama Istri / Suami</label><input id="g_nama_pasangan" type="text" class="w-full border p-1.5 rounded bg-white"></div>
             <div><label class="block mb-1 font-semibold">Jumlah Anak</label><input id="g_jml_anak" type="number" min="0" value="0" class="w-full border p-1.5 rounded bg-white"></div>
           </div>
-          <div><label class="block mb-1 font-semibold">Pekerjaan & Alamat Tempat Tugas Pasangan</label><input id="g_pekerjaan_pasangan" type="text" placeholder="Pekerjaan / Instansi Pasangan" class="w-full border p-1.5 rounded bg-white"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block mb-1 font-semibold">Pekerjaan Pasangan</label>
+              <select id="g_pekerjaan_pasangan" onchange="toggleTempatTugasPasangan()" class="w-full border p-1.5 rounded bg-white">
+                <option value="ASN Guru">ASN Guru</option>
+                <option value="Guru Honorer">Guru Honorer</option>
+                <option value="Karyawan Swasta">Karyawan Swasta</option>
+                <option value="ASN Lainnya">ASN Lainnya</option>
+                <option value="TNI / POLRI">TNI / POLRI</option>
+                <option value="Petani / Nelayan">Petani / Nelayan</option>
+                <option value="Wiraswasta / Wirausaha">Wiraswasta / Wirausaha</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div id="containerTempatTugasPasangan">
+              <label class="block mb-1 font-semibold text-indigo-700">Tempat Tugas Pasangan</label>
+              <input id="g_tempat_tugas_pasangan" type="text" placeholder="Nama Sekolah / Instansi Pasangan" class="w-full border p-1.5 rounded bg-white">
+            </div>
+          </div>
+          <div><label class="block mb-1 font-semibold">Alamat Domisili Sesuai KTP</label><input id="g_domisili_pasangan" type="text" placeholder="Alamat lengkap domisili pasangan" class="w-full border p-1.5 rounded bg-white"></div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border">
@@ -1083,7 +1102,7 @@
     </div>
   </div>
 
-  <!-- MODAL SISWA (KUNCI AKUMULASI TOTAL L & P, DENGAN AKSI EDIT) -->
+  <!-- MODAL SISWA (PEMBARUAN POIN 2: INPUT MANDIRI DO & RESIDU) -->
   <div id="modalSiswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-xl w-full max-w-xl shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Input / Edit Rekap Peserta Didik per Kelas</h3>
@@ -1116,21 +1135,22 @@
 
         <!-- RENTANG USIA 3 -->
         <div class="bg-sky-100/60 p-3 rounded-lg border border-sky-300 space-y-2">
-          <label id="lblModalUsiaGroup3" class="block font-bold text-sky-900">Rentang Usia 3 (L dan P)</label>
+          <label id="lblModalUsiaGroup3" class="block font-bold text-indigo-900">Rentang Usia 3 (L dan P)</label>
           <div class="grid grid-cols-2 gap-2">
             <div><label class="block mb-1">Laki-Laki</label><input id="s_u3_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
             <div><label class="block mb-1">Perempuan</label><input id="s_u3_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
           </div>
         </div>
 
+        <!-- INPUT MANDIRI DO & RESIDU (Konsep 3) -->
         <div class="grid grid-cols-2 gap-2 bg-amber-50 p-3 rounded-lg border border-amber-200">
-          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (L)</label><input id="s_do_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
-          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (P)</label><input id="s_do_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (L) - Mandiri</label><input id="s_do_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white font-bold"></div>
+          <div><label class="block mb-1 font-semibold text-amber-900">Siswa DO (P) - Mandiri</label><input id="s_do_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white font-bold"></div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-purple-50 p-3 rounded-lg border border-purple-200">
-          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (L)</label><input id="s_residu_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
-          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (P)</label><input id="s_residu_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white"></div>
+          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (L) - Mandiri</label><input id="s_residu_l" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white font-bold"></div>
+          <div><label class="block mb-1 font-semibold text-purple-900">Siswa Residu (P) - Mandiri</label><input id="s_residu_p" type="number" min="0" value="0" class="w-full border p-2 rounded bg-white font-bold"></div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-emerald-50 p-3 rounded-lg border border-emerald-200">
@@ -1156,7 +1176,7 @@
       <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
         <div class="w-10 h-10 bg-amber-500/20 border border-amber-500/40 rounded-xl flex items-center justify-center text-xl text-amber-400 sync-pulse">⚠️</div>
         <div>
-          <h3 id="modalValidasiJudul" class="text-sm font-bold text-slate-100">Validasi Data Konsep 2</h3>
+          <h3 id="modalValidasiJudul" class="text-sm font-bold text-slate-100">Validasi Data Konsep 3</h3>
           <p class="text-[11px] text-slate-400">Peringatan Kelengkapan Sistem TAKOLA</p>
         </div>
       </div>
@@ -1483,8 +1503,19 @@
       const container = document.getElementById('containerKawinTercatat');
       if (statusKawin === 'Kawin Tercatat') {
         container.classList.remove('hidden');
+        toggleTempatTugasPasangan();
       } else {
         container.classList.add('hidden');
+      }
+    }
+
+    function toggleTempatTugasPasangan() {
+      const pekerjaan = document.getElementById('g_pekerjaan_pasangan').value;
+      const containerTugas = document.getElementById('containerTempatTugasPasangan');
+      if (pekerjaan === 'ASN Guru' || pekerjaan === 'Guru Honorer') {
+        containerTugas.classList.remove('hidden');
+      } else {
+        containerTugas.classList.add('hidden');
       }
     }
 
@@ -1521,7 +1552,7 @@
       }
     }
 
-    // 5. VALIDASI AKUMULASI KUNCI SISWA (L & P)
+    // 5. VALIDASI AKUMULASI KUNCI SISWA (L & P) DENGAN INPUT MANDIRI DO & RESIDU
     function simpanSiswa() {
       const editId = document.getElementById('edit_s_id').value;
       const kelas = document.getElementById('s_kelas').value;
@@ -1544,14 +1575,13 @@
 
       if (!kelas) return alert('Tingkat kelas wajib diisi!');
 
-      // Validasi logika kunci Laki-Laki dan Perempuan
-      let sumUsiaL = u1_l + u2_l + u3_l + do_l + residu_l;
-      let sumUsiaP = u1_p + u2_p + u3_p + do_p + residu_p;
+      let sumUsiaL = u1_l + u2_l + u3_l;
+      let sumUsiaP = u1_p + u2_p + u3_p;
       let sumPipL = pip_l + belum_pip_l;
       let sumPipP = pip_p + belum_pip_p;
 
       if (sumUsiaL !== tot_l || sumUsiaP !== tot_p) {
-        tampilkanPeringatanHierarki("Validasi Siswa Gagal", `Jumlah rincian usia & DO/residu Laki-Laki (${sumUsiaL}) atau Perempuan (${sumUsiaP}) tidak sama persis dengan Total Siswa L (${tot_l}) dan P (${tot_p}). Silakan sesuaikan kembali.`);
+        tampilkanPeringatanHierarki("Validasi Siswa Gagal", `Jumlah rincian rentang usia Laki-Laki (${sumUsiaL}) atau Perempuan (${sumUsiaP}) tidak sama persis dengan Total Siswa L (${tot_l}) dan P (${tot_p}). Silakan sesuaikan kembali.`);
         return;
       }
 
@@ -1855,7 +1885,6 @@
       updateDapodikStats();
     }
 
-    // 3. RENDER ALAT DENGAN OPSI RUANG / ROMBEL KELAS & AKSI EDIT
     function renderAlat() {
       const tbody = document.getElementById('tbodyAlat');
       tbody.innerHTML = listAlat.map(a => {
@@ -1879,7 +1908,6 @@
       if (listAlat.length === 0) tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data alat/aset.</td></tr>`;
     }
 
-    // 4. RENDER GTK DENGAN TUGAS GURU INDUK & MAPEL
     function renderGTK() {
       const tbody = document.getElementById('tbodyGTK');
       tbody.innerHTML = listGTK.map(g => `
@@ -1898,7 +1926,7 @@
           </td>
           <td class="p-3">
             <span>${g.status_kawin || '-'}</span>
-            ${g.status_kawin === 'Kawin Tercatat' ? `<br><span class="text-[10px] text-slate-600">Pasangan: ${g.nama_pasangan || '-'} (${g.jml_anak || 0} Anak)</span>` : ''}
+            ${g.status_kawin === 'Kawin Tercatat' ? `<br><span class="text-[10px] text-slate-600">Pasangan: ${g.nama_pasangan || '-'} (${g.pekerjaan_pasangan || '-'})</span>` : ''}
           </td>
           <td class="p-3">
             <span class="font-bold text-indigo-700">${g.tugas_guru || '-'}</span>
@@ -1914,7 +1942,6 @@
       updateDapodikStats();
     }
 
-    // 6. RENDER SISWA DENGAN AKSI EDIT & HAPUS
     function renderSiswa() {
       const tbody = document.getElementById('tbodySiswa');
       tbody.innerHTML = listSiswa.map(s => {
@@ -1929,10 +1956,10 @@
             <td class="p-2 text-center bg-indigo-100/40 border-r">${s.u2_p || 0}</td>
             <td class="p-2 text-center bg-sky-100/40">${s.u3_l || 0}</td>
             <td class="p-2 text-center bg-sky-100/40 border-r">${s.u3_p || 0}</td>
-            <td class="p-2 text-center bg-amber-50/30 text-amber-800">${s.do_l || 0}</td>
-            <td class="p-2 text-center bg-amber-50/30 text-amber-800 border-r">${s.do_p || 0}</td>
-            <td class="p-2 text-center bg-purple-50/30 text-purple-800">${s.residu_l || 0}</td>
-            <td class="p-2 text-center bg-purple-50/30 text-purple-800 border-r">${s.residu_p || 0}</td>
+            <td class="p-2 text-center bg-amber-50/30 text-amber-800 font-bold">${s.do_l || 0}</td>
+            <td class="p-2 text-center bg-amber-50/30 text-amber-800 font-bold border-r">${s.do_p || 0}</td>
+            <td class="p-2 text-center bg-purple-50/30 text-purple-800 font-bold">${s.residu_l || 0}</td>
+            <td class="p-2 text-center bg-purple-50/30 text-purple-800 font-bold border-r">${s.residu_p || 0}</td>
             <td class="p-2 text-center bg-emerald-50/30 text-emerald-800">${s.pip_l || 0}</td>
             <td class="p-2 text-center bg-emerald-50/30 text-emerald-800 border-r">${s.pip_p || 0}</td>
             <td class="p-2 text-center bg-rose-50/30 text-rose-800">${s.belum_pip_l || 0}</td>
@@ -1954,7 +1981,6 @@
       select.innerHTML = listBangunan.map(b => `<option value="${b.id}" ${b.id == selectedVal ? 'selected' : ''}>${b.nama}</option>`).join('');
     }
 
-    // 3. MUNCULKAN SEMUA JENIS RUANG TERMASUK ROMBEL KELAS
     function populateDropdownRuang(selectedVal = '') {
       const select = document.getElementById('a_ruang_id');
       if (listRuang.length === 0) { select.innerHTML = `<option value="">-- Belum ada data ruang --</option>`; return; }
@@ -2057,7 +2083,6 @@
       }
     }
 
-    // FUNGSI EDIT ALAT
     function editAlat(id) {
       const a = listAlat.find(item => item.id === id);
       if (!a) return;
@@ -2071,7 +2096,6 @@
       bukaModal('modalAlat');
     }
 
-    // FUNGSI EDIT GTK
     function editGTK(id) {
       const g = listGTK.find(item => item.id === id);
       if (!g) return;
@@ -2089,14 +2113,16 @@
       toggleStatusKawinFields();
       document.getElementById('g_nama_pasangan').value = g.nama_pasangan || '';
       document.getElementById('g_jml_anak').value = g.jml_anak || 0;
-      document.getElementById('g_pekerjaan_pasangan').value = g.pekerjaan_pasangan || '';
+      document.getElementById('g_pekerjaan_pasangan').value = g.pekerjaan_pasangan || 'ASN Guru';
+      toggleTempatTugasPasangan();
+      document.getElementById('g_tempat_tugas_pasangan').value = g.tempat_tugas_pasangan || '';
+      document.getElementById('g_domisili_pasangan').value = g.domisili_pasangan || '';
       document.getElementById('g_tugas_guru').value = g.tugas_guru || 'Guru Kelas';
       toggleMapelField();
       document.getElementById('g_mapel').value = g.mapel || '';
       bukaModal('modalGTK');
     }
 
-    // FUNGSI EDIT SISWA
     function editSiswa(id) {
       const s = listSiswa.find(item => item.id === id);
       if (!s) return;
@@ -2177,7 +2203,6 @@
       }
     }
 
-    // 1. LOGIKA VALIDASI LUAS BANGUNAN TIDAK MELEBIHI LUAS TANAH
     async function simpanBangunan() {
       const editId = document.getElementById('edit_b_id').value;
       const nama = document.getElementById('b_nama').value;
@@ -2195,7 +2220,6 @@
       let luasTanah = tanahObj ? (tanahObj.panjang * tanahObj.lebar) : 0;
       let luasBangunanBaru = panjang * lebar;
 
-      // Hitung total luas bangunan lain pada tanah yang sama
       let totalLuasGedungLain = listBangunan.filter(b => b.tanah_id === selectedTanahId && b.id != editId).reduce((acc, b) => acc + (b.panjang * b.lebar), 0);
       
       if ((totalLuasGedungLain + luasBangunanBaru) > luasTanah) {
@@ -2235,7 +2259,6 @@
       }
     }
 
-    // 2. LOGIKA VALIDASI LUAS RUANG TIDAK MELEBIHI LUAS BANGUNAN
     async function simpanRuang() {
       const editId = document.getElementById('edit_r_id').value;
       const bangunan_id = parseInt(document.getElementById('r_bangunan_id').value);
@@ -2335,11 +2358,13 @@
         return;
       }
 
-      let nama_pasangan = '', jml_anak = 0, pekerjaan_pasangan = '', mapel = '';
+      let nama_pasangan = '', jml_anak = 0, pekerjaan_pasangan = '', tempat_tugas_pasangan = '', domisili_pasangan = '', mapel = '';
       if (status_kawin === 'Kawin Tercatat') {
         nama_pasangan = document.getElementById('g_nama_pasangan').value;
         jml_anak = parseInt(document.getElementById('g_jml_anak').value) || 0;
         pekerjaan_pasangan = document.getElementById('g_pekerjaan_pasangan').value;
+        tempat_tugas_pasangan = document.getElementById('g_tempat_tugas_pasangan').value;
+        domisili_pasangan = document.getElementById('g_domisili_pasangan').value;
       }
       if (tugas_guru === 'Guru Mapel') {
         mapel = document.getElementById('g_mapel').value;
@@ -2361,6 +2386,8 @@
         nama_pasangan,
         jml_anak,
         pekerjaan_pasangan,
+        tempat_tugas_pasangan,
+        domisili_pasangan,
         tugas_guru,
         mapel
       };
@@ -2377,10 +2404,14 @@
       alert('Data GTK Berhasil Disimpan!');
     }
 
+    // 3. VALIDASI SEBELUM SINKRONISASI (Konsep 3)
     function validasiSebelumSinkron() {
       let pesanError = [];
       if (!dataSekolah.sk || !dataSekolah.kasek) {
         pesanError.push("• Profil Sekolah dan Nama Kepala Sekolah wajib diisi pada menu Data Sekolah.");
+      }
+      if (!/^\d{18}$/.test(dataSekolah.nipKasek || '')) {
+        pesanError.push("• NIP Kepala Sekolah wajib diisi valid tepat 18 digit angka pada Profil Sekolah.");
       }
       if (listTanah.length === 0) {
         pesanError.push("• Data Tanah minimal harus diisi 1 (satu) data.");
@@ -2399,7 +2430,7 @@
       }
 
       if (pesanError.length > 0) {
-        tampilkanPeringatanHierarki("Validasi Sinkronisasi Gagal", "Mohon lengkapi seluruh form wajib berikut sebelum melakukan sinkronisasi:<br><br>" + pesanError.join("<br>"));
+        tampilkanPeringatanHierarki("Validasi Sinkronisasi Gagal", "Mohon lengkapi seluruh syarat wajib berikut sebelum melakukan sinkronisasi:<br><br>" + pesanError.join("<br>"));
         return false;
       }
       return true;
