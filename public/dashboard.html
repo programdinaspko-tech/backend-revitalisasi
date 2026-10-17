@@ -1053,25 +1053,44 @@
       }).join('') : '<tr><td colspan="3" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>';
     }
 
-    function renderTabelRekapSinkron() {
+function renderTabelRekapSinkron() {
       let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
       let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       
       let allCombined = [];
+
+      // Jika belum ada user terdaftar tapi ada data sinkron, buat list dari sinkron
+      if (regUsers.length === 0 && syncList.length > 0) {
+        syncList.forEach(function(s) {
+          regUsers.push({
+            username: s.operator || 'Operator',
+            nama_sekolah: s.nama_sekolah || s.nama,
+            npsn: s.npsn,
+            jenjang: s.jenjang || 'SD',
+            status: 'Disetujui'
+          });
+        });
+        localStorage.setItem('registered_users', JSON.stringify(regUsers));
+      }
+
       regUsers.forEach(function(u) {
-        let matchedSync = syncList.find(function(s) { return s.npsn === u.npsn || s.nama_sekolah === u.nama_sekolah || s.nama === u.nama; });
+        let matchedSync = syncList.find(function(s) { 
+          return (s.npsn && u.npsn && s.npsn.trim() === u.npsn.trim()) || 
+                 ((s.nama_sekolah || s.nama || '').toLowerCase() === (u.nama_sekolah || u.nama || '').toLowerCase()); 
+        });
+
         if (matchedSync) {
           allCombined.push({
-            nama_sekolah: matchedSync.nama_sekolah || matchedSync.nama,
-            npsn: matchedSync.npsn,
+            nama_sekolah: matchedSync.nama_sekolah || matchedSync.nama || u.nama_sekolah,
+            npsn: matchedSync.npsn || u.npsn || '-',
             jenjang: matchedSync.jenjang || u.jenjang || 'SD',
             status: 'Ter-Sinkron',
-            waktu: matchedSync.waktu_sinkron || new Date().toISOString(),
-            jumlah_item: (matchedSync.ruang ? matchedSync.ruang.length : 0) + (matchedSync.gtk ? matchedSync.gtk.length : 0)
+            waktu: matchedSync.waktu_sinkron || matchedSync.created_at || new Date().toISOString(),
+            jumlah_item: (matchedSync.ruang ? matchedSync.ruang.length : 0) + (matchedSync.gtk ? matchedSync.gtk.length : 0) + (matchedSync.tanah ? matchedSync.tanah.length : 0)
           });
         } else {
           allCombined.push({
-            nama_sekolah: u.nama_sekolah || u.nama || u.username,
+            nama_sekolah: u.nama_sekolah || u.nama || u.username || 'Sekolah',
             npsn: u.npsn || '-',
             jenjang: u.jenjang || 'SD',
             status: 'Draft',
@@ -1119,20 +1138,7 @@
 
     async function fetchUsers() {
       const tbody = document.getElementById('userTableBody');
-      let users = [];
-
-      try {
-        let response = await fetch('/api/auth/users');
-        if (response.ok) {
-          let resData = await response.json();
-          users = resData.users || resData;
-          localStorage.setItem('registered_users', JSON.stringify(users));
-        }
-      } catch (err) {}
-
-      if (!users || users.length === 0) {
-        users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      }
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
 
       document.getElementById('badgeTotalUsers').innerText = 'Terdaftar: ' + users.length + ' User';
 
