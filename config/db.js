@@ -1,16 +1,20 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// Mengutamakan DATABASE_URL dari Railway (dengan fallback variabel lokal jika dijalankan di komputer lokal)
+const isProduction = process.env.DATABASE_URL || process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL || `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+  ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
 pool.on('connect', () => {
-  console.log('Terhubung ke database PostgreSQL');
+  console.log('✓ Terhubung ke database PostgreSQL Railway');
+});
+
+pool.on('error', (err) => {
+  console.error('❌ Error Koneksi PostgreSQL:', err);
 });
 
 module.exports = pool;
