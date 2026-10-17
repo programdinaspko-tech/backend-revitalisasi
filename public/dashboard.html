@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin Dinas - Portal Rekapitulasi Sekolah (Database Server)</title>
+  <title>Dashboard Admin Dinas - Portal Rekapitulasi Sekolah</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,11 +21,11 @@
     <div>
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
         <div class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center border border-white/20 shadow-lg shrink-0">
-          <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
-        </div>
+            <img src="https://i.ibb.co.com/zTthJ4xL/Lambang-Kabupaten-Sikka.png" alt="Logo Kab Sikka" class="w-full h-full object-contain">
+          </div>
         <div class="sidebar-text">
           <h1 class="font-extrabold text-sm tracking-wide text-slate-100">DINAS PKO</h1>
-          <p class="text-[11px] text-slate-400">Database Server Aktif</p>
+          <p id="sidebarRole" class="text-[11px] text-slate-400">Inovasi Revitalisasi</p>
         </div>
       </div>
 
@@ -33,18 +33,23 @@
         <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition sidebar-active font-medium cursor-pointer">
           <span>📊</span> <span class="sidebar-text">Beranda Rekapitulasi</span>
         </button>
+
         <button onclick="switchTab('sekolah')" id="nav-sekolah" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🏫</span> <span class="sidebar-text">Data Sekolah & Profil</span>
         </button>
+
         <button onclick="switchTab('sarpras')" id="nav-sarpras" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🏗️</span> <span class="sidebar-text">Rekapitulasi Sarpras</span>
         </button>
+
         <button onclick="switchTab('gtk-siswa')" id="nav-gtk-siswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>👨‍🎓</span> <span class="sidebar-text">Rekap GTK, Siswa & Rombel</span>
         </button>
+
         <button onclick="switchTab('rekap-sinkron')" id="nav-rekap-sinkron" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🔄</span> <span class="sidebar-text">Rekap Sinkronisasi Data</span>
         </button>
+
         <button onclick="switchTab('user')" id="nav-user" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 transition font-medium cursor-pointer">
           <span>🔑</span> <span class="sidebar-text">Manager User & Akses</span>
         </button>
@@ -55,60 +60,418 @@
       <div class="flex items-center justify-between">
         <div class="sidebar-text">
           <p id="userAdminName" class="text-xs font-bold text-white truncate max-w-[130px]">admin_dinas</p>
-          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-medium">Server Connected</span>
+          <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-medium">Super Admin</span>
         </div>
-        <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-white transition font-medium shadow-sm cursor-pointer">Logout</button>
+        <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-white transition font-medium shadow-sm cursor-pointer">
+          Logout
+        </button>
       </div>
     </div>
   </aside>
 
   <!-- MAIN CONTENT AREA -->
   <main class="flex-1 p-6 overflow-y-auto">
+    
     <header class="bg-slate-800 text-white rounded-xl p-4 mb-6 shadow-md flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <button onclick="toggleSidebarDinas()" class="text-xl cursor-pointer hover:text-indigo-400 transition">≡</button>
-        <h2 class="text-base font-bold tracking-wide">PORTAL REKAPITULASI PUSAT DINAS PKO (Konsep 3 - Server Database)</h2>
+        <button onclick="toggleSidebarDinas()" class="text-xl cursor-pointer hover:text-indigo-400 transition" title="Sembunyikan/Tampilkan Sidebar">≡</button>
+        <h2 class="text-base font-bold tracking-wide">PORTAL REKAPITULASI DATA SEKOLAH DINAS — TAHUN 2026/2027 (Konsep 3)</h2>
       </div>
-      <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold">
-        Database: PostgreSQL Aktif
+      <div class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-xs px-3 py-1 rounded-full font-bold">
+        Mode: Administrator Dinas
       </div>
     </header>
 
-    <!-- TAB BERANDA -->
+    <!-- 1. TAB BERANDA REKAPITULASI -->
     <section id="tab-beranda" class="tab-content space-y-5">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-purple-700 text-white p-4 rounded-xl shadow-md">
-          <p class="text-[11px] uppercase font-semibold text-purple-200">Total Sekolah</p>
-          <p id="statTotalSekolah" class="text-3xl font-extrabold mt-1">0</p>
+      <div class="bg-indigo-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow-sm flex justify-between items-center">
+        <span>Sistem Informasi Management Revitalisasi & Data Pokok Pendidikan</span>
+        <span class="text-xs bg-indigo-700 px-2.5 py-1 rounded">Versi Dinas 2026.c</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="bg-purple-700 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-purple-200">Total Sekolah</p>
+            <p id="statTotalSekolah" class="text-3xl font-extrabold mt-1">0</p>
+          </div>
+          <div class="text-3xl opacity-80">🏫</div>
         </div>
-        <div class="bg-emerald-600 text-white p-4 rounded-xl shadow-md">
-          <p class="text-[11px] uppercase font-semibold text-emerald-200">Ter-Sinkronisasi</p>
-          <p id="statSinkron" class="text-3xl font-extrabold mt-1">0</p>
+
+        <div class="bg-emerald-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-emerald-200">Ter-Sinkronisasi</p>
+            <p id="statSinkron" class="text-3xl font-extrabold mt-1">0</p>
+          </div>
+          <div class="text-3xl opacity-80">🔄</div>
         </div>
-        <div class="bg-sky-600 text-white p-4 rounded-xl shadow-md">
-          <p class="text-[11px] uppercase font-semibold text-sky-200">Total GTK</p>
-          <p id="statTotalGTK" class="text-3xl font-extrabold mt-1">0</p>
+
+        <div class="bg-amber-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-amber-200">Draft Belum Sinkron</p>
+            <p id="statDraft" class="text-3xl font-extrabold mt-1">0</p>
+          </div>
+          <div class="text-3xl opacity-80">⏳</div>
         </div>
-        <div class="bg-rose-600 text-white p-4 rounded-xl shadow-md">
-          <p class="text-[11px] uppercase font-semibold text-rose-200">Total Peserta Didik</p>
-          <p id="statTotalSiswa" class="text-3xl font-extrabold mt-1">0</p>
+
+        <div class="bg-sky-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-sky-200">Total GTK Dinas</p>
+            <p id="statTotalGTK" class="text-3xl font-extrabold mt-1">0</p>
+          </div>
+          <div class="text-3xl opacity-80">🎓</div>
+        </div>
+
+        <div class="bg-rose-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center">
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-rose-200">Total Peserta Didik</p>
+            <p id="statTotalSiswa" class="text-3xl font-extrabold mt-1">0</p>
+          </div>
+          <div class="text-3xl opacity-80">😀</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+          <h3 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
+            <span>📈</span> Distribusi Status Sinkronisasi Sekolah
+          </h3>
+          <div class="relative h-64 flex items-center justify-center">
+            <canvas id="chartSinkronisasi"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+          <h3 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
+            <span>📊</span> Rekapitulasi Berdasarkan Jenjang
+          </h3>
+          <div class="relative h-64 flex items-center justify-center">
+            <canvas id="chartJenjang"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+          <h3 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
+            <span>🏚️</span> Rekapitulasi Ruang Rusak Sedang & Berat
+          </h3>
+          <div class="relative h-64 flex items-center justify-center">
+            <canvas id="chartKerusakan"></canvas>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- TAB USER & AKSES -->
+    <!-- 2. TAB REKAP DATA SEKOLAH -->
+    <section id="tab-sekolah" class="tab-content hidden space-y-4">
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-800">Data Sekolah & Profil Terintegrasi (Rekap TIK)</h3>
+            <p class="text-xs text-slate-500">Merekap seluruh data inputan profil, penanggung jawab, utilitas GIS, serta inventaris jenis TIK sekolah.</p>
+          </div>
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <input type="text" id="filterCari" onkeyup="filterTabelSekolah()" placeholder="🔍 Cari NPSN / Nama Sekolah..." class="border rounded-lg px-3 py-1.5 text-xs w-64 outline-none">
+            <button onclick="exportTabelProfilSekolahExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
+              <span>📥</span> Export Excel
+            </button>
+          </div>
+        </div>
+
+        <div id="tabelSekolahContainer" class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-800 text-white font-bold uppercase text-[11px] tracking-wider">
+              <tr>
+                <th class="p-3.5">NPSN & Nama Sekolah</th>
+                <th class="p-3.5">Jenjang / Status / Akred</th>
+                <th class="p-3.5">Kepala Sekolah & NIP (18 Digit)</th>
+                <th class="p-3.5">Operator & WhatsApp</th>
+                <th class="p-3.5">Inventaris Jenis TIK (Dimiliki/0)</th>
+                <th class="p-3.5 text-center">Status Sinkron</th>
+                <th class="p-3.5 text-center">Aksi Detail Inputan</th>
+              </tr>
+            </thead>
+            <tbody id="sekolahTableBody" class="divide-y divide-slate-100 text-xs"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TAB REKAPITULASI SARPRAS DINAS -->
+    <section id="tab-sarpras" class="tab-content hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <label class="text-xs font-bold text-slate-700 whitespace-nowrap">🏛️ Filter Sekolah:</label>
+          <select id="sarprasSekolahFilter" onchange="renderRekapSarprasLengkap()" class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none w-full md:w-72">
+            <option value="ALL">-- Tampilkan Semua Sekolah --</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <input type="text" id="sarprasCariInput" onkeyup="renderRekapSarprasLengkap()" placeholder="🔍 Cari Lahan / Ruang..." class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs w-full md:w-48 outline-none">
+          <button onclick="exportSarprasAktifKeExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
+            <span>📥</span> Export Excel
+          </button>
+        </div>
+
+        <div class="flex bg-slate-100 p-1 rounded-xl border text-xs font-bold w-full md:w-auto justify-center">
+          <button id="subTabTanahBtn" onclick="switchSubSarpras('tanah')" class="px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer">1. Tanah, Bangunan & PUPR</button>
+          <button id="subTabRuangBtn" onclick="switchSubSarpras('ruang')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent cursor-pointer">2. Ruang</button>
+          <button id="subTabAlatBtn" onclick="switchSubSarpras('alat')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 hover:text-indigo-600 border border-transparent cursor-pointer">3. Alat & Bantuan</button>
+        </div>
+      </div>
+
+      <div id="subSarprasTanahContent" class="space-y-6">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex justify-between items-center border-b pb-2">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wide"><span>📍</span> Data Lahan & Sertifikat Tanah Sekolah</h3>
+            <span id="badgeCountTanah" class="bg-indigo-50 text-indigo-700 text-[10px] px-2.5 py-0.5 rounded-full font-bold">Terdata: 0 Lahan</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[10px] border-b">
+                <tr>
+                  <th class="p-3">SEKOLAH / LAHAN</th>
+                  <th class="p-3">NO SERTIFIKAT</th>
+                  <th class="p-3">P X L (M)</th>
+                  <th class="p-3">LUAS TANAH</th>
+                  <th class="p-3 text-emerald-600">SISA LAHAN TERSEDIA</th>
+                  <th class="p-3">KEPEMILIKAN</th>
+                  <th class="p-3">DOKUMEN REVIEW</th>
+                </tr>
+              </thead>
+              <tbody id="rekapTanahTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex justify-between items-center border-b pb-2">
+            <h3 class="text-xs font-bold text-emerald-900 uppercase tracking-wide"><span>🏢</span> Daftar Bangunan Fisik & File PUPR Sekolah</h3>
+            <span id="badgeCountBangunan" class="bg-emerald-50 text-emerald-700 text-[10px] px-2.5 py-0.5 rounded-full font-bold">Terdata: 0 Bangunan</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead class="bg-emerald-50 text-emerald-900 uppercase font-bold text-[10px] border-b">
+                <tr>
+                  <th class="p-3">NAMA BANGUNAN</th>
+                  <th class="p-3">SEKOLAH</th>
+                  <th class="p-3">P X L (M)</th>
+                  <th class="p-3">LUAS TAPAK</th>
+                  <th class="p-3">JML RUANG</th>
+                  <th class="p-3">THN REHAB</th>
+                  <th class="p-3">KONDISI</th>
+                  <th class="p-3">DOKUMEN PUPR REVIEW</th>
+                </tr>
+              </thead>
+              <tbody id="rekapBangunanTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="subSarprasRuangContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-sm font-bold text-slate-900"><span>🚪</span> Rekapitulasi Data Ruang & Kondisi Kerusakan</h3>
+          <span id="badgeCountRuang" class="bg-emerald-50 text-emerald-700 text-xs px-3 py-1 rounded-full font-bold">Terdata: 0 Ruang</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[10px] border-b">
+              <tr>
+                <th class="p-3">NAMA RUANG</th>
+                <th class="p-3">SEKOLAH</th>
+                <th class="p-3">JENIS RUANG</th>
+                <th class="p-3">P X L (M)</th>
+                <th class="p-3">LUAS (M²)</th>
+                <th class="p-3">KONDISI KERUSAKAN</th>
+                <th class="p-3">INFO ROMBEL & TAHUN</th>
+                <th class="p-3">FOTO 6 SUDUT GPS REVIEW</th>
+              </tr>
+            </thead>
+            <tbody id="rekapRuangTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="subSarprasAlatContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-sm font-bold text-slate-900"><span>💻</span> Rekapitulasi Data Alat, Angkutan & Bantuan</h3>
+          <span id="badgeCountAlat" class="bg-amber-50 text-amber-700 text-xs px-3 py-1 rounded-full font-bold">Terdata: 0 Asset/Alat</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[10px] border-b">
+              <tr>
+                <th class="p-3">NAMA BARANG / ASSET</th>
+                <th class="p-3">SEKOLAH</th>
+                <th class="p-3">KATEGORI</th>
+                <th class="p-3">JUMLAH</th>
+                <th class="p-3">KONDISI (BAIK / RUSAK)</th>
+              </tr>
+            </thead>
+            <tbody id="rekapAlatTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TAB REKAP GTK (DENGAN TUGAS & PASANGAN), PESERTA DIDIK (DO & RESIDU) & ROMBEL -->
+    <section id="tab-gtk-siswa" class="tab-content hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <label class="text-xs font-bold text-slate-700 whitespace-nowrap">🏛️ Filter Sekolah:</label>
+          <select id="gtkSiswaSekolahFilter" onchange="renderGTKSiswaLengkap()" class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none w-full md:w-72">
+            <option value="ALL">-- Tampilkan Semua Sekolah --</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <input type="text" id="gtkSiswaCariInput" onkeyup="renderGTKSiswaLengkap()" placeholder="🔍 Cari Nama / NIP / Rombel..." class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs w-full md:w-48 outline-none">
+          <button onclick="exportGTKSiswaAktifKeExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition whitespace-nowrap cursor-pointer">
+            <span>📥</span> Export Excel
+          </button>
+        </div>
+
+        <div class="flex bg-slate-100 p-1 rounded-xl border text-xs font-bold w-full md:w-auto justify-center">
+          <button id="subTabGTKBtn" onclick="switchSubGTKSiswa('gtk')" class="px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer">👨‍🏫 1. Rekap GTK & Pasangan</button>
+          <button id="subTabSiswaBtn" onclick="switchSubGTKSiswa('siswa')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer">🎓 2. Peserta Didik (DO/Residu)</button>
+          <button id="subTabRombelBtn" onclick="switchSubGTKSiswa('rombel')" class="px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer">👥 3. Data Rombel</button>
+        </div>
+      </div>
+
+      <div id="subGTKContent" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-sm font-bold text-slate-900"><span>👨‍🏫</span> Rekapitulasi Data Guru & Tenaga Kependidikan (GTK, Tugas & Kawin Tercatat)</h3>
+          <span id="badgeCountGTK" class="bg-sky-50 text-sky-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 GTK</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-800 text-white font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-3">NAMA LENGKAP & NIP/NIK</th>
+                <th class="p-3">SEKOLAH</th>
+                <th class="p-3">TTL & ALAMAT KTP</th>
+                <th class="p-3">NUPTK & SERTIFIKASI</th>
+                <th class="p-3">STATUS KAWIN & PASANGAN</th>
+                <th class="p-3">TUGAS GURU & MAPEL</th>
+              </tr>
+            </thead>
+            <tbody id="rekapGTKTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="subSiswaContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-sm font-bold text-slate-900"><span>🎓</span> Rekapitulasi Data Peserta Didik (Rentang Usia, DO Mandiri & Residu)</h3>
+          <span id="badgeCountSiswa" class="bg-indigo-50 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 Siswa</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[10px] border-b">
+              <tr>
+                <th class="p-3 border-r" rowspan="2">SEKOLAH</th>
+                <th class="p-3 border-r" rowspan="2">TINGKAT KELAS</th>
+                <th class="p-3 text-center border-r bg-sky-50" colspan="2">TOTAL SISWA</th>
+                <th class="p-3 text-center border-r bg-indigo-50" colspan="2">RENTANG 1 (L/P)</th>
+                <th class="p-3 text-center border-r bg-indigo-100" colspan="2">RENTANG 2 (L/P)</th>
+                <th class="p-3 text-center border-r bg-sky-100" colspan="2">RENTANG 3 (L/P)</th>
+                <th class="p-3 text-center border-x bg-amber-50/50" colspan="2">DO (L/P)</th>
+                <th class="p-3 text-center border-r bg-purple-50/50" colspan="2">RESIDU (L/P)</th>
+                <th class="p-3 text-center border-r bg-emerald-50/50" colspan="2">PIP (L/P)</th>
+              </tr>
+              <tr class="bg-slate-200/60 text-[9px] text-slate-600 font-semibold border-b">
+                <th class="p-1 text-center bg-sky-50">L</th><th class="p-1 text-center bg-sky-50 border-r">P</th>
+                <th class="p-1 text-center bg-indigo-50">L</th><th class="p-1 text-center bg-indigo-50 border-r">P</th>
+                <th class="p-1 text-center bg-indigo-100">L</th><th class="p-1 text-center bg-indigo-100 border-r">P</th>
+                <th class="p-1 text-center bg-sky-100">L</th><th class="p-1 text-center bg-sky-100 border-r">P</th>
+                <th class="p-1 text-center bg-amber-100/50">L</th><th class="p-1 text-center bg-amber-100/50 border-r">P</th>
+                <th class="p-1 text-center bg-purple-100/50">L</th><th class="p-1 text-center bg-purple-100/50 border-r">P</th>
+                <th class="p-1 text-center bg-emerald-100/50">L</th><th class="p-1 text-center bg-emerald-100/50 border-r">P</th>
+              </tr>
+            </thead>
+            <tbody id="rekapSiswaTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="subRombelContent" class="hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-sm font-bold text-slate-900"><span>👥</span> Rekapitulasi Data Rombongan Belajar (Rombel)</h3>
+          <span id="badgeCountRombel" class="bg-purple-50 text-purple-700 text-xs px-3 py-1 rounded-full font-bold">Total: 0 Rombel</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-800 text-white font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-3">SEKOLAH</th>
+                <th class="p-3">NAMA ROMBEL / KELAS</th>
+                <th class="p-3">TAHUN BANGUN / REHAB</th>
+              </tr>
+            </thead>
+            <tbody id="rekapRombelTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TAB REKAP SINKRONISASI DATA -->
+    <section id="tab-rekap-sinkron" class="tab-content hidden space-y-4">
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-3 border-b pb-4">
+          <h3 class="text-lg font-bold text-slate-800"><span>🔄</span> Rekapitulasi & Log Sinkronisasi Data Sekolah</h3>
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="filterSyncCari" onkeyup="renderTabelRekapSinkron()" placeholder="🔍 Cari Nama Sekolah..." class="border rounded-lg px-3 py-1.5 text-xs w-48 outline-none">
+            <select id="filterSyncStatus" onchange="renderTabelRekapSinkron()" class="border rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none">
+              <option value="ALL">-- Semua Status Sinkron --</option>
+              <option value="Ter-Sinkron">Ter-Sinkron</option>
+              <option value="Draft">Draft (Belum Sinkron)</option>
+            </select>
+            <select id="filterSyncJenjang" onchange="renderTabelRekapSinkron()" class="border rounded-lg px-3 py-1.5 text-xs font-semibold bg-slate-50 outline-none">
+              <option value="ALL">-- Semua Jenjang --</option>
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+            </select>
+            <button onclick="exportTabelKeExcel('tabelSyncContainer', 'Rekap_Log_Sinkronisasi.xls')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition cursor-pointer">
+              <span>📥</span> Export Excel
+            </button>
+          </div>
+        </div>
+
+        <div id="tabelSyncContainer" class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-900 text-white font-bold uppercase text-[11px]">
+              <tr>
+                <th class="p-3.5">Nama Sekolah</th>
+                <th class="p-3.5">NPSN</th>
+                <th class="p-3.5 text-center">Jenjang</th>
+                <th class="p-3.5 text-center">Status Sinkron</th>
+                <th class="p-3.5 text-center">Waktu / Tanggal Sinkron</th>
+                <th class="p-3.5 text-center">Jumlah Item</th>
+              </tr>
+            </thead>
+            <tbody id="rekapSinkronTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. TAB MANAGER USER & AKSES -->
     <section id="tab-user" class="tab-content hidden space-y-4">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
-        <h3 class="text-lg font-bold text-slate-800">Manajemen User Registrasi & Akses Server</h3>
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-lg font-bold text-slate-800">Manajemen User Registrasi & Akses</h3>
+          <span id="badgeTotalUsers" class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold">Terdaftar: 0 User</span>
+        </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-800 text-white font-bold uppercase text-[11px]">
               <tr>
-                <th class="p-3.5">OPERATOR</th>
-                <th class="p-3.5">SEKOLAH</th>
-                <th class="p-3.5">NPSN</th>
-                <th class="p-3.5 text-center">STATUS</th>
-                <th class="p-3.5 text-center">AKSI</th>
+                <th class="p-3.5">USERNAME / OPERATOR</th>
+                <th class="p-3.5">INSTANSI SEKOLAH</th>
+                <th class="p-3.5">NPSN / JENJANG</th>
+                <th class="p-3.5 text-center">STATUS HAK AKSES</th>
+                <th class="p-3.5 text-center">AKSI MANAJEMEN USER</th>
               </tr>
             </thead>
             <tbody id="userTableBody" class="divide-y divide-slate-100"></tbody>
@@ -116,80 +479,854 @@
         </div>
       </div>
     </section>
-    
-    <!-- TAB LAINNYA DISEDIAKAN UTUH -->
-    <section id="tab-sekolah" class="tab-content hidden"></section>
-    <section id="tab-sarpras" class="tab-content hidden"></section>
-    <section id="tab-gtk-siswa" class="tab-content hidden"></section>
-    <section id="tab-rekap-sinkron" class="tab-content hidden"></section>
+
   </main>
 
-  <!-- SCRIPT ENGINE SERVER API -->
+  <!-- MODAL DETAIL SEKOLAH -->
+  <div id="modalDetailSekolah" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
+      <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
+        <h3 id="modalDetailTitle" class="text-sm font-bold">Detail Profil Sekolah</h3>
+        <button onclick="tutupModalDetailSekolah()" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
+      </div>
+      <div class="p-6 space-y-4 text-xs max-h-[80vh] overflow-y-auto" id="modalDetailContent"></div>
+      <div class="bg-slate-50 px-6 py-3 border-t flex justify-end">
+        <button onclick="tutupModalDetailSekolah()" class="px-4 py-2 bg-slate-700 text-white rounded-lg font-bold text-xs cursor-pointer">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PREVIEW DOKUMEN / GAMBAR (ADMIN) -->
+  <div id="modalPreviewDokumen" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
+        <h3 id="previewJudul" class="text-sm font-bold flex items-center gap-2 truncate pr-4"><span>👁️</span> Pratinjau Dokumen</h3>
+        <button onclick="tutupModalPreview()" class="text-white hover:text-slate-200 font-bold text-lg shrink-0 cursor-pointer">✕</button>
+      </div>
+      <div class="p-4 bg-slate-100 flex-1 overflow-y-auto flex items-center justify-center min-h-[400px]">
+        <div id="previewContainerContent" class="w-full h-full flex items-center justify-center"></div>
+      </div>
+      <div class="bg-slate-50 px-6 py-3 border-t flex justify-between items-center shrink-0">
+        <span id="previewInfoFooter" class="text-xs text-slate-500 font-medium truncate"></span>
+        <button onclick="tutupModalPreview()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold text-xs cursor-pointer">Tutup Pratinjau</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
     const token = localStorage.getItem('token');
-    if (!token) window.location.href = '/login.html';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    let serverDataCache = { sinkronList: [], users: [] };
+    if (!token) {
+      window.location.href = '/login.html';
+    } else {
+      const elAdmin = document.getElementById('userAdminName');
+      if (elAdmin) elAdmin.textContent = user.username || 'admin_dinas';
+    }
 
-    async function loadDataFromServer() {
-      try {
-        let res = await fetch('/api/sekolah');
-        let json = await res.json();
-        if (json.status === 'success') {
-          // Parse data_json dari database server
-          serverDataCache.sinkronList = (json.data || []).map(item => {
-            return typeof item.data_json === 'string' ? JSON.parse(item.data_json) : item.data_json;
-          });
-          serverDataCache.users = json.users || [];
-          
-          updateDashboardUI();
-        }
-      } catch (err) {
-        console.error('Gagal mengambil data dari server:', err);
+    window.previewCache = {};
+
+    function toggleSidebarDinas() {
+      const sidebar = document.getElementById('sidebarDinas');
+      const texts = document.querySelectorAll('.sidebar-text');
+      if (sidebar.classList.contains('w-64')) {
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-20');
+        texts.forEach(function(el) { el.classList.add('hidden'); });
+      } else {
+        sidebar.classList.remove('w-20');
+        sidebar.classList.add('w-64');
+        texts.forEach(function(el) { el.classList.remove('hidden'); });
       }
+    }
+
+    function getRegisteredSekolahList() {
+      let rawSyncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      return rawSyncList;
+    }
+
+    let masterSekolah = getRegisteredSekolahList();
+
+    function previewDokumenKey(cacheKey) {
+      const item = window.previewCache[cacheKey];
+      if (!item) return alert('Dokumen tidak ditemukan.');
+      previewDokumen(item.tipe, item.fileName, item.fileData);
+    }
+
+    function previewDokumen(tipe, fileName, fileData) {
+      const modal = document.getElementById('modalPreviewDokumen');
+      const judul = document.getElementById('previewJudul');
+      const container = document.getElementById('previewContainerContent');
+      const footerInfo = document.getElementById('previewInfoFooter');
+      
+      modal.classList.remove('hidden');
+      judul.innerHTML = '<span>👁️</span> Pratinjau ' + tipe + ': <span class="text-indigo-300 ml-1">' + (fileName || 'Dokumen') + '</span>';
+      footerInfo.innerText = 'Nama File: ' + (fileName || 'Tanpa Nama');
+
+      if (!fileData || fileData === 'undefined' || fileData === 'null' || fileData.trim() === '') {
+        container.innerHTML = '<div class="text-center space-y-3 py-10"><div class="text-5xl text-amber-500">⚠️</div><p class="text-sm font-bold text-slate-700">Dokumen belum diunggah secara fisik oleh sekolah.</p></div>';
+        return;
+      }
+
+      if (fileData.startsWith('data:application/pdf') || (fileName && fileName.toLowerCase().endsWith('.pdf')) || fileData.toLowerCase().endsWith('.pdf')) {
+        container.innerHTML = '<div class="w-full h-[550px] bg-slate-200 rounded-xl overflow-hidden border border-slate-300"><iframe src="' + fileData + '" class="w-full h-full" frameborder="0"></iframe></div>';
+      } else if (fileData.startsWith('data:image/') || (fileName && /\.(jpg|jpeg|png)$/i.test(fileName)) || /\.(jpg|jpeg|png)$/i.test(fileData)) {
+        container.innerHTML = '<div class="w-full max-h-[550px] flex items-center justify-center p-2 bg-slate-900/5 rounded-xl border border-slate-200 overflow-auto"><img src="' + fileData + '" alt="Pratinjau Foto" class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md"></div>';
+      } else {
+        container.innerHTML = '<div class="text-center space-y-3 py-10"><div class="text-5xl text-indigo-500">📄</div><p class="text-sm font-bold text-slate-700">' + fileName + '</p><a href="' + fileData + '" download="' + fileName + '" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-xs font-bold">📥 Unduh / Buka Dokumen</a></div>';
+      }
+    }
+
+    function tutupModalPreview() {
+      document.getElementById('modalPreviewDokumen').classList.add('hidden');
+    }
+
+    function populateDropdowns() {
+      masterSekolah = getRegisteredSekolahList();
+      const selectSarpras = document.getElementById('sarprasSekolahFilter');
+      const selectGTK = document.getElementById('gtkSiswaSekolahFilter');
+      let optionsHtml = '<option value="ALL">-- Tampilkan Semua Sekolah --</option>';
+      masterSekolah.forEach(function(s) {
+        optionsHtml += '<option value="' + (s.nama_sekolah || s.nama) + '">' + (s.nama_sekolah || s.nama) + ' (' + s.npsn + ')</option>';
+      });
+      if(selectSarpras) selectSarpras.innerHTML = optionsHtml;
+      if(selectGTK) selectGTK.innerHTML = optionsHtml;
     }
 
     function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('nav button').forEach(el => el.classList.remove('sidebar-active'));
-      document.getElementById('tab-' + tabName).classList.remove('hidden');
-      document.getElementById('nav-' + tabName).classList.add('sidebar-active');
-      if (tabName === 'user') renderUsersTable();
-    }
-
-    function updateDashboardUI() {
-      let list = serverDataCache.sinkronList;
-      document.getElementById('statTotalSekolah').innerText = list.length;
-      document.getElementById('statSinkron').innerText = list.length;
+      document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
+      document.querySelectorAll('nav button').forEach(function(el) { el.classList.remove('sidebar-active'); });
       
-      let totGTK = 0, totSiswa = 0;
-      list.forEach(s => {
-        if (s.gtk) totGTK += s.gtk.length;
-        if (s.siswa) s.siswa.forEach(sw => totSiswa += (parseInt(sw.tot_l)||0) + (parseInt(sw.tot_p)||0));
-      });
-      document.getElementById('statTotalGTK').innerText = totGTK;
-      document.getElementById('statTotalSiswa').innerText = totSiswa;
+      const targetTab = document.getElementById('tab-' + tabName);
+      if (targetTab) targetTab.classList.remove('hidden');
+
+      const navBtn = document.getElementById('nav-' + tabName);
+      if (navBtn) navBtn.classList.add('sidebar-active');
+
+      if (tabName === 'beranda') { updateBerandaStats(); renderGrafikBeranda(); }
+      if (tabName === 'sekolah') fetchSekolah();
+      if (tabName === 'sarpras') { populateDropdowns(); renderRekapSarprasLengkap(); }
+      if (tabName === 'gtk-siswa') { populateDropdowns(); renderGTKSiswaLengkap(); }
+      if (tabName === 'rekap-sinkron') renderTabelRekapSinkron();
+      if (tabName === 'user') fetchUsers();
     }
 
-    function renderUsersTable() {
-      const tbody = document.getElementById('userTableBody');
-      let users = serverDataCache.users;
-      if (!users.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada user terdaftar di database server.</td></tr>';
+    function switchSubSarpras(sub) {
+      document.getElementById('subSarprasTanahContent').classList.add('hidden');
+      document.getElementById('subSarprasRuangContent').classList.add('hidden');
+      document.getElementById('subSarprasAlatContent').classList.add('hidden');
+      document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+
+      if (sub === 'tanah') {
+        document.getElementById('subSarprasTanahContent').classList.remove('hidden');
+        document.getElementById('subTabTanahBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
+      } else if (sub === 'ruang') {
+        document.getElementById('subSarprasRuangContent').classList.remove('hidden');
+        document.getElementById('subTabRuangBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
+      } else if (sub === 'alat') {
+        document.getElementById('subSarprasAlatContent').classList.remove('hidden');
+        document.getElementById('subTabAlatBtn').className = "px-3.5 py-1.5 rounded-lg transition sarpras-tab-active border cursor-pointer";
+      }
+    }
+
+    function switchSubGTKSiswa(sub) {
+      document.getElementById('subGTKContent').classList.add('hidden');
+      document.getElementById('subSiswaContent').classList.add('hidden');
+      document.getElementById('subRombelContent').classList.add('hidden');
+      document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+      document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition text-slate-600 border border-transparent cursor-pointer";
+
+      if (sub === 'gtk') {
+        document.getElementById('subGTKContent').classList.remove('hidden');
+        document.getElementById('subTabGTKBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
+      } else if (sub === 'siswa') {
+        document.getElementById('subSiswaContent').classList.remove('hidden');
+        document.getElementById('subTabSiswaBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
+      } else if (sub === 'rombel') {
+        document.getElementById('subRombelContent').classList.remove('hidden');
+        document.getElementById('subTabRombelBtn').className = "px-3.5 py-1.5 rounded-lg transition gtk-tab-active border cursor-pointer";
+      }
+    }
+
+    let chartSinkronInstance = null;
+    let chartJenjangInstance = null;
+    let chartKerusakanInstance = null;
+
+    function renderGrafikBeranda() {
+      masterSekolah = getRegisteredSekolahList();
+      let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      
+      let totalSekolah = masterSekolah.length;
+      let totalDraft = regUsers.filter(function(x) { return x.status === 'Pending'; }).length;
+
+      let totalSD = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SD'; }).length;
+      let totalSMP = masterSekolah.filter(function(s) { return (s.jenjang || '').toUpperCase() === 'SMP'; }).length;
+
+      let totalRusakSedang = 0;
+      let totalRusakBerat = 0;
+      masterSekolah.forEach(function(s) {
+        if (s.ruang && Array.isArray(s.ruang)) {
+          s.ruang.forEach(function(r) {
+            if (r.kondisi === 'Rusak Sedang') totalRusakSedang++;
+            if (r.kondisi === 'Rusak Berat') totalRusakBerat++;
+          });
+        }
+      });
+
+      const ctx1 = document.getElementById('chartSinkronisasi').getContext('2d');
+      if (chartSinkronInstance) chartSinkronInstance.destroy();
+      chartSinkronInstance = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+          labels: ['Ter-Sinkron', 'Draft Pending'],
+          datasets: [{ data: [totalSekolah, totalDraft], backgroundColor: ['#10b981', '#f59e0b'] }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      const ctx2 = document.getElementById('chartJenjang').getContext('2d');
+      if (chartJenjangInstance) chartJenjangInstance.destroy();
+      chartJenjangInstance = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ['Jenjang SD', 'Jenjang SMP'],
+          datasets: [{ label: 'Jumlah Sekolah', data: [totalSD, totalSMP], backgroundColor: ['#4f46e5', '#0284c7'] }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      const ctx3 = document.getElementById('chartKerusakan').getContext('2d');
+      if (chartKerusakanInstance) chartKerusakanInstance.destroy();
+      chartKerusakanInstance = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+          labels: ['Rusak Sedang', 'Rusak Berat'],
+          datasets: [{ label: 'Jumlah Ruang', data: [totalRusakSedang, totalRusakBerat], backgroundColor: ['#f59e0b', '#e11d48'] }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+      });
+    }
+
+    function fetchSekolah() {
+      masterSekolah = getRegisteredSekolahList();
+      const tbody = document.getElementById('sekolahTableBody');
+      if (!tbody) return;
+      if (masterSekolah.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">Belum ada sekolah yang melakukan sinkronisasi data.</td></tr>';
         return;
       }
-      tbody.innerHTML = users.map(u => `
-        <tr>
-          <td class="p-3 font-bold">${u.operator || u.username}</td>
-          <td class="p-3">${u.nama_sekolah}</td>
-          <td class="p-3 font-mono">${u.npsn}</td>
-          <td class="p-3 text-center"><span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded font-bold">${u.status || 'Disetujui'}</span></td>
-          <td class="p-3 text-center">-</td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = masterSekolah.map(function(item) {
+        let tikSummary = '<span class="text-slate-400 italic">Belum diinput</span>';
+        if (item.tik && Array.isArray(item.tik) && item.tik.length > 0) {
+          tikSummary = item.tik.map(function(t) {
+            return '<span class="inline-block bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] mr-1 mb-1 font-medium">' + t.nama + ': <b>' + t.jumlah + '</b> (' + t.kondisi + ')</span>';
+          }).join('');
+        }
+
+        return '<tr class="hover:bg-slate-50 border-b border-slate-100">' +
+          '<td class="p-3.5"><p class="font-mono font-bold text-indigo-700">' + (item.npsn || '-') + '</p><p class="font-bold text-slate-900">' + (item.nama_sekolah || item.nama || '-') + '</p></td>' +
+          '<td class="p-3.5"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + (item.jenjang || 'SD') + '</span></td>' +
+          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.nama_kepala_sekolah || '-') + '</p><p class="font-mono text-[10px] text-slate-500">NIP: ' + (item.nip_kepala_sekolah || '-') + '</p></td>' +
+          '<td class="p-3.5"><p class="font-bold text-slate-800">' + (item.operator || '-') + '</p><p class="text-[10px] text-slate-500">WA: ' + (item.wa_operator || '-') + '</p></td>' +
+          '<td class="p-3.5 max-w-xs">' + tikSummary + '</td>' +
+          '<td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span></td>' +
+          '<td class="p-3.5 text-center"><button onclick="bukaDetailSekolah(\'' + (item.npsn || item.nama_sekolah || item.nama) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded font-bold shadow-sm transition cursor-pointer">🔍 Detail</button></td>' +
+        '</tr>';
+      }).join('');
     }
 
-    loadDataFromServer();
+    function filterTabelSekolah() {
+      let keyword = document.getElementById('filterCari').value.toLowerCase();
+      let rows = document.querySelectorAll('#sekolahTableBody tr');
+      rows.forEach(function(r) {
+        let text = r.innerText.toLowerCase();
+        r.style.display = text.includes(keyword) ? '' : 'none';
+      });
+    }
+
+    function bukaDetailSekolah(identifier) {
+      masterSekolah = getRegisteredSekolahList();
+      let sch = masterSekolah.find(function(s) { return s.npsn === identifier || s.nama_sekolah === identifier || s.nama === identifier; });
+      if (!sch) return alert('Data detail sekolah tidak ditemukan.');
+
+      let tikDetailHtml = '<p class="text-slate-400 italic">Belum ada inventaris TIK</p>';
+      if (sch.tik && Array.isArray(sch.tik) && sch.tik.length > 0) {
+        tikDetailHtml = sch.tik.map(function(t) {
+          return '<div class="flex justify-between border-b py-1"><span>' + t.nama + ':</span><span class="font-bold">Jumlah: ' + t.jumlah + ' (' + t.kondisi + ')</span></div>';
+        }).join('');
+      }
+
+      let contentHtml = '<div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">' +
+          '<div><p class="text-slate-500 font-semibold">Nama Sekolah:</p><p class="font-bold text-slate-800">' + (sch.nama_sekolah || sch.nama || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">NPSN:</p><p class="font-bold font-mono text-indigo-700">' + (sch.npsn || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Jenjang Pendidikan:</p><p class="font-bold">' + (sch.jenjang || 'SD') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Status / Akreditasi:</p><p class="font-bold">' + (sch.status_sekolah || '-') + ' / Akred:' + (sch.akreditasi || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">SK Pendirian / Tgl:</p><p class="font-bold">' + (sch.sk_pendirian || '-') + ' / ' + (sch.tgl_sk_pendirian || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Alamat / Kecamatan:</p><p class="font-bold">' + (sch.alamat || '-') + ', Kec. ' + (sch.kecamatan || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Kabupaten / Provinsi:</p><p class="font-bold">' + (sch.kabupaten || '-') + ' - ' + (sch.provinsi || '-') + '</p></div>' +
+          '<div><p class="text-slate-500 font-semibold">Daya Listrik / Air:</p><p class="font-bold">' + (sch.daya_listrik || '-') + ' Watt / ' + (sch.sumber_air || '-') + '</p></div>' +
+        '</div>' +
+        '<div class="space-y-2 mt-3">' +
+          '<h4 class="font-bold text-indigo-600 uppercase text-[11px]">👤 Penanggung Jawab & Inventaris Jenis TIK</h4>' +
+          '<div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-lg border">' +
+            '<div><p class="text-slate-500">Kepala Sekolah & NIP:</p><p class="font-bold">' + (sch.nama_kepala_sekolah || '-') + '<br><span class="font-mono text-xs text-indigo-700">NIP: ' + (sch.nip_kepala_sekolah || '-') + '</span></p></div>' +
+            '<div><p class="text-slate-500">Operator & WA:</p><p class="font-bold">' + (sch.operator || '-') + ' (' + (sch.wa_operator || '-') + ')</p></div>' +
+            '<div class="md:col-span-2"><p class="text-slate-500 font-semibold mb-1">Inventaris Jenis TIK (Tervalidasi):</p><div class="bg-slate-50 p-2 rounded border text-xs">' + tikDetailHtml + '</div></div>' +
+            '<div class="md:col-span-2"><p class="text-slate-500">Koordinat (Lat, Long):</p><p class="font-bold font-mono">' + (sch.latitude || '-') + ', ' + (sch.longitude || '-') + '</p></div>' +
+          '</div>' +
+        '</div>';
+      document.getElementById('modalDetailContent').innerHTML = contentHtml;
+      document.getElementById('modalDetailSekolah').classList.remove('hidden');
+    }
+
+    function tutupModalDetailSekolah() {
+      document.getElementById('modalDetailSekolah').classList.add('hidden');
+    }
+
+    function renderRekapSarprasLengkap() {
+      window.previewCache = {};
+      let syncList = getRegisteredSekolahList();
+      let allTanah = [], allBangunan = [], allRuang = [], allAlat = [];
+
+      syncList.forEach(function(s) {
+        let namaSch = s.nama_sekolah || s.nama;
+        if (s.tanah && Array.isArray(s.tanah)) {
+          s.tanah.forEach(function(t) { 
+            allTanah.push({ 
+              nama_sekolah: namaSch, 
+              nama_lahan: t.nama, 
+              no_sertifikat: t.sertifikat, 
+              pxl: (t.panjang || 0) + ' x ' + (t.lebar || 0), 
+              luas: ((t.panjang || 0) * (t.lebar || 0)) + ' m²', 
+              sisa_lahan: 'Terhitung', 
+              kepemilikan: t.milik, 
+              pdf: t.pdf || '', 
+              denah: t.denah || '' 
+            }); 
+          });
+        }
+        if (s.bangunan && Array.isArray(s.bangunan)) {
+          s.bangunan.forEach(function(b) { 
+            allBangunan.push({ 
+              nama_sekolah: namaSch, 
+              nama_bangunan: b.nama, 
+              pxl: (b.panjang || 0) + ' x ' + (b.lebar || 0), 
+              luas: ((b.panjang || 0) * (b.lebar || 0)) + ' m²', 
+              jml_ruang: b.jml_ruang || 1,
+              thn_rehab: b.thn_rehab || '-',
+              kondisi: b.kondisi, 
+              pupr: b.pupr || '' 
+            }); 
+          });
+        }
+        if (s.ruang && Array.isArray(s.ruang)) {
+          s.ruang.forEach(function(r) { 
+            allRuang.push({ 
+              nama_sekolah: namaSch, 
+              nama_ruang: r.nama, 
+              jenis_ruang: r.jenis, 
+              pxl: (r.panjang || 0) + ' x ' + (r.lebar || 0), 
+              luas: ((r.panjang || 0) * (r.lebar || 0)) + ' m²', 
+              kondisi: r.kondisi, 
+              rombel_nama: r.rombel_nama || '-',
+              thn_pertama: r.thn_pertama || '-',
+              thn_terakhir: r.thn_terakhir || '-',
+              foto1: r.foto1 || '',
+              foto2: r.foto2 || '',
+              foto3: r.foto3 || ''
+            }); 
+          });
+        }
+        if (s.alat && Array.isArray(s.alat)) {
+          s.alat.forEach(function(a) { allAlat.push({ nama_sekolah: namaSch, nama_barang: a.nama, kategori: a.kategori, jumlah: a.jumlah, baik: a.baik, rusak: a.rusak }); });
+        }
+      });
+
+      let selSekolah = document.getElementById('sarprasSekolahFilter') ? document.getElementById('sarprasSekolahFilter').value : 'ALL';
+      let searchKey = document.getElementById('sarprasCariInput') ? document.getElementById('sarprasCariInput').value.toLowerCase() : '';
+
+      let fTanah = allTanah.filter(function(t) { return selSekolah === 'ALL' || t.nama_sekolah === selSekolah; });
+      let fBangunan = allBangunan.filter(function(b) { return selSekolah === 'ALL' || b.nama_sekolah === selSekolah; });
+      let fRuang = allRuang.filter(function(r) { return selSekolah === 'ALL' || r.nama_sekolah === selSekolah; });
+      let fAlat = allAlat.filter(function(a) { return selSekolah === 'ALL' || a.nama_sekolah === selSekolah; });
+
+      if (searchKey) {
+        fTanah = fTanah.filter(function(t) { return (t.nama_lahan || '').toLowerCase().includes(searchKey) || (t.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fBangunan = fBangunan.filter(function(b) { return (b.nama_bangunan || '').toLowerCase().includes(searchKey) || (b.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fRuang = fRuang.filter(function(r) { return (r.nama_ruang || '').toLowerCase().includes(searchKey) || (r.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fAlat = fAlat.filter(function(a) { return (a.nama_barang || '').toLowerCase().includes(searchKey) || (a.nama_sekolah || '').toLowerCase().includes(searchKey); });
+      }
+
+      document.getElementById('badgeCountTanah').innerText = 'Terdata: ' + fTanah.length + ' Lahan';
+      document.getElementById('badgeCountBangunan').innerText = 'Terdata: ' + fBangunan.length + ' Bangunan';
+      document.getElementById('badgeCountRuang').innerText = 'Terdata: ' + fRuang.length + ' Ruang';
+      document.getElementById('badgeCountAlat').innerText = 'Terdata: ' + fAlat.length + ' Asset/Alat';
+
+      document.getElementById('rekapTanahTableBody').innerHTML = fTanah.length ? fTanah.map(function(t, idx) {
+        let keyPdf = 'tanah_pdf_' + idx;
+        let keyDenah = 'tanah_denah_' + idx;
+        window.previewCache[keyPdf] = { tipe: 'Sertifikat PDF', fileName: 'Sertifikat Tanah', fileData: t.pdf };
+        window.previewCache[keyDenah] = { tipe: 'Denah Lahan', fileName: 'Denah Lahan', fileData: t.denah };
+
+        return '<tr class="border-b">' +
+            '<td class="p-3"><b>' + t.nama_lahan + '</b><br><span class="text-[10px] text-slate-500">' + t.nama_sekolah + '</span></td>' +
+            '<td class="p-3">' + (t.no_sertifikat || '-') + '</td>' +
+            '<td class="p-3">' + (t.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (t.luas || '-') + '</td>' +
+            '<td class="p-3 text-emerald-600 font-bold">' + (t.sisa_lahan || '-') + '</td>' +
+            '<td class="p-3">' + (t.kepemilikan || '-') + '</td>' +
+            '<td class="p-3 text-[10px] space-x-1">' +
+              '<button onclick="previewDokumenKey(\'' + keyPdf + '\')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-semibold">📄 PDF</button>' +
+              '<button onclick="previewDokumenKey(\'' + keyDenah + '\')" class="bg-amber-50 text-amber-600 px-2 py-1 rounded cursor-pointer hover:bg-amber-100 font-semibold">🗺️ Denah</button>' +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah yang sesuai filter.</td></tr>';
+
+      document.getElementById('rekapBangunanTableBody').innerHTML = fBangunan.length ? fBangunan.map(function(b, idx) {
+        let keyPupr = 'bangunan_pupr_' + idx;
+        window.previewCache[keyPupr] = { tipe: 'File PUPR', fileName: 'PUPR ' + b.nama_bangunan, fileData: b.pupr };
+
+        return '<tr class="border-b">' +
+            '<td class="p-3 font-bold">' + b.nama_bangunan + '</td>' +
+            '<td class="p-3">' + b.nama_sekolah + '</td>' +
+            '<td class="p-3">' + (b.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (b.luas || '-') + '</td>' +
+            '<td class="p-3 font-bold text-indigo-700">' + (b.jml_ruang || 1) + ' Ruang</td>' +
+            '<td class="p-3">' + (b.thn_rehab || '-') + '</td>' +
+            '<td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">' + (b.kondisi || 'Baik') + '</span></td>' +
+            '<td class="p-3 text-[10px]">' +
+              '<button onclick="previewDokumenKey(\'' + keyPupr + '\')" class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded cursor-pointer hover:bg-indigo-100 font-semibold">📁 File PUPR</button>' +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data bangunan yang sesuai filter.</td></tr>';
+
+      document.getElementById('rekapRuangTableBody').innerHTML = fRuang.length ? fRuang.map(function(r, idx) {
+        let k1 = 'r_f1_' + idx, k2 = 'r_f2_' + idx, k3 = 'r_f3_' + idx;
+        window.previewCache[k1] = { tipe: 'Foto Sudut 1', fileName: 'Sudut 1', fileData: r.foto1 };
+        window.previewCache[k2] = { tipe: 'Foto Sudut 2', fileName: 'Sudut 2', fileData: r.foto2 };
+        window.previewCache[k3] = { tipe: 'Foto Sudut 3', fileName: 'Sudut 3', fileData: r.foto3 };
+
+        let infoRombel = r.rombel_nama !== '-' ? '<span class="text-indigo-700 font-bold">Rombel: ' + r.rombel_nama + '</span><br><span class="text-[10px] text-slate-500">Bangun: ' + r.thn_pertama + ' | Rehab: ' + r.thn_terakhir + '</span>' : '-';
+
+        return '<tr class="border-b">' +
+            '<td class="p-3 font-bold">' + r.nama_ruang + '</td>' +
+            '<td class="p-3">' + r.nama_sekolah + '</td>' +
+            '<td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">' + r.jenis_ruang + '</span></td>' +
+            '<td class="p-3">' + (r.pxl || '-') + '</td>' +
+            '<td class="p-3 font-bold">' + (r.luas || '-') + '</td>' +
+            '<td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">' + r.kondisi + '</span></td>' +
+            '<td class="p-3 text-xs">' + infoRombel + '</td>' +
+            '<td class="p-3 text-[10px] space-x-1">' +
+              (r.foto1 ? '<button onclick="previewDokumenKey(\'' + k1 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">1</button>' : '-') +
+              (r.foto2 ? '<button onclick="previewDokumenKey(\'' + k2 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">2</button>' : '') +
+              (r.foto3 ? '<button onclick="previewDokumenKey(\'' + k3 + '\')" class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold cursor-pointer hover:bg-indigo-100">3</button>' : '') +
+            '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang yang sesuai filter.</td></tr>';
+
+      document.getElementById('rekapAlatTableBody').innerHTML = fAlat.length ? fAlat.map(function(a) {
+        return '<tr class="border-b">' +
+          '<td class="p-3 font-bold">' + a.nama_barang + '</td>' +
+          '<td class="p-3">' + a.nama_sekolah + '</td>' +
+          '<td class="p-3">' + a.kategori + '</td>' +
+          '<td class="p-3 font-bold">' + a.jumlah + ' Unit</td>' +
+          '<td class="p-3">' +
+            '<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Baik: ' + (a.baik !== undefined ? a.baik : a.jumlah) + '</span> ' +
+            '<span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">Rusak: ' + (a.rusak !== undefined ? a.rusak : 0) + '</span>' +
+          '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data alat yang sesuai filter.</td></tr>';
+    }
+
+    function renderGTKSiswaLengkap() {
+      let syncList = getRegisteredSekolahList();
+      let allGTK = [], allSiswa = [], allRombel = [];
+
+      syncList.forEach(function(s) {
+        let namaSch = s.nama_sekolah || s.nama;
+        if (s.gtk && Array.isArray(s.gtk)) {
+          s.gtk.forEach(function(g) { 
+            allGTK.push({ 
+              nama_sekolah: namaSch, 
+              nama: g.nama, 
+              nip_nik: g.nip_nik || '-', 
+              tempat_lahir: g.tempat_lahir || '-',
+              tgl_lahir: g.tgl_lahir || '-',
+              alamat_ktp: g.alamat_ktp || '-',
+              nuptk: g.nuptk || '-',
+              bidang_sertifikasi: g.bidang_sertifikasi || 'Belum',
+              status_kawin: g.status_kawin || 'Belum Kawin',
+              nama_pasangan: g.nama_pasangan || '-',
+              pekerjaan_pasangan: g.pekerjaan_pasangan || '-',
+              tempat_tugas_pasangan: g.tempat_tugas_pasangan || '-',
+              tugas_guru: g.tugas_guru || 'Guru Kelas',
+              mapel: g.mapel || '-'
+            }); 
+          });
+        }
+        if (s.siswa && Array.isArray(s.siswa)) {
+          s.siswa.forEach(function(si) { 
+            allSiswa.push({ 
+              nama_sekolah: namaSch, 
+              kelas: si.kelas, 
+              tot_l: si.tot_l || 0,
+              tot_p: si.tot_p || 0,
+              u1_l: si.u1_l || 0, u1_p: si.u1_p || 0, 
+              u2_l: si.u2_l || 0, u2_p: si.u2_p || 0, 
+              u3_l: si.u3_l || 0, u3_p: si.u3_p || 0, 
+              do_l: si.do_l || 0, do_p: si.do_p || 0, 
+              residu_l: si.residu_l || 0, residu_p: si.residu_p || 0,
+              pip_l: si.pip_l || 0, pip_p: si.pip_p || 0 
+            }); 
+          });
+        }
+        if (s.ruang && Array.isArray(s.ruang)) {
+          s.ruang.forEach(function(r) { 
+            if (r.jenis === 'Ruang Kelas' && r.rombel_nama) {
+              allRombel.push({ nama_sekolah: namaSch, nama_rombel: r.rombel_nama, thn_bangun: r.thn_pertama || '-', thn_rehab: r.thn_terakhir || '-' }); 
+            }
+          });
+        }
+      });
+
+      let selSekolah = document.getElementById('gtkSiswaSekolahFilter') ? document.getElementById('gtkSiswaSekolahFilter').value : 'ALL';
+      let searchKey = document.getElementById('gtkSiswaCariInput') ? document.getElementById('gtkSiswaCariInput').value.toLowerCase() : '';
+
+      let fGTK = allGTK.filter(function(g) { return selSekolah === 'ALL' || g.nama_sekolah === selSekolah; });
+      let fSiswa = allSiswa.filter(function(s) { return selSekolah === 'ALL' || s.nama_sekolah === selSekolah; });
+      let fRombel = allRombel.filter(function(r) { return selSekolah === 'ALL' || r.nama_sekolah === selSekolah; });
+
+      if (searchKey) {
+        fGTK = fGTK.filter(function(g) { return (g.nama || '').toLowerCase().includes(searchKey) || (g.nip_nik || '').toLowerCase().includes(searchKey) || (g.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fSiswa = fSiswa.filter(function(s) { return (s.kelas || '').toLowerCase().includes(searchKey) || (s.nama_sekolah || '').toLowerCase().includes(searchKey); });
+        fRombel = fRombel.filter(function(ro) { return (ro.nama_rombel || '').toLowerCase().includes(searchKey) || (ro.nama_sekolah || '').toLowerCase().includes(searchKey); });
+      }
+
+      document.getElementById('badgeCountGTK').innerText = 'Total: ' + fGTK.length + ' GTK';
+      document.getElementById('badgeCountSiswa').innerText = 'Total Rekap Kelas: ' + fSiswa.length;
+      document.getElementById('badgeCountRombel').innerText = 'Total: ' + fRombel.length + ' Rombel';
+
+      document.getElementById('rekapGTKTableBody').innerHTML = fGTK.length ? fGTK.map(function(g) {
+        let kawinInfo = g.status_kawin;
+        if (g.status_kawin === 'Kawin Tercatat') {
+          kawinInfo += '<br><span class="text-[10px] text-slate-600">Pasangan: ' + g.nama_pasangan + ' (' + g.pekerjaan_pasangan + ' di ' + g.tempat_tugas_pasangan + ')</span>';
+        }
+        let tugasInfo = '<span class="font-bold text-indigo-700">' + g.tugas_guru + '</span>';
+        if (g.tugas_guru === 'Guru Mapel') {
+          tugasInfo += '<br><span class="text-[10px] text-slate-600">Mapel: ' + g.mapel + '</span>';
+        }
+
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3"><p class="font-bold text-slate-800">' + g.nama + '</p><p class="text-indigo-700 font-mono text-[10px]">NIP/NIK: ' + g.nip_nik + '</p></td>' +
+          '<td class="p-3">' + g.nama_sekolah + '</td>' +
+          '<td class="p-3"><span>TTL: ' + g.tempat_lahir + ', ' + g.tgl_lahir + '</span><br><span class="text-[10px] text-slate-500">Alamat: ' + g.alamat_ktp + '</span></td>' +
+          '<td class="p-3"><span>NUPTK: ' + g.nuptk + '</span><br><span class="text-[10px] text-emerald-700 font-semibold">Serdik: ' + g.bidang_sertifikasi + '</span></td>' +
+          '<td class="p-3 text-xs">' + kawinInfo + '</td>' +
+          '<td class="p-3 text-xs">' + tugasInfo + '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada data GTK yang sesuai filter.</td></tr>';
+
+      document.getElementById('rekapSiswaTableBody').innerHTML = fSiswa.length ? fSiswa.map(function(s) {
+        return '<tr class="border-b text-center hover:bg-slate-50">' +
+            '<td class="p-3 text-left font-bold text-slate-800 border-r">' + s.nama_sekolah + '</td>' +
+            '<td class="p-3 text-left font-semibold text-indigo-700 border-r">' + s.kelas + '</td>' +
+            '<td class="p-3 bg-sky-50 font-bold">' + s.tot_l + '</td><td class="p-3 bg-sky-50 font-bold border-r">' + s.tot_p + '</td>' +
+            '<td class="p-3 bg-indigo-50/50">' + s.u1_l + '</td><td class="p-3 bg-indigo-50/50 border-r">' + s.u1_p + '</td>' +
+            '<td class="p-3 bg-indigo-100/40">' + s.u2_l + '</td><td class="p-3 bg-indigo-100/40 border-r">' + s.u2_p + '</td>' +
+            '<td class="p-3 bg-sky-100/40">' + s.u3_l + '</td><td class="p-3 bg-sky-100/40 border-r">' + s.u3_p + '</td>' +
+            '<td class="p-3 bg-amber-50/30 text-amber-800 font-bold">' + s.do_l + '</td><td class="p-3 bg-amber-50/30 text-amber-800 font-bold border-r">' + s.do_p + '</td>' +
+            '<td class="p-3 bg-purple-50/30 text-purple-800 font-bold">' + s.residu_l + '</td><td class="p-3 bg-purple-50/30 text-purple-800 font-bold border-r">' + s.residu_p + '</td>' +
+            '<td class="p-3 bg-emerald-50/30 text-emerald-800">' + s.pip_l + '</td><td class="p-3 bg-emerald-50/30 text-emerald-800 border-r">' + s.pip_p + '</td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="16" class="p-6 text-center text-slate-400">Belum ada data rekap peserta didik.</td></tr>';
+
+      document.getElementById('rekapRombelTableBody').innerHTML = fRombel.length ? fRombel.map(function(ro) {
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3 font-bold text-slate-800">' + ro.nama_sekolah + '</td>' +
+          '<td class="p-3 font-semibold text-indigo-700">' + ro.nama_rombel + '</td>' +
+          '<td class="p-3">Bangun: ' + ro.thn_bangun + ' | Rehab: ' + ro.thn_rehab + '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="3" class="p-6 text-center text-slate-400">Belum ada data rombel.</td></tr>';
+    }
+
+function renderTabelRekapSinkron() {
+      let syncList = JSON.parse(localStorage.getItem('master_sinkron_list') || '[]');
+      let regUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      
+      let allCombined = [];
+
+      // Jika belum ada user terdaftar tapi ada data sinkron, buat list dari sinkron
+      if (regUsers.length === 0 && syncList.length > 0) {
+        syncList.forEach(function(s) {
+          regUsers.push({
+            username: s.operator || 'Operator',
+            nama_sekolah: s.nama_sekolah || s.nama,
+            npsn: s.npsn,
+            jenjang: s.jenjang || 'SD',
+            status: 'Disetujui'
+          });
+        });
+        localStorage.setItem('registered_users', JSON.stringify(regUsers));
+      }
+
+      regUsers.forEach(function(u) {
+        let matchedSync = syncList.find(function(s) { 
+          return (s.npsn && u.npsn && s.npsn.trim() === u.npsn.trim()) || 
+                 ((s.nama_sekolah || s.nama || '').toLowerCase() === (u.nama_sekolah || u.nama || '').toLowerCase()); 
+        });
+
+        if (matchedSync) {
+          allCombined.push({
+            nama_sekolah: matchedSync.nama_sekolah || matchedSync.nama || u.nama_sekolah,
+            npsn: matchedSync.npsn || u.npsn || '-',
+            jenjang: matchedSync.jenjang || u.jenjang || 'SD',
+            status: 'Ter-Sinkron',
+            waktu: matchedSync.waktu_sinkron || matchedSync.created_at || new Date().toISOString(),
+            jumlah_item: (matchedSync.ruang ? matchedSync.ruang.length : 0) + (matchedSync.gtk ? matchedSync.gtk.length : 0) + (matchedSync.tanah ? matchedSync.tanah.length : 0)
+          });
+        } else {
+          allCombined.push({
+            nama_sekolah: u.nama_sekolah || u.nama || u.username || 'Sekolah',
+            npsn: u.npsn || '-',
+            jenjang: u.jenjang || 'SD',
+            status: 'Draft',
+            waktu: '-',
+            jumlah_item: 0
+          });
+        }
+      });
+
+      let keyword = document.getElementById('filterSyncCari') ? document.getElementById('filterSyncCari').value.toLowerCase() : '';
+      let filterStatus = document.getElementById('filterSyncStatus') ? document.getElementById('filterSyncStatus').value : 'ALL';
+      let filterJenjang = document.getElementById('filterSyncJenjang') ? document.getElementById('filterSyncJenjang').value : 'ALL';
+
+      let filtered = allCombined.filter(function(s) {
+        let matchName = (s.nama_sekolah || '').toLowerCase().includes(keyword) || (s.npsn || '').includes(keyword);
+        let matchStatus = filterStatus === 'ALL' || s.status === filterStatus;
+        let matchJenjang = filterJenjang === 'ALL' || (s.jenjang || 'SD').toUpperCase() === filterJenjang.toUpperCase();
+        return matchName && matchStatus && matchJenjang;
+      });
+
+      const tbody = document.getElementById('rekapSinkronTableBody');
+      if (!tbody) return;
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400">Tidak ada log sinkronisasi atau sekolah yang sesuai filter.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(function(s) {
+        let badgeStatus = s.status === 'Ter-Sinkron' ? 
+          '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Ter-Sinkron</span>' : 
+          '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700">Draft (Belum Sinkron)</span>';
+        
+        let waktuStr = s.waktu !== '-' ? new Date(s.waktu).toLocaleString('id-ID') : '<span class="text-slate-400 italic">Belum pernah sinkron</span>';
+
+        return '<tr class="border-b hover:bg-slate-50">' +
+          '<td class="p-3.5 font-bold">' + s.nama_sekolah + '</td>' +
+          '<td class="p-3.5 font-mono text-indigo-700 font-bold">' + s.npsn + '</td>' +
+          '<td class="p-3.5 text-center"><span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">' + s.jenjang + '</span></td>' +
+          '<td class="p-3.5 text-center">' + badgeStatus + '</td>' +
+          '<td class="p-3.5 text-center text-slate-600">' + waktuStr + '</td>' +
+          '<td class="p-3.5 text-center font-bold text-emerald-700">⚡ ' + s.jumlah_item + ' Item</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    async function fetchUsers() {
+      const tbody = document.getElementById('userTableBody');
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+
+      document.getElementById('badgeTotalUsers').innerText = 'Terdaftar: ' + users.length + ' User';
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">Belum ada user sekolah yang terdaftar.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = users.map(function(u, index) {
+        const usernameDisplay = u.operator || u.username || 'OPS';
+        const instansiDisplay = u.nama_sekolah || u.nama || u.instansi || 'SEKOLAH';
+        const statusUser = u.status || 'Pending';
+        const isApproved = statusUser === 'Disetujui' || statusUser === 'Aktif' || statusUser === 'approved';
+        const isRejected = statusUser === 'Ditolak' || statusUser === 'rejected';
+
+        let badgeColor = 'bg-amber-100 text-amber-700';
+        if (isApproved) badgeColor = 'bg-emerald-100 text-emerald-700';
+        if (isRejected) badgeColor = 'bg-rose-100 text-rose-700';
+
+        return '<tr class="hover:bg-slate-50 border-b">' +
+            '<td class="p-3.5 font-bold text-slate-900">' + usernameDisplay + '</td>' +
+            '<td class="p-3.5 font-semibold text-slate-800">' + instansiDisplay + '</td>' +
+            '<td class="p-3.5 font-mono text-indigo-600 font-bold">' + (u.npsn || '-') + ' (' + (u.jenjang || 'SD') + ')</td>' +
+            '<td class="p-3.5 text-center">' +
+              '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ' + badgeColor + '">' +
+                statusUser +
+              '</span>' +
+            '</td>' +
+            '<td class="p-3.5 text-center">' +
+              '<div class="flex items-center justify-center gap-1.5 flex-wrap">' +
+                (!isApproved ?
+                  '<button onclick="setujuiUser(' + index + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✓ Setuju</button>' :
+                  '<button class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✓ Disetujui</button>') +
+                (!isRejected ?
+                  '<button onclick="tolakUser(' + index + ')" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">✕ Tolak</button>' :
+                  '<button class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-[10px] font-bold cursor-default">✕ Ditolak</button>') +
+                '<button onclick="resetPasswordUser(' + index + ')" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🔑 Reset</button>' +
+                '<button onclick="hapusUser(' + index + ')" class="bg-slate-700 hover:bg-slate-800 text-white px-2.5 py-1 rounded text-[10px] font-bold shadow-sm transition cursor-pointer">🗑️ Hapus</button>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    async function setujuiUser(index) {
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (users[index]) {
+        users[index].status = 'Disetujui';
+        localStorage.setItem('registered_users', JSON.stringify(users));
+        alert('Akses untuk sekolah berhasil disetujui!');
+        fetchUsers();
+      }
+    }
+
+    async function tolakUser(index) {
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (users[index]) {
+        users[index].status = 'Ditolak';
+        localStorage.setItem('registered_users', JSON.stringify(users));
+        fetchUsers();
+      }
+    }
+
+    function resetPasswordUser(index) {
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (users[index]) {
+        users[index].password = '123456';
+        localStorage.setItem('registered_users', JSON.stringify(users));
+        alert('Password berhasil direset menjadi 123456');
+      }
+    }
+
+    function hapusUser(index) {
+      let users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (users[index]) {
+        if (confirm('⚠️ Apakah Anda yakin ingin menghapus user ini?')) {
+          users.splice(index, 1);
+          localStorage.setItem('registered_users', JSON.stringify(users));
+          alert('User berhasil dihapus!');
+          fetchUsers();
+        }
+      }
+    }
+    
+    function updateBerandaStats() {
+      masterSekolah = getRegisteredSekolahList();
+      let reg = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      let totalGTK = 0, totalSiswa = 0;
+
+      masterSekolah.forEach(function(s) {
+        if (s.gtk && Array.isArray(s.gtk)) totalGTK += s.gtk.length;
+        if (s.siswa && Array.isArray(s.siswa)) {
+          s.siswa.forEach(function(sw) {
+            totalSiswa += (parseInt(sw.tot_l) || 0) + (parseInt(sw.tot_p) || 0);
+          });
+        }
+      });
+
+      if(document.getElementById('statTotalSekolah')) document.getElementById('statTotalSekolah').innerText = masterSekolah.length;
+      if(document.getElementById('statSinkron')) document.getElementById('statSinkron').innerText = masterSekolah.length;
+      if(document.getElementById('statDraft')) document.getElementById('statDraft').innerText = reg.filter(function(x) { return x.status === 'Pending'; }).length;
+      if(document.getElementById('statTotalGTK')) document.getElementById('statTotalGTK').innerText = totalGTK;
+      if(document.getElementById('statTotalSiswa')) document.getElementById('statTotalSiswa').innerText = totalSiswa;
+    }
+
+    function exportTabelKeExcel(containerId, namaFile) {
+      let container = document.getElementById(containerId);
+      if (!container) return alert('Data tabel tidak ditemukan.');
+      let htmlFormated = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + container.innerHTML + '</body></html>';
+      downloadBlob(new Blob([htmlFormated], { type: 'application/vnd.ms-excel' }), namaFile);
+    }
+
+    function exportTabelProfilSekolahExcel() {
+      masterSekolah = getRegisteredSekolahList();
+      if (!masterSekolah.length) return alert('Tidak ada data sekolah untuk diexport.');
+      
+      let cleanHtml = '<table border="1"><thead><tr><th>NPSN</th><th>Nama Sekolah</th><th>Jenjang</th><th>Status / Akreditasi</th><th>Kepala Sekolah & NIP</th><th>Operator & WA</th><th>Inventaris TIK</th><th>Status Sinkron</th></tr></thead><tbody>';
+      masterSekolah.forEach(function(s) {
+        let tikStr = s.tik && Array.isArray(s.tik) ? s.tik.map(function(t) { return t.nama + ': ' + t.jumlah + ' (' + t.kondisi + ')'; }).join(', ') : '-';
+        cleanHtml += '<tr>' +
+          '<td>' + (s.npsn || '-') + '</td>' +
+          '<td>' + (s.nama_sekolah || s.nama || '-') + '</td>' +
+          '<td>' + (s.jenjang || 'SD') + '</td>' +
+          '<td>' + (s.status_sekolah || '-') + ' / ' + (s.akreditasi || '-') + '</td>' +
+          '<td>' + (s.nama_kepala_sekolah || '-') + ' (NIP: ' + (s.nip_kepala_sekolah || '-') + ')</td>' +
+          '<td>' + (s.operator || '-') + ' (' + (s.wa_operator || '-') + ')</td>' +
+          '<td>' + tikStr + '</td>' +
+          '<td>Ter-Sinkron</td>' +
+        '</tr>';
+      });
+      cleanHtml += '</tbody></table>';
+
+      downloadBlob(new Blob(['<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + cleanHtml + '</body></html>'], { type: 'application/vnd.ms-excel' }), 'Rekap_Profil_Sekolah_TIK_Clean.xls');
+    }
+
+    function exportSarprasAktifKeExcel() {
+      let subTanahHidden = document.getElementById('subSarprasTanahContent').classList.contains('hidden');
+      let subRuangHidden = document.getElementById('subSarprasRuangContent').classList.contains('hidden');
+      let tempDiv = document.createElement('div');
+      
+      if (!subTanahHidden) {
+        tempDiv.innerHTML = '<h3>REKAPITULASI TANAH & BANGUNAN</h3>' + document.getElementById('subSarprasTanahContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Tanah_Bangunan.xls');
+      } else if (!subRuangHidden) {
+        tempDiv.innerHTML = '<h3>REKAPITULASI RUANG</h3>' + document.getElementById('subSarprasRuangContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Ruang.xls');
+      } else {
+        tempDiv.innerHTML = '<h3>REKAPITULASI ALAT & ASSET</h3>' + document.getElementById('subSarprasAlatContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Sarpras_Alat.xls');
+      }
+    }
+
+    function exportGTKSiswaAktifKeExcel() {
+      let subGTKHidden = document.getElementById('subGTKContent').classList.contains('hidden');
+      let subSiswaHidden = document.getElementById('subSiswaContent').classList.contains('hidden');
+      let tempDiv = document.createElement('div');
+      if (!subGTKHidden) {
+        tempDiv.innerHTML = '<h3>REKAP GTK</h3>' + document.getElementById('subGTKContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Data_GTK.xls');
+      } else if (!subSiswaHidden) {
+        tempDiv.innerHTML = '<h3>REKAP PESERTA DIDIK</h3>' + document.getElementById('subSiswaContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Peserta_Didik_SPM.xls');
+      } else {
+        tempDiv.innerHTML = '<h3>REKAP ROMBONGAN BELAJAR</h3>' + document.getElementById('subRombelContent').innerHTML;
+        downloadBlob(new Blob(['\ufeff' + tempDiv.innerHTML], { type: 'application/vnd.ms-excel' }), 'Rekap_Rombongan_Belajar.xls');
+      }
+    }
+
+    function downloadBlob(blob, fileName) {
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login.html';
+    }
+
+    fetchSekolah();
+    updateBerandaStats();
+    renderGrafikBeranda();
   </script>
 </body>
 </html>
