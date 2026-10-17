@@ -65,8 +65,12 @@ exports.login = async (req, res) => {
       }
     });
 
-  } catch (err) {
-    console.error('Error pada authController login:', err.message);
-    res.status(500).json({ message: 'Server Error saat melakukan autentikasi database' });
-  }
-};
+  } catch (error) {
+  // Cetak error secara lengkap beserta stack trace-nya ke log Railway
+  console.error('Error pada authController login:', error.message);
+  console.error(error.stack);
+  res.status(500).json({ 
+    message: 'Server Error saat melakukan autentikasi database', 
+    detail: error.message 
+  });
+}
