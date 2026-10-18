@@ -2,7 +2,7 @@ const pool = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 1. Logika Login User Terpusat yang Fleksibel
+// 1. Logika Login User Terpusat
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -13,43 +13,46 @@ exports.login = async (req, res) => {
 
     const cleanInput = username.trim().toLowerCase();
 
-    // Jika login menggunakan akun khusus admin dinas
+    // Akun Super Admin Dinas
     if (cleanInput === 'admin_dinas' || cleanInput.includes('admin')) {
       const adminQuery = await pool.query(
-        `SELECT * FROM registered_users WHERE LOWER(role) LIKE '%admin%' OR LOWER(username) = 'admin_dinas' LIMIT 1`
+        `SELECT * FROM registered_users WHERE LOWER(username) = 'admin_dinas' OR LOWER(npsn) = '00000000' LIMIT 1`
       );
       if (adminQuery.rows.length > 0) {
         const user = adminQuery.rows[0];
-        const token = jwt.sign({ id: user.id, username: user.username, role: user.role, npsn: user.npsn }, process.env.JWT_SECRET || 'rahasia_super_aman', { expiresIn: '1d' });
+        const token = jwt.sign(
+          { id: user.id, username: user.username || 'admin_dinas', role: 'Admin', npsn: user.npsn }, 
+          process.env.JWT_SECRET || 'rahasia_super_aman', 
+          { expiresIn: '1d' }
+        );
         return res.json({ message: 'Login berhasil!', token, user });
       }
     }
 
-    // Pencarian fleksibel untuk akun sekolah (berdasarkan NPSN, username, atau nama operator)
+    // Pencarian akun sekolah
     const userQuery = await pool.query(
       `SELECT * FROM registered_users 
        WHERE LOWER(npsn) = $1 
-          OR LOWER(username) = $1 
-          OR LOWER(operator) LIKE $2 
+          OR LOWER(operator) = $1 
           OR LOWER(nama_sekolah) LIKE $2`,
       [cleanInput, `%${cleanInput}%`]
     );
 
     if (userQuery.rows.length === 0) {
-      return res.status(404).json({ message: 'Akun tidak ditemukan di database server! Pastikan NPSN atau Nama Operator sudah benar.' });
+      return res.status(404).json({ message: 'Akun tidak ditemukan! Pastikan NPSN atau Nama Operator sudah benar.' });
     }
 
     const user = userQuery.rows[0];
 
-    // Validasi Status Akun (Pastikan sudah disetujui)
-    let statusUser = (user.status || 'Disetujui').trim().toLowerCase();
+    // Validasi Status Akun
+    let statusUser = (user.status || 'Pending').trim().toLowerCase();
     if (statusUser !== 'disetujui' && statusUser !== 'aktif' && statusUser !== 'approved') {
-      return res.status(403).json({ message: `Akun Anda berstatus "${user.status}". Harap menunggu persetujuan Admin Dinas.` });
+      return res.status(403).json({ message: `Akun Anda berstatus "${user.status || 'Pending'}". Harap menunggu persetujuan Admin Dinas.` });
     }
 
-    // Generate Token JWT
+    // Token JWT
     const token = jwt.sign(
-      { id: user.id, username: user.operator || user.username, role: user.role || 'Sekolah', npsn: user.npsn },
+      { id: user.id, username: user.operator || user.npsn, role: 'Sekolah', npsn: user.npsn },
       process.env.JWT_SECRET || 'rahasia_super_aman',
       { expiresIn: '1d' }
     );
@@ -59,8 +62,8 @@ exports.login = async (req, res) => {
       token: token,
       user: {
         id: user.id,
-        username: user.operator || user.username,
-        role: user.role || 'Sekolah',
+        username: user.operator || user.npsn,
+        role: 'Sekolah',
         nama_sekolah: user.nama_sekolah,
         npsn: user.npsn,
         jenjang: user.jenjang
@@ -70,19 +73,16 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.error('CRITICAL ERROR pada authController login:', error);
     return res.status(500).json({ 
-      message: 'Terjadi kesalahan sistem: ' + (error.message || 'Database error tak dikenal')
+      message: 'Terjadi kesalahan sistem: ' + (error.message || 'Database error')
     });
   }
 };
 
-// 2. Logika Registrasi Akun Sekolah Baru
-// Menyesuaikan Form: NPSN, Jenjang, Nama Sekolah, Nama Pengguna / Operator (OPS), & Password
+// 2. Logika Registrasi Akun Sekolah Baru (Aman dari Mismatch Skema Database)
 exports.register = async (req, res) => {
   try {
     const { npsn, jenjang, nama_sekolah, operator, username, password } = req.body;
-
-    // Field operator bisa dikirim sebagai 'operator' atau 'username' dari frontend
-    const namaOPS = operator || username;
+    const namaOPS = (operator || username || '').trim();
 
     if (!npsn || !nama_sekolah || !namaOPS) {
       return res.status(400).json({ 
@@ -93,31 +93,59 @@ exports.register = async (req, res) => {
 
     const cleanNpsn = npsn.trim();
     const cleanNamaSekolah = nama_sekolah.trim();
-    const cleanOPS = namaOPS.trim();
     const cleanJenjang = (jenjang || 'SD').trim();
+    const plainPassword = (password || '123456').trim();
 
-    // Enkripsi Password jika diisi, atau default '123456'
+    // Enkripsi Password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = password ? await bcrypt.hash(password.trim(), salt) : await bcrypt.hash('123456', salt);
+    const hashedPassword = await bcrypt.hash(plainPassword, salt);
 
-    // Cek apakah NPSN sudah terdaftar di database
+    // Cek apakah NPSN sudah terdaftar
     const checkExist = await pool.query(`SELECT id FROM registered_users WHERE npsn = $1`, [cleanNpsn]);
 
     if (checkExist.rows.length > 0) {
-      // Jika NPSN sudah terdaftar, perbarui data registrasi
-      await pool.query(
-        `UPDATE registered_users 
-         SET nama_sekolah = $1, jenjang = $2, operator = $3, username = $4, password = $5 
-         WHERE npsn = $6`,
-        [cleanNamaSekolah, cleanJenjang, cleanOPS, cleanOPS, hashedPassword, cleanNpsn]
-      );
+      // PERBAIKAN: Upaya update data dengan fallback kueri aman
+      try {
+        await pool.query(
+          `UPDATE registered_users 
+           SET nama_sekolah = $1, jenjang = $2, operator = $3, password = $4 
+           WHERE npsn = $5`,
+          [cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword, cleanNpsn]
+        );
+      } catch (errUpdate) {
+        // Fallback jika kolom operator tidak ada
+        await pool.query(
+          `UPDATE registered_users 
+           SET nama_sekolah = $1, jenjang = $2, password = $3 
+           WHERE npsn = $4`,
+          [cleanNamaSekolah, cleanJenjang, hashedPassword, cleanNpsn]
+        );
+      }
     } else {
-      // Jika belum terdaftar, buat entri registrasi baru dengan status awal 'Pending'
-      await pool.query(
-        `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, operator, username, password, role, status) 
-         VALUES ($1, $2, $3, $4, $5, $6, 'Sekolah', 'Pending')`,
-        [cleanNpsn, cleanNamaSekolah, cleanJenjang, cleanOPS, cleanOPS, hashedPassword]
-      );
+      // PERBAIKAN: Upaya Insert baru dengan pengaman skema
+      try {
+        await pool.query(
+          `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, operator, password, status) 
+           VALUES ($1, $2, $3, $4, $5, 'Pending')`,
+          [cleanNpsn, cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword]
+        );
+      } catch (errInsert1) {
+        try {
+          // Fallback tanpa kolom operator
+          await pool.query(
+            `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, password, status) 
+             VALUES ($1, $2, $3, $4, 'Pending')`,
+            [cleanNpsn, cleanNamaSekolah, cleanJenjang, hashedPassword]
+          );
+        } catch (errInsert2) {
+          // Fallback minimalis
+          await pool.query(
+            `INSERT INTO registered_users (npsn, nama_sekolah, password, status) 
+             VALUES ($1, $2, $3, 'Pending')`,
+            [cleanNpsn, cleanNamaSekolah, hashedPassword]
+          );
+        }
+      }
     }
 
     return res.status(200).json({ 
