@@ -514,7 +514,6 @@
   </div>
 
   <!-- JAVASCRIPT SYSTEM ENGINE -->
-  <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -543,8 +542,19 @@
       }
     }
 
-    // Ambil data server dengan pengaman total agar tidak memblokir tombol
+    // Ambil data server dengan pengaman total
     function loadServerData() {
+      fetch('/api/auth/users', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(res => res.json())
+      .then(resData => {
+        if (resData) {
+          globalServerData.users = resData.users || [];
+        }
+      })
+      .catch(err => console.error('Background fetch warning:', err));
+
       fetch('/api/sekolah/all', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
@@ -552,7 +562,6 @@
       .then(resData => {
         if (resData) {
           globalServerData.schools = resData.data || [];
-          globalServerData.users = resData.users || [];
         }
       })
       .catch(err => console.error('Background fetch warning:', err));
@@ -1146,17 +1155,14 @@
       }).join('');
     }
 
-// MANAJEMEN USER (DISESUAIKAN DENGAN STRUKTUR RESPON BACKEND)
+    // MANAJEMEN USER (DISESUAIKAN PRESISI DENGAN API AUTH BACKEND)
     function fetchUsers() {
-      fetch('/api/sekolah/all', {
+      fetch('/api/auth/users', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
       .then(res => res.json())
       .then(resData => {
-        // Backend mengembalikan array user pada properti 'users'
         globalServerData.users = resData.users || [];
-        globalServerData.schools = resData.data || [];
-        
         let users = globalServerData.users;
         const tbody = document.getElementById('userTableBody');
         if (!tbody) return;
@@ -1169,7 +1175,6 @@
         }
 
         tbody.innerHTML = users.map(function(u) {
-          // Menyesuaikan dengan kolom database: operator, nama_sekolah, npsn, jenjang, status
           const usernameDisplay = u.operator || u.username || 'Operator';
           const instansiDisplay = u.nama_sekolah || u.nama || 'Sekolah';
           const statusUser = u.status || 'Pending';
@@ -1210,44 +1215,59 @@
       });
     }
 
+    // DISESUAIKAN UNTUK SINKRON DENGAN POST /api/auth/update-status
     function setujuiUser(npsn) {
-      fetch('/api/sekolah/user-status', {
-        method: 'PUT',
+      fetch('/api/auth/update-status', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ npsn, status: 'Disetujui' })
+        body: JSON.stringify({ npsn: npsn, status: 'Disetujui' })
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Gagal menyetujui user');
-        alert('Akses untuk sekolah berhasil disetujui!');
-        fetchUsers();
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Akses untuk sekolah berhasil disetujui!');
+          fetchUsers();
+        } else {
+          alert('Gagal menyetujui user: ' + (data.message || data.error));
+        }
       })
       .catch(err => alert('Error: ' + err.message));
     }
 
     function tolakUser(npsn) {
-      fetch('/api/sekolah/user-status', {
-        method: 'PUT',
+      fetch('/api/auth/update-status', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ npsn, status: 'Ditolak' })
+        body: JSON.stringify({ npsn: npsn, status: 'Ditolak' })
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Gagal menolak user');
-        fetchUsers();
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Permohonan registrasi diset ke Ditolak.');
+          fetchUsers();
+        } else {
+          alert('Gagal menolak user: ' + (data.message || data.error));
+        }
       })
       .catch(err => alert('Error: ' + err.message));
     }
 
+    // DISESUAIKAN UNTUK SINKRON DENGAN DELETE /api/auth/users/:npsn
     function hapusUser(npsn) {
-      if (!confirm('⚠️ Apakah Anda yakin ingin menghapus user dan seluruh data sekolah ini secara permanen dari database?')) return;
+      if (!confirm('⚠️ Apakah Anda yakin ingin menghapus user ini secara permanen dari database?')) return;
 
-      fetch('/api/sekolah/user/' + npsn, {
+      fetch('/api/auth/users/' + npsn, {
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Gagal menghapus user');
-        alert('User dan seluruh data sekolah terkait berhasil dihapus bersih dari database!');
-        fetchUsers();
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('User berhasil dihapus bersih dari database!');
+          fetchUsers();
+        } else {
+          alert('Gagal menghapus user: ' + (data.message || data.error));
+        }
       })
       .catch(err => alert('Error: ' + err.message));
     }
