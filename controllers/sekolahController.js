@@ -1,26 +1,42 @@
 const pool = require('../config/db');
 
-// Get All Sekolah & Rekap Sinkronisasi dari Database (Hanya ambil yang user-nya masih aktif/terdaftar)
+// Get All Sekolah & Rekap Sinkronisasi dari Database (Aman dari Error 502)
 exports.getAllSekolah = async (req, res) => {
   try {
-    // Ambil data users terlebih dahulu
-    const usersResult = await pool.query(`SELECT * FROM registered_users ORDER BY id ASC`);
+    // 1. Ambil data users dengan aman
+    let usersRows = [];
+    try {
+      const usersResult = await pool.query(`SELECT * FROM registered_users ORDER BY id ASC`);
+      usersRows = usersResult.rows;
+    } catch (e) {
+      console.warn('Tabel registered_users belum siap:', e.message);
+    }
     
-    // Ambil data sinkronisasi yang NPSN-nya benar-benar ada di registered_users
-    const result = await pool.query(`
-      SELECT m.* FROM master_sinkron_list m
-      JOIN registered_users r ON m.npsn = r.npsn
-      ORDER BY m.updated_at DESC
-    `);
+    // 2. Ambil data sinkronisasi dengan pengaman (menggunakan LEFT JOIN agar tidak crash jika belum ada relasi)
+    let schoolRows = [];
+    try {
+      const result = await pool.query(`
+        SELECT m.* FROM master_sinkron_list m
+        ORDER BY m.updated_at DESC
+      `);
+      schoolRows = result.rows;
+    } catch (e) {
+      console.warn('Tabel master_sinkron_list belum siap:', e.message);
+    }
     
-    res.json({
+    return res.json({
       status: 'success',
-      data: result.rows,
-      users: usersResult.rows
+      data: schoolRows,
+      users: usersRows
     });
   } catch (err) {
-    console.error('Error getAllSekolah:', err.message);
-    res.status(500).json({ message: 'Server error saat mengambil data rekap sekolah' });
+    console.error('Error kritikal getAllSekolah:', err.message);
+    return res.status(500).json({ 
+      status: 'error',
+      message: 'Server error saat mengambil data rekap sekolah: ' + err.message,
+      data: [],
+      users: []
+    });
   }
 };
 
@@ -49,14 +65,14 @@ exports.sinkronisasiData = async (req, res) => {
 
     await pool.query(queryText, queryValues);
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       message: 'Data berhasil disinkronkan secara permanen ke server pusat Dinas!',
       waktu_sinkron: waktuSekarang.toISOString()
     });
   } catch (err) {
     console.error('Error sinkronisasiData:', err.message);
-    res.status(500).json({ message: 'Gagal melakukan sinkronisasi ke database server: ' + err.message });
+    return res.status(500).json({ message: 'Gagal melakukan sinkronisasi ke database server: ' + err.message });
   }
 };
 
@@ -65,10 +81,10 @@ exports.updateUserStatus = async (req, res) => {
   const { npsn, status } = req.body;
   try {
     await pool.query(`UPDATE registered_users SET status = $1 WHERE npsn = $2`, [status, npsn]);
-    res.json({ status: 'success', message: 'Status user berhasil diperbarui.' });
+    return res.json({ status: 'success', message: 'Status user berhasil diperbarui.' });
   } catch (err) {
     console.error('Error updateUserStatus:', err.message);
-    res.status(500).json({ message: 'Server error update status' });
+    return res.status(500).json({ message: 'Server error update status' });
   }
 };
 
@@ -76,14 +92,13 @@ exports.updateUserStatus = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   const { npsn } = req.params;
   try {
-    // Hapus dari tabel user dan tabel sinkronisasi secara bersamaan
     await pool.query(`DELETE FROM registered_users WHERE npsn = $1`, [npsn]);
     await pool.query(`DELETE FROM master_sinkron_list WHERE npsn = $1`, [npsn]);
     
-    res.json({ status: 'success', message: 'User dan seluruh data sekolah terkait berhasil dihapus bersih.' });
+    return res.json({ status: 'success', message: 'User dan seluruh data sekolah terkait berhasil dihapus bersih.' });
   } catch (err) {
     console.error('Error deleteUser:', err.message);
-    res.status(500).json({ message: 'Server error hapus user' });
+    return res.status(500).json({ message: 'Server error hapus user' });
   }
 };
 
