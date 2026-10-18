@@ -96,7 +96,6 @@ exports.register = async (req, res) => {
     const cleanJenjang = (jenjang || 'SD').trim();
     const plainPassword = (password || '123456').trim();
 
-    // Enkripsi Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(plainPassword, salt);
 
@@ -104,60 +103,33 @@ exports.register = async (req, res) => {
     const checkExist = await pool.query(`SELECT id FROM registered_users WHERE npsn = $1`, [cleanNpsn]);
 
     if (checkExist.rows.length > 0) {
-      // PERBAIKAN: Upaya update data dengan fallback kueri aman
-      try {
-        await pool.query(
-          `UPDATE registered_users 
-           SET nama_sekolah = $1, jenjang = $2, operator = $3, password = $4 
-           WHERE npsn = $5`,
-          [cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword, cleanNpsn]
-        );
-      } catch (errUpdate) {
-        // Fallback jika kolom operator tidak ada
-        await pool.query(
-          `UPDATE registered_users 
-           SET nama_sekolah = $1, jenjang = $2, password = $3 
-           WHERE npsn = $4`,
-          [cleanNamaSekolah, cleanJenjang, hashedPassword, cleanNpsn]
-        );
-      }
+      await pool.query(
+        `UPDATE registered_users 
+         SET nama_sekolah = $1, jenjang = $2, operator = $3, password = $4 
+         WHERE npsn = $5`,
+        [cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword, cleanNpsn]
+      );
     } else {
-      // PERBAIKAN: Upaya Insert baru dengan pengaman skema
-      try {
-        await pool.query(
-          `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, operator, password, status) 
-           VALUES ($1, $2, $3, $4, $5, 'Pending')`,
-          [cleanNpsn, cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword]
-        );
-      } catch (errInsert1) {
-        try {
-          // Fallback tanpa kolom operator
-          await pool.query(
-            `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, password, status) 
-             VALUES ($1, $2, $3, $4, 'Pending')`,
-            [cleanNpsn, cleanNamaSekolah, cleanJenjang, hashedPassword]
-          );
-        } catch (errInsert2) {
-          // Fallback minimalis
-          await pool.query(
-            `INSERT INTO registered_users (npsn, nama_sekolah, password, status) 
-             VALUES ($1, $2, $3, 'Pending')`,
-            [cleanNpsn, cleanNamaSekolah, hashedPassword]
-          );
-        }
-      }
+      await pool.query(
+        `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, operator, password, role, status) 
+         VALUES ($1, $2, $3, $4, $5, 'Sekolah', 'Pending')`,
+        [cleanNpsn, cleanNamaSekolah, cleanJenjang, namaOPS, hashedPassword]
+      );
     }
 
     return res.status(200).json({ 
       success: true, 
-      message: 'Permohonan registrasi berhasil dikirim! Silakan menunggu persetujuan Admin Dinas.' 
+      message: 'Permohonan registrasi berhasil dikirim!' 
     });
 
   } catch (error) {
-    console.error('CRITICAL ERROR pada authController register:', error);
+    // CETAK DETAIL ERROR ASLI KE KONSOL RAILWAY
+    console.error('DETAIL ERROR REGISTER SQL:', error.message);
+    console.error('DETAIL LENGKAP:', error);
+    
     return res.status(500).json({ 
       success: false, 
-      message: 'Gagal melakukan registrasi: ' + (error.message || 'Server error') 
+      message: 'Gagal melakukan registrasi: ' + error.message 
     });
   }
 };
