@@ -5,7 +5,7 @@ const verifyToken = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
 // Semua route di bawah dilindungi oleh JWT Middleware
-router.get('/', verifyToken, sekolahController.getAllSekolah);
+router.get('/all', verifyToken, sekolahController.getAllSekolah);
 router.get('/:id', verifyToken, sekolahController.getSekolahById);
 router.post('/', verifyToken, sekolahController.createSekolah);
 router.put('/:id', verifyToken, sekolahController.updateSekolah);
