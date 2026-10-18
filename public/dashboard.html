@@ -1146,13 +1146,14 @@
       }).join('');
     }
 
-    // MANAJEMEN USER (DIJAMIN AMAN & RESPONSIF)
+// MANAJEMEN USER (DISESUAIKAN DENGAN STRUKTUR RESPON BACKEND)
     function fetchUsers() {
       fetch('/api/sekolah/all', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
       .then(res => res.json())
       .then(resData => {
+        // Backend mengembalikan array user pada properti 'users'
         globalServerData.users = resData.users || [];
         globalServerData.schools = resData.data || [];
         
@@ -1168,11 +1169,12 @@
         }
 
         tbody.innerHTML = users.map(function(u) {
-          const usernameDisplay = u.operator || u.username || 'OPS';
-          const instansiDisplay = u.nama_sekolah || u.nama || 'SEKOLAH';
+          // Menyesuaikan dengan kolom database: operator, nama_sekolah, npsn, jenjang, status
+          const usernameDisplay = u.operator || u.username || 'Operator';
+          const instansiDisplay = u.nama_sekolah || u.nama || 'Sekolah';
           const statusUser = u.status || 'Pending';
-          const isApproved = statusUser === 'Disetujui' || statusUser === 'Aktif' || statusUser === 'approved';
-          const isRejected = statusUser === 'Ditolak' || statusUser === 'rejected';
+          const isApproved = statusUser.toLowerCase() === 'disetujui' || statusUser.toLowerCase() === 'aktif' || statusUser.toLowerCase() === 'approved';
+          const isRejected = statusUser.toLowerCase() === 'ditolak' || statusUser.toLowerCase() === 'rejected';
 
           let badgeColor = 'bg-amber-100 text-amber-700';
           if (isApproved) badgeColor = 'bg-emerald-100 text-emerald-700';
@@ -1201,7 +1203,11 @@
             '</tr>';
         }).join('');
       })
-      .catch(err => console.error('Error fetchUsers:', err));
+      .catch(err => {
+        console.error('Error fetchUsers:', err);
+        const tbody = document.getElementById('userTableBody');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-rose-500">Gagal memuat data user dari server.</td></tr>';
+      });
     }
 
     function setujuiUser(npsn) {
