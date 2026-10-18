@@ -51,14 +51,36 @@ router.get('/users', async (req, res) => {
   }
 });
 
-// 4. Endpoint Update Status User
+// 4. Endpoint Update Status User (Setuju / Tolak)
 router.post('/update-status', async (req, res) => {
   try {
     const { npsn, status } = req.body;
+    
+    if (!npsn || !status) {
+      return res.status(400).json({ success: false, message: 'NPSN dan status wajib disertakan!' });
+    }
+
     await pool.query(`UPDATE registered_users SET status = $1 WHERE npsn = $2`, [status, npsn]);
     res.status(200).json({ success: true, message: 'Status berhasil diperbarui.' });
   } catch (err) {
     console.error('Error update-status:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 5. Endpoint Hapus User / Sekolah berdasarkan NPSN
+router.delete('/users/:npsn', async (req, res) => {
+  try {
+    const { npsn } = req.params;
+    
+    if (!npsn || npsn === '00000000') {
+      return res.status(400).json({ success: false, message: 'Akun Super Admin Dinas tidak dapat dihapus!' });
+    }
+
+    await pool.query(`DELETE FROM registered_users WHERE npsn = $1`, [npsn]);
+    res.status(200).json({ success: true, message: 'User berhasil dihapus dari sistem.' });
+  } catch (err) {
+    console.error('Error delete user:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
