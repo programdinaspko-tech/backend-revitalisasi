@@ -1,52 +1,64 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-
-// Memori sementara server untuk menampung data registrasi (sinkronisasi antar browser)
-// Jika Anda menggunakan database PostgreSQL, penyimpanan ini bisa diganti dengan query database.
-let registeredUsersDB = [];
+const pool = require('../config/db'); // Hubungkan ke database PostgreSQL
 
 // 1. Endpoint Login Asli
 router.post('/login', authController.login);
 
-// 2. Endpoint Registrasi Sekolah Baru
-router.post('/register', (req, res) => {
+// 2. Endpoint Registrasi Sekolah Baru (Tersimpan permanen ke Database)
+router.post('/register', async (req, res) => {
   try {
-    const payload = req.body;
-    // Cek apakah NPSN sudah ada
-    const existingIndex = registeredUsersDB.findIndex(u => u.npsn === payload.npsn);
-    if (existingIndex >= 0) {
-      registeredUsersDB[existingIndex] = payload;
-    } else {
-      registeredUsersDB.push(payload);
+    const { npsn, nama_sekolah, jenjang, operator, password, wa_operator } = req.body;
+    
+    if (!npsn || !nama_sekolah) {
+      return res.status(400).json({ success: false, message: 'NPSN dan Nama Sekolah wajib diisi!' });
     }
-    res.status(200).json({ success: true, message: 'Registrasi berhasil disimpan di server.' });
+
+    // Cek apakah NPSN sudah terdaftar
+    const checkExist = await pool.query(`SELECT id FROM registered_users WHERE npsn = $1`, [npsn]);
+
+    if (checkExist.rows.length > 0) {
+      // Update jika sudah ada
+      await pool.query(
+        `UPDATE registered_users SET nama_sekolah = $1, jenjang = $2, operator = $3, wa_operator = $4 WHERE npsn = $5`,
+        [nama_sekolah, jenjang || 'SD', operator || '', wa_operator || '', npsn]
+      );
+    } else {
+      // Insert baru dengan status Pending
+      await pool.query(
+        `INSERT INTO registered_users (npsn, nama_sekolah, jenjang, operator, password, wa_operator, status) 
+         VALUES ($1, $2, $3, $4, $5, $6, 'Pending')`,
+        [npsn, nama_sekolah, jenjang || 'SD', operator || '', password || '123456', wa_operator || '']
+      );
+    }
+
+    res.status(200).json({ success: true, message: 'Registrasi berhasil disimpan ke database server.' });
   } catch (err) {
+    console.error('Error register:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// 3. Endpoint untuk Admin Menarik Semua Data User (Sinkronisasi Antar Browser 1 & 2)
-router.get('/users', (req, res) => {
+// 3. Endpoint Tarik Data User untuk Admin Dinas
+router.get('/users', async (req, res) => {
   try {
-    res.status(200).json({ users: registeredUsersDB });
+    const result = await pool.query(`SELECT * FROM registered_users ORDER BY id ASC`);
+    res.status(200).json({ users: result.rows });
   } catch (err) {
+    console.error('Error get users:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// 4. Endpoint untuk Memperbarui Status User (Disetujui / Ditolak)
-router.post('/update-status', (req, res) => {
+// 4. Endpoint Update Status User
+router.post('/update-status', async (req, res) => {
   try {
     const { npsn, status } = req.body;
-    let user = registeredUsersDB.find(u => u.npsn === npsn);
-    if (user) {
-      user.status = status;
-      res.status(200).json({ success: true, message: 'Status berhasil diperbarui.' });
-    } else {
-      res.status(404).json({ success: false, message: 'User sekolah tidak ditemukan.' });
-    }
+    await pool.query(`UPDATE registered_users SET status = $1 WHERE npsn = $2`, [status, npsn]);
+    res.status(200).json({ success: true, message: 'Status berhasil diperbarui.' });
   } catch (err) {
+    console.error('Error update-status:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
