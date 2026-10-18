@@ -2,7 +2,7 @@ const pool = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 1. Logika Login User Terpusat
+// Logika Login User Terpusat yang Fleksibel & Aman
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -12,16 +12,31 @@ exports.login = async (req, res) => {
     }
 
     const cleanInput = username.trim().toLowerCase();
+    const cleanPassword = password.trim();
 
-    // Akun Super Admin Dinas
+    // Jika login menggunakan akun khusus admin dinas
     if (cleanInput === 'admin_dinas' || cleanInput.includes('admin')) {
       const adminQuery = await pool.query(
         `SELECT * FROM registered_users WHERE LOWER(username) = 'admin_dinas' OR LOWER(npsn) = '00000000' LIMIT 1`
       );
+      
       if (adminQuery.rows.length > 0) {
         const user = adminQuery.rows[0];
+        
+        // Validasi Password untuk Admin Dinas (Mendukung password terenkripsi maupun teks biasa)
+        let isPasswordValid = false;
+        if (user.password.startsWith('$2a$') || user.password.startsWith('$2b$')) {
+          isPasswordValid = await bcrypt.compare(cleanPassword, user.password);
+        } else {
+          isPasswordValid = (cleanPassword === user.password);
+        }
+
+        if (!isPasswordValid) {
+          return res.status(401).json({ message: 'Password Admin Dinas salah!' });
+        }
+
         const token = jwt.sign(
-          { id: user.id, username: user.username || 'admin_dinas', role: 'Admin', npsn: user.npsn }, 
+          { id: user.id, username: user.username || 'admin_dinas', role: user.role || 'Admin', npsn: user.npsn }, 
           process.env.JWT_SECRET || 'rahasia_super_aman', 
           { expiresIn: '1d' }
         );
@@ -34,25 +49,38 @@ exports.login = async (req, res) => {
       `SELECT * FROM registered_users 
        WHERE LOWER(npsn) = $1 
           OR LOWER(operator) = $1 
+          OR LOWER(username) = $1 
           OR LOWER(nama_sekolah) LIKE $2`,
       [cleanInput, `%${cleanInput}%`]
     );
 
     if (userQuery.rows.length === 0) {
-      return res.status(404).json({ message: 'Akun tidak ditemukan! Pastikan NPSN atau Nama Operator sudah benar.' });
+      return res.status(404).json({ message: 'Akun tidak ditemukan di database server!' });
     }
 
     const user = userQuery.rows[0];
 
-    // Validasi Status Akun
+    // Validasi Password Sekolah
+    let isPasswordValid = false;
+    if (user.password.startsWith('$2a$') || user.password.startsWith('$2b$')) {
+      isPasswordValid = await bcrypt.compare(cleanPassword, user.password);
+    } else {
+      isPasswordValid = (cleanPassword === user.password);
+    }
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Kata sandi / password salah!' });
+    }
+
+    // Validasi Status Akun Sekolah
     let statusUser = (user.status || 'Pending').trim().toLowerCase();
     if (statusUser !== 'disetujui' && statusUser !== 'aktif' && statusUser !== 'approved') {
       return res.status(403).json({ message: `Akun Anda berstatus "${user.status || 'Pending'}". Harap menunggu persetujuan Admin Dinas.` });
     }
 
-    // Token JWT
+    // Generate Token JWT
     const token = jwt.sign(
-      { id: user.id, username: user.operator || user.npsn, role: 'Sekolah', npsn: user.npsn },
+      { id: user.id, username: user.operator || user.username, role: user.role || 'Sekolah', npsn: user.npsn },
       process.env.JWT_SECRET || 'rahasia_super_aman',
       { expiresIn: '1d' }
     );
@@ -62,8 +90,8 @@ exports.login = async (req, res) => {
       token: token,
       user: {
         id: user.id,
-        username: user.operator || user.npsn,
-        role: 'Sekolah',
+        username: user.operator || user.username,
+        role: user.role || 'Sekolah',
         nama_sekolah: user.nama_sekolah,
         npsn: user.npsn,
         jenjang: user.jenjang
@@ -77,7 +105,6 @@ exports.login = async (req, res) => {
     });
   }
 };
-
 // 2. Logika Registrasi Akun Sekolah Baru (Aman dari Mismatch Skema Database)
 exports.register = async (req, res) => {
   try {
