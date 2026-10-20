@@ -954,12 +954,36 @@
     function getTotalLuasTanah() { return listTanah.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
     function getTotalLuasBangunan() { return listBangunan.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
 
-    function updateTampilan() {
+    async function updateTampilan() {
       const nama = activeUser.nama_sekolah || activeUser.nama || 'Sekolah Binaan';
       jenisJenjang = dapatkanJenjangSekolah();
 
+      // Jika draft lokal kosong, coba tarik data dari server jika sudah pernah sinkron
+      if (!listTanah.length && !listBangunan.length && !listRuang.length && activeUser.npsn) {
+        try {
+          const res = await fetch(`/api/sekolah/${activeUser.npsn}`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (res.ok) {
+            const serverData = await res.json();
+            if (serverData && serverData.data) {
+              // Muat data dari server ke draft lokal
+              listTanah = serverData.data.tanah || [];
+              listBangunan = serverData.data.bangunan || [];
+              listRuang = serverData.data.ruang || [];
+              listAlat = serverData.data.alat || [];
+              listGTK = serverData.data.gtk || [];
+              listSiswa = serverData.data.siswa || [];
+              simpanDraftKeLocalStorage();
+            }
+          }
+        } catch (e) {
+          console.log('Mode offline / draft lokal digunakan.');
+        }
+      }
+
       document.getElementById('sidebarNamaSekolah').innerText = nama;
-      document.getElementById('sidebarOperator').innerText = activeUser.operator || 'Operator';
+      document.getElementById('sidebarOperator').innerText = activeUser.operator || activeUser.nama_operator || 'Operator';
       document.getElementById('userNamaSekolah').innerText = nama;
       document.getElementById('dapodikHeaderTitle').innerText = nama.toUpperCase() + ' - TAKOLA SIKKA';
 
@@ -970,17 +994,20 @@
       document.getElementById('b_status').innerText = activeUser.status_sekolah || 'Negeri';
       document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || 'B';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
-      document.getElementById('b_kasek').innerText = activeUser.kasek || 'Belum diisi';
-      document.getElementById('b_operator').innerText = activeUser.operator || '-';
+      document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser. nama_kepala_sekolah || 'Belum diisi';
+      document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || '-';
       document.getElementById('b_bosp').innerText = activeUser.status_bosp || 'Ya';
       document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || 'Belum Terima';
       document.getElementById('b_coords').innerText = `${activeUser.latitude || '-8.621430'}, ${activeUser.longitude || '122.215430'}`;
       document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || 'PLN'} / ${activeUser.sumber_internet || 'Wifi'}`;
 
+      // Konsistensi Field Profil Terkunci & Tersimpan
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
       document.getElementById('inpBentuk').value = jenisJenjang;
-      document.getElementById('inpOperator').value = activeUser.operator || '';
+      document.getElementById('inpOperator').value = activeUser.operator || activeUser.nama_operator || '';
+      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || '';
+      
       document.getElementById('inpStatus').value = activeUser.status_sekolah || '';
       document.getElementById('inpAkreditasi').value = activeUser.akreditasi || '';
       document.getElementById('inpSk').value = activeUser.sk_pendirian || '';
@@ -988,9 +1015,8 @@
       document.getElementById('inpAlamat').value = activeUser.alamat || '';
       document.getElementById('inpDesa').value = activeUser.desa || '';
       document.getElementById('inpKecamatan').value = activeUser.kecamatan || '';
-      document.getElementById('inpKasek').value = activeUser.kasek || '';
-      document.getElementById('inpNipKasek').value = activeUser.nipKasek || '';
-      document.getElementById('inpHpOperator').value = activeUser.wa_operator || '';
+      document.getElementById('inpKasek').value = activeUser.kasek || activeUser.nama_kepala_sekolah || '';
+      document.getElementById('inpNipKasek').value = activeUser.nipKasek || activeUser.nip_kepala_sekolah || '';
       document.getElementById('inpBosp').value = activeUser.status_bosp || '';
       document.getElementById('inpRevitalisasi').value = activeUser.bantuan_revitalisasi || 'Belum Terima';
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
