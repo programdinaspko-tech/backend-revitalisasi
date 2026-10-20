@@ -79,7 +79,7 @@
     <!-- 1. TAB BERANDA -->
     <section id="tab-beranda" class="tab-content space-y-5">
       <div class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow-sm flex justify-between items-center">
-        <span>TAKOLA SIKKA (Server PostgreSQL di Railway) - Konsep 3</span>
+        <span>TAKOLA SIKKA (Server PostgreSQL di Railway)</span>
         <span class="text-xs bg-emerald-700 px-2.5 py-1 rounded">Aktif</span>
       </div>
 
@@ -90,13 +90,31 @@
         <div class="bg-orange-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center"><div><p class="text-[11px] uppercase font-semibold text-orange-200">Jumlah Rombel</p><p id="statRombel" class="text-3xl font-extrabold mt-1">0</p></div><div class="text-3xl opacity-80">👥</div></div>
       </div>
 
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-3">
-        <h3 id="cardHeaderNamaSekolah" class="text-sm font-bold text-indigo-700">Profil Sekolah Terhubung</h3>
-        <div class="grid grid-cols-2 gap-4 text-xs">
-          <div><p class="text-slate-500">NPSN:</p><p id="b_npsn" class="font-bold">-</p></div>
-          <div><p class="text-slate-500">Bentuk / Status:</p><p><span id="b_bentuk">-</span> / <span id="b_status" class="font-bold text-emerald-600">-</span></p></div>
-          <div><p class="text-slate-500">Kepala Sekolah:</p><p id="b_kasek" class="font-bold">-</p></div>
-          <div><p class="text-slate-500">Kecamatan:</p><p id="b_kec">-</p></div>
+      <!-- REKAPITULASI PROFIL SEKOLAH LENGKAP PADA BERANDA -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+        <div class="border-b pb-2 flex justify-between items-center">
+          <h3 id="cardHeaderNamaSekolah" class="text-sm font-bold text-indigo-700">Profil & Rincian Sekolah Terhubung</h3>
+          <span id="b_badge_jenjang" class="bg-indigo-100 text-indigo-800 text-xs px-2.5 py-0.5 rounded-full font-bold">-</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="space-y-1">
+            <p class="text-slate-500">NPSN / Nama Sekolah:</p>
+            <p class="font-bold text-slate-800"><span id="b_npsn">-</span> - <span id="b_nama_sek">-</span></p>
+            <p class="text-slate-500 mt-2">Bentuk / Status:</p>
+            <p class="font-bold"><span id="b_bentuk">-</span> / <span id="b_status" class="text-emerald-600">-</span> (Akreditasi: <span id="b_akreditasi">-</span>)</p>
+          </div>
+          <div class="space-y-1">
+            <p class="text-slate-500">Kepala Sekolah & NIP:</p>
+            <p class="font-bold text-slate-800"><span id="b_kasek">-</span> (<span id="b_nip_kasek" class="font-mono text-[11px]">-</span>)</p>
+            <p class="text-slate-500 mt-2">Operator & No. WA:</p>
+            <p class="font-bold text-slate-800"><span id="b_operator">-</span> (<span id="b_wa_ops" class="font-mono text-[11px]">-</span>)</p>
+          </div>
+          <div class="space-y-1">
+            <p class="text-slate-500">Alamat & Lokasi:</p>
+            <p class="font-bold text-slate-800"><span id="b_alamat">-</span>, Desa <span id="b_desa">-</span>, Kec. <span id="b_kec">-</span></p>
+            <p class="text-slate-500 mt-2">Infrastruktur Listrik & Internet:</p>
+            <p class="font-bold text-slate-800"><span id="b_listrik">-</span> | <span id="b_internet">-</span></p>
+          </div>
         </div>
       </div>
     </section>
@@ -555,13 +573,13 @@
       <h3 class="font-bold text-base mb-2">Input Rekap Peserta Didik (<span id="labelJenjangModal" class="text-indigo-600 font-bold"></span>)</h3>
       
       <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Jumlah PD Perempuan *</label><input id="s_pd_p" type="number" required value="0" class="border p-2 rounded w-full" oninput="hitungTotalPD()"></div>
-        <div><label class="block font-semibold mb-1">Jumlah PD Laki-laki *</label><input id="s_pd_l" type="number" required value="0" class="border p-2 rounded w-full" oninput="hitungTotalPD()"></div>
+        <div><label class="block font-semibold mb-1">Jumlah PD Perempuan *</label><input id="s_pd_p" type="number" required value="0" class="border p-2 rounded w-full"></div>
+        <div><label class="block font-semibold mb-1">Jumlah PD Laki-laki *</label><input id="s_pd_l" type="number" required value="0" class="border p-2 rounded w-full"></div>
       </div>
 
       <!-- CONTAINER DINAMIS RENTANG USIA BERDASARKAN JENJANG -->
       <div id="containerRentangUsia" class="space-y-2 border-t pt-2">
-        <!-- Diisi secara dinamis via Javascript (PAUD: 2-6 tahun, SD: <7 s.d >12 tahun, SMP: >13 s.d <15 tahun) -->
+        <!-- Diisi dinamis via Javascript (PAUD: 2-6 tahun, SD: <7 s.d >12 tahun, SMP: >13 s.d <15 tahun) -->
       </div>
 
       <div class="grid grid-cols-2 gap-2 border-t pt-2">
@@ -601,7 +619,16 @@
 
     let listTanah = [], listBangunan = [], listRuang = [], listAlat = [], listGTK = [], listSiswa = [];
     let map = null, marker = null;
-    let jenisJenjang = (activeUser.jenjang || 'SD').trim().toUpperCase();
+
+    // FUNGSI DETEKSI JENJANG FLEKSIBEL DARI HASIL REGISTRASI / LOGIN
+    function dapatkanJenjangSekolah() {
+      let raw = (activeUser.jenjang || activeUser.bentuk || activeUser.bentuk_pendidikan || '').toString().trim().toUpperCase();
+      if (raw.includes('PAUD') || raw.includes('TK') || raw.includes('KB')) return 'PAUD';
+      if (raw.includes('SMP')) return 'SMP';
+      return 'SD'; // Default SD jika terdeteksi SD atau kosong
+    }
+
+    let jenisJenjang = dapatkanJenjangSekolah();
 
     // Populasikan tahun bangunan 1993 - 2026
     const selectThn = document.getElementById('b_tahun');
@@ -659,15 +686,12 @@
     function toggleTikInput(type) {
       const chk = document.getElementById(`tik_${type}_chk`).checked;
       const box = document.getElementById(`tik_${type}_box`);
-      if (chk) {
-        box.classList.remove('hidden');
-      } else {
-        box.classList.add('hidden');
-      }
+      if (chk) { box.classList.remove('hidden'); } else { box.classList.add('hidden'); }
     }
 
-    // RENTANG USIA PESERTA DIDIK BERDASARKAN JENJANG
+    // FORM RENTANG USIA PESERTA DIDIK SESUAI JENJANG
     function renderFormRentangUsiaSiswa() {
+      jenisJenjang = dapatkanJenjangSekolah();
       document.getElementById('labelJenjangModal').innerText = jenisJenjang;
       const container = document.getElementById('containerRentangUsia');
       let html = '';
@@ -695,6 +719,10 @@
           <div><label class="block font-semibold mb-1">Usia > 12 Tahun (P)</label><input id="s_ub12_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
         </div>`;
       } else if (jenisJenjang === 'SMP') {
+        html += `<div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (L)</label><input id="s_uk13_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (P)</label><input id="s_uk13_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+        </div>`;
         for (let u = 13; u <= 15; u++) {
           html += `<div class="grid grid-cols-2 gap-2">
             <div><label class="block font-semibold mb-1">Usia ${u} Tahun (L)</label><input id="s_u${u}_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
@@ -702,19 +730,11 @@
           </div>`;
         }
         html += `<div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (L)</label><input id="s_uk13_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
-          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (P)</label><input id="s_uk13_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
           <div><label class="block font-semibold mb-1">Usia > 15 Tahun (L)</label><input id="s_ub15_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
           <div><label class="block font-semibold mb-1">Usia > 15 Tahun (P)</label><input id="s_ub15_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
         </div>`;
       }
       container.innerHTML = html;
-    }
-
-    function hitungTotalPD() {
-      // Fungsi bantuan opsional untuk rekap otomatis jika diperlukan
     }
 
     // INISIALISASI PETA GOOGLE SATELLITE
@@ -773,21 +793,33 @@
 
     function updateTampilan() {
       const nama = activeUser.nama_sekolah || activeUser.nama || 'Sekolah Binaan';
-      jenisJenjang = (activeUser.jenjang || 'SD').trim().toUpperCase();
+      jenisJenjang = dapatkanJenjangSekolah();
 
+      // HEADER & SIDEBAR
       document.getElementById('sidebarNamaSekolah').innerText = nama;
       document.getElementById('sidebarOperator').innerText = activeUser.operator || 'Operator';
       document.getElementById('userNamaSekolah').innerText = nama;
       document.getElementById('dapodikHeaderTitle').innerText = nama.toUpperCase() + ' - TAKOLA SIKKA';
       document.getElementById('cardHeaderNamaSekolah').innerText = nama.toUpperCase();
-      
+
+      // BERANDA REKAPITULASI PROFIL
+      document.getElementById('b_badge_jenjang').innerText = jenisJenjang;
       document.getElementById('b_npsn').innerText = activeUser.npsn || '-';
+      document.getElementById('b_nama_sek').innerText = nama;
       document.getElementById('b_bentuk').innerText = jenisJenjang;
       document.getElementById('b_status').innerText = activeUser.status_sekolah || 'Negeri';
+      document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || 'B';
       document.getElementById('b_kasek').innerText = activeUser.kasek || 'Belum diisi';
+      document.getElementById('b_nip_kasek').innerText = activeUser.nipKasek || '-';
+      document.getElementById('b_operator').innerText = activeUser.operator || '-';
+      document.getElementById('b_wa_ops').innerText = activeUser.wa_operator || '-';
+      document.getElementById('b_alamat').innerText = activeUser.alamat || '-';
+      document.getElementById('b_desa').innerText = activeUser.desa || '-';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
+      document.getElementById('b_listrik').innerText = activeUser.sumber_listrik || 'PLN';
+      document.getElementById('b_internet').innerText = activeUser.sumber_internet || 'Wifi';
 
-      // KUNCI DATA REGISTRASI
+      // FORM DATA SEKOLAH (INPUT & LOCK REGISTRASI)
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
       document.getElementById('inpBentuk').value = jenisJenjang;
@@ -808,7 +840,6 @@
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
       document.getElementById('inpInternet').value = activeUser.sumber_internet || '';
 
-      // Load TIK jika ada
       if (activeUser.bantuan_tik) {
         ['pc', 'lpm', 'lsl', 'cb', 'fp'].forEach(t => {
           if (activeUser.bantuan_tik[t] && activeUser.bantuan_tik[t].aktif) {
@@ -848,7 +879,6 @@
       activeUser.latitude = document.getElementById('inpLat').value;
       activeUser.longitude = document.getElementById('inpLong').value;
 
-      // Kumpulkan data TIK
       activeUser.bantuan_tik = {};
       ['pc', 'lpm', 'lsl', 'cb', 'fp'].forEach(t => {
         let chk = document.getElementById(`tik_${t}_chk`).checked;
@@ -1196,9 +1226,7 @@
     function simpanSiswaLokal() {
       let dataUsia = {};
       const inputs = document.querySelectorAll('.usia-input');
-      inputs.forEach(inp => {
-        dataUsia[inp.id] = inp.value || 0;
-      });
+      inputs.forEach(inp => { dataUsia[inp.id] = inp.value || 0; });
 
       listSiswa.push({
         id: Date.now(),
