@@ -14,16 +14,13 @@
     body { font-family: 'Inter', sans-serif; }
     .sidebar-active { background-color: #1e293b; border-left: 4px solid #38bdf8; }
     #mapSekolah { height: 320px; width: 100%; border-radius: 0.75rem; z-index: 10; }
-
     @keyframes scanDown {
       0% { transform: translateY(-100%); opacity: 0; }
       50% { opacity: 1; }
       100% { transform: translateY(300%); opacity: 0; }
     }
     .scan-line {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
       background: linear-gradient(90deg, transparent, #38bdf8, transparent);
       box-shadow: 0 0 15px #38bdf8;
       animation: scanDown 2.5s infinite linear;
@@ -81,7 +78,7 @@
     </div>
   </aside>
 
-  <!-- MAIN CONTENT AREA -->
+  <!-- MAIN CONTENT -->
   <main class="flex-1 p-6 overflow-y-auto">
     <header class="bg-slate-800 text-white rounded-xl p-4 mb-6 shadow-md flex justify-between items-center">
       <div class="flex items-center gap-3">
@@ -91,14 +88,13 @@
       <div id="statusBadge" class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-3 py-1 rounded-full font-bold">Status: Draft (Belum Sinkron)</div>
     </header>
 
-    <!-- 1. TAB BERANDA GAYA DAPODIK -->
+    <!-- TAB BERANDA -->
     <section id="tab-beranda" class="tab-content space-y-5">
       <div class="bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-sm flex justify-between items-center">
         <span class="flex items-center gap-2"><span>🏛️</span> TAKOLA SIKKA - Portal Revitalisasi Dinas PKO Kab. Sikka</span>
         <span class="text-xs bg-emerald-800 px-3 py-1 rounded-lg font-mono">Versi Aplikasi 2026.1</span>
       </div>
 
-      <!-- KARTU STATISTIK RINGKAS -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-purple-700 text-white p-4 rounded-xl shadow-md flex justify-between items-center"><div><p class="text-[11px] uppercase font-semibold text-purple-200">Jumlah Ruang</p><p id="statRuang" class="text-3xl font-extrabold mt-1">0</p></div><div class="text-3xl opacity-80">🏛️</div></div>
         <div class="bg-sky-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center"><div><p class="text-[11px] uppercase font-semibold text-sky-200">Jumlah GTK</p><p id="statGuru" class="text-3xl font-extrabold mt-1">0</p></div><div class="text-3xl opacity-80">🎓</div></div>
@@ -106,7 +102,6 @@
         <div class="bg-orange-600 text-white p-4 rounded-xl shadow-md flex justify-between items-center"><div><p class="text-[11px] uppercase font-semibold text-orange-200">Jumlah Rombel</p><p id="statRombel" class="text-3xl font-extrabold mt-1">0</p></div><div class="text-3xl opacity-80">👥</div></div>
       </div>
 
-      <!-- KARTU UTAMA TAMPILAN MODEL DAPODIK -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div class="bg-sky-600 text-white px-5 py-3 font-bold text-sm flex justify-between items-center">
@@ -156,7 +151,6 @@
         </div>
       </div>
 
-      <!-- TABEL REKAMAN SINKRONISASI -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
         <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2"><span>📜</span> Rekaman & Perubahan Data Sinkronisasi</h3>
         <div class="overflow-x-auto">
@@ -177,7 +171,7 @@
       </div>
     </section>
 
-    <!-- 2. TAB DATA SEKOLAH -->
+    <!-- TAB DATA SEKOLAH -->
     <section id="tab-sekolah" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm max-w-4xl mx-auto space-y-6">
         <div class="border-b pb-3 flex justify-between items-center">
@@ -281,7 +275,7 @@
           <!-- MAP SATELIT GOOGLE -->
           <div class="space-y-2 pt-2 border-t">
             <div class="flex justify-between items-center">
-              <label class="block text-xs font-bold text-slate-800">🗺️ Titik Koordinat Sekolah (Google Maps Satelit & Search) *</label>
+              <label class="block text-xs font-bold text-slate-800">🗺️ Titik Koordinat Sekolah (Google Maps Satelit) *</label>
               <span class="text-[11px] text-slate-500 font-mono" id="labelCoords">Lat: -8.621430 | Long: 122.215430</span>
             </div>
             <div id="mapSekolah"></div>
@@ -298,9 +292,8 @@
       </div>
     </section>
 
-    <!-- 3. TAB SARPRAS (TANAH & BANGUNAN) -->
+    <!-- TAB SARPRAS (TANAH & BANGUNAN) -->
     <section id="tab-sarpras" class="tab-content hidden space-y-6">
-      <!-- DATA TANAH -->
       <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
           <div>
@@ -327,7 +320,6 @@
         </div>
       </div>
 
-      <!-- DATA BANGUNAN -->
       <div id="panelBangunan" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
           <div>
@@ -345,7 +337,7 @@
                 <th class="p-3">Luas Bangunan</th>
                 <th class="p-3">Tahun Dibangun</th>
                 <th class="p-3">Kondisi & Lantai</th>
-                <th class="p-3 text-center">Dokumen PUPR / Review</th>
+                <th class="p-3 text-center">Dokumen PUPR</th>
                 <th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -361,7 +353,7 @@
         <div class="flex justify-between items-center border-b pb-3">
           <div>
             <h3 class="text-lg font-bold">Data Ruang & Rombel</h3>
-            <p class="text-xs text-slate-500">Penginputan Rombel Ruang Teori/Kelas dibatasi secara presisi sesuai jumlah yang ditentukan.</p>
+            <p class="text-xs text-slate-500">Penginputan Rombel Ruang Teori/Kelas dibatasi sesuai jumlah yang ditentukan.</p>
           </div>
           <button id="btnTambahRuangMain" onclick="bukaModalRuang()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold cursor-pointer">+ Tambah Ruang</button>
         </div>
@@ -413,7 +405,7 @@
       </div>
     </section>
 
-    <!-- 4. TAB GTK -->
+    <!-- TAB GTK -->
     <section id="tab-gtk" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
@@ -437,7 +429,7 @@
       </div>
     </section>
 
-    <!-- 5. TAB SISWA -->
+    <!-- TAB SISWA -->
     <section id="tab-siswa" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
@@ -461,7 +453,7 @@
       </div>
     </section>
 
-    <!-- 6. TAB VALIDASI DATA -->
+    <!-- TAB VALIDASI DATA -->
     <section id="tab-validasi" class="tab-content hidden space-y-5">
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
         <div class="border-b pb-3 flex justify-between items-center">
@@ -488,7 +480,7 @@
       </div>
     </section>
 
-    <!-- 7. TAB SINKRONISASI KE SERVER POSTGRESQL -->
+    <!-- TAB SINKRONISASI KE SERVER POSTGRESQL -->
     <section id="tab-sinkron" class="tab-content hidden">
       <div class="bg-white rounded-2xl border border-slate-200 p-8 text-center max-w-xl mx-auto shadow-sm space-y-5">
         <div class="text-5xl">🔄</div>
@@ -549,10 +541,7 @@
         <div><label class="block font-semibold mb-1">Panjang (m) *</label><input id="b_panjang" type="number" required class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Lebar (m) *</label><input id="b_lebar" type="number" required class="border p-2 rounded w-full"></div>
       </div>
-      <div>
-        <label class="block font-semibold mb-1">Tahun Terakhir Dibangun *</label>
-        <select id="b_tahun" class="w-full border p-2 rounded"></select>
-      </div>
+      <div><label class="block font-semibold mb-1">Tahun Terakhir Dibangun *</label><select id="b_tahun" class="w-full border p-2 rounded"></select></div>
       <div>
         <label class="block font-semibold mb-1">Kondisi Bangunan *</label>
         <select id="b_kondisi" class="w-full border p-2 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
@@ -561,12 +550,10 @@
         <label class="block font-semibold mb-1">Jumlah Lantai *</label>
         <select id="b_lantai" class="w-full border p-2 rounded"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
       </div>
-      
       <div class="border-t pt-2">
         <label class="block font-semibold mb-1">Upload Dokumen Rekomendasi PUPR (PDF)</label>
         <input id="b_pupr_pdf" type="file" accept="application/pdf" class="w-full border p-1 rounded">
       </div>
-
       <div class="flex justify-end gap-2 mt-4">
         <button onclick="tutupModal('modalBangunan')" class="px-3 py-1.5 bg-slate-200 rounded font-bold cursor-pointer">Batal</button>
         <button onclick="simpanBangunanLokal()" class="px-4 py-1.5 bg-emerald-600 text-white rounded font-bold cursor-pointer">Simpan</button>
@@ -580,7 +567,6 @@
       <h3 id="modalRuangTitle" class="font-bold text-base mb-2">Tambah Data Ruang & Rombel</h3>
       <input type="hidden" id="r_edit_id">
       <div><label class="block font-semibold mb-1">Pilih Bangunan Induk *</label><select id="r_bangunan_id" required class="w-full border p-2 rounded font-bold"></select></div>
-      
       <div>
         <label class="block font-semibold mb-1">Kategori Ruang *</label>
         <select id="r_kategori" required class="w-full border p-2 rounded font-bold" onchange="toggleFormKategoriRuang()">
@@ -599,15 +585,10 @@
           <option value="Ruang Ibadah">Ruang Ibadah</option>
         </select>
       </div>
-
       <div id="boxRombelRuang" class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="block font-semibold mb-1">Jumlah Rombel *</label>
-          <input id="r_jml_rombel" type="number" min="1" max="10" value="1" class="border p-2 rounded w-full">
-        </div>
+        <div><label class="block font-semibold mb-1">Jumlah Rombel *</label><input id="r_jml_rombel" type="number" min="1" max="10" value="1" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Nama Rombel / Kelas *</label><input id="r_nama_rombel" type="text" placeholder="1-A, 1-B, etc" class="border p-2 rounded w-full"></div>
       </div>
-
       <div class="grid grid-cols-2 gap-2">
         <div><label class="block font-semibold mb-1">Panjang (m) *</label><input id="r_panjang" type="number" required class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Lebar (m) *</label><input id="r_lebar" type="number" required class="border p-2 rounded w-full"></div>
@@ -616,10 +597,8 @@
         <label class="block font-semibold mb-1">Kondisi Ruang *</label>
         <select id="r_kondisi" class="w-full border p-2 rounded" onchange="toggleFoto6SudutRuang()"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
       </div>
-
-      <!-- FOTO 6 SUDUT PANDANG KONDISI RUSAK SEDANG/BERAT -->
       <div id="divFoto6SudutRuang" class="hidden border-t pt-2 space-y-2">
-        <p class="font-bold text-rose-600">📸 Upload Foto Kerusakan 6 Sudut Pandang (Wajib untuk Rusak Sedang/Berat):</p>
+        <p class="font-bold text-rose-600">📸 Upload Foto Kerusakan 6 Sudut Pandang:</p>
         <div class="grid grid-cols-2 gap-2">
           <div><label class="block text-[10px]">1. Tampak Depan *</label><input id="r_foto_depan" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
           <div><label class="block text-[10px]">2. Tampak Belakang *</label><input id="r_foto_belakang" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
@@ -629,7 +608,6 @@
           <div><label class="block text-[10px]">6. Bagian Atap/Plafon *</label><input id="r_foto_atap" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
         </div>
       </div>
-
       <div class="flex justify-end gap-2 mt-4">
         <button onclick="tutupModal('modalRuang')" class="px-3 py-1.5 bg-slate-200 rounded font-bold cursor-pointer">Batal</button>
         <button onclick="simpanRuangLokal()" class="px-4 py-1.5 bg-indigo-600 text-white rounded font-bold cursor-pointer">Simpan</button>
@@ -642,10 +620,7 @@
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalAlatTitle" class="font-bold text-base mb-2">Input Alat & Sarana Ruang</h3>
       <input type="hidden" id="a_edit_id">
-      <div>
-        <label class="block font-semibold mb-1">Pilih Ruang Terinput *</label>
-        <select id="a_ruang_id" required class="w-full border p-2 rounded font-bold"></select>
-      </div>
+      <div><label class="block font-semibold mb-1">Pilih Ruang Terinput *</label><select id="a_ruang_id" required class="w-full border p-2 rounded font-bold"></select></div>
       <div><label class="block font-semibold mb-1">Jenis / Nama Alat *</label><input id="a_nama" type="text" required placeholder="Meja, Kursi, Papan Tulis, dll." class="w-full border p-2 rounded"></div>
       <div class="grid grid-cols-2 gap-2">
         <div><label class="block font-semibold mb-1">Jumlah Kondisi Baik *</label><input id="a_jml_baik" type="number" required value="0" class="w-full border p-2 rounded"></div>
@@ -674,24 +649,14 @@
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div><label class="block font-semibold mb-1">NUPTK</label><input id="g_nuptk" type="text" class="border p-2 rounded w-full"></div>
-        <div>
-          <label class="block font-semibold mb-1">Status Guru *</label>
-          <select id="g_status" class="border p-2 rounded w-full"><option value="PNS">PNS</option><option value="PPPK">PPPK</option><option value="PPPK PW">PPPK PW</option><option value="Honorer">Honorer</option></select>
-        </div>
+        <div><label class="block font-semibold mb-1">Status Guru *</label><select id="g_status" class="border p-2 rounded w-full"><option value="PNS">PNS</option><option value="PPPK">PPPK</option><option value="PPPK PW">PPPK PW</option><option value="Honorer">Honorer</option></select></div>
       </div>
       <div><label class="block font-semibold mb-1">Alamat Domisili *</label><input id="g_alamat" type="text" required class="w-full border p-2 rounded"></div>
       <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="block font-semibold mb-1">Jenis Guru *</label>
-          <select id="g_jenis" class="border p-2 rounded w-full"><option value="Guru Kelas">Guru Kelas</option><option value="Guru Mapel">Guru Mapel</option></select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-1">Status Serdik *</label>
-          <select id="g_serdik" class="border p-2 rounded w-full"><option value="Ya">Ya</option><option value="Belum">Belum</option></select>
-        </div>
+        <div><label class="block font-semibold mb-1">Jenis Guru *</label><select id="g_jenis" class="border p-2 rounded w-full"><option value="Guru Kelas">Guru Kelas</option><option value="Guru Mapel">Guru Mapel</option></select></div>
+        <div><label class="block font-semibold mb-1">Status Serdik *</label><select id="g_serdik" class="border p-2 rounded w-full"><option value="Ya">Ya</option><option value="Belum">Belum</option></select></div>
       </div>
       <div><label class="block font-semibold mb-1">Mapel Serdik</label><input id="g_mapelserdik" type="text" class="w-full border p-2 rounded"></div>
-      
       <div>
         <label class="block font-semibold mb-1">Status Perkawinan *</label>
         <select id="g_perkawinan" class="border p-2 rounded w-full" onchange="toggleFormPerkawinanGTK()">
@@ -702,17 +667,14 @@
           <option value="Cerai Mati">Cerai Mati</option>
         </select>
       </div>
-
       <div id="divGtkPasangan" class="hidden space-y-2">
         <div><label class="block font-semibold mb-1">Nama Suami / Istri</label><input id="g_pasangan" type="text" class="w-full border p-2 rounded"></div>
         <div id="divGtkLokasiKerja"><label class="block font-semibold mb-1">Lokasi Pekerjaan Pasangan</label><input id="g_lok_pasangan" type="text" class="border p-2 rounded w-full"></div>
       </div>
-
       <div id="divGtkAnak" class="hidden">
         <label class="block font-semibold mb-1">Jumlah Anak *</label>
         <select id="g_anak" class="border p-2 rounded w-full"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select>
       </div>
-
       <div class="flex justify-end gap-2 mt-4">
         <button onclick="tutupModal('modalGTK')" class="px-3 py-1.5 bg-slate-200 rounded font-bold cursor-pointer">Batal</button>
         <button onclick="simpanGTKLokal()" class="px-4 py-1.5 bg-indigo-600 text-white rounded font-bold cursor-pointer">Simpan</button>
@@ -725,14 +687,11 @@
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalSiswaTitle" class="font-bold text-base mb-2">Input Rekap Peserta Didik (<span id="labelJenjangModal" class="text-indigo-600 font-bold"></span>)</h3>
       <input type="hidden" id="s_edit_id">
-      
       <div class="grid grid-cols-2 gap-2">
         <div><label class="block font-semibold mb-1">Jumlah PD Perempuan *</label><input id="s_pd_p" type="number" required value="0" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Jumlah PD Laki-laki *</label><input id="s_pd_l" type="number" required value="0" class="border p-2 rounded w-full"></div>
       </div>
-
       <div id="containerRentangUsia" class="space-y-2 border-t pt-2"></div>
-
       <div class="grid grid-cols-2 gap-2 border-t pt-2">
         <div><label class="block font-semibold mb-1">Siswa DO Laki-laki</label><input id="s_do_l" type="number" value="0" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Siswa DO Perempuan</label><input id="s_do_p" type="number" value="0" class="border p-2 rounded w-full"></div>
@@ -741,7 +700,6 @@
         <div><label class="block font-semibold mb-1">Siswa Penerima PIP L</label><input id="s_pip_l" type="number" value="0" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Siswa Penerima PIP P</label><input id="s_pip_p" type="number" value="0" class="border p-2 rounded w-full"></div>
       </div>
-
       <div class="flex justify-end gap-2 mt-4">
         <button onclick="tutupModal('modalSiswa')" class="px-3 py-1.5 bg-slate-200 rounded font-bold cursor-pointer">Batal</button>
         <button onclick="simpanSiswaLokal()" class="px-4 py-1.5 bg-indigo-600 text-white rounded font-bold cursor-pointer">Simpan</button>
@@ -749,7 +707,7 @@
     </div>
   </div>
 
-  <!-- MODAL PREVIEW PDF / FOTO DOKUMEN -->
+  <!-- MODAL PREVIEW MEDIA -->
   <div id="modalPreviewMedia" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col h-[85vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
@@ -781,15 +739,7 @@
     let map = null, marker = null;
 
     function simpanDraftKeLocalStorage() {
-      const payload = { 
-        activeUser, 
-        listTanah, 
-        listBangunan, 
-        listRuang, 
-        listAlat, 
-        listGTK, 
-        listSiswa 
-      };
+      const payload = { activeUser, listTanah, listBangunan, listRuang, listAlat, listGTK, listSiswa };
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(payload));
       localStorage.setItem('user', JSON.stringify(activeUser));
     }
@@ -825,7 +775,8 @@
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('nav button').forEach(el => el.classList.remove('sidebar-active'));
-      document.getElementById('tab-' + tabName).classList.remove('hidden');
+      const targetTab = document.getElementById('tab-' + tabName);
+      if (targetTab) targetTab.classList.remove('hidden');
       const navBtn = document.getElementById('nav-' + tabName);
       if (navBtn) navBtn.classList.add('sidebar-active');
 
@@ -861,15 +812,11 @@
       let divAnak = document.getElementById('divGtkAnak');
 
       if (st === 'Belum Kawin') {
-        divPasangan.classList.add('hidden');
-        divAnak.classList.add('hidden');
+        divPasangan.classList.add('hidden'); divAnak.classList.add('hidden');
       } else if (st === 'Cerai Hidup' || st === 'Cerai Mati') {
-        divPasangan.classList.add('hidden');
-        divAnak.classList.remove('hidden');
+        divPasangan.classList.add('hidden'); divAnak.classList.remove('hidden');
       } else {
-        divPasangan.classList.remove('hidden');
-        divLokasi.classList.remove('hidden');
-        divAnak.classList.remove('hidden');
+        divPasangan.classList.remove('hidden'); divLokasi.classList.remove('hidden'); divAnak.classList.remove('hidden');
       }
     }
 
@@ -881,8 +828,10 @@
 
     function renderFormRentangUsiaSiswa() {
       jenisJenjang = dapatkanJenjangSekolah();
-      document.getElementById('labelJenjangModal').innerText = jenisJenjang;
+      const labelModal = document.getElementById('labelJenjangModal');
+      if (labelModal) labelModal.innerText = jenisJenjang;
       const container = document.getElementById('containerRentangUsia');
+      if (!container) return;
       let html = '';
 
       if (jenisJenjang === 'PAUD') {
@@ -928,12 +877,10 @@
 
     function initMapSatelit() {
       if (map) { map.invalidateSize(); return; }
-
       let initLat = parseFloat(activeUser.latitude || -8.621430);
       let initLng = parseFloat(activeUser.longitude || 122.215430);
 
       map = L.map('mapSekolah').setView([initLat, initLng], 16);
-
       L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
         maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: '© Google Maps Satelit'
       }).addTo(map);
@@ -963,7 +910,501 @@
     function getTotalLuasTanah() { return listTanah.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
     function getTotalLuasBangunan() { return listBangunan.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
 
-    // FUNGSI UTAMA LOAD DATA (MENARIK DATA DARI SERVER ATAU CACHE LOKAL)
+    // RENDER FUNGSI-FUNGSI UTAMA
+    function renderTanah() {
+      const totLuasBgn = getTotalLuasBangunan();
+      const tbody = document.getElementById('tbodyTanah');
+      if (!tbody) return;
+      tbody.innerHTML = listTanah.map(t => {
+        const luas = t.panjang * t.lebar;
+        const sisa = luas - totLuasBgn;
+        return `<tr>
+          <td class="p-3 font-bold">${t.nama}</td>
+          <td class="p-3">${t.dokumen}<br><span class="font-mono text-[10px] text-slate-500">No: ${t.sertifikat}</span></td>
+          <td class="p-3">${t.panjang} x ${t.lebar}</td>
+          <td class="p-3 font-bold">${luas} m²</td>
+          <td class="p-3 font-bold ${sisa < 0 ? 'text-rose-600' : 'text-emerald-600'}">${sisa} m²</td>
+          <td class="p-3 text-center">${t.pdf ? `<button onclick="previewPdfTanah(${t.id})" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1 rounded-lg font-bold transition">📄 PDF</button>` : '<span class="text-slate-400 italic">Kosong</span>'}</td>
+          <td class="p-3 text-center space-x-1">
+            <button onclick="bukaModalTanah(${t.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+            <button onclick="hapusDataTanah(${t.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+          </td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah.</td></tr>';
+
+      const btnB = document.getElementById('btnTambahBangunan');
+      const msgB = document.getElementById('msgLockBangunan');
+      if (btnB && msgB) {
+        if (listTanah.length > 0) {
+          btnB.disabled = false; btnB.className = "bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer";
+          msgB.innerText = "✓ Tanah terdeteksi. Form Bangunan aktif."; msgB.className = "text-xs text-emerald-600 font-semibold";
+        } else {
+          btnB.disabled = true; btnB.className = "bg-slate-300 text-slate-500 cursor-not-allowed px-3 py-1.5 rounded-lg text-xs font-semibold";
+          msgB.innerText = "⚠️ Aktif setelah menginput minimal 1 Data Tanah."; msgB.className = "text-xs text-amber-600 font-semibold";
+        }
+      }
+    }
+
+    function bukaModalTanah(id = null) {
+      if (id) {
+        const item = listTanah.find(x => x.id === id); if (!item) return;
+        document.getElementById('modalTanahTitle').innerText = 'Edit Data Tanah';
+        document.getElementById('t_edit_id').value = item.id;
+        document.getElementById('t_nama').value = item.nama;
+        document.getElementById('t_dokumen').value = item.dokumen;
+        document.getElementById('t_sertifikat').value = item.sertifikat;
+        document.getElementById('t_panjang').value = item.panjang;
+        document.getElementById('t_lebar').value = item.lebar;
+      } else {
+        document.getElementById('modalTanahTitle').innerText = 'Tambah Data Tanah';
+        document.getElementById('t_edit_id').value = '';
+        document.getElementById('t_nama').value = '';
+        document.getElementById('t_sertifikat').value = '';
+        document.getElementById('t_panjang').value = '';
+        document.getElementById('t_lebar').value = '';
+      }
+      bukaModal('modalTanah');
+    }
+
+    function simpanTanahLokal() {
+      const editId = document.getElementById('t_edit_id').value;
+      const nama = document.getElementById('t_nama').value.trim();
+      const dokumen = document.getElementById('t_dokumen').value;
+      const sertifikat = document.getElementById('t_sertifikat').value.trim();
+      const panjang = parseFloat(document.getElementById('t_panjang').value || 0);
+      const lebar = parseFloat(document.getElementById('t_lebar').value || 0);
+      const pdfInput = document.getElementById('t_pdf');
+
+      if (!nama || !sertifikat || !panjang || !lebar) return alert('Semua field wajib diisi!');
+
+      const save = (pdfData) => {
+        if (editId) {
+          const idx = listTanah.findIndex(x => x.id == editId);
+          if (idx !== -1) listTanah[idx] = { ...listTanah[idx], nama, dokumen, sertifikat, panjang, lebar, pdf: pdfData || listTanah[idx].pdf };
+        } else {
+          listTanah.push({ id: Date.now(), nama, dokumen, sertifikat, panjang, lebar, pdf: pdfData || '' });
+        }
+        simpanDraftKeLocalStorage(); renderTanah(); tutupModal('modalTanah');
+      };
+
+      if (pdfInput.files && pdfInput.files[0]) {
+        const reader = new FileReader(); reader.onload = (e) => save(e.target.result); reader.readAsDataURL(pdfInput.files[0]);
+      } else { save(); }
+    }
+
+    function hapusDataTanah(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus data tanah ini?')) {
+        listTanah = listTanah.filter(x => x.id != id);
+        simpanDraftKeLocalStorage(); renderTanah(); renderBangunan();
+      }
+    }
+
+    function previewPdfTanah(id) {
+      const item = listTanah.find(x => x.id === id);
+      if (!item || !item.pdf) return alert('Dokumen PDF belum diunggah.');
+      document.getElementById('mediaPreviewTitle').innerText = '📄 Dokumen Tanah: ' + item.nama;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<iframe src="${item.pdf}" class="w-full h-[70vh] rounded-xl" frameborder="0"></iframe>`;
+      bukaModal('modalPreviewMedia');
+    }
+
+    function renderBangunan() {
+      const tbody = document.getElementById('tbodyBangunan');
+      if (!tbody) return;
+      tbody.innerHTML = listBangunan.map(b => `<tr>
+        <td class="p-3 font-bold">${b.nama}</td>
+        <td class="p-3">${b.panjang} x ${b.lebar}</td>
+        <td class="p-3 font-bold">${b.panjang * b.lebar} m²</td>
+        <td class="p-3">${b.tahun}</td>
+        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi}</span> (Lantai ${b.lantai})</td>
+        <td class="p-3 text-center">${b.puprPdf ? `<button onclick="previewPdfPupr(${b.id})" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-2.5 py-1 rounded-lg font-bold border border-emerald-200 transition">📄 Review PUPR</button>` : '<span class="text-slate-400 italic">Tanpa PUPR</span>'}</td>
+        <td class="p-3 text-center space-x-1">
+          <button onclick="bukaModalBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataBangunan(${b.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada bangunan.</td></tr>';
+    }
+
+    function bukaModalBangunan(id = null) {
+      if (listTanah.length === 0) return alert('Isi data tanah terlebih dahulu!');
+      if (id) {
+        const item = listBangunan.find(x => x.id === id); if (!item) return;
+        document.getElementById('modalBangunanTitle').innerText = 'Edit Data Bangunan';
+        document.getElementById('b_edit_id').value = item.id;
+        document.getElementById('b_nama').value = item.nama;
+        document.getElementById('b_panjang').value = item.panjang;
+        document.getElementById('b_lebar').value = item.lebar;
+        document.getElementById('b_tahun').value = item.tahun || '2026';
+        document.getElementById('b_kondisi').value = item.kondisi || 'Baik';
+        document.getElementById('b_lantai').value = item.lantai || '1';
+      } else {
+        document.getElementById('modalBangunanTitle').innerText = 'Tambah Data Bangunan';
+        document.getElementById('b_edit_id').value = ''; document.getElementById('b_nama').value = '';
+        document.getElementById('b_panjang').value = ''; document.getElementById('b_lebar').value = '';
+      }
+      bukaModal('modalBangunan');
+    }
+
+    function simpanBangunanLokal() {
+      const editId = document.getElementById('b_edit_id').value;
+      const nama = document.getElementById('b_nama').value.trim();
+      const panjang = parseFloat(document.getElementById('b_panjang').value || 0);
+      const lebar = parseFloat(document.getElementById('b_lebar').value || 0);
+      const tahun = document.getElementById('b_tahun').value;
+      const kondisi = document.getElementById('b_kondisi').value;
+      const lantai = document.getElementById('b_lantai').value;
+
+      if (!nama || !panjang || !lebar) return alert('Semua field wajib diisi!');
+      const puprFile = document.getElementById('b_pupr_pdf').files[0];
+
+      const save = (puprPdf) => {
+        let bgnObj = { id: editId ? Number(editId) : Date.now(), nama, panjang, lebar, tahun, kondisi, lantai, puprPdf: puprPdf || (editId ? (listBangunan.find(x=>x.id==editId)||{}).puprPdf : '') };
+        if (editId) {
+          const idx = listBangunan.findIndex(x => x.id == editId); if (idx !== -1) listBangunan[idx] = bgnObj;
+        } else { listBangunan.push(bgnObj); }
+        simpanDraftKeLocalStorage(); renderBangunan(); renderTanah(); tutupModal('modalBangunan');
+      };
+
+      if (puprFile) {
+        const r = new FileReader(); r.onload = (e) => save(e.target.result); r.readAsDataURL(puprFile);
+      } else { save(); }
+    }
+
+    function hapusDataBangunan(id) {
+      if (confirm('Hapus data bangunan ini?')) {
+        listBangunan = listBangunan.filter(x => x.id != id);
+        simpanDraftKeLocalStorage(); renderBangunan(); renderTanah();
+      }
+    }
+
+    function previewPdfPupr(id) {
+      const item = listBangunan.find(x => x.id === id);
+      if (!item || !item.puprPdf) return alert('Dokumen PUPR belum diunggah.');
+      document.getElementById('mediaPreviewTitle').innerText = '📄 Dokumen Rekomendasi PUPR - Bangunan: ' + item.nama;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<iframe src="${item.puprPdf}" class="w-full h-[70vh] rounded-xl" frameborder="0"></iframe>`;
+      bukaModal('modalPreviewMedia');
+    }
+
+    function renderRuang() {
+      const tbody = document.getElementById('tbodyRuang');
+      if (!tbody) return;
+      tbody.innerHTML = listRuang.map(r => `<tr>
+        <td class="p-3 font-bold text-slate-800">${r.kategori}</td>
+        <td class="p-3 text-slate-600">${r.nama_bangunan}</td>
+        <td class="p-3 font-semibold">${r.kategori === 'Ruang Teori/Kelas' ? `${r.jml_rombel} Rombel (${r.nama_rombel})` : '-'}</td>
+        <td class="p-3">${r.panjang} x ${r.lebar}</td>
+        <td class="p-3 font-bold">${r.panjang * r.lebar} m²</td>
+        <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
+        <td class="p-3 text-center">${(r.kondisi === 'Rusak Sedang' || r.kondisi === 'Rusak Berat') && r.fotos ? `<button onclick="previewFoto6SudutRuang(${r.id})" class="bg-purple-50 text-purple-700 hover:bg-purple-100 px-2 py-1 rounded font-bold transition">🖼️ Preview Foto</button>` : '<span class="text-slate-400 italic">-</span>'}</td>
+        <td class="p-3 text-center space-x-1">
+          <button onclick="bukaModalRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataRuang(${r.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang.</td></tr>';
+
+      const stR = document.getElementById('statRuang');
+      const stRm = document.getElementById('statRombel');
+      if (stR) stR.innerText = listRuang.length;
+      if (stRm) stRm.innerText = listRuang.reduce((a, c) => a + (parseInt(c.jml_rombel) || 0), 0);
+    }
+
+    function bukaModalRuang(id = null) {
+      if (listBangunan.length === 0) return alert('Isi data bangunan terlebih dahulu!');
+      document.getElementById('r_bangunan_id').innerHTML = listBangunan.map(b => `<option value="${b.id}">${b.nama} (Max: ${b.panjang*b.lebar} m²)</option>`).join('');
+
+      if (id) {
+        const item = listRuang.find(x => x.id === id); if (!item) return;
+        document.getElementById('modalRuangTitle').innerText = 'Edit Data Ruang';
+        document.getElementById('r_edit_id').value = item.id;
+        document.getElementById('r_bangunan_id').value = item.bangunan_id;
+        document.getElementById('r_kategori').value = item.kategori || 'Ruang Teori/Kelas';
+        document.getElementById('r_jml_rombel').value = item.jml_rombel || 1;
+        document.getElementById('r_nama_rombel').value = item.nama_rombel || '';
+        document.getElementById('r_panjang').value = item.panjang;
+        document.getElementById('r_lebar').value = item.lebar;
+        document.getElementById('r_kondisi').value = item.kondisi;
+      } else {
+        document.getElementById('modalRuangTitle').innerText = 'Tambah Data Ruang';
+        document.getElementById('r_edit_id').value = ''; document.getElementById('r_panjang').value = ''; document.getElementById('r_lebar').value = ''; document.getElementById('r_nama_rombel').value = '';
+      }
+      toggleFormKategoriRuang(); toggleFoto6SudutRuang(); bukaModal('modalRuang');
+    }
+
+    function simpanRuangLokal() {
+      const editId = document.getElementById('r_edit_id').value;
+      const bangunanId = document.getElementById('r_bangunan_id').value;
+      const kategori = document.getElementById('r_kategori').value;
+      const jml_rombel = parseInt(document.getElementById('r_jml_rombel').value || 1);
+      const nama_rombel = document.getElementById('r_nama_rombel').value.trim();
+      const panjang = parseFloat(document.getElementById('r_panjang').value || 0);
+      const lebar = parseFloat(document.getElementById('r_lebar').value || 0);
+      const kondisi = document.getElementById('r_kondisi').value;
+
+      if (!panjang || !lebar) return alert('Ukuran panjang dan lebar wajib diisi!');
+      if (kategori === 'Ruang Teori/Kelas' && !nama_rombel) return alert('Nama Rombel / Kelas wajib diisi!');
+
+      const bgn = listBangunan.find(x => x.id == bangunanId);
+      const fileDepan = document.getElementById('r_foto_depan').files[0];
+
+      const save = (fotosObj) => {
+        let rObj = {
+          id: editId ? Number(editId) : Date.now(),
+          bangunan_id: bangunanId, nama_bangunan: bgn ? bgn.nama : 'Bangunan Induk',
+          kategori, nama: kategori, jml_rombel: kategori === 'Ruang Teori/Kelas' ? jml_rombel : 0,
+          nama_rombel: kategori === 'Ruang Teori/Kelas' ? nama_rombel : '-',
+          panjang, lebar, kondisi, fotos: fotosObj || (editId ? (listRuang.find(x=>x.id==editId)||{}).fotos : null)
+        };
+
+        if (editId) {
+          const idx = listRuang.findIndex(x => x.id == editId); if (idx !== -1) listRuang[idx] = rObj;
+        } else { listRuang.push(rObj); }
+        simpanDraftKeLocalStorage(); renderRuang(); tutupModal('modalRuang');
+      };
+
+      if ((kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') && fileDepan) {
+        const r = new FileReader(); r.onload = (e) => save({ depan: e.target.result }); r.readAsDataURL(fileDepan);
+      } else { save(); }
+    }
+
+    function hapusDataRuang(id) {
+      if (confirm('Hapus data ruang ini?')) {
+        listRuang = listRuang.filter(x => Number(x.id) !== Number(id));
+        listAlat = listAlat.filter(x => Number(x.ruang_id) !== Number(id));
+        simpanDraftKeLocalStorage(); renderRuang(); renderAlat();
+      }
+    }
+
+    function previewFoto6SudutRuang(id) {
+      const item = listRuang.find(x => Number(x.id) === Number(id));
+      if (!item || !item.fotos) return alert('Foto kondisi kerusakan belum diunggah.');
+      document.getElementById('mediaPreviewTitle').innerText = '🖼️ Foto Kerusakan 6 Sudut - Ruang: ' + item.kategori;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<div class="p-4 flex justify-center"><img src="${item.fotos.depan}" class="max-h-[65vh] rounded-xl border shadow-lg object-contain"></div>`;
+      bukaModal('modalPreviewMedia');
+    }
+
+    function renderAlat() {
+      const tbody = document.getElementById('tbodyAlat');
+      if (!tbody) return;
+      tbody.innerHTML = listAlat.map(a => `<tr>
+        <td class="p-3 font-bold text-slate-800">${a.ruang}</td>
+        <td class="p-3 font-semibold text-indigo-900">${a.nama}</td>
+        <td class="p-3 text-center text-emerald-600 font-bold">${a.jml_baik || 0}</td>
+        <td class="p-3 text-center text-rose-600 font-bold">${a.jml_rusak || 0}</td>
+        <td class="p-3 text-center font-bold">${a.jumlah}</td>
+        <td class="p-3 text-center space-x-1">
+          <button onclick="bukaModalAlat(${a.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataAlat(${a.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="6" class="p-4 text-center text-slate-400">Belum ada sarana alat terinput.</td></tr>';
+    }
+
+    function bukaModalAlat(id = null) {
+      if (listRuang.length === 0) return alert('Silakan input Data Ruang terlebih dahulu!');
+      const selectRuang = document.getElementById('a_ruang_id');
+      selectRuang.innerHTML = listRuang.map(r => `<option value="${r.id}">${r.kategori} ${r.nama_rombel !== '-' ? '('+r.nama_rombel+')' : ''}</option>`).join('');
+
+      if (id) {
+        const item = listAlat.find(x => x.id === id); if (!item) return;
+        document.getElementById('modalAlatTitle').innerText = 'Edit Data Alat / Sarana';
+        document.getElementById('a_edit_id').value = item.id;
+        document.getElementById('a_ruang_id').value = item.ruang_id;
+        document.getElementById('a_nama').value = item.nama;
+        document.getElementById('a_jml_baik').value = item.jml_baik || 0;
+        document.getElementById('a_jml_rusak').value = item.jml_rusak || 0;
+      } else {
+        document.getElementById('modalAlatTitle').innerText = 'Input Alat & Sarana Ruang';
+        document.getElementById('a_edit_id').value = ''; document.getElementById('a_nama').value = '';
+        document.getElementById('a_jml_baik').value = 0; document.getElementById('a_jml_rusak').value = 0;
+      }
+      bukaModal('modalAlat');
+    }
+
+    function simpanAlatLokal() {
+      const editId = document.getElementById('a_edit_id').value;
+      const ruangId = document.getElementById('a_ruang_id').value;
+      const rObj = listRuang.find(x => x.id == ruangId);
+      const namaRuangStr = rObj ? `${rObj.kategori} ${rObj.nama_rombel !== '-' ? '('+rObj.nama_rombel+')' : ''}` : 'Ruang Umum';
+
+      const nama = document.getElementById('a_nama').value.trim();
+      const jml_baik = parseInt(document.getElementById('a_jml_baik').value || 0);
+      const jml_rusak = parseInt(document.getElementById('a_jml_rusak').value || 0);
+
+      if (!nama) return alert('Nama/Jenis Alat wajib diisi!');
+
+      let aObj = { id: editId ? Number(editId) : Date.now(), ruang_id: ruangId, ruang: namaRuangStr, nama, jml_baik, jml_rusak, jumlah: jml_baik + jml_rusak };
+
+      if (editId) {
+        const idx = listAlat.findIndex(x => x.id == editId); if (idx !== -1) listAlat[idx] = aObj;
+      } else { listAlat.push(aObj); }
+      simpanDraftKeLocalStorage(); renderAlat(); tutupModal('modalAlat');
+    }
+
+    function hapusDataAlat(id) {
+      if (confirm('Hapus data alat ini?')) {
+        listAlat = listAlat.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage(); renderAlat();
+      }
+    }
+
+    function renderGTK() {
+      const tbody = document.getElementById('tbodyGTK');
+      if (!tbody) return;
+      tbody.innerHTML = listGTK.map(g => `<tr>
+        <td class="p-3 font-bold">${g.nama}<br><span class="text-[10px] text-slate-500">TTL: ${g.tmplahir}, ${g.tgllahir} (${g.jk})</span></td>
+        <td class="p-3 font-mono text-[11px]">NIP/NIK: ${g.nip}<br>NUPTK: ${g.nuptk || '-'}</td>
+        <td class="p-3">${g.status} - ${g.jenis}<br>Serdik: ${g.serdik}</td>
+        <td class="p-3">${g.perkawinan} (Anak: ${g.anak || 0})<br>Pasangan: ${g.pasangan || '-'}</td>
+        <td class="p-3 text-center space-x-1">
+          <button onclick="bukaModalGTK(${g.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataGTK(${g.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data GTK.</td></tr>';
+      
+      const stG = document.getElementById('statGuru');
+      if (stG) stG.innerText = listGTK.length;
+    }
+
+    function bukaModalGTK(id = null) {
+      if (id) {
+        const g = listGTK.find(x => x.id === id); if (!g) return;
+        document.getElementById('modalGTKTitle').innerText = 'Edit Data GTK';
+        document.getElementById('g_edit_id').value = g.id;
+        document.getElementById('g_nama').value = g.nama;
+        document.getElementById('g_tmplahir').value = g.tmplahir;
+        document.getElementById('g_tgllahir').value = g.tgllahir;
+        document.getElementById('g_jk').value = g.jk;
+        document.getElementById('g_nip').value = g.nip;
+        document.getElementById('g_nuptk').value = g.nuptk || '';
+        document.getElementById('g_status').value = g.status;
+        document.getElementById('g_alamat').value = g.alamat;
+        document.getElementById('g_jenis').value = g.jenis;
+        document.getElementById('g_serdik').value = g.serdik;
+        document.getElementById('g_mapelserdik').value = g.mapelserdik || '';
+        document.getElementById('g_perkawinan').value = g.perkawinan || 'Belum Kawin';
+        document.getElementById('g_pasangan').value = g.pasangan || '';
+        document.getElementById('g_lok_pasangan').value = g.lok_pasangan || '';
+        document.getElementById('g_anak').value = g.anak || '0';
+      } else {
+        document.getElementById('modalGTKTitle').innerText = 'Tambah Data GTK';
+        document.getElementById('g_edit_id').value = ''; document.getElementById('g_nama').value = ''; document.getElementById('g_nip').value = '';
+      }
+      toggleFormPerkawinanGTK(); bukaModal('modalGTK');
+    }
+
+    function simpanGTKLokal() {
+      const editId = document.getElementById('g_edit_id').value;
+      const nama = document.getElementById('g_nama').value.trim();
+      const tmplahir = document.getElementById('g_tmplahir').value;
+      const tgllahir = document.getElementById('g_tgllahir').value;
+      const jk = document.getElementById('g_jk').value;
+      const nip = document.getElementById('g_nip').value.trim();
+      const nuptk = document.getElementById('g_nuptk').value.trim();
+      const status = document.getElementById('g_status').value;
+      const alamat = document.getElementById('g_alamat').value.trim();
+      const jenis = document.getElementById('g_jenis').value;
+      const serdik = document.getElementById('g_serdik').value;
+      const mapelserdik = document.getElementById('g_mapelserdik').value;
+      const perkawinan = document.getElementById('g_perkawinan').value;
+
+      let pasangan = '', lok_pasangan = '', anak = '0';
+      if (perkawinan !== 'Belum Kawin') {
+        pasangan = document.getElementById('g_pasangan').value;
+        lok_pasangan = document.getElementById('g_lok_pasangan').value;
+        anak = document.getElementById('g_anak').value;
+      }
+
+      if (!nama || !nip || !alamat) return alert('Semua field wajib diisi!');
+
+      let gObj = { id: editId ? Number(editId) : Date.now(), nama, tmplahir, tgllahir, jk, nip, nuptk, status, alamat, jenis, serdik, mapelserdik, perkawinan, pasangan, lok_pasangan, anak };
+
+      if (editId) {
+        const idx = listGTK.findIndex(x => x.id == editId); if (idx !== -1) listGTK[idx] = gObj;
+      } else { listGTK.push(gObj); }
+      simpanDraftKeLocalStorage(); renderGTK(); tutupModal('modalGTK');
+    }
+
+    function hapusDataGTK(id) {
+      if (confirm('Hapus data GTK ini?')) {
+        listGTK = listGTK.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage(); renderGTK();
+      }
+    }
+
+    function renderSiswa() {
+      const tbody = document.getElementById('tbodySiswa');
+      if (!tbody) return;
+      tbody.innerHTML = listSiswa.map(s => `<tr>
+        <td class="p-3 font-bold">${s.pd_l} L / ${s.pd_p} P (Total: ${parseInt(s.pd_l)+parseInt(s.pd_p)})</td>
+        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">✓ Total Usia Cocok (${s.totUsia || (parseInt(s.pd_l)+parseInt(s.pd_p))})</span></td>
+        <td class="p-3 text-amber-700 font-bold">${s.do_l} L / ${s.do_p} P</td>
+        <td class="p-3 text-emerald-700 font-bold">${s.pip_l} L / ${s.pip_p} P</td>
+        <td class="p-3 text-center space-x-1">
+          <button onclick="bukaModalSiswa(${s.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataSiswa(${s.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data peserta didik.</td></tr>';
+
+      let tot = 0; listSiswa.forEach(s => tot += (parseInt(s.pd_l) || 0) + (parseInt(s.pd_p) || 0));
+      const stSw = document.getElementById('statSiswa');
+      if (stSw) stSw.innerText = tot;
+    }
+
+    function bukaModalSiswa(id = null) {
+      renderFormRentangUsiaSiswa();
+      if (id) {
+        const s = listSiswa.find(x => x.id === id); if (!s) return;
+        document.getElementById('modalSiswaTitle').innerText = 'Edit Data Rekap Peserta Didik';
+        document.getElementById('s_edit_id').value = s.id;
+        document.getElementById('s_pd_p').value = s.pd_p;
+        document.getElementById('s_pd_l').value = s.pd_l;
+        document.getElementById('s_do_l').value = s.do_l;
+        document.getElementById('s_do_p').value = s.do_p;
+        document.getElementById('s_pip_l').value = s.pip_l;
+        document.getElementById('s_pip_p').value = s.pip_p;
+        if (s.usia_detail) {
+          Object.keys(s.usia_detail).forEach(k => {
+            const el = document.getElementById(k); if (el) el.value = s.usia_detail[k];
+          });
+        }
+      } else {
+        document.getElementById('modalSiswaTitle').innerText = 'Input Rekap Peserta Didik';
+        document.getElementById('s_edit_id').value = '';
+      }
+      bukaModal('modalSiswa');
+    }
+
+    function simpanSiswaLokal() {
+      const editId = document.getElementById('s_edit_id').value;
+      const pd_p = parseInt(document.getElementById('s_pd_p').value || 0);
+      const pd_l = parseInt(document.getElementById('s_pd_l').value || 0);
+      const totSiswa = pd_p + pd_l;
+
+      let dataUsia = {}; let totUsia = 0;
+      document.querySelectorAll('.usia-input').forEach(inp => {
+        let val = parseInt(inp.value || 0); dataUsia[inp.id] = val; totUsia += val;
+      });
+
+      if (totSiswa <= 0) return alert('Jumlah Peserta Didik wajib lebih dari 0!');
+      if (totUsia !== totSiswa) return alert(`⚠️ Penjumlahan usia (${totUsia}) TIDAK COCOK dengan Total Siswa (${totSiswa})`);
+
+      let sObj = {
+        id: editId ? Number(editId) : Date.now(), pd_p, pd_l, usia_detail: dataUsia, totUsia,
+        do_l: document.getElementById('s_do_l').value, do_p: document.getElementById('s_do_p').value,
+        pip_l: document.getElementById('s_pip_l').value, pip_p: document.getElementById('s_pip_p').value
+      };
+
+      if (editId) {
+        const idx = listSiswa.findIndex(x => x.id == editId); if (idx !== -1) listSiswa[idx] = sObj;
+      } else { listSiswa.push(sObj); }
+      simpanDraftKeLocalStorage(); renderSiswa(); tutupModal('modalSiswa');
+    }
+
+    function hapusDataSiswa(id) {
+      if (confirm('Hapus data rekap siswa ini?')) {
+        listSiswa = listSiswa.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage(); renderSiswa();
+      }
+    }
+
     async function inisialisasiDataSekolah() {
       if (activeUser.npsn) {
         try {
@@ -974,21 +1415,18 @@
             const serverRes = await res.json();
             const sData = serverRes.data || serverRes;
             if (sData && Object.keys(sData).length > 0) {
-              // Jika server memiliki data lengkap, gabungkan ke activeUser
               activeUser = { ...activeUser, ...sData };
-              
               if (sData.tanah && sData.tanah.length) listTanah = sData.tanah;
               if (sData.bangunan && sData.bangunan.length) listBangunan = sData.bangunan;
               if (sData.ruang && sData.ruang.length) listRuang = sData.ruang;
               if (sData.alat && sData.alat.length) listAlat = sData.alat;
               if (sData.gtk && sData.gtk.length) listGTK = sData.gtk;
               if (sData.siswa && sData.siswa.length) listSiswa = sData.siswa;
-
               simpanDraftKeLocalStorage();
             }
           }
         } catch (e) {
-          console.log('Menggunakan data cache lokal (Offline mode).');
+          console.log('Mode Offline / Cache lokal digunakan.');
         }
       }
       updateTampilan();
@@ -1096,8 +1534,87 @@
       updateTampilan();
     }
 
-    // [Fungsi-fungsi render Tanah, Bangunan, Ruang, Alat, GTK, Siswa, dll tetap berjalan seperti sebelumnya...]
-    // (Pastikan setiap fungsi tambah/edit/hapus memanggil fungsi simpanDraftKeLocalStorage())
+    function jalankanProsesValidasi() {
+      const line = document.getElementById('scanAnimationLine');
+      const statusText = document.getElementById('validasiStatusText');
+      const content = document.getElementById('hasilValidasiContent');
+
+      line.classList.remove('hidden');
+      statusText.innerHTML = `<p class="text-3xl animate-bounce">🔍</p><h4 class="text-base font-bold text-sky-400">Sedang Memeriksa Validasi Data...</h4><p class="text-xs text-slate-400">Sistem sedang memindai keabsahan data kelengkapan profil, tanah, bangunan, alat ruang, GTK, dan siswa...</p>`;
+      content.classList.add('hidden');
+
+      setTimeout(() => {
+        line.classList.add('hidden');
+        statusText.classList.add('hidden');
+
+        let ruangBelumPunyaAlat = listRuang.filter(r => !listAlat.some(a => Number(a.ruang_id) === Number(r.id)));
+
+        let items = [
+          { nama: 'Profil Sekolah & SK Pendirian', valid: !!(activeUser.sk_pendirian && activeUser.kasek) },
+          { nama: 'Data Lahan / Tanah Sekolah', valid: listTanah.length > 0 },
+          { nama: 'Data Bangunan Sekolah', valid: listBangunan.length > 0 },
+          { nama: 'Data Ruang & Rombel', valid: listRuang.length > 0 },
+          { nama: 'Kelengkapan Sarana Alat per Ruang', valid: listRuang.length > 0 && ruangBelumPunyaAlat.length === 0, ket: ruangBelumPunyaAlat.length > 0 ? `${ruangBelumPunyaAlat.length} Ruang Belum Ada Alat` : '' },
+          { nama: 'Data GTK / Tenaga Pendidik', valid: listGTK.length > 0 },
+          { nama: 'Data Rekap Peserta Didik', valid: listSiswa.length > 0 },
+        ];
+
+        let html = '<h5 class="text-sm font-bold text-emerald-400 border-b border-slate-700 pb-2 mb-3">Hasil Pemindaian Validasi Data:</h5><div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+        let allValid = true;
+
+        items.forEach(it => {
+          if (!it.valid) allValid = false;
+          html += `<div class="p-3 rounded-xl border ${it.valid ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-300' : 'bg-rose-950/40 border-rose-500/30 text-rose-300'} flex items-center justify-between">
+            <div>
+              <p class="font-semibold">${it.nama}</p>
+              ${it.ket ? `<p class="text-[10px] text-rose-400 font-mono">${it.ket}</p>` : ''}
+            </div>
+            <span class="font-bold px-2 py-0.5 rounded text-[10px] ${it.valid ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">${it.valid ? '✓ VALID' : '❌ INVALID'}</span>
+          </div>`;
+        });
+        html += '</div>';
+
+        if (allValid) {
+          html += `<div class="p-3 bg-emerald-600 text-white rounded-xl text-center font-bold mt-4">🎉 Seluruh Data Lengkap dan Valid! Anda Siap Melakukan Sinkronisasi Data.</div>`;
+        } else {
+          html += `<div class="p-3 bg-amber-600 text-white rounded-xl text-center font-bold mt-4">⚠️ Beberapa data masih belum lengkap. Harap lengkapi sebelum sinkronisasi.</div>`;
+        }
+
+        content.innerHTML = html;
+        content.classList.remove('hidden');
+      }, 1500);
+    }
+
+    function hitungPerubahanSyncDelta() {
+      let delta = [];
+      delta.push(`Profil Sekolah (${activeUser.status_sekolah || 'Aktif'})`);
+      if (listTanah.length) delta.push(`${listTanah.length} Tanah`);
+      if (listBangunan.length) delta.push(`${listBangunan.length} Bangunan`);
+      if (listRuang.length) delta.push(`${listRuang.length} Ruang`);
+      if (listAlat.length) delta.push(`${listAlat.length} Alat Sarana`);
+      if (listGTK.length) delta.push(`${listGTK.length} GTK`);
+      if (listSiswa.length) delta.push(`${listSiswa.length} Rekap Siswa`);
+
+      let txt = delta.length ? 'Pembaruan Data: ' + delta.join(', ') : 'Belum ada perubahan data baru.';
+      const lbl = document.getElementById('labelSyncDelta');
+      if (lbl) lbl.innerText = txt;
+      return txt;
+    }
+
+    function renderRiwayatSync() {
+      const tbody = document.getElementById('tbodyRiwayatSync');
+      if (!tbody) return;
+      if (!riwayatSync.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Belum ada riwayat sinkronisasi data.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = riwayatSync.map(r => `<tr>
+        <td class="p-3 font-mono font-bold text-slate-700">${r.waktu}</td>
+        <td class="p-3">${r.operator}</td>
+        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-bold">✓ Success</span></td>
+        <td class="p-3 text-slate-600 font-mono text-[11px]">${r.delta}</td>
+      </tr>`).join('');
+    }
 
     async function mulaiProsesSinkronisasiServer() {
       const deltaTxt = hitungPerubahanSyncDelta();
@@ -1204,7 +1721,7 @@
       window.location.href = '/login.html';
     }
 
-    // JALANKAN INISIALISASI SAAT HALAMAN DIMUAT / F5
+    // JALANKAN INISIALISASI
     inisialisasiDataSekolah();
   </script>
 </body>
