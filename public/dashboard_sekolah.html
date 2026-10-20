@@ -958,27 +958,49 @@
       const nama = activeUser.nama_sekolah || activeUser.nama || 'Sekolah Binaan';
       jenisJenjang = dapatkanJenjangSekolah();
 
-      // Jika draft lokal kosong, coba tarik data dari server jika sudah pernah sinkron
-      if (!listTanah.length && !listBangunan.length && !listRuang.length && activeUser.npsn) {
+      // Coba tarik data terbaru dari server PostgreSQL
+      if (activeUser.npsn) {
         try {
           const res = await fetch(`/api/sekolah/${activeUser.npsn}`, {
             headers: { 'Authorization': 'Bearer ' + token }
           });
           if (res.ok) {
-            const serverData = await res.json();
-            if (serverData && serverData.data) {
-              // Muat data dari server ke draft lokal
-              listTanah = serverData.data.tanah || [];
-              listBangunan = serverData.data.bangunan || [];
-              listRuang = serverData.data.ruang || [];
-              listAlat = serverData.data.alat || [];
-              listGTK = serverData.data.gtk || [];
-              listSiswa = serverData.data.siswa || [];
+            const serverRes = await res.json();
+            const sData = serverRes.data || serverRes;
+            if (sData) {
+              // Sinkronkan data profil dari server jika ada
+              if (sData.status_sekolah) activeUser.status_sekolah = sData.status_sekolah;
+              if (sData.akreditasi) activeUser.akreditasi = sData.akreditasi;
+              if (sData.sk_pendirian) activeUser.sk_pendirian = sData.sk_pendirian;
+              if (sData.tgl_sk_pendirian) activeUser.tgl_sk_pendirian = sData.tgl_sk_pendirian;
+              if (sData.alamat) activeUser.alamat = sData.alamat;
+              if (sData.desa) activeUser.desa = sData.desa;
+              if (sData.kecamatan) activeUser.kecamatan = sData.kecamatan;
+              if (sData.nama_kepala_sekolah || sData.kasek) activeUser.kasek = sData.nama_kepala_sekolah || sData.kasek;
+              if (sData.nip_kepala_sekolah || sData.nipKasek) activeUser.nipKasek = sData.nip_kepala_sekolah || sData.nipKasek;
+              if (sData.wa_operator || sData.no_wa) activeUser.wa_operator = sData.wa_operator || sData.no_wa;
+              if (sData.status_bosp) activeUser.status_bosp = sData.status_bosp;
+              if (sData.bantuan_revitalisasi) activeUser.bantuan_revitalisasi = sData.bantuan_revitalisasi;
+              if (sData.sumber_listrik) activeUser.sumber_listrik = sData.sumber_listrik;
+              if (sData.sumber_internet) activeUser.sumber_internet = sData.sumber_internet;
+              if (sData.latitude) activeUser.latitude = sData.latitude;
+              if (sData.longitude) activeUser.longitude = sData.longitude;
+              if (sData.bantuan_tik) activeUser.bantuan_tik = sData.bantuan_tik;
+
+              localStorage.setItem('user', JSON.stringify(activeUser));
+
+              // Muat list sarpras jika lokal kosong
+              if (!listTanah.length && sData.tanah) listTanah = sData.tanah;
+              if (!listBangunan.length && sData.bangunan) listBangunan = sData.bangunan;
+              if (!listRuang.length && sData.ruang) listRuang = sData.ruang;
+              if (!listAlat.length && sData.alat) listAlat = sData.alat;
+              if (!listGTK.length && sData.gtk) listGTK = sData.gtk;
+              if (!listSiswa.length && sData.siswa) listSiswa = sData.siswa;
               simpanDraftKeLocalStorage();
             }
           }
         } catch (e) {
-          console.log('Mode offline / draft lokal digunakan.');
+          console.log('Menggunakan cache draft lokal.');
         }
       }
 
@@ -994,19 +1016,18 @@
       document.getElementById('b_status').innerText = activeUser.status_sekolah || 'Negeri';
       document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || 'B';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
-      document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser. nama_kepala_sekolah || 'Belum diisi';
+      document.getElementById('b_kasek').innerText = activeUser.kasek || 'Belum diisi';
       document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || '-';
       document.getElementById('b_bosp').innerText = activeUser.status_bosp || 'Ya';
       document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || 'Belum Terima';
       document.getElementById('b_coords').innerText = `${activeUser.latitude || '-8.621430'}, ${activeUser.longitude || '122.215430'}`;
       document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || 'PLN'} / ${activeUser.sumber_internet || 'Wifi'}`;
 
-      // Konsistensi Field Profil Terkunci & Tersimpan
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
       document.getElementById('inpBentuk').value = jenisJenjang;
       document.getElementById('inpOperator').value = activeUser.operator || activeUser.nama_operator || '';
-      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || '';
+      document.getElementById('inpHpOperator').value = activeUser.wa_operator || '';
       
       document.getElementById('inpStatus').value = activeUser.status_sekolah || '';
       document.getElementById('inpAkreditasi').value = activeUser.akreditasi || '';
@@ -1015,8 +1036,8 @@
       document.getElementById('inpAlamat').value = activeUser.alamat || '';
       document.getElementById('inpDesa').value = activeUser.desa || '';
       document.getElementById('inpKecamatan').value = activeUser.kecamatan || '';
-      document.getElementById('inpKasek').value = activeUser.kasek || activeUser.nama_kepala_sekolah || '';
-      document.getElementById('inpNipKasek').value = activeUser.nipKasek || activeUser.nip_kepala_sekolah || '';
+      document.getElementById('inpKasek').value = activeUser.kasek || '';
+      document.getElementById('inpNipKasek').value = activeUser.nipKasek || '';
       document.getElementById('inpBosp').value = activeUser.status_bosp || '';
       document.getElementById('inpRevitalisasi').value = activeUser.bantuan_revitalisasi || 'Belum Terima';
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
@@ -1075,7 +1096,7 @@
       });
 
       localStorage.setItem('user', JSON.stringify(activeUser));
-      alert('✓ Profil, Infrastruktur & Data TIK Sekolah Berhasil Disimpan!');
+      alert('✓ Profil, Infrastruktur & Data TIK Sekolah Berhasil Disimpan di Draft Lokal!');
       updateTampilan();
     }
 
@@ -1740,6 +1761,7 @@
         progressText.innerText = `Mengirimkan Data... ${percent}%`;
       }, 150);
 
+      // KEMAS SELURUH DATA PROFIL + SARPRAS SECARA LENGKAP KE PAYLOAD
       const payload = {
         npsn: activeUser.npsn,
         nama_sekolah: activeUser.nama_sekolah || activeUser.nama,
@@ -1753,7 +1775,7 @@
         kecamatan: activeUser.kecamatan,
         nama_kepala_sekolah: activeUser.kasek,
         nip_kepala_sekolah: activeUser.nipKasek,
-        operator: activeUser.operator,
+        operator: activeUser.operator || activeUser.nama_operator,
         wa_operator: activeUser.wa_operator,
         status_bosp: activeUser.status_bosp,
         bantuan_revitalisasi: activeUser.bantuan_revitalisasi,
@@ -1786,8 +1808,7 @@
         if (contentType && contentType.includes('application/json')) {
           resData = await response.json();
         } else {
-          const rawText = await response.text();
-          if (!response.ok) throw new Error(`Server mengembalikan status (${response.status}). Pastikan endpoint backend /api/sekolah/sync aktif.`);
+          if (!response.ok) throw new Error(`Server mengembalikan status (${response.status}).`);
         }
 
         if (!response.ok) throw new Error(resData.message || 'Gagal sinkronisasi data.');
@@ -1799,7 +1820,7 @@
         localStorage.setItem(`takola_sync_log_${activeUser.npsn}`, JSON.stringify(riwayatSync));
 
         setTimeout(() => {
-          alert('✓ Sinkronisasi ke Server Database PostgreSQL Berhasil Dilakukan!');
+          alert('✓ Profil & Seluruh Data Sekolah Berhasil Disinkronkan ke Server Database!');
           let badge = document.getElementById('statusBadge');
           badge.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold';
           badge.innerText = 'Status: Ter-Sinkronisasi ke Database';
