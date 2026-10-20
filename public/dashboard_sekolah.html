@@ -501,6 +501,10 @@
           <p id="syncProgressText" class="text-xs font-bold text-emerald-600">Mengirimkan Data... 0%</p>
         </div>
 
+        <div id="warningBelumValid" class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs font-semibold hidden">
+          ⚠️ Data Anda belum divalidasi atau masih terdapat item **INVALID**. Silakan jalankan **Validasi Data** terlebih dahulu hingga seluruh indikator berwarna hijau.
+        </div>
+
         <button id="btnSinkronAksi" onclick="mulaiProsesSinkronisasiServer()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-xl font-bold text-sm shadow-md transition w-full flex items-center justify-center gap-2 cursor-pointer">
           <span>⚡</span> Kirim & Sinkronkan Sekarang ke Server
         </button>
@@ -736,10 +740,11 @@
     let listGTK = draftData.listGTK || [];
     let listSiswa = draftData.listSiswa || [];
     let riwayatSync = JSON.parse(localStorage.getItem(`takola_sync_log_${activeUser.npsn}`) || '[]');
+    let isDataValid = false; // Flag status validasi
     let map = null, marker = null;
 
     function simpanDraftKeLocalStorage() {
-      const payload = { activeUser, listTanah, listBangunan, listRuang, listAlat, listGTK, listSiswa };
+      const payload = { activeUser, listTanah, listBangunan, listRuang, listAlat, listGTK, listSiswa, isDataValid };
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(payload));
       localStorage.setItem('user', JSON.stringify(activeUser));
     }
@@ -781,7 +786,26 @@
       if (navBtn) navBtn.classList.add('sidebar-active');
 
       if (tabName === 'sekolah') { setTimeout(initMapSatelit, 300); }
-      if (tabName === 'sinkron') { hitungPerubahanSyncDelta(); }
+      if (tabName === 'sinkron') { 
+        hitungPerubahanSyncDelta(); 
+        periksaStatusTombolSinkron();
+      }
+    }
+
+    function periksaStatusTombolSinkron() {
+      const btnSync = document.getElementById('btnSinkronAksi');
+      const warnBox = document.getElementById('warningBelumValid');
+      if (!btnSync) return;
+
+      if (!isDataValid) {
+        btnSync.disabled = true;
+        btnSync.classList.add('opacity-50', 'cursor-not-allowed');
+        if (warnBox) warnBox.classList.remove('hidden');
+      } else {
+        btnSync.disabled = false;
+        btnSync.classList.remove('opacity-50', 'cursor-not-allowed');
+        if (warnBox) warnBox.classList.add('hidden');
+      }
     }
 
     function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -910,7 +934,6 @@
     function getTotalLuasTanah() { return listTanah.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
     function getTotalLuasBangunan() { return listBangunan.reduce((acc, curr) => acc + (parseFloat(curr.panjang || 0) * parseFloat(curr.lebar || 0)), 0); }
 
-    // RENDER FUNGSI-FUNGSI UTAMA
     function renderTanah() {
       const totLuasBgn = getTotalLuasBangunan();
       const tbody = document.getElementById('tbodyTanah');
@@ -1415,7 +1438,17 @@
             const serverRes = await res.json();
             const sData = serverRes.data || serverRes;
             if (sData && Object.keys(sData).length > 0) {
-              activeUser = { ...activeUser, ...sData };
+              // Gabungkan data registrasi/server ke activeUser dengan pemetaan properti yang aman
+              activeUser = { 
+                ...activeUser, 
+                ...sData,
+                nama_sekolah: sData.nama_sekolah || sData.nama || activeUser.nama_sekolah || activeUser.nama,
+                kasek: sData.kasek || sData.nama_kepala_sekolah || activeUser.kasek,
+                nipKasek: sData.nipKasek || sData.nip_kepala_sekolah || activeUser.nipKasek,
+                operator: sData.operator || sData.nama_operator || activeUser.operator,
+                wa_operator: sData.wa_operator || sData.no_wa || activeUser.wa_operator
+              };
+
               if (sData.tanah && sData.tanah.length) listTanah = sData.tanah;
               if (sData.bangunan && sData.bangunan.length) listBangunan = sData.bangunan;
               if (sData.ruang && sData.ruang.length) listRuang = sData.ruang;
@@ -1426,9 +1459,15 @@
             }
           }
         } catch (e) {
-          console.log('Mode Offline / Cache lokal digunakan.');
+          console.log('Mode Offline / Menggunakan cache lokal.');
         }
       }
+
+      // Ambil kembali status validasi dari draft jika ada
+      if (draftData.isDataValid !== undefined) {
+        isDataValid = draftData.isDataValid;
+      }
+
       updateTampilan();
     }
 
@@ -1529,8 +1568,10 @@
         }
       });
 
+      // Setiap ada perubahan profil, status validasi di-reset menjadi false agar user memvalidasi ulang
+      isDataValid = false;
       simpanDraftKeLocalStorage();
-      alert('✓ Profil, Infrastruktur & Data TIK Sekolah Berhasil Disimpan di Draft Lokal!');
+      alert('✓ Profil Sekolah Disimpan! Status Validasi direset, silakan lakukan Validasi Data kembali.');
       updateTampilan();
     }
 
@@ -1574,10 +1615,13 @@
         });
         html += '</div>';
 
+        isDataValid = allValid; // Set status global validasi
+        simpanDraftKeLocalStorage();
+
         if (allValid) {
-          html += `<div class="p-3 bg-emerald-600 text-white rounded-xl text-center font-bold mt-4">🎉 Seluruh Data Lengkap dan Valid! Anda Siap Melakukan Sinkronisasi Data.</div>`;
+          html += `<div class="p-3 bg-emerald-600 text-white rounded-xl text-center font-bold mt-4">🎉 Seluruh Data Lengkap dan Valid! Menu Sinkronisasi Sekarang Telah Dibuka.</div>`;
         } else {
-          html += `<div class="p-3 bg-amber-600 text-white rounded-xl text-center font-bold mt-4">⚠️ Beberapa data masih belum lengkap. Harap lengkapi sebelum sinkronisasi.</div>`;
+          html += `<div class="p-3 bg-amber-600 text-white rounded-xl text-center font-bold mt-4">⚠️ Beberapa data masih belum lengkap. Menu Sinkronisasi dikunci hingga data valid.</div>`;
         }
 
         content.innerHTML = html;
@@ -1617,6 +1661,13 @@
     }
 
     async function mulaiProsesSinkronisasiServer() {
+      // PENGECEKAN KEAMANAN TAMBAHAN: Tolak jika belum valid
+      if (!isDataValid) {
+        alert('❌ Sinkronisasi ditolak! Data sekolah Anda belum lengkap atau belum valid. Silakan jalankan Validasi Data terlebih dahulu.');
+        switchTab('validasi');
+        return;
+      }
+
       const deltaTxt = hitungPerubahanSyncDelta();
       const progressContainer = document.getElementById('syncProgressContainer');
       const progressBar = document.getElementById('syncProgressBar');
