@@ -740,7 +740,7 @@
     let listGTK = draftData.listGTK || [];
     let listSiswa = draftData.listSiswa || [];
     let riwayatSync = JSON.parse(localStorage.getItem(`takola_sync_log_${activeUser.npsn}`) || '[]');
-    let isDataValid = false; // Flag status validasi
+    let isDataValid = false;
     let map = null, marker = null;
 
     function simpanDraftKeLocalStorage() {
@@ -1429,6 +1429,10 @@
     }
 
     async function inisialisasiDataSekolah() {
+      // 1. Tampilkan data awal secara instan dari localStorage agar tidak ada tampilan 'Memuat...'
+      updateTampilan();
+
+      // 2. Kemudian coba ambil pembaruan dari server jika online
       if (activeUser.npsn) {
         try {
           const res = await fetch(`/api/sekolah/${activeUser.npsn}`, {
@@ -1438,7 +1442,6 @@
             const serverRes = await res.json();
             const sData = serverRes.data || serverRes;
             if (sData && Object.keys(sData).length > 0) {
-              // Gabungkan data registrasi/server ke activeUser dengan pemetaan properti yang aman
               activeUser = { 
                 ...activeUser, 
                 ...sData,
@@ -1456,27 +1459,25 @@
               if (sData.gtk && sData.gtk.length) listGTK = sData.gtk;
               if (sData.siswa && sData.siswa.length) listSiswa = sData.siswa;
               simpanDraftKeLocalStorage();
+              updateTampilan();
             }
           }
         } catch (e) {
-          console.log('Mode Offline / Menggunakan cache lokal.');
+          console.log('Mode Offline / Menggunakan data lokal.');
         }
       }
 
-      // Ambil kembali status validasi dari draft jika ada
       if (draftData.isDataValid !== undefined) {
         isDataValid = draftData.isDataValid;
       }
-
-      updateTampilan();
     }
 
     function updateTampilan() {
-      const nama = activeUser.nama_sekolah || activeUser.nama || 'Sekolah Binaan';
+      const nama = activeUser.nama_sekolah || activeUser.nama || activeUser.namaSekolah || 'Sekolah Binaan';
       jenisJenjang = dapatkanJenjangSekolah();
 
       document.getElementById('sidebarNamaSekolah').innerText = nama;
-      document.getElementById('sidebarOperator').innerText = activeUser.operator || activeUser.nama_operator || 'Operator';
+      document.getElementById('sidebarOperator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || 'Operator';
       document.getElementById('userNamaSekolah').innerText = nama;
       document.getElementById('dapodikHeaderTitle').innerText = nama.toUpperCase() + ' - TAKOLA SIKKA';
 
@@ -1484,33 +1485,33 @@
       document.getElementById('b_badge_jenjang').innerText = jenisJenjang;
       document.getElementById('b_npsn').innerText = activeUser.npsn || '-';
       document.getElementById('b_bentuk').innerText = jenisJenjang;
-      document.getElementById('b_status').innerText = activeUser.status_sekolah || 'Negeri';
+      document.getElementById('b_status').innerText = activeUser.status_sekolah || activeUser.status || 'Negeri';
       document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || 'B';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
-      document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser.nama_kepala_sekolah || 'Belum diisi';
-      document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || '-';
-      document.getElementById('b_bosp').innerText = activeUser.status_bosp || 'Ya';
-      document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || 'Belum Terima';
+      document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser.nama_kepala_sekolah || activeUser.namaKepalaSekolah || 'Belum diisi';
+      document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '-';
+      document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || 'Ya';
+      document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
       document.getElementById('b_coords').innerText = `${activeUser.latitude || '-8.621430'}, ${activeUser.longitude || '122.215430'}`;
       document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || 'PLN'} / ${activeUser.sumber_internet || 'Wifi'}`;
 
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
       document.getElementById('inpBentuk').value = jenisJenjang;
-      document.getElementById('inpOperator').value = activeUser.operator || activeUser.nama_operator || '';
-      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || '';
+      document.getElementById('inpOperator').value = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '';
+      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || activeUser.hpOperator || '';
       
-      document.getElementById('inpStatus').value = activeUser.status_sekolah || '';
+      document.getElementById('inpStatus').value = activeUser.status_sekolah || activeUser.status || '';
       document.getElementById('inpAkreditasi').value = activeUser.akreditasi || '';
       document.getElementById('inpSk').value = activeUser.sk_pendirian || '';
       document.getElementById('inpTglSk').value = activeUser.tgl_sk_pendirian || '';
       document.getElementById('inpAlamat').value = activeUser.alamat || '';
       document.getElementById('inpDesa').value = activeUser.desa || '';
       document.getElementById('inpKecamatan').value = activeUser.kecamatan || '';
-      document.getElementById('inpKasek').value = activeUser.kasek || activeUser.nama_kepala_sekolah || '';
-      document.getElementById('inpNipKasek').value = activeUser.nipKasek || activeUser.nip_kepala_sekolah || '';
-      document.getElementById('inpBosp').value = activeUser.status_bosp || '';
-      document.getElementById('inpRevitalisasi').value = activeUser.bantuan_revitalisasi || 'Belum Terima';
+      document.getElementById('inpKasek').value = activeUser.kasek || activeUser.nama_kepala_sekolah || activeUser.namaKepalaSekolah || '';
+      document.getElementById('inpNipKasek').value = activeUser.nipKasek || activeUser.nip_kepala_sekolah || activeUser.nipKepalaSekolah || '';
+      document.getElementById('inpBosp').value = activeUser.status_bosp || activeUser.penerima_bosp || '';
+      document.getElementById('inpRevitalisasi').value = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
       document.getElementById('inpInternet').value = activeUser.sumber_internet || '';
       document.getElementById('inpLat').value = activeUser.latitude || '-8.621430';
@@ -1568,7 +1569,6 @@
         }
       });
 
-      // Setiap ada perubahan profil, status validasi di-reset menjadi false agar user memvalidasi ulang
       isDataValid = false;
       simpanDraftKeLocalStorage();
       alert('✓ Profil Sekolah Disimpan! Status Validasi direset, silakan lakukan Validasi Data kembali.');
@@ -1615,7 +1615,7 @@
         });
         html += '</div>';
 
-        isDataValid = allValid; // Set status global validasi
+        isDataValid = allValid;
         simpanDraftKeLocalStorage();
 
         if (allValid) {
@@ -1661,7 +1661,6 @@
     }
 
     async function mulaiProsesSinkronisasiServer() {
-      // PENGECEKAN KEAMANAN TAMBAHAN: Tolak jika belum valid
       if (!isDataValid) {
         alert('❌ Sinkronisasi ditolak! Data sekolah Anda belum lengkap atau belum valid. Silakan jalankan Validasi Data terlebih dahulu.');
         switchTab('validasi');
@@ -1772,7 +1771,7 @@
       window.location.href = '/login.html';
     }
 
-    // JALANKAN INISIALISASI
+    // RUN INIT
     inisialisasiDataSekolah();
   </script>
 </body>
