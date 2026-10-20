@@ -105,7 +105,7 @@
     <section id="tab-sekolah" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm max-w-4xl mx-auto space-y-6">
         <div class="border-b pb-3 flex justify-between items-center">
-          <h3 class="text-lg font-bold">Profil & Infrastruktur Sekolah (Lengkap)</h3>
+          <h3 class="text-lg font-bold">Profil & Infrastruktur Sekolah (Termasuk TIK)</h3>
           <span class="bg-rose-100 text-rose-700 text-xs px-3 py-1 rounded-full font-bold">Semua Field Wajib Diisi *</span>
         </div>
         <form id="formSekolah" class="space-y-6" onsubmit="event.preventDefault(); simpanProfilSekolah();">
@@ -157,6 +157,48 @@
             <div>
               <label class="block text-xs font-semibold mb-1">Sumber Internet *</label>
               <select id="inpInternet" required class="w-full border rounded-lg p-2 text-sm"><option value="">-- Pilih Internet --</option><option value="Wifi">Wifi</option><option value="Starlink">Starlink</option><option value="Penguat Signal (Router)">Penguat Signal (Router)</option><option value="Hot Spot">Hot Spot</option><option value="Belum Ada Jaringan Internet">Belum Ada Jaringan Internet</option></select>
+            </div>
+          </div>
+
+          <!-- BAGIAN INFRASTRUKTUR / BANTUAN TIK -->
+          <div class="space-y-3 pt-4 border-t">
+            <h4 class="text-sm font-bold text-indigo-900">💻 Jenis Bantuan / Inventaris TIK, Kondisi, dan Jumlah</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 border rounded-xl bg-slate-50 space-y-2">
+                <label class="flex items-center gap-2 font-bold"><input type="checkbox" id="tik_pc_chk" onchange="toggleTikInput('pc')"> Komputer (PC)</label>
+                <div id="tik_pc_box" class="hidden space-y-1">
+                  <input type="number" id="tik_pc_jml" placeholder="Jumlah" class="w-full border p-1 rounded">
+                  <select id="tik_pc_kondisi" class="w-full border p-1 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+                </div>
+              </div>
+              <div class="p-3 border rounded-xl bg-slate-50 space-y-2">
+                <label class="flex items-center gap-2 font-bold"><input type="checkbox" id="tik_lpm_chk" onchange="toggleTikInput('lpm')"> Laptop Merah Putih</label>
+                <div id="tik_lpm_box" class="hidden space-y-1">
+                  <input type="number" id="tik_lpm_jml" placeholder="Jumlah" class="w-full border p-1 rounded">
+                  <select id="tik_lpm_kondisi" class="w-full border p-1 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+                </div>
+              </div>
+              <div class="p-3 border rounded-xl bg-slate-50 space-y-2">
+                <label class="flex items-center gap-2 font-bold"><input type="checkbox" id="tik_lsl_chk" onchange="toggleTikInput('lsl')"> Laptop Sekolah Lainnya</label>
+                <div id="tik_lsl_box" class="hidden space-y-1">
+                  <input type="number" id="tik_lsl_jml" placeholder="Jumlah" class="w-full border p-1 rounded">
+                  <select id="tik_lsl_kondisi" class="w-full border p-1 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+                </div>
+              </div>
+              <div class="p-3 border rounded-xl bg-slate-50 space-y-2">
+                <label class="flex items-center gap-2 font-bold"><input type="checkbox" id="tik_cb_chk" onchange="toggleTikInput('cb')"> Chromebook</label>
+                <div id="tik_cb_box" class="hidden space-y-1">
+                  <input type="number" id="tik_cb_jml" placeholder="Jumlah" class="w-full border p-1 rounded">
+                  <select id="tik_cb_kondisi" class="w-full border p-1 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+                </div>
+              </div>
+              <div class="p-3 border rounded-xl bg-slate-50 space-y-2">
+                <label class="flex items-center gap-2 font-bold"><input type="checkbox" id="tik_fp_chk" onchange="toggleTikInput('fp')"> Flat Panel (Papan Digital)</label>
+                <div id="tik_fp_box" class="hidden space-y-1">
+                  <input type="number" id="tik_fp_jml" placeholder="Jumlah" class="w-full border p-1 rounded">
+                  <select id="tik_fp_kondisi" class="w-full border p-1 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -317,7 +359,7 @@
     <section id="tab-siswa" class="tab-content hidden">
       <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-lg font-bold">Rekap Peserta Didik (Rentang Usia, DO, & PIP)</h3>
+          <h3 class="text-lg font-bold">Rekap Peserta Didik (Sesuai Jenjang Akun)</h3>
           <button onclick="bukaModalSiswa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold cursor-pointer">+ Input Data Siswa</button>
         </div>
         <div class="overflow-x-auto">
@@ -325,7 +367,7 @@
             <thead class="bg-slate-100 font-bold border-b">
               <tr>
                 <th class="p-3">Total L / P</th>
-                <th class="p-3">Rentang Usia Utama</th>
+                <th class="p-3">Distribusi Rentang Usia</th>
                 <th class="p-3">Siswa DO (L / P)</th>
                 <th class="p-3">Penerima PIP (L / P)</th>
                 <th class="p-3 text-center">Aksi</th>
@@ -507,39 +549,22 @@
     </div>
   </div>
 
-  <!-- MODAL SISWA -->
+  <!-- MODAL SISWA (DINAMIS SESUAI JENJANG) -->
   <div id="modalSiswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
-      <h3 class="font-bold text-base mb-2">Input Rekap Peserta Didik (Siswa)</h3>
+      <h3 class="font-bold text-base mb-2">Input Rekap Peserta Didik (<span id="labelJenjangModal" class="text-indigo-600 font-bold"></span>)</h3>
+      
       <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Jumlah PD Perempuan *</label><input id="s_pd_p" type="number" required value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Jumlah PD Laki-laki *</label><input id="s_pd_l" type="number" required value="0" class="border p-2 rounded w-full"></div>
+        <div><label class="block font-semibold mb-1">Jumlah PD Perempuan *</label><input id="s_pd_p" type="number" required value="0" class="border p-2 rounded w-full" oninput="hitungTotalPD()"></div>
+        <div><label class="block font-semibold mb-1">Jumlah PD Laki-laki *</label><input id="s_pd_l" type="number" required value="0" class="border p-2 rounded w-full" oninput="hitungTotalPD()"></div>
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia 2-4 tahun P</label><input id="s_u24_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia 2-4 tahun L</label><input id="s_u24_l" type="number" value="0" class="border p-2 rounded w-full"></div>
+
+      <!-- CONTAINER DINAMIS RENTANG USIA BERDASARKAN JENJANG -->
+      <div id="containerRentangUsia" class="space-y-2 border-t pt-2">
+        <!-- Diisi secara dinamis via Javascript (PAUD: 2-6 tahun, SD: <7 s.d >12 tahun, SMP: >13 s.d <15 tahun) -->
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia 4 tahun L</label><input id="s_u4_l" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia 4 tahun P</label><input id="s_u4_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia 5 tahun L</label><input id="s_u5_l" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia 5 tahun P</label><input id="s_u5_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia 6 tahun L</label><input id="s_u6_l" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia 6 tahun P</label><input id="s_u6_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia <7 tahun L</label><input id="s_uk7_l" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia <7 tahun P</label><input id="s_uk7_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Usia >7-12 tahun L</label><input id="s_u712_l" type="number" value="0" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Usia >7-12 tahun P</label><input id="s_u712_p" type="number" value="0" class="border p-2 rounded w-full"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
+
+      <div class="grid grid-cols-2 gap-2 border-t pt-2">
         <div><label class="block font-semibold mb-1">Siswa DO Laki-laki</label><input id="s_do_l" type="number" value="0" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Siswa DO Perempuan</label><input id="s_do_p" type="number" value="0" class="border p-2 rounded w-full"></div>
       </div>
@@ -547,6 +572,7 @@
         <div><label class="block font-semibold mb-1">Siswa Penerima PIP L</label><input id="s_pip_l" type="number" value="0" class="border p-2 rounded w-full"></div>
         <div><label class="block font-semibold mb-1">Siswa Penerima PIP P</label><input id="s_pip_p" type="number" value="0" class="border p-2 rounded w-full"></div>
       </div>
+
       <div class="flex justify-end gap-2 mt-4">
         <button onclick="tutupModal('modalSiswa')" class="px-3 py-1.5 bg-slate-200 rounded font-bold cursor-pointer">Batal</button>
         <button onclick="simpanSiswaLokal()" class="px-4 py-1.5 bg-indigo-600 text-white rounded font-bold cursor-pointer">Simpan</button>
@@ -575,6 +601,7 @@
 
     let listTanah = [], listBangunan = [], listRuang = [], listAlat = [], listGTK = [], listSiswa = [];
     let map = null, marker = null;
+    let jenisJenjang = (activeUser.jenjang || 'SD').trim().toUpperCase();
 
     // Populasikan tahun bangunan 1993 - 2026
     const selectThn = document.getElementById('b_tahun');
@@ -627,6 +654,67 @@
       } else {
         divFoto.classList.add('hidden');
       }
+    }
+
+    function toggleTikInput(type) {
+      const chk = document.getElementById(`tik_${type}_chk`).checked;
+      const box = document.getElementById(`tik_${type}_box`);
+      if (chk) {
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    // RENTANG USIA PESERTA DIDIK BERDASARKAN JENJANG
+    function renderFormRentangUsiaSiswa() {
+      document.getElementById('labelJenjangModal').innerText = jenisJenjang;
+      const container = document.getElementById('containerRentangUsia');
+      let html = '';
+
+      if (jenisJenjang === 'PAUD') {
+        for (let u = 2; u <= 6; u++) {
+          html += `<div class="grid grid-cols-2 gap-2">
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (L)</label><input id="s_u${u}_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (P)</label><input id="s_u${u}_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          </div>`;
+        }
+      } else if (jenisJenjang === 'SD') {
+        html += `<div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-semibold mb-1">Usia < 7 Tahun (L)</label><input id="s_uk7_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          <div><label class="block font-semibold mb-1">Usia < 7 Tahun (P)</label><input id="s_uk7_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+        </div>`;
+        for (let u = 7; u <= 12; u++) {
+          html += `<div class="grid grid-cols-2 gap-2">
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (L)</label><input id="s_u${u}_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (P)</label><input id="s_u${u}_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          </div>`;
+        }
+        html += `<div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-semibold mb-1">Usia > 12 Tahun (L)</label><input id="s_ub12_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          <div><label class="block font-semibold mb-1">Usia > 12 Tahun (P)</label><input id="s_ub12_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+        </div>`;
+      } else if (jenisJenjang === 'SMP') {
+        for (let u = 13; u <= 15; u++) {
+          html += `<div class="grid grid-cols-2 gap-2">
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (L)</label><input id="s_u${u}_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+            <div><label class="block font-semibold mb-1">Usia ${u} Tahun (P)</label><input id="s_u${u}_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          </div>`;
+        }
+        html += `<div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (L)</label><input id="s_uk13_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          <div><label class="block font-semibold mb-1">Usia < 13 Tahun (P)</label><input id="s_uk13_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-semibold mb-1">Usia > 15 Tahun (L)</label><input id="s_ub15_l" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+          <div><label class="block font-semibold mb-1">Usia > 15 Tahun (P)</label><input id="s_ub15_p" type="number" value="0" class="border p-1.5 rounded w-full usia-input"></div>
+        </div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function hitungTotalPD() {
+      // Fungsi bantuan opsional untuk rekap otomatis jika diperlukan
     }
 
     // INISIALISASI PETA GOOGLE SATELLITE
@@ -685,6 +773,8 @@
 
     function updateTampilan() {
       const nama = activeUser.nama_sekolah || activeUser.nama || 'Sekolah Binaan';
+      jenisJenjang = (activeUser.jenjang || 'SD').trim().toUpperCase();
+
       document.getElementById('sidebarNamaSekolah').innerText = nama;
       document.getElementById('sidebarOperator').innerText = activeUser.operator || 'Operator';
       document.getElementById('userNamaSekolah').innerText = nama;
@@ -692,15 +782,15 @@
       document.getElementById('cardHeaderNamaSekolah').innerText = nama.toUpperCase();
       
       document.getElementById('b_npsn').innerText = activeUser.npsn || '-';
-      document.getElementById('b_bentuk').innerText = activeUser.jenjang || 'SD';
+      document.getElementById('b_bentuk').innerText = jenisJenjang;
       document.getElementById('b_status').innerText = activeUser.status_sekolah || 'Negeri';
       document.getElementById('b_kasek').innerText = activeUser.kasek || 'Belum diisi';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
 
-      // KUNCI DATA REGISTRASI SEPERTI PERSYARATAN LOGIKA
+      // KUNCI DATA REGISTRASI
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
-      document.getElementById('inpBentuk').value = activeUser.jenjang || 'SD';
+      document.getElementById('inpBentuk').value = jenisJenjang;
       document.getElementById('inpOperator').value = activeUser.operator || '';
 
       document.getElementById('inpStatus').value = activeUser.status_sekolah || '';
@@ -718,7 +808,20 @@
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
       document.getElementById('inpInternet').value = activeUser.sumber_internet || '';
 
+      // Load TIK jika ada
+      if (activeUser.bantuan_tik) {
+        ['pc', 'lpm', 'lsl', 'cb', 'fp'].forEach(t => {
+          if (activeUser.bantuan_tik[t] && activeUser.bantuan_tik[t].aktif) {
+            document.getElementById(`tik_${t}_chk`).checked = true;
+            document.getElementById(`tik_${t}_box`).classList.remove('hidden');
+            document.getElementById(`tik_${t}_jml`).value = activeUser.bantuan_tik[t].jumlah || 0;
+            document.getElementById(`tik_${t}_kondisi`).value = activeUser.bantuan_tik[t].kondisi || 'Baik';
+          }
+        });
+      }
+
       toggleRevitalisasiField();
+      renderFormRentangUsiaSiswa();
       renderTanah();
       renderBangunan();
       renderRuang();
@@ -745,8 +848,21 @@
       activeUser.latitude = document.getElementById('inpLat').value;
       activeUser.longitude = document.getElementById('inpLong').value;
 
+      // Kumpulkan data TIK
+      activeUser.bantuan_tik = {};
+      ['pc', 'lpm', 'lsl', 'cb', 'fp'].forEach(t => {
+        let chk = document.getElementById(`tik_${t}_chk`).checked;
+        if (chk) {
+          activeUser.bantuan_tik[t] = {
+            aktif: true,
+            jumlah: document.getElementById(`tik_${t}_jml`).value || 0,
+            kondisi: document.getElementById(`tik_${t}_kondisi`).value
+          };
+        }
+      });
+
       localStorage.setItem('user', JSON.stringify(activeUser));
-      alert('✓ Profil & Infrastruktur Sekolah Berhasil Disimpan!');
+      alert('✓ Profil, Infrastruktur & Data TIK Sekolah Berhasil Disimpan!');
       updateTampilan();
     }
 
@@ -1072,25 +1188,36 @@
     }
 
     // SISWA
-    function bukaModalSiswa() { bukaModal('modalSiswa'); }
+    function bukaModalSiswa() {
+      renderFormRentangUsiaSiswa();
+      bukaModal('modalSiswa');
+    }
+
     function simpanSiswaLokal() {
+      let dataUsia = {};
+      const inputs = document.querySelectorAll('.usia-input');
+      inputs.forEach(inp => {
+        dataUsia[inp.id] = inp.value || 0;
+      });
+
       listSiswa.push({
         id: Date.now(),
         pd_p: document.getElementById('s_pd_p').value,
         pd_l: document.getElementById('s_pd_l').value,
-        u24_p: document.getElementById('s_u24_p').value,
-        u24_l: document.getElementById('s_u24_l').value,
+        usia_detail: dataUsia,
         do_l: document.getElementById('s_do_l').value,
         do_p: document.getElementById('s_do_p').value,
         pip_l: document.getElementById('s_pip_l').value,
         pip_p: document.getElementById('s_pip_p').value,
       });
-      renderSiswa(); tutupModal('modalSiswa');
+      renderSiswa(); 
+      tutupModal('modalSiswa');
     }
+
     function renderSiswa() {
       document.getElementById('tbodySiswa').innerHTML = listSiswa.map(s => `<tr>
         <td class="p-3 font-bold">${s.pd_l} L / ${s.pd_p} P</td>
-        <td class="p-3">Usia 2-4: ${s.u24_l} L / ${s.u24_p} P</td>
+        <td class="p-3 text-slate-600">Sesuai Kategori Jenjang (${jenisJenjang})</td>
         <td class="p-3 text-amber-700">${s.do_l} L / ${s.do_p} P</td>
         <td class="p-3 text-emerald-700">${s.pip_l} L / ${s.pip_p} P</td>
         <td class="p-3 text-center"><button onclick="listSiswa=listSiswa.filter(x=>x.id!==${s.id});renderSiswa()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button></td>
@@ -1106,7 +1233,7 @@
       const payload = {
         npsn: activeUser.npsn,
         nama_sekolah: activeUser.nama_sekolah || activeUser.nama,
-        jenjang: activeUser.jenjang || 'SD',
+        jenjang: jenisJenjang,
         status_sekolah: activeUser.status_sekolah,
         akreditasi: activeUser.akreditasi,
         sk_pendirian: activeUser.sk_pendirian,
@@ -1122,6 +1249,7 @@
         bantuan_revitalisasi: activeUser.bantuan_revitalisasi,
         sumber_listrik: activeUser.sumber_listrik,
         sumber_internet: activeUser.sumber_internet,
+        bantuan_tik: activeUser.bantuan_tik || {},
         latitude: activeUser.latitude,
         longitude: activeUser.longitude,
         tanah: listTanah,
@@ -1142,8 +1270,9 @@
         if (!response.ok) throw new Error(resData.message || 'Gagal sinkronisasi.');
 
         alert('✓ Sinkronisasi ke Server Database PostgreSQL Berhasil Dilakukan!');
-        document.getElementById('statusBadgeclassName').className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold';
-        document.getElementById('statusBadge').innerText = 'Status: Ter-Sinkronisasi ke Database';
+        let badge = document.getElementById('statusBadge');
+        badge.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold';
+        badge.innerText = 'Status: Ter-Sinkronisasi ke Database';
       } catch (err) {
         alert('❌ Sinkronisasi Gagal: ' + err.message);
       }
