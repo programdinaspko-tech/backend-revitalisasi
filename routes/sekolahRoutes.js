@@ -30,7 +30,7 @@ router.post('/upload', verifyToken, upload.single('file'), (req, res) => {
 });
 
 // 2. ENDPOINT SINKRONISASI DATA + MULTI FILE UPLOAD
-router.post('/sinkronisasi', verifyToken, upload.fields([
+router.post('/sync', verifyToken, upload.fields([
   { name: 'pdf_sertifikat', maxCount: 1 },
   { name: 'denah', maxCount: 1 },
   { name: 'foto_gps_1', maxCount: 1 },
