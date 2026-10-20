@@ -345,7 +345,7 @@
                 <th class="p-3">Luas Bangunan</th>
                 <th class="p-3">Tahun Dibangun</th>
                 <th class="p-3">Kondisi & Lantai</th>
-                <th class="p-3 text-center">Dokumen PUPR / Foto 6 Sudut</th>
+                <th class="p-3 text-center">Dokumen PUPR / Review</th>
                 <th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -361,9 +361,9 @@
         <div class="flex justify-between items-center border-b pb-3">
           <div>
             <h3 class="text-lg font-bold">Data Ruang & Rombel</h3>
-            <p class="text-xs text-slate-500">Kategori ruang ditentukan. Ruang teori/kelas terhubung dengan data Rombel.</p>
+            <p class="text-xs text-slate-500">Penginputan Rombel Ruang Teori/Kelas dibatasi secara presisi sesuai jumlah yang ditentukan.</p>
           </div>
-          <button onclick="bukaModalRuang()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold cursor-pointer">+ Tambah Ruang</button>
+          <button id="btnTambahRuangMain" onclick="bukaModalRuang()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold cursor-pointer">+ Tambah Ruang</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
@@ -375,6 +375,7 @@
                 <th class="p-3">Ukuran (P x L)</th>
                 <th class="p-3">Luas (m²)</th>
                 <th class="p-3">Kondisi</th>
+                <th class="p-3 text-center">Foto 6 Sudut</th>
                 <th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -501,7 +502,6 @@
           <p id="labelSyncDelta" class="text-slate-600 font-mono text-[11px] italic">Memuat deteksi perubahan data...</p>
         </div>
 
-        <!-- PROGRESS BAR SINKRONISASI -->
         <div id="syncProgressContainer" class="hidden space-y-2">
           <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
             <div id="syncProgressBar" class="bg-emerald-500 h-3 w-0 transition-all duration-300"></div>
@@ -539,7 +539,7 @@
     </div>
   </div>
 
-  <!-- MODAL BANGUNAN (DENGAN DOKUMEN PUPR & FOTO 6 SUDUT) -->
+  <!-- MODAL BANGUNAN -->
   <div id="modalBangunan" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white p-6 rounded-xl w-full max-w-xl shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalBangunanTitle" class="font-bold text-base mb-2">Tambah Data Bangunan</h3>
@@ -555,30 +555,16 @@
       </div>
       <div>
         <label class="block font-semibold mb-1">Kondisi Bangunan *</label>
-        <select id="b_kondisi" class="w-full border p-2 rounded" onchange="toggleDokumenBangunanExtra()"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+        <select id="b_kondisi" class="w-full border p-2 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
       </div>
       <div>
         <label class="block font-semibold mb-1">Jumlah Lantai *</label>
         <select id="b_lantai" class="w-full border p-2 rounded"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
       </div>
       
-      <!-- UPLOAD DOKUMEN PUPR -->
       <div class="border-t pt-2">
         <label class="block font-semibold mb-1">Upload Dokumen Rekomendasi PUPR (PDF)</label>
         <input id="b_pupr_pdf" type="file" accept="application/pdf" class="w-full border p-1 rounded">
-      </div>
-
-      <!-- UPLOAD FOTO 6 SUDUT PANDANG -->
-      <div id="divFoto6Sudut" class="hidden border-t pt-2 space-y-2">
-        <p class="font-bold text-rose-600">📸 Unggah Foto Kerusakan 6 Sudut Pandang (Wajib untuk Rusak Sedang/Berat):</p>
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="block text-[10px]">1. Tampak Depan *</label><input id="b_foto_depan" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-          <div><label class="block text-[10px]">2. Tampak Belakang *</label><input id="b_foto_belakang" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-          <div><label class="block text-[10px]">3. Samping Kiri *</label><input id="b_foto_kiri" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-          <div><label class="block text-[10px]">4. Samping Kanan *</label><input id="b_foto_kanan" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-          <div><label class="block text-[10px]">5. Bagian Dalam *</label><input id="b_foto_dalam" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-          <div><label class="block text-[10px]">6. Bagian Atap/Plafon *</label><input id="b_foto_atap" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
-        </div>
       </div>
 
       <div class="flex justify-end gap-2 mt-4">
@@ -588,7 +574,7 @@
     </div>
   </div>
 
-  <!-- MODAL RUANG (DENGAN DROPDOWN KATEGORI RUANG) -->
+  <!-- MODAL RUANG -->
   <div id="modalRuang" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalRuangTitle" class="font-bold text-base mb-2">Tambah Data Ruang & Rombel</h3>
@@ -615,8 +601,11 @@
       </div>
 
       <div id="boxRombelRuang" class="grid grid-cols-2 gap-2">
-        <div><label class="block font-semibold mb-1">Jumlah Rombel *</label><input id="r_jml_rombel" type="number" value="1" class="border p-2 rounded w-full"></div>
-        <div><label class="block font-semibold mb-1">Nama Rombel *</label><input id="r_nama_rombel" type="text" placeholder="VII-A" class="border p-2 rounded w-full"></div>
+        <div>
+          <label class="block font-semibold mb-1">Jumlah Rombel *</label>
+          <input id="r_jml_rombel" type="number" min="1" max="10" value="1" class="border p-2 rounded w-full">
+        </div>
+        <div><label class="block font-semibold mb-1">Nama Rombel / Kelas *</label><input id="r_nama_rombel" type="text" placeholder="1-A, 1-B, etc" class="border p-2 rounded w-full"></div>
       </div>
 
       <div class="grid grid-cols-2 gap-2">
@@ -625,7 +614,20 @@
       </div>
       <div>
         <label class="block font-semibold mb-1">Kondisi Ruang *</label>
-        <select id="r_kondisi" class="w-full border p-2 rounded"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+        <select id="r_kondisi" class="w-full border p-2 rounded" onchange="toggleFoto6SudutRuang()"><option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option><option value="Rusak Sedang">Rusak Sedang</option><option value="Rusak Berat">Rusak Berat</option></select>
+      </div>
+
+      <!-- FOTO 6 SUDUT PANDANG KONDISI RUSAK SEDANG/BERAT -->
+      <div id="divFoto6SudutRuang" class="hidden border-t pt-2 space-y-2">
+        <p class="font-bold text-rose-600">📸 Upload Foto Kerusakan 6 Sudut Pandang (Wajib untuk Rusak Sedang/Berat):</p>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="block text-[10px]">1. Tampak Depan *</label><input id="r_foto_depan" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+          <div><label class="block text-[10px]">2. Tampak Belakang *</label><input id="r_foto_belakang" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+          <div><label class="block text-[10px]">3. Samping Kiri *</label><input id="r_foto_kiri" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+          <div><label class="block text-[10px]">4. Samping Kanan *</label><input id="r_foto_kanan" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+          <div><label class="block text-[10px]">5. Bagian Dalam *</label><input id="r_foto_dalam" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+          <div><label class="block text-[10px]">6. Bagian Atap/Plafon *</label><input id="r_foto_atap" type="file" accept="image/*" class="w-full border p-1 rounded"></div>
+        </div>
       </div>
 
       <div class="flex justify-end gap-2 mt-4">
@@ -635,7 +637,7 @@
     </div>
   </div>
 
-  <!-- MODAL ALAT (OTOMATIS PILIH DARI RUANG TERINPUT) -->
+  <!-- MODAL ALAT -->
   <div id="modalAlat" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalAlatTitle" class="font-bold text-base mb-2">Input Alat & Sarana Ruang</h3>
@@ -656,7 +658,7 @@
     </div>
   </div>
 
-  <!-- MODAL GTK (DENGAN LOGIKA KAWIN/CERAI) -->
+  <!-- MODAL GTK -->
   <div id="modalGTK" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white p-6 rounded-xl w-full max-w-lg shadow-2xl space-y-3 text-xs max-h-[90vh] overflow-y-auto">
       <h3 id="modalGTKTitle" class="font-bold text-base mb-2">Tambah Data GTK</h3>
@@ -690,7 +692,6 @@
       </div>
       <div><label class="block font-semibold mb-1">Mapel Serdik</label><input id="g_mapelserdik" type="text" class="w-full border p-2 rounded"></div>
       
-      <!-- LOGIKA STATUS PERKAWINAN -->
       <div>
         <label class="block font-semibold mb-1">Status Perkawinan *</label>
         <select id="g_perkawinan" class="border p-2 rounded w-full" onchange="toggleFormPerkawinanGTK()">
@@ -748,16 +749,16 @@
     </div>
   </div>
 
-  <!-- MODAL PREVIEW PDF -->
-  <div id="modalPreviewPdf" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+  <!-- MODAL PREVIEW PDF / FOTO DOKUMEN -->
+  <div id="modalPreviewMedia" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col h-[85vh]">
       <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center shrink-0">
-        <h3 id="pdfPreviewTitle" class="text-sm font-bold">📄 Pratinjau Dokumen</h3>
-        <button onclick="tutupModal('modalPreviewPdf')" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
+        <h3 id="mediaPreviewTitle" class="text-sm font-bold">📄 Pratinjau Dokumen</h3>
+        <button onclick="tutupModal('modalPreviewMedia')" class="text-white hover:text-slate-200 font-bold text-lg cursor-pointer">✕</button>
       </div>
-      <div class="p-2 bg-slate-100 flex-1 overflow-hidden" id="pdfPreviewContainer"></div>
+      <div class="p-4 bg-slate-100 flex-1 overflow-y-auto" id="mediaPreviewContainer"></div>
       <div class="bg-slate-50 px-6 py-3 border-t flex justify-end">
-        <button onclick="tutupModal('modalPreviewPdf')" class="px-4 py-2 bg-slate-700 text-white rounded-lg font-bold text-xs cursor-pointer">Tutup Dokumen</button>
+        <button onclick="tutupModal('modalPreviewMedia')" class="px-4 py-2 bg-slate-700 text-white rounded-lg font-bold text-xs cursor-pointer">Tutup Pratinjau</button>
       </div>
     </div>
   </div>
@@ -832,16 +833,16 @@
       if (val === 'Reguler' || val === 'Bencana') { extra.classList.remove('hidden'); } else { extra.classList.add('hidden'); }
     }
 
-    function toggleDokumenBangunanExtra() {
-      let kond = document.getElementById('b_kondisi').value;
-      let div6 = document.getElementById('divFoto6Sudut');
-      if (kond === 'Rusak Sedang' || kond === 'Rusak Berat') { div6.classList.remove('hidden'); } else { div6.classList.add('hidden'); }
-    }
-
     function toggleFormKategoriRuang() {
       let kat = document.getElementById('r_kategori').value;
       let boxRombel = document.getElementById('boxRombelRuang');
       if (kat === 'Ruang Teori/Kelas') { boxRombel.classList.remove('hidden'); } else { boxRombel.classList.add('hidden'); }
+    }
+
+    function toggleFoto6SudutRuang() {
+      let kond = document.getElementById('r_kondisi').value;
+      let div6 = document.getElementById('divFoto6SudutRuang');
+      if (kond === 'Rusak Sedang' || kond === 'Rusak Berat') { div6.classList.remove('hidden'); } else { div6.classList.add('hidden'); }
     }
 
     function toggleFormPerkawinanGTK() {
@@ -1052,7 +1053,7 @@
       updateTampilan();
     }
 
-    // TANAH
+    // DATA TANAH
     function bukaModalTanah(id = null) {
       if (id) {
         const item = listTanah.find(x => x.id === id);
@@ -1113,10 +1114,10 @@
           <td class="p-3">${t.panjang} x ${t.lebar}</td>
           <td class="p-3 font-bold">${luas} m²</td>
           <td class="p-3 font-bold ${sisa < 0 ? 'text-rose-600' : 'text-emerald-600'}">${sisa} m²</td>
-          <td class="p-3 text-center">${t.pdf ? `<button onclick="previewPdfTanah(${t.id})" class="bg-blue-50 text-blue-700 px-2 py-1 rounded font-bold">📄 PDF</button>` : '<span class="text-slate-400 italic">Kosong</span>'}</td>
+          <td class="p-3 text-center">${t.pdf ? `<button onclick="previewPdfTanah(${t.id})" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1 rounded-lg font-bold transition">📄 PDF</button>` : '<span class="text-slate-400 italic">Kosong</span>'}</td>
           <td class="p-3 text-center space-x-1">
-            <button onclick="bukaModalTanah(${t.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-            <button onclick="listTanah=listTanah.filter(x=>x.id!==${t.id});simpanDraftKeLocalStorage();renderTanah();renderBangunan()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+            <button onclick="bukaModalTanah(${t.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+            <button onclick="hapusDataTanah(${t.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
           </td>
         </tr>`;
       }).join('') || '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data tanah.</td></tr>';
@@ -1132,15 +1133,24 @@
       }
     }
 
+    function hapusDataTanah(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus data tanah ini?')) {
+        listTanah = listTanah.filter(x => x.id != id);
+        simpanDraftKeLocalStorage();
+        renderTanah();
+        renderBangunan();
+      }
+    }
+
     function previewPdfTanah(id) {
       const item = listTanah.find(x => x.id === id);
       if (!item || !item.pdf) return alert('Dokumen PDF belum diunggah.');
-      document.getElementById('pdfPreviewTitle').innerText = '📄 Dokumen: ' + item.nama;
-      document.getElementById('pdfPreviewContainer').innerHTML = `<iframe src="${item.pdf}" class="w-full h-full rounded-xl" frameborder="0"></iframe>`;
-      bukaModal('modalPreviewPdf');
+      document.getElementById('mediaPreviewTitle').innerText = '📄 Dokumen Tanah: ' + item.nama;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<iframe src="${item.pdf}" class="w-full h-[70vh] rounded-xl" frameborder="0"></iframe>`;
+      bukaModal('modalPreviewMedia');
     }
 
-    // BANGUNAN (DENGAN REKOMENDASI PUPR & FOTO 6 SUDUT)
+    // BANGUNAN (DENGAN REVIEW DOKUMEN PUPR)
     function bukaModalBangunan(id = null) {
       if (listTanah.length === 0) return alert('Isi data tanah terlebih dahulu!');
       if (id) {
@@ -1158,7 +1168,6 @@
         document.getElementById('b_edit_id').value = ''; document.getElementById('b_nama').value = '';
         document.getElementById('b_panjang').value = ''; document.getElementById('b_lebar').value = '';
       }
-      toggleDokumenBangunanExtra();
       bukaModal('modalBangunan');
     }
 
@@ -1175,12 +1184,11 @@
 
       const puprFile = document.getElementById('b_pupr_pdf').files[0];
 
-      const save = (puprPdf, fotos) => {
+      const save = (puprPdf) => {
         let bgnObj = {
-          id: editId ? editId : Date.now(),
+          id: editId ? Number(editId) : Date.now(),
           nama, panjang, lebar, tahun, kondisi, lantai,
-          puprPdf: puprPdf || (editId ? (listBangunan.find(x=>x.id==editId)||{}).puprPdf : ''),
-          fotos: fotos || (editId ? (listBangunan.find(x=>x.id==editId)||{}).fotos : {})
+          puprPdf: puprPdf || (editId ? (listBangunan.find(x=>x.id==editId)||{}).puprPdf : '')
         };
 
         if (editId) {
@@ -1204,15 +1212,32 @@
         <td class="p-3 font-bold">${b.panjang * b.lebar} m²</td>
         <td class="p-3">${b.tahun}</td>
         <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${b.kondisi}</span> (Lantai ${b.lantai})</td>
-        <td class="p-3 text-center">${b.puprPdf ? '<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">✓ Rekomendasi PUPR</span>' : '<span class="text-slate-400 font-italic">Tanpa PUPR</span>'}</td>
+        <td class="p-3 text-center">${b.puprPdf ? `<button onclick="previewPdfPupr(${b.id})" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-2.5 py-1 rounded-lg font-bold border border-emerald-200 transition">📄 Review PUPR</button>` : '<span class="text-slate-400 italic">Tanpa PUPR</span>'}</td>
         <td class="p-3 text-center space-x-1">
-          <button onclick="bukaModalBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-          <button onclick="listBangunan=listBangunan.filter(x=>x.id!==${b.id});simpanDraftKeLocalStorage();renderBangunan();renderTanah()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+          <button onclick="bukaModalBangunan(${b.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataBangunan(${b.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
         </td>
       </tr>`).join('') || '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada bangunan.</td></tr>';
     }
 
-    // RUANG (DROPDOWN KATEGORI RUANG)
+    function hapusDataBangunan(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus data bangunan ini? Ruang terkait juga akan disesuaikan.')) {
+        listBangunan = listBangunan.filter(x => x.id != id);
+        simpanDraftKeLocalStorage();
+        renderBangunan();
+        renderTanah();
+      }
+    }
+
+    function previewPdfPupr(id) {
+      const item = listBangunan.find(x => x.id === id);
+      if (!item || !item.puprPdf) return alert('Dokumen PUPR belum diunggah.');
+      document.getElementById('mediaPreviewTitle').innerText = '📄 Dokumen Rekomendasi PUPR - Bangunan: ' + item.nama;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<iframe src="${item.puprPdf}" class="w-full h-[70vh] rounded-xl" frameborder="0"></iframe>`;
+      bukaModal('modalPreviewMedia');
+    }
+
+    // DATA RUANG & ROMBEL (PEMBATASAN SIKLUS KUOTA ROMBEL KELAS)
     function bukaModalRuang(id = null) {
       if (listBangunan.length === 0) return alert('Isi data bangunan terlebih dahulu!');
       document.getElementById('r_bangunan_id').innerHTML = listBangunan.map(b => `<option value="${b.id}">${b.nama} (Max: ${b.panjang*b.lebar} m²)</option>`).join('');
@@ -1235,6 +1260,7 @@
         document.getElementById('r_nama_rombel').value = '';
       }
       toggleFormKategoriRuang();
+      toggleFoto6SudutRuang();
       bukaModal('modalRuang');
     }
 
@@ -1242,14 +1268,14 @@
       const editId = document.getElementById('r_edit_id').value;
       const bangunanId = document.getElementById('r_bangunan_id').value;
       const kategori = document.getElementById('r_kategori').value;
-      const jml_rombel = document.getElementById('r_jml_rombel').value;
+      const jml_rombel = parseInt(document.getElementById('r_jml_rombel').value || 1);
       const nama_rombel = document.getElementById('r_nama_rombel').value.trim();
       const panjang = parseFloat(document.getElementById('r_panjang').value || 0);
       const lebar = parseFloat(document.getElementById('r_lebar').value || 0);
       const kondisi = document.getElementById('r_kondisi').value;
 
       if (!panjang || !lebar) return alert('Ukuran panjang dan lebar wajib diisi!');
-      if (kategori === 'Ruang Teori/Kelas' && !nama_rombel) return alert('Nama rombel wajib diisi untuk Ruang Teori/Kelas!');
+      if (kategori === 'Ruang Teori/Kelas' && !nama_rombel) return alert('Nama Rombel / Kelas wajib diisi!');
 
       const bgn = listBangunan.find(x => x.id == bangunanId);
       const maxLuas = bgn.panjang * bgn.lebar;
@@ -1260,36 +1286,86 @@
         return alert(`⚠️ Luas ruang melebihi luas bangunan induk (${maxLuas} m²)`);
       }
 
-      let rObj = { id: editId ? editId : Date.now(), bangunan_id: bangunanId, nama_bangunan: bgn.nama, kategori, nama: kategori, jml_rombel: kategori === 'Ruang Teori/Kelas' ? jml_rombel : 0, nama_rombel: kategori === 'Ruang Teori/Kelas' ? nama_rombel : '-', panjang, lebar, kondisi };
-
-      if (editId) {
-        const idx = listRuang.findIndex(x => x.id == editId);
-        if (idx !== -1) listRuang[idx] = rObj;
-      } else {
-        listRuang.push(rObj);
+      // LOGIKA PENAMBAHAN RUANG KELAS DIBATASI PRESISI DENGAN JUMLAH ROMBEL
+      if (kategori === 'Ruang Teori/Kelas' && !editId) {
+        let ruangKelasExisting = listRuang.filter(r => r.kategori === 'Ruang Teori/Kelas');
+        if (ruangKelasExisting.length >= jml_rombel) {
+          return alert(`⚠️ Jumlah Ruang Teori/Kelas sudah memenuhi batas maksimal kuota yaitu (${jml_rombel} Rombel). Tidak diperbolehkan menambah rombel baru!`);
+        }
       }
-      simpanDraftKeLocalStorage(); renderRuang(); tutupModal('modalRuang');
+
+      const fileDepan = document.getElementById('r_foto_depan').files[0];
+
+      const save = (fotosObj) => {
+        let rObj = {
+          id: editId ? Number(editId) : Date.now(),
+          bangunan_id: bangunanId,
+          nama_bangunan: bgn.nama,
+          kategori,
+          nama: kategori,
+          jml_rombel: kategori === 'Ruang Teori/Kelas' ? jml_rombel : 0,
+          nama_rombel: kategori === 'Ruang Teori/Kelas' ? nama_rombel : '-',
+          panjang,
+          lebar,
+          kondisi,
+          fotos: fotosObj || (editId ? (listRuang.find(x=>x.id==editId)||{}).fotos : null)
+        };
+
+        if (editId) {
+          const idx = listRuang.findIndex(x => x.id == editId);
+          if (idx !== -1) listRuang[idx] = rObj;
+        } else {
+          listRuang.push(rObj);
+        }
+        simpanDraftKeLocalStorage(); renderRuang(); tutupModal('modalRuang');
+      };
+
+      if ((kondisi === 'Rusak Sedang' || kondisi === 'Rusak Berat') && fileDepan) {
+        const r = new FileReader();
+        r.onload = (e) => save({ depan: e.target.result });
+        r.readAsDataURL(fileDepan);
+      } else { save(); }
     }
 
     function renderRuang() {
-      document.getElementById('tbodyRuang').innerHTML = listRuang.map(r => `<tr>
+      const tbody = document.getElementById('tbodyRuang');
+      tbody.innerHTML = listRuang.map(r => `<tr>
         <td class="p-3 font-bold text-slate-800">${r.kategori}</td>
         <td class="p-3 text-slate-600">${r.nama_bangunan}</td>
-        <td class="p-3">${r.kategori === 'Ruang Teori/Kelas' ? `${r.jml_rombel} Rombel (${r.nama_rombel})` : '-'}</td>
+        <td class="p-3 font-semibold">${r.kategori === 'Ruang Teori/Kelas' ? `${r.jml_rombel} Rombel (${r.nama_rombel})` : '-'}</td>
         <td class="p-3">${r.panjang} x ${r.lebar}</td>
         <td class="p-3 font-bold">${r.panjang * r.lebar} m²</td>
         <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">${r.kondisi}</span></td>
+        <td class="p-3 text-center">${(r.kondisi === 'Rusak Sedang' || r.kondisi === 'Rusak Berat') && r.fotos ? `<button onclick="previewFoto6SudutRuang(${r.id})" class="bg-purple-50 text-purple-700 hover:bg-purple-100 px-2 py-1 rounded font-bold transition">🖼️ Preview Foto</button>` : '<span class="text-slate-400 italic">-</span>'}</td>
         <td class="p-3 text-center space-x-1">
-          <button onclick="bukaModalRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-          <button onclick="listRuang=listRuang.filter(x=>x.id!==${r.id});simpanDraftKeLocalStorage();renderRuang()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+          <button onclick="bukaModalRuang(${r.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataRuang(${r.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
         </td>
-      </tr>`).join('') || '<tr><td colspan="7" class="p-4 text-center text-slate-400">Belum ada data ruang.</td></tr>';
+      </tr>`).join('') || '<tr><td colspan="8" class="p-4 text-center text-slate-400">Belum ada data ruang.</td></tr>';
 
       document.getElementById('statRuang').innerText = listRuang.length;
       document.getElementById('statRombel').innerText = listRuang.reduce((a, c) => a + (parseInt(c.jml_rombel) || 0), 0);
     }
 
-    // ALAT (AKSI EDIT & AMBIL OTOMATIS DARI RUANG TERINPUT)
+    function hapusDataRuang(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus data ruang ini? Sarana alat pada ruang ini juga akan dihapus.')) {
+        listRuang = listRuang.filter(x => Number(x.id) !== Number(id));
+        listAlat = listAlat.filter(x => Number(x.ruang_id) !== Number(id));
+        simpanDraftKeLocalStorage();
+        renderRuang();
+        renderAlat();
+      }
+    }
+
+    function previewFoto6SudutRuang(id) {
+      const item = listRuang.find(x => Number(x.id) === Number(id));
+      if (!item || !item.fotos) return alert('Foto kondisi kerusakan belum diunggah.');
+      document.getElementById('mediaPreviewTitle').innerText = '🖼️ Foto Kerusakan 6 Sudut - Ruang: ' + item.kategori;
+      document.getElementById('mediaPreviewContainer').innerHTML = `<div class="p-4 flex justify-center"><img src="${item.fotos.depan}" class="max-h-[65vh] rounded-xl border shadow-lg object-contain"></div>`;
+      bukaModal('modalPreviewMedia');
+    }
+
+    // ALAT SARANA
     function bukaModalAlat(id = null) {
       if (listRuang.length === 0) return alert('Silakan input Data Ruang terlebih dahulu pada menu Ruang & Rombel!');
       
@@ -1326,7 +1402,7 @@
 
       if (!nama) return alert('Nama/Jenis Alat wajib diisi!');
 
-      let aObj = { id: editId ? editId : Date.now(), ruang_id: ruangId, ruang: namaRuangStr, nama, jml_baik, jml_rusak, jumlah: jml_baik + jml_rusak };
+      let aObj = { id: editId ? Number(editId) : Date.now(), ruang_id: ruangId, ruang: namaRuangStr, nama, jml_baik, jml_rusak, jumlah: jml_baik + jml_rusak };
 
       if (editId) {
         const idx = listAlat.findIndex(x => x.id == editId);
@@ -1345,13 +1421,21 @@
         <td class="p-3 text-center text-rose-600 font-bold">${a.jml_rusak || 0}</td>
         <td class="p-3 text-center font-bold">${a.jumlah}</td>
         <td class="p-3 text-center space-x-1">
-          <button onclick="bukaModalAlat(${a.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-          <button onclick="listAlat=listAlat.filter(x=>x.id!==${a.id});simpanDraftKeLocalStorage();renderAlat()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+          <button onclick="bukaModalAlat(${a.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataAlat(${a.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
         </td>
       </tr>`).join('') || '<tr><td colspan="6" class="p-4 text-center text-slate-400">Belum ada sarana alat terinput.</td></tr>';
     }
 
-    // GTK (DENGAN AKSI EDIT & LOGIKA KAWIN/CERAI)
+    function hapusDataAlat(id) {
+      if (confirm('Hapus data alat ini?')) {
+        listAlat = listAlat.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage();
+        renderAlat();
+      }
+    }
+
+    // GTK
     function bukaModalGTK(id = null) {
       if (id) {
         const g = listGTK.find(x => x.id === id); if (!g) return;
@@ -1406,7 +1490,7 @@
 
       if (!nama || !nip || !alamat) return alert('Semua field wajib diisi!');
 
-      let gObj = { id: editId ? editId : Date.now(), nama, tmplahir, tgllahir, jk, nip, nuptk, status, alamat, jenis, serdik, mapelserdik, perkawinan, pasangan, lok_pasangan, anak };
+      let gObj = { id: editId ? Number(editId) : Date.now(), nama, tmplahir, tgllahir, jk, nip, nuptk, status, alamat, jenis, serdik, mapelserdik, perkawinan, pasangan, lok_pasangan, anak };
 
       if (editId) {
         const idx = listGTK.findIndex(x => x.id == editId);
@@ -1424,14 +1508,22 @@
         <td class="p-3">${g.status} - ${g.jenis}<br>Serdik: ${g.serdik}</td>
         <td class="p-3">${g.perkawinan} (Anak: ${g.anak || 0})<br>Pasangan: ${g.pasangan || '-'}</td>
         <td class="p-3 text-center space-x-1">
-          <button onclick="bukaModalGTK(${g.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-          <button onclick="listGTK=listGTK.filter(x=>x.id!==${g.id});simpanDraftKeLocalStorage();renderGTK()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+          <button onclick="bukaModalGTK(${g.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataGTK(${g.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
         </td>
       </tr>`).join('') || '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data GTK.</td></tr>';
       document.getElementById('statGuru').innerText = listGTK.length;
     }
 
-    // SISWA (AKSI EDIT & LOGIKA VALIDASI RENTANG USIA)
+    function hapusDataGTK(id) {
+      if (confirm('Hapus data GTK ini?')) {
+        listGTK = listGTK.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage();
+        renderGTK();
+      }
+    }
+
+    // SISWA
     function bukaModalSiswa(id = null) {
       renderFormRentangUsiaSiswa();
       if (id) {
@@ -1474,11 +1566,11 @@
       if (totSiswa <= 0) return alert('Jumlah Peserta Didik wajib lebih dari 0!');
 
       if (totUsia !== totSiswa) {
-        return alert(`⚠️ Penjumlahan distribusi rentang usia (${totUsia} siswa) TIDAK SESUAI dengan Total Jumlah Peserta Didik (${totSiswa} siswa). Silakan perbaiki hitungan usia Anda!`);
+        return alert(`⚠️ Penjumlahan rentang usia (${totUsia} siswa) TIDAK COCOK dengan Total Jumlah Siswa (${totSiswa} siswa). Silakan sesuaikan!`);
       }
 
       let sObj = {
-        id: editId ? editId : Date.now(),
+        id: editId ? Number(editId) : Date.now(),
         pd_p, pd_l,
         usia_detail: dataUsia,
         totUsia,
@@ -1504,8 +1596,8 @@
         <td class="p-3 text-amber-700 font-bold">${s.do_l} L / ${s.do_p} P</td>
         <td class="p-3 text-emerald-700 font-bold">${s.pip_l} L / ${s.pip_p} P</td>
         <td class="p-3 text-center space-x-1">
-          <button onclick="bukaModalSiswa(${s.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px]">Edit</button>
-          <button onclick="listSiswa=listSiswa.filter(x=>x.id!==${s.id});simpanDraftKeLocalStorage();renderSiswa()" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px]">Hapus</button>
+          <button onclick="bukaModalSiswa(${s.id})" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Edit</button>
+          <button onclick="hapusDataSiswa(${s.id})" class="bg-rose-600 text-white px-2 py-1 rounded text-[10px] font-bold">Hapus</button>
         </td>
       </tr>`).join('') || '<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada data peserta didik.</td></tr>';
 
@@ -1513,7 +1605,15 @@
       document.getElementById('statSiswa').innerText = tot;
     }
 
-    // VALIDASI KELENGKAPAN DATA (LOGIKA SARANA ALAT TIAP RUANG WAJIB TERINPUT)
+    function hapusDataSiswa(id) {
+      if (confirm('Hapus data rekap siswa ini?')) {
+        listSiswa = listSiswa.filter(x => Number(x.id) !== Number(id));
+        simpanDraftKeLocalStorage();
+        renderSiswa();
+      }
+    }
+
+    // VALIDASI KELENGKAPAN DATA
     function jalankanProsesValidasi() {
       const line = document.getElementById('scanAnimationLine');
       const statusText = document.getElementById('validasiStatusText');
@@ -1527,15 +1627,14 @@
         line.classList.add('hidden');
         statusText.classList.add('hidden');
 
-        // Pengecekan apakah setiap ruang sudah memiliki minimal 1 sarana alat
-        let ruangBelumPunyaAlat = listRuang.filter(r => !listAlat.some(a => a.ruang_id == r.id));
+        let ruangBelumPunyaAlat = listRuang.filter(r => !listAlat.some(a => Number(a.ruang_id) === Number(r.id)));
 
         let items = [
           { nama: 'Profil Sekolah & SK Pendirian', valid: !!(activeUser.sk_pendirian && activeUser.kasek) },
           { nama: 'Data Lahan / Tanah Sekolah', valid: listTanah.length > 0 },
           { nama: 'Data Bangunan Sekolah', valid: listBangunan.length > 0 },
           { nama: 'Data Ruang & Rombel', valid: listRuang.length > 0 },
-          { nama: 'Kelengkapan Sarana Alat di Setiap Ruang', valid: listRuang.length > 0 && ruangBelumPunyaAlat.length === 0, ket: ruangBelumPunyaAlat.length > 0 ? `${ruangBelumPunyaAlat.length} Ruang Belum Ada Alat` : '' },
+          { nama: 'Kelengkapan Sarana Alat per Ruang', valid: listRuang.length > 0 && ruangBelumPunyaAlat.length === 0, ket: ruangBelumPunyaAlat.length > 0 ? `${ruangBelumPunyaAlat.length} Ruang Belum Ada Alat` : '' },
           { nama: 'Data GTK / Tenaga Pendidik', valid: listGTK.length > 0 },
           { nama: 'Data Rekap Peserta Didik', valid: listSiswa.length > 0 },
         ];
@@ -1558,12 +1657,12 @@
         if (allValid) {
           html += `<div class="p-3 bg-emerald-600 text-white rounded-xl text-center font-bold mt-4">🎉 Seluruh Data Lengkap dan Valid! Anda Siap Melakukan Sinkronisasi Data.</div>`;
         } else {
-          html += `<div class="p-3 bg-amber-600 text-white rounded-xl text-center font-bold mt-4">⚠️ Beberapa data masih belum lengkap / invalid. Harap lengkapi semua bidang untuk sinkronisasi optimal.</div>`;
+          html += `<div class="p-3 bg-amber-600 text-white rounded-xl text-center font-bold mt-4">⚠️ Beberapa data masih belum lengkap. Harap lengkapi sebelum sinkronisasi.</div>`;
         }
 
         content.innerHTML = html;
         content.classList.remove('hidden');
-      }, 2000);
+      }, 1500);
     }
 
     function hitungPerubahanSyncDelta() {
@@ -1595,7 +1694,7 @@
       </tr>`).join('');
     }
 
-    // SINKRONISASI KE SERVER POSTGRESQL DENGAN PROGRES BAR DAPODIK
+    // SINKRONISASI (SAFE PARSING RESPONS SERVER MEMINIMALISIR ERROR DOCTYPE HTML)
     async function mulaiProsesSinkronisasiServer() {
       const deltaTxt = hitungPerubahanSyncDelta();
       const progressContainer = document.getElementById('syncProgressContainer');
@@ -1610,10 +1709,10 @@
       let percent = 0;
       const interval = setInterval(() => {
         percent += 15;
-        if (percent > 90) percent = 90;
+        if (percent > 85) percent = 85;
         progressBar.style.width = percent + '%';
         progressText.innerText = `Mengirimkan Data... ${percent}%`;
-      }, 200);
+      }, 150);
 
       const payload = {
         npsn: activeUser.npsn,
@@ -1656,8 +1755,16 @@
         progressBar.style.width = '100%';
         progressText.innerText = 'Sinkronisasi Selesai 100%';
 
-        const resData = await response.json();
-        if (!response.ok) throw new Error(resData.message || 'Gagal sinkronisasi.');
+        let resData = {};
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          resData = await response.json();
+        } else {
+          const rawText = await response.text();
+          if (!response.ok) throw new Error(`Server mengembalikan status (${response.status}). Pastikan endpoint backend /api/sekolah/sync aktif.`);
+        }
+
+        if (!response.ok) throw new Error(resData.message || 'Gagal sinkronisasi data.');
 
         const now = new Date();
         const waktuStr = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -1676,7 +1783,7 @@
           btnSync.classList.remove('opacity-50');
           renderRiwayatSync();
           switchTab('beranda');
-        }, 500);
+        }, 400);
 
       } catch (err) {
         clearInterval(interval);
