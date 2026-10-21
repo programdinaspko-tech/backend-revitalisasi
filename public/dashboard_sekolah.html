@@ -1000,19 +1000,54 @@
 
       if (!nama || !sertifikat || !panjang || !lebar) return alert('Semua field wajib diisi!');
 
-      const save = (pdfData) => {
+      const prosesSimpan = (pdfData) => {
         if (editId) {
           const idx = listTanah.findIndex(x => x.id == editId);
-          if (idx !== -1) listTanah[idx] = { ...listTanah[idx], nama, dokumen, sertifikat, panjang, lebar, pdf: pdfData || listTanah[idx].pdf };
+          if (idx !== -1) {
+            listTanah[idx] = { 
+              ...listTanah[idx], 
+              nama, 
+              dokumen, 
+              sertifikat, 
+              panjang, 
+              lebar, 
+              pdf: pdfData || listTanah[idx].pdf 
+            };
+          }
         } else {
-          listTanah.push({ id: Date.now(), nama, dokumen, sertifikat, panjang, lebar, pdf: pdfData || '' });
+          listTanah.push({ 
+            id: Date.now(), 
+            nama, 
+            dokumen, 
+            sertifikat, 
+            panjang, 
+            lebar, 
+            pdf: pdfData || '' 
+          });
         }
-        simpanDraftKeLocalStorage(); renderTanah(); tutupModal('modalTanah');
+        simpanDraftKeLocalStorage(); 
+        renderTanah(); 
+        tutupModal('modalTanah');
       };
 
-      if (pdfInput.files && pdfInput.files[0]) {
-        const reader = new FileReader(); reader.onload = (e) => save(e.target.result); reader.readAsDataURL(pdfInput.files[0]);
-      } else { save(); }
+      // Periksa apakah file PDF dipilih
+      if (pdfInput && pdfInput.files && pdfInput.files[0]) {
+        const file = pdfInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function (e) {
+          prosesSimpan(e.target.result);
+        };
+        
+        reader.onerror = function () {
+          alert('Gagal membaca file PDF. Silakan coba file lain.');
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        // Jika tidak ada file PDF yang diunggah, langsung simpan data teks
+        prosesSimpan('');
+      }
     }
 
     function hapusDataTanah(id) {
