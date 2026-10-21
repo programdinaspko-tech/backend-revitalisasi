@@ -1475,7 +1475,7 @@
     function updateTampilan() {
       const nama = activeUser.nama_sekolah || activeUser.nama || activeUser.namaSekolah || 'Sekolah Binaan';
       // Deteksi nama operator dari berbagai variasi field JSON
-      const namaOperator = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || activeUser.nama || 'Operator Sekolah';
+      const namaOperator = activeUser.nama_lengkap || activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || activeUser.nama || activeUser.username || 'Operator Sekolah';
       
       jenisJenjang = dapatkanJenjangSekolah();
 
