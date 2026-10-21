@@ -1448,7 +1448,7 @@
                 nama_sekolah: sData.nama_sekolah || sData.nama || activeUser.nama_sekolah || activeUser.nama,
                 kasek: sData.kasek || sData.nama_kepala_sekolah || activeUser.kasek,
                 nipKasek: sData.nipKasek || sData.nip_kepala_sekolah || activeUser.nipKasek,
-                operator: sData.operator || sData.nama_operator || activeUser.operator,
+                operator: sData.operator || sData.nama_operator || sData.namaOperator || activeUser.operator || activeUser.nama_operator || activeUser.nama,
                 wa_operator: sData.wa_operator || sData.no_wa || activeUser.wa_operator
               };
 
@@ -1474,13 +1474,18 @@
 
     function updateTampilan() {
       const nama = activeUser.nama_sekolah || activeUser.nama || activeUser.namaSekolah || 'Sekolah Binaan';
+      // Deteksi nama operator dari berbagai variasi field JSON
+      const namaOperator = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || activeUser.nama || 'Operator Sekolah';
+      
       jenisJenjang = dapatkanJenjangSekolah();
 
+      // Update Teks di Sidebar & Header
       document.getElementById('sidebarNamaSekolah').innerText = nama;
-      document.getElementById('sidebarOperator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || 'Operator';
+      document.getElementById('sidebarOperator').innerText = namaOperator;
       document.getElementById('userNamaSekolah').innerText = nama;
       document.getElementById('dapodikHeaderTitle').innerText = nama.toUpperCase() + ' - TAKOLA SIKKA';
 
+      // Update Detail Beranda
       document.getElementById('b_nama_sek_title').innerText = nama;
       document.getElementById('b_badge_jenjang').innerText = jenisJenjang;
       document.getElementById('b_npsn').innerText = activeUser.npsn || '-';
@@ -1489,19 +1494,20 @@
       document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || '-';
       document.getElementById('b_kec').innerText = activeUser.kecamatan || '-';
       document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser.nama_kepala_sekolah || activeUser.namaKepalaSekolah || 'Belum diisi';
-      document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '-';
-      
-      // ✅ BENAR (Menghapus titik koma di dalam template string):
+      document.getElementById('b_operator').innerText = namaOperator;
       document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || '-';
       document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
       document.getElementById('b_coords').innerText = `${activeUser.latitude || '-'}, ${activeUser.longitude || '-'}`;
       document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || '-'} / ${activeUser.sumber_internet || '-'}`;
 
+      // Update Form Input Profil Sekolah (Termasuk Nama Operator yang Terkunci)
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
       document.getElementById('inpBentuk').value = jenisJenjang;
-      document.getElementById('inpOperator').value = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '';
-      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || activeUser.hpOperator || '';
+      
+      // ✅ FIX: Pengisian Nama Operator
+      document.getElementById('inpOperator').value = namaOperator;
+      document.getElementById('inpHpOperator').value = activeUser.wa_operator || activeUser.no_wa || activeUser.hpOperator || activeUser.no_hp || '';
       
       document.getElementById('inpStatus').value = activeUser.status_sekolah || activeUser.status || '';
       document.getElementById('inpAkreditasi').value = activeUser.akreditasi || '';
