@@ -1490,10 +1490,12 @@
       document.getElementById('b_kec').innerText = activeUser.kecamatan || '-';
       document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser.nama_kepala_sekolah || activeUser.namaKepalaSekolah || 'Belum diisi';
       document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '-';
-      document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || '-';;
+      
+      // ✅ BENAR (Menghapus titik koma di dalam template string):
+      document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || '-';
       document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
-      document.getElementById('b_coords').innerText = `${activeUser.latitude || '-';}, ${activeUser.longitude || '-';}`;
-      document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || '-';} / ${activeUser.sumber_internet || '-';}`;
+      document.getElementById('b_coords').innerText = `${activeUser.latitude || '-'}, ${activeUser.longitude || '-'}`;
+      document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || '-'} / ${activeUser.sumber_internet || '-'}`;
 
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
