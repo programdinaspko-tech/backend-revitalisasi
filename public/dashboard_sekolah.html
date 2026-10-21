@@ -1485,15 +1485,15 @@
       document.getElementById('b_badge_jenjang').innerText = jenisJenjang;
       document.getElementById('b_npsn').innerText = activeUser.npsn || '-';
       document.getElementById('b_bentuk').innerText = jenisJenjang;
-      document.getElementById('b_status').innerText = activeUser.status_sekolah || activeUser.status || 'Negeri';
-      document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || 'B';
-      document.getElementById('b_kec').innerText = activeUser.kecamatan || 'Nita';
+      document.getElementById('b_status').innerText = activeUser.status_sekolah || activeUser.status || '-';
+      document.getElementById('b_akreditasi').innerText = activeUser.akreditasi || '-';
+      document.getElementById('b_kec').innerText = activeUser.kecamatan || '-';
       document.getElementById('b_kasek').innerText = activeUser.kasek || activeUser.nama_kepala_sekolah || activeUser.namaKepalaSekolah || 'Belum diisi';
       document.getElementById('b_operator').innerText = activeUser.operator || activeUser.nama_operator || activeUser.namaOperator || '-';
-      document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || 'Ya';
+      document.getElementById('b_bosp').innerText = activeUser.status_bosp || activeUser.penerima_bosp || '-';;
       document.getElementById('b_revit').innerText = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
-      document.getElementById('b_coords').innerText = `${activeUser.latitude || '-8.621430'}, ${activeUser.longitude || '122.215430'}`;
-      document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || 'PLN'} / ${activeUser.sumber_internet || 'Wifi'}`;
+      document.getElementById('b_coords').innerText = `${activeUser.latitude || '-';}, ${activeUser.longitude || '-';}`;
+      document.getElementById('b_infra').innerText = `${activeUser.sumber_listrik || '-';} / ${activeUser.sumber_internet || '-';}`;
 
       document.getElementById('inpNamaSekolah').value = nama;
       document.getElementById('inpNpsn').value = activeUser.npsn || '';
@@ -1514,8 +1514,8 @@
       document.getElementById('inpRevitalisasi').value = activeUser.bantuan_revitalisasi || activeUser.revitalisasi || 'Belum Terima';
       document.getElementById('inpListrik').value = activeUser.sumber_listrik || '';
       document.getElementById('inpInternet').value = activeUser.sumber_internet || '';
-      document.getElementById('inpLat').value = activeUser.latitude || '-8.621430';
-      document.getElementById('inpLong').value = activeUser.longitude || '122.215430';
+      document.getElementById('inpLat').value = activeUser.latitude || '-';
+      document.getElementById('inpLong').value = activeUser.longitude || '-';
 
       if (activeUser.bantuan_tik) {
         ['pc', 'lpm', 'lsl', 'cb', 'fp'].forEach(t => {
